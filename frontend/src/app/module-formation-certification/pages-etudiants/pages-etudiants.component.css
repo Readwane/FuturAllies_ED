@@ -1,0 +1,134 @@
+/* Style de la barre de navigation */
+body {
+  background: #f6f5f7;
+  font-family: 'Montserrat', sans-serif;
+  font-size:20px;
+}
+
+.navbar {
+    background-color: rgb(37, 15, 132); /* Couleur de fond de la navbar */
+    position: relative;
+    height: 37.8px;
+  }
+  
+
+  .container{
+    margin-left: 2px;
+  }
+  
+  .nav-item{
+     margin-left: 50px;
+  }
+  
+  /* Conteneur de recherche fixe */
+  .search-container {
+    position: absolute;
+    top: 0;
+    left: 850px;
+    width: 33%;
+    height: 37.8px; /* Hauteur de la navbar */
+    background-color: rgb(19, 19, 96); /* Même couleur de fond que la navbar */
+    display: flex;
+    align-items: center;
+    transition: transform 0.4s ease; /* Animation pour le champ de recherche */
+    transform: translateY(-100%); /* Cache le conteneur hors de l'écran par défaut */
+  }
+  
+  
+  .close-button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: #ff6f6f;
+    border: 2px solid #ff4c4c;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Animation lorsque le champ de saisie est visible */
+  .search-container.show {
+    transform: translateY(0); /* Affiche le conteneur */
+  }
+  
+  /* Animation du champ de saisie lorsque visible */
+  .search-container.show .search-input {
+    width: calc(100% - 50px); /* Largeur finale du champ de saisie */
+    opacity: 1; /* Opacité finale */
+  }
+  
+  /* Changement de couleur au survol du bouton de fermeture */
+  .close-button:hover {
+    background-color: #f8f2f2;
+    border-color: #ff6f6f;
+  }
+  
+  
+  body {
+  
+      font-family:'Times New Roman', Times, serif;
+      font-size: 18px;
+    background-color:rgba(127, 127, 189, 0.037) ;
+  
+  
+  }
+  
+  .scrollable-background {
+        background-color: rgba(0, 0, 255, 0.349); /* Couleur bleue avec opacité */
+        background-blend-mode: multiply; /* Mélange la couleur de fond avec l'image */
+        height: 900px; /* Taille de l'élément */
+        width: 1520px;
+        display: flex;
+        color: white;
+  }
+   
+  
+  .navbar-fixed-top {
+    position: fixed;
+    width: 100%;
+    z-index: 1000; /* S'assure que cette navbar est au-dessus du reste du contenu */
+  }
+  
+  .btn{
+    color: rgb(18, 16, 16);
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .navbar-scroll {
+    position: relative;
+    width: 100%;
+    z-index: 900;
+    transition: top 0.3s;
+  }
+  
+  .navbar-scroll.fixed {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+  }
+  
+  
+  
+  
+  
+  .nav-item.m-5{
+    padding-right: 100px;
+  }
+  
+  
+  

@@ -1,0 +1,86 @@
+
+<body>
+  <nav class="navbar-light navbar-fixed-top bg-light  py-4">
+
+    <ul class="nav">
+        <li class="nav-item">
+            <img src="assets/icon.png" alt="FuturAlliés Logo" routerLink='/acceuil' class="logo" height="50">
+         </li>
+      <li class="nav-item">
+        <a routerLink='/formation/acceuilFormation' class="nav-link" >Domaine</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink='formation/FormationPresentielle' class="nav-link" >Formation en presentiel</a>
+      </li>
+  
+  
+      <li class="nav-item">
+        <a routerLink='/formation/certification' class="nav-link" >Certifications</a>
+      </li>
+  
+  
+      <li class="nav-item">
+        <a href="#trainers" class="nav-link" >A propos de nos centres</a>
+      </li>
+   
+  
+      <li class="nav-item">
+        <a href="#trainers" class="nav-link" >Equipes</a>
+      </li>
+  
+      <li class="nav-item" style="padding-left: 30px;">
+        <a routerLink="/usersPages/login" class="btn btn-warning" >Se connecter</a>
+      </li>
+    </ul>
+  </nav>
+  
+  
+  
+  <section class="banner bg-secondary text-white text-center py-5" style="position: relative; overflow: hidden;color:secondary;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; no-repeat: center; background-size: cover; filter: brightness(1.2);"></div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 255, 0.3); mix-blend-mode: overlay;"></div>
+    <div class="container" style="position: relative; z-index: 1;">
+    <br/><br/>
+    </div>
+  </section>
+  
+  
+
+<div class='con' *ngFor='let Cours of cours; let i=index'> 
+  <div class='container-l'>  
+    <button (click)="onSelectCours_presentiel(Cours.id)" class='btn-custom taille'>
+      <div class="dispose">
+         <br/><br/>
+        <div class='disp1'>
+            <button class='btn btn-outline-danger' style='font-size:80%; background-color:white; color:black'>Formation presentiel</button><br/><br/>
+            <h4 class="card-title" style='font-size:100%;'>{{id1_nom[i].nom}}</h4>  
+            <p class="card-title" >{{ Cours.domaine }}: {{ Cours.niveau }}</p>
+            <p class="card-title" > {{ Cours.cout }} </p>
+            <p>
+              <i class="bi bi-star-fill" style="color: rgb(99, 104, 3);"></i>
+              <i class="bi bi-star-half" style="color: rgb(99, 104, 3);"></i>
+              <i class="bi bi-star" style="color: rgb(99, 104, 3);"></i>
+            </p>
+        </div>
+        <div class='disp2'>
+          <i class="bi bi-geo-alt-fill"></i>
+          <h4 class="card-title" style='font-size:90%;' >{{ Cours.lieu }}</h4>
+          <p class="card-title"  style='font-size:90%;' >{{ Cours.dateDebut }} - {{ Cours.dateFin }}</p>
+          <p class="card-title"  style='font-size:90%;' >{{ Cours.heureDebut }}- {{ Cours.heureFin }}</p>
+        </div>
+        <div class='disp3' >
+          <button  href="#" class="btn btn-outline-secondary">Details</button>  
+        </div> 
+      </div>
+      <br/><br/>
+    </button>
+  </div>
+ 
+</div>
+
+</body>
+
+
+<i class="bi bi-star-fill" style="color: yellow;height:2px;with:2px"></i>
+<i class="bi bi-star-half" style="color: yellow;"></i>
+<i class="bi bi-star" style="color: yellow;"></i>
