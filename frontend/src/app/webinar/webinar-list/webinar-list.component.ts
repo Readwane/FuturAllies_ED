@@ -14,13 +14,13 @@ export class WebinarListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWebinars();
-    console.log(this.getWebinars());
   }
 
   getWebinars(): void {
     this.webinarService.getWebinars().subscribe(
       (data: Webinar[]) => {
         this.webinars = data;
+        console.log('Webinaires récupérés :', this.webinars);
       },
       error => {
         console.error('Erreur lors de la récupération des webinaires', error);

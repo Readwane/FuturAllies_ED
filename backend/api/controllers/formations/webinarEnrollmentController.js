@@ -53,7 +53,7 @@ export const createWebinarEnrollment = async (req, res) => {
   try {
     await enrollment.save();
     res.status(201).json(enrollment);
-    console.log('Something moving ...')
+    console.log('A new webinar enrollment sucessful')
   } catch (error) {
     console.error('Error saving enrollment:', error); // Ajoutez un console.log pour vérifier l'erreur
     res.status(400).json({ message: error.message });

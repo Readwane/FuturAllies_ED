@@ -8,11 +8,15 @@ import { Webinar } from '../models/webinar.model';
   templateUrl: './webinar-details.component.html',
   styleUrls: ['./webinar-details.component.css']
 })
+
 export class WebinarDetailsComponent implements OnInit {
-  webinar: Webinar | undefined;
+  webinar!: Webinar;
   webinarId!: string;  // Stocker l'ID du webinaire
 
-  constructor(private route: ActivatedRoute, private router: Router, private webinarService: WebinarService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private webinarService: WebinarService) {}
 
   ngOnInit(): void {
     this.getWebinarDetails();

@@ -1,5 +1,5 @@
 export class Webinar {
-    id: string;
+    _id: string;
     title: string;
     description?: string;
     speaker: string;
@@ -17,7 +17,7 @@ export class Webinar {
     type: 'FuturAllies' | 'Café des allies';
   
     constructor(
-      id: string,
+      _id: string,
       title: string,
       speaker: string,
       startDateTime: Date,
@@ -34,7 +34,7 @@ export class Webinar {
       updatedAt?: Date,
       createdBy?: number
     ) {
-      this.id = id;
+      this._id = _id;
       this.title = title;
       this.speaker = speaker;
       this.startDateTime = startDateTime;
