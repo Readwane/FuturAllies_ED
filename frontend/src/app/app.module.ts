@@ -19,6 +19,7 @@ import { GestionnaireModule } from './gestionnaire/gestionnaire.module';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { WebinarModule } from './webinar/webinar.module';
+// import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { WebinarModule } from './webinar/webinar.module';
   imports: [
     BrowserModule,
     AppRoutingModule, 
-    RouterModule, 
+    RouterModule,
     GestionUtilisateursModule, 
     OrientationsModule, 
     GestionnaireModule, 
@@ -37,7 +38,8 @@ import { WebinarModule } from './webinar/webinar.module';
     BrowserAnimationsModule,
     HttpClientModule,
     MatSnackBarModule,
-    WebinarModule
+    WebinarModule,
+    // NgxSpinnerModule
     
   ],
   providers: [],

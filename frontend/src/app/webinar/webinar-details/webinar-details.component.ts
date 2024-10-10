@@ -12,6 +12,7 @@ import { Webinar } from '../models/webinar.model';
 export class WebinarDetailsComponent implements OnInit {
   webinar!: Webinar;
   webinarId!: string;  // Stocker l'ID du webinaire
+  loading: boolean = true; // Variable pour suivre l'état de chargement
 
   constructor(
     private route: ActivatedRoute, 
@@ -28,12 +29,15 @@ export class WebinarDetailsComponent implements OnInit {
     console.log('ID du webinaire récupéré :', id); // Ajout pour le débogage
     if (id) {
       this.webinarId = id; // Stocker l'ID du webinaire
+      this.loading = true; // Commencer le chargement
       this.webinarService.getWebinarById(id).subscribe(
         (data: Webinar) => {
           this.webinar = data;
+          this.loading = false; // Les données sont chargées, arrêter le chargement
         },
         error => {
           console.error('Erreur lors de la récupération des détails du webinaire', error);
+          this.loading = false; // Les données sont chargées, arrêter le chargement
         }
       );
     } else {
