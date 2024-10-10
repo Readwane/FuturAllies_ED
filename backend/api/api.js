@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import connectDB from './config/db.js';
 import userRoutes from './routes/users/userRoutes.js';
 import webinarRoutes from './routes/formations/webinarRoutes.js';
+import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
 // import domainRoutes from './routes/catalogues/domainRoutes.js';
 // import learningPathRoutes from './routes/catalogue/learningPathRoutes.js';
 
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/users', userRoutes);
 app.use('/webinars', webinarRoutes);
+app.use('/webinarEnrollments', webinarEnrollmentRoutes);
 // app.use('/fapi/learning-paths', learningPathRoutes);
 
 // Middleware de gestion des erreurs à ajouter (ex: errorMiddleware.js)

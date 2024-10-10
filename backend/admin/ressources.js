@@ -4,7 +4,7 @@ import {
     UserNavigateLog, Notification, Message, Domain, LearningPath,
     Course, CourseChapter, Lesson, LessonContent, Offer,
     Training, TrainerAssignment, TrainingEvaluation, TrainingFeedback,
-    Job, OfferApplication, Internship, Webinar
+    Job, OfferApplication, Internship, Webinar, WebinarEnrollment
   } from '../api/models/exportModels.js';
   
   export const resources = [
@@ -193,7 +193,13 @@ import {
     {
       resource: Webinar,
       options: {
-        parent: { name: 'Webinar Management', icon: 'fa fa-video_call' },
+        parent: { name: 'Webinar Management', icon: 'Webinar' },
+      },
+    },
+    {
+      resource: WebinarEnrollment,
+      options: {
+        parent: { name: 'Webinar Management', icon: 'Webinar' },
       },
     },
   ];

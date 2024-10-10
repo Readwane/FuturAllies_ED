@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WebinarService } from '../webinar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { WebinarEnrollment } from '../models/webinar-enrollmnet.model';
 
 @Component({
   selector: 'app-webinar-enroll',
@@ -11,14 +12,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class WebinarEnrollComponent implements OnInit {
   enrollForm!: FormGroup;
-  webinarId!: string; // Passed via route or parent component
+  webinarId!: string; // Récupéré via l'URL
 
   constructor(
     private fb: FormBuilder,
     private webinarService: WebinarService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar, // Remplacer ToastrService par MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -28,24 +29,32 @@ export class WebinarEnrollComponent implements OnInit {
       acceptTerms: [false, Validators.requiredTrue]
     });
 
-     // Récupérer l'ID du webinaire depuis l'URL
+    // Récupération de l'ID du webinaire à partir de l'URL
     this.webinarId = this.route.snapshot.paramMap.get('id') || '';
   }
 
   onSubmit(): void {
     if (this.enrollForm.valid) {
-      const enrollData = {
+      // Préparer les données d'inscription sans générer d'ID ici
+      const webinarEnrollment:  Omit<WebinarEnrollment, 'id'> = {
         webinarId: this.webinarId,
         fullName: this.enrollForm.value.fullName,
-        email: this.enrollForm.value.email
+        email: this.enrollForm.value.email,
+        registrationDate: new Date(),
+        hasAcceptedTerms: this.enrollForm.value.acceptTerms,
+        isConfirmed: true, // Confirmation de l'inscription
+        paymentStatus: 'free', // Exemples de valeurs par défaut (ajustables selon le cas)
       };
 
-      this.webinarService.enrollToWebinar(enrollData).subscribe({
+      console.log(webinarEnrollment);
+      
+      // Enregistrer via le service
+      this.webinarService.enrollToWebinar(webinarEnrollment).subscribe({
         next: (response) => {
           this.snackBar.open('Inscription réussie', 'Fermer', {
-            duration: 3000, // Durée en millisecondes
-            verticalPosition: 'top', // Position verticale
-            horizontalPosition: 'center', // Position horizontale
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
           });
           this.router.navigate(['/webinar-list']);
         },

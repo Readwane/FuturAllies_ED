@@ -29,7 +29,10 @@ import TrainingFeedback from './offres/TrainingFeedBack.js';
 import Job from './offres/Job.js';
 import OfferApplication from './offres/OfferApplication.js';
 import Internship from './offres/Internship.js';
+
+
 import Webinar from './formations/Webinar.js';
+import WebinarEnrollment from './formations/WebinarEnrollment.js';
 
 // Exportation des modèles pour utilisation dans d'autres fichiers
 export {
@@ -38,5 +41,5 @@ export {
   Notification, Message, Domain, LearningPath, Course,
   CourseChapter, Lesson, LessonContent, Offer, Training,
   TrainerAssignment, TrainingEvaluation, TrainingFeedback,
-  Job, OfferApplication, Internship, Webinar
+  Job, OfferApplication, Internship, Webinar, WebinarEnrollment
 };
