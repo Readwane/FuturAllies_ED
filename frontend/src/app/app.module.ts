@@ -19,11 +19,19 @@ import { GestionnaireModule } from './gestionnaire/gestionnaire.module';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { WebinarModule } from './webinar/webinar.module';
+import { TopHeaderComponent } from './header/top-header/top-header.component';
+import { MainHeaderComponent } from './header/main-header/main-header.component';
+import { MainHeaderNavigationComponent } from './header/main-header-navigation/main-header-navigation.component';
+import { HeaderComponent } from './header/header/header.component';
 // import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
     AppComponent,
+    TopHeaderComponent,
+    MainHeaderComponent,
+    MainHeaderNavigationComponent,
+    HeaderComponent,
     
   ],
   imports: [
