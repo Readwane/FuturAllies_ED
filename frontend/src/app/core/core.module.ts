@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { HeaderModule } from './components/header/header.module';
 import { CoreRoutingModule } from './core-routing.module';
 
 
@@ -8,7 +8,8 @@ import { CoreRoutingModule } from './core-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    CoreRoutingModule
+    CoreRoutingModule,
+    HeaderModule
   ]
 })
 export class CoreModule { }

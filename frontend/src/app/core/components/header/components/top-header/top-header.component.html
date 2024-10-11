@@ -1,0 +1,23 @@
+<!-- Première entête -->
+<div class="top-header">
+  <ul>
+    <!-- Utilisation du composant SimpleLink pour À propos de nous -->
+    <li>
+      <app-simple-link [link]="aboutLink"></app-simple-link>
+    </li>
+
+    <!-- Utilisation du composant SimpleLink pour Nous contacter -->
+    <li>
+      <app-simple-link [link]="contactLink"></app-simple-link>
+    </li>
+
+    <!-- Utilisation du DropdownLinkComponent pour le sélecteur de langue -->
+    <li>
+      <app-dropdown-link 
+        [label]="'Langue'" 
+        [options]="languageOptions" 
+        [(ngModel)]="selectedLanguage">
+      </app-dropdown-link>
+    </li>
+  </ul>
+</div>

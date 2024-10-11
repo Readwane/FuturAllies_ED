@@ -1,0 +1,26 @@
+<!-- shared/components/main-header/main-header.component.html -->
+<div class="main-header">
+    <h1>{{ headerData.title }}</h1>
+    
+    <!-- Liste des liens simples -->
+    <ul>
+      <li *ngFor="let link of headerData.simpleLinks">
+        <app-simple-link [link]="link"></app-simple-link>
+      </li>
+    </ul>
+  
+    <!-- Liste des dropdown links -->
+    <ul>
+      <li *ngFor="let dropdown of headerData.dropdownLinks">
+        <app-dropdown-link [options]="dropdown.options" [label]="dropdown.label"></app-dropdown-link>
+      </li>
+    </ul>
+  
+    <!-- Liste des boutons -->
+    <ul>
+      <li *ngFor="let bouton of headerData.boutons">
+        <app-bouton [ngClass]="bouton.label" [routerLink]="bouton.url" (click)="buttonClick.emit(bouton.action)"></app-bouton>
+      </li>
+    </ul>
+  </div>
+  
