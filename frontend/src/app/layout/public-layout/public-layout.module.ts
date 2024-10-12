@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PublicLayoutRoutingModule } from './public-layout-routing.module';
-import { AcceuilComponent } from './components/acceuil/acceuil.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
   declarations: [
-    AcceuilComponent,
+    HomeComponent,
   ],
 
   imports: [
@@ -14,7 +14,7 @@ import { AcceuilComponent } from './components/acceuil/acceuil.component';
     PublicLayoutRoutingModule
   ],
   exports: [
-    AcceuilComponent,
+    HomeComponent,
   ]
 })
 export class PublicLayoutModule { }

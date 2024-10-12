@@ -3,10 +3,10 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 
 @Component({
   selector: 'app-acceuil',
-  templateUrl: './acceuil.component.html',
-  styleUrls: ['./acceuil.component.css']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class AcceuilComponent implements OnInit{
+export class HomeComponent implements OnInit{
 isFixed: any;
 
   ngOnInit(): void {
