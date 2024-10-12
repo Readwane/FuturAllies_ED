@@ -20,4 +20,4 @@ import { CertificationComponent } from './audition/components/certification/cert
     WhatWeDoRoutingModule
   ]
 })
-export class ServicesModule { }
+export class WhaWeDoModule { }

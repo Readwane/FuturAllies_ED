@@ -10,8 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { WebinarModule } from './webinar/webinar.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { HeaderModule } from "./core/components/header/header.module";
-import { LayoutModule } from '@angular/cdk/layout';
+import { LayoutModule } from './layout/layout.module';
+import { WhaWeDoModule } from './whatwedo/whatwedo.module';
 
 @NgModule({
   declarations: [
@@ -28,8 +28,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatSnackBarModule,
     WebinarModule,
     CoreModule,
-    HeaderModule,
-    LayoutModule
+    LayoutModule,
 ],
   exports: [],
 
