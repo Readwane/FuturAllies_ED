@@ -4,24 +4,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AcceuilComponent } from './acceuil/acceuil.component';
-// import { ModuleFormationCertificationModule } from './module-formation-certification/module-formation-certification.module';
 import { RouterModule } from '@angular/router';
-// import { PremiumEtudiantComponent } from './gestion-abonnements-premium/premium-etudiant/premium-etudiant.component';
-// import { GestionUtilisateursModule } from './gestion-utilisateurs/gestion-utilisateurs.module';
-// import { AcceuilFormationComponent } from './module-formation-certification/acceuil-formation/acceuil-formation.component';
-// import { OrientationAcceuilComponent } from './orientations/orientation-acceuil/orientation-acceuil.component';
-// import { EtablissementsComponent } from './orientations/etablissements/etablissements.component';
-// import { OrientationsModule } from './orientations/orientations.module';
-// import { CardModuleComponent } from './module-formation-certification/domaines-listes/domaines.component';
-// import { GestionnaireModule } from './gestionnaire/gestionnaire.module';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { WebinarModule } from './webinar/webinar.module';
-
+import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { HeaderModule } from "./core/components/header/header.module";
+import { PublicLayoutModule } from './layout/public-layout/public-layout.module';
 
 @NgModule({
   declarations: [
@@ -31,9 +21,6 @@ import { HeaderModule } from "./core/components/header/header.module";
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-    // GestionUtilisateursModule, 
-    // OrientationsModule, 
-    // GestionnaireModule, 
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -41,8 +28,11 @@ import { HeaderModule } from "./core/components/header/header.module";
     MatSnackBarModule,
     WebinarModule,
     CoreModule,
-    HeaderModule
+    HeaderModule,
+    PublicLayoutModule
 ],
+  exports: [],
+
   providers: [],
   bootstrap: [AppComponent]
 })
