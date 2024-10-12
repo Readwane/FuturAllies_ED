@@ -19,9 +19,9 @@ export class HeaderService {
   // Méthode pour obtenir le header initial
   private getInitialHeader(): MainHeader {
     return new MainHeader(
-      'Mon Site',
-      [new SimpleLink('Accueil', '/home', ''), new SimpleLink('À propos', '/about', '')],
-      [new DropdownLink('Langues', '#', '', ['Français', 'English'])],
+      '',
+      [new SimpleLink('Catalogue', '/catalogue', '')],
+      [new DropdownLink('Formations', '#', '', ['Futur-allies', 'Pack-partenaire', 'Pack-entreprise', 'Café des allies', 'Webinaires'])],
       [new Bouton('Connexion', '', 'login')]
     );
   }
