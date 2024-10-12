@@ -2,6 +2,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-acceuil',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

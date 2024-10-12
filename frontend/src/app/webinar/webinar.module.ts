@@ -20,6 +20,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     WebinarRoutingModule,
     ReactiveFormsModule
   
-  ]
+  ],
+  exports: [
+    WebinarComponent,
+    WebinarListComponent,
+    WebinarDetailsComponent,
+    WebinarEnrollComponent 
+  ],
 })
 export class WebinarModule { }

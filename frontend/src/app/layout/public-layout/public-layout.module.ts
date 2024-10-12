@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PublicLayoutRoutingModule } from './public-layout-routing.module';
-import { HomeComponent } from './components/home/home.component';
+import { HomeModule } from './home/home.module';
 
 
 @NgModule({
   declarations: [
-    HomeComponent,
   ],
 
   imports: [
     CommonModule,
-    PublicLayoutRoutingModule
+    PublicLayoutRoutingModule,
+    HomeModule
   ],
-  exports: [
-    HomeComponent,
-  ]
+  exports: []
 })
 export class PublicLayoutModule { }

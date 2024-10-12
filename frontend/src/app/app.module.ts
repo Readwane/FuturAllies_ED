@@ -11,7 +11,7 @@ import { WebinarModule } from './webinar/webinar.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { HeaderModule } from "./core/components/header/header.module";
-import { PublicLayoutModule } from './layout/public-layout/public-layout.module';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { PublicLayoutModule } from './layout/public-layout/public-layout.module'
     WebinarModule,
     CoreModule,
     HeaderModule,
-    PublicLayoutModule
+    LayoutModule
 ],
   exports: [],
 
