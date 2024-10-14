@@ -1,19 +1,15 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-    password: { type: String, required: true },
-    lastLogin: { type: Date, default: null },
-    isSuperuser: { type: Boolean, required: true },
-    username: { type: String, required: true, unique: true },
-    firstName: { type: String, default: null },
-    lastName: { type: String, default: null },
-    email: { type: String, required: true, unique: true },
-    profileType: { type: String, enum: ['freemium', 'premium'], default: 'freemium' },
-    avatarUrl: { type: String, default: null },
-    preferredLanguage: { type: String, default: 'fr' },
-    isStaff: { type: Boolean, required: true },
-    isActive: { type: Boolean, required: true },
-    dateJoined: { type: Date, default: Date.now }
+  firstName: { type: String, required: true },  // Prénom de l'utilisateur
+  lastName: { type: String, required: true },  // Nom de famille de l'utilisateur
+  email: { type: String, required: true, unique: true },  // Adresse email
+  password: { type: String, required: true },  // Mot de passe (probablement hashé)
+  role: { type: String, enum: ['learner', 'instructor', 'admin', 'partner'], required: true },  // Rôle de l'utilisateur
+  registrationDate: { type: Date, default: Date.now },  // Date d'inscription sur la plateforme
+  lastLoginDate: { type: Date },  // Dernière date de connexion
+  bio: { type: String },  // Biographie (optionnel)
+  profilePictureUrl: { type: String },  // URL de la photo de profil (optionnel)
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

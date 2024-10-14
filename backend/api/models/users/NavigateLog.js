@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const userNavigateLogSchema = new mongoose.Schema({
+const navigateLogSchema = new mongoose.Schema({
     userIp: { type: String, default: null },
     actionTime: { type: Date, required: true },
     userAgent: { type: String, default: null },
@@ -12,6 +12,6 @@ const userNavigateLogSchema = new mongoose.Schema({
     changeMessage: { type: String, required: true }
 }, { timestamps: true });
 
-const UserNavigateLog = mongoose.model('UserNavigateLog', userNavigateLogSchema);
+const NavigateLog = mongoose.model('UserNavigateLog', navigateLogSchema);
 
-export default UserNavigateLog;
+export default NavigateLog;
