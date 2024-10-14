@@ -1,28 +1,25 @@
-export class Question {
+export class part {
     id: number;
-    quizId: number;
+    courseId: number;
     title: string;
-    questionType: 'multiple_choice' | 'one_choice';
-    choicesList: string[];
+    description?: string;
     order: number;
     createdAt: Date;
     updatedAt: Date;
   
     constructor(
       id: number,
-      quizId: number,
+      courseId: number,
       title: string,
-      questionType: 'multiple_choice' | 'one_choice',
-      choicesList: string[],
       order: number,
+      description?: string,
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
       this.id = id;
-      this.quizId = quizId;
+      this.courseId = courseId;
       this.title = title;
-      this.questionType = questionType;
-      this.choicesList = choicesList;
+      this.description = description;
       this.order = order;
       this.createdAt = createdAt;
       this.updatedAt = updatedAt;

@@ -1,6 +1,7 @@
 export class Domain {
     id: number;
     title: string;
+    path_id: string;
     pictureUrl?: string;
     description?: string;
     createdAt: Date;
@@ -9,6 +10,7 @@ export class Domain {
     constructor(
       id: number,
       title: string,
+      path_id: string,
       pictureUrl?: string,
       description?: string,
       createdAt: Date = new Date(),
@@ -16,6 +18,7 @@ export class Domain {
     ) {
       this.id = id;
       this.title = title;
+      this.path_id = path_id;
       this.pictureUrl = pictureUrl;
       this.description = description;
       this.createdAt = createdAt;
