@@ -1,4 +1,4 @@
-import CourseLearned from '../../models/training/CourseLearned.js';
+import CourseLearned from '../../models/audition/course-learned.js';
 
 export const getAllCoursesLearned = async (req, res) => {
   try {
@@ -18,6 +18,7 @@ export const getCourseLearnedById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export const createCourseLearned = async (req, res) => {
   const { user_id, course_id, started_at, completed_at, progress } = req.body;

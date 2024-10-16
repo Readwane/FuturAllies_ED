@@ -1,4 +1,4 @@
-import Part from '../models/Part.js';
+import Part from '../../models/audition/part.js';
 
 // Récupérer toutes les parties
 export const getAllParts = async (req, res) => {

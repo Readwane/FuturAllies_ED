@@ -1,4 +1,4 @@
-import CorrectAnswer from '../../models/training/CorrectAnswer.js';
+import CorrectAnswer from '../../models/audition/correct-answer.js';
 
 export const getAllCorrectAnswers = async (req, res) => {
   try {
@@ -18,6 +18,7 @@ export const getCorrectAnswerById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export const createCorrectAnswer = async (req, res) => {
   const { question_id, answers_list } = req.body;

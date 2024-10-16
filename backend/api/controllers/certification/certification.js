@@ -1,4 +1,4 @@
-import Certification from '../models/Certification.js';
+import Certification from '../../models/certification/certification.js'
 
 // Récupérer toutes les certifications
 export const getAllCertifications = async (req, res) => {

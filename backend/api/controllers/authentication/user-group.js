@@ -1,4 +1,4 @@
-import UserGroup from '../models/UserGroup.js';
+import UserGroup from '../../models/authentication/user-group.js'
 
 // Récupérer toutes les associations utilisateur-groupe
 export const getAllUserGroups = async (req, res) => {
@@ -44,3 +44,5 @@ export const deleteUserGroup = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+

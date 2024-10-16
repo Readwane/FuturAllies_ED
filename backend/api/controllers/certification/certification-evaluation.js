@@ -1,4 +1,4 @@
-import CertificationEvaluation from '../models/CertificationEvaluation.js';
+import CertificationEvaluation from '../../models/certification/certification-evaluation.js'
 
 // Récupérer toutes les évaluations de certification
 export const getAllCertificationsEvaluations = async (req, res) => {

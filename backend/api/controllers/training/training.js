@@ -1,4 +1,33 @@
-import Training from '../models/trainingModel.js';
+import Training from '../../models/training/training.js'
+
+export const getTrainings = async (req, res) => {
+    try {
+        const trainings = await Training.find();
+        res.status(200).json(trainings);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupérer toutes les formations de type "webinaire"
+export const getWebinars = async (req, res) => {
+    try {
+        const webinars = await Training.find({ type: 'webinar' });
+        res.status(200).json(webinars);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupérer toutes les formations en présentiel
+export const getInPersonTrainings = async (req, res) => {
+    try {
+        const inPersonTrainings = await Training.find({ type: 'in-person' });
+        res.status(200).json(inPersonTrainings);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 export const createTraining = async (req, res) => {
     try {
@@ -10,14 +39,6 @@ export const createTraining = async (req, res) => {
     }
 };
 
-export const getTrainings = async (req, res) => {
-    try {
-        const trainings = await Training.find();
-        res.status(200).json(trainings);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
 
 export const getTrainingById = async (req, res) => {
     try {

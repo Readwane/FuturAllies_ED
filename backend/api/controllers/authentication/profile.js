@@ -1,4 +1,4 @@
-import Profile from '../models/Profile.js';
+import Profile from '../../models/authentication/profile.js'
 
 // Récupérer tous les profils
 export const getAllProfiles = async (req, res) => {

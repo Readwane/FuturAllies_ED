@@ -1,4 +1,4 @@
-import Domain from '../models/Domain.js';
+import Domain from '../../models/audition/domain.js';
 
 // Récupérer tous les domaines
 export const getAllDomains = async (req, res) => {

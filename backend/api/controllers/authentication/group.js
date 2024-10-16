@@ -1,4 +1,4 @@
-import Group from '../models/Group.js';
+import Group from '../../models/authentication/group.js'
 
 // Récupérer tous les groupes
 export const getAllGroups = async (req, res) => {

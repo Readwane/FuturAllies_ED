@@ -1,4 +1,4 @@
-import Path from '../models/Path.js';
+import Path from '../../models/audition/path.js';
 
 // Récupérer tous les parcours
 export const getAllPaths = async (req, res) => {

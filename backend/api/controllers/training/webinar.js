@@ -1,4 +1,4 @@
-import Webinar from '../../models/training/Webinar.js'; // Assurez-vous que le chemin est correct
+import Webinar from '../../models/training/webinar.js'; // Assurez-vous que le chemin est correct
 
 export const getAllWebinars = async (req, res) => {
   try {

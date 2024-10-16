@@ -1,4 +1,4 @@
-import StudentAnswer from '../models/StudentAnswer.js';
+import StudentAnswer from '../../models/audition/student-answer.js';
 
 // Récupérer toutes les réponses des étudiants
 export const getAllStudentAnswers = async (req, res) => {

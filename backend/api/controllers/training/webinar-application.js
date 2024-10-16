@@ -1,4 +1,4 @@
-import WebinarEnrollment from '../../models/formations/WebinarEnrollment.js'; // Assurez-vous que le chemin est correct
+import WebinarEnrollment from '../../models/training/webinar-application.js'; // Assurez-vous que le chemin est correct
 
 // Récupérer toutes les inscriptions
 export const getAllWebinarEnrollments = async (req, res) => {

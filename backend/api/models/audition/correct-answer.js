@@ -1,10 +1,11 @@
-const correctAnswerSchema = new mongoose.Schema({
-    questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true },
-    answersList: { type: String, required: true }, // JSON string of answers
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now }
-}, { timestamps: true });
+import mongoose from 'mongoose';
 
-const CorrectAnswer = mongoose.model('CorrectAnswer', correctAnswerSchema);
+const CorrectAnswerSchema = new mongoose.Schema({
+    question_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true }, // Identifiant de la question associée
+    answers_list: { type: String, required: true }, // Liste des réponses correctes (formatée en chaîne)
+    created_at: { type: Date, default: Date.now }
+});
+
+const CorrectAnswer = mongoose.model('CorrectAnswer', CorrectAnswerSchema);
 
 export default CorrectAnswer;

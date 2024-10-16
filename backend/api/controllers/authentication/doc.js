@@ -1,4 +1,4 @@
-import Doc from '../models/Doc.js';
+import Doc from '../../models/authentication/doc.js'
 
 // Récupérer tous les documents
 export const getAllDocs = async (req, res) => {

@@ -1,4 +1,4 @@
-import { Chapter } from "../../models/audition/1/chapter.model";
+import Chapter from '../../models/audition/chapter.js'
 
 export const getAllChapters = async (req, res) => {
   try {

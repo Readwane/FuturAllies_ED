@@ -1,4 +1,5 @@
-import TrainingApplication from '../models/trainingApplicationModel.js';
+import TrainingApplication from '../../models/training/training-application.js'
+import Training from '../../models/training/training.js'
 
 export const createTrainingApplication = async (req, res) => {
     try {
@@ -14,6 +15,40 @@ export const getTrainingApplications = async (req, res) => {
     try {
         const trainingApplications = await TrainingApplication.find().populate('trainingId').populate('userId');
         res.status(200).json(trainingApplications);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupérer toutes les inscriptions pour les formations de type "webinar"
+export const getWebinarApplications = async (req, res) => {
+    try {
+        // Trouver les formations de type "webinar"
+        const webinarTrainings = await Training.find({ type: 'webinar' });
+        const webinarTrainingIds = webinarTrainings.map(training => training._id);
+
+        // Trouver les inscriptions associées à ces formations
+        const webinarApplications = await TrainingApplication.find({ training_id: { $in: webinarTrainingIds } })
+            .populate('user_id', 'name email') // Peupler les informations de l'utilisateur
+
+        res.status(200).json(webinarApplications);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupérer toutes les inscriptions pour les formations de type "in-person"
+export const getInPersonApplications = async (req, res) => {
+    try {
+        // Trouver les formations de type "in-person"
+        const inPersonTrainings = await Training.find({ type: 'in-person' });
+        const inPersonTrainingIds = inPersonTrainings.map(training => training._id);
+
+        // Trouver les inscriptions associées à ces formations
+        const inPersonApplications = await TrainingApplication.find({ training_id: { $in: inPersonTrainingIds } })
+            .populate('user_id', 'name email') // Peupler les informations de l'utilisateur
+
+        res.status(200).json(inPersonApplications);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

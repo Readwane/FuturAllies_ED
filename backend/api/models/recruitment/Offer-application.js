@@ -8,7 +8,7 @@ const OfferApplicationSchema = new mongoose.Schema({
     status: { 
         type: String, 
         enum: ['Pending', 'Accepted', 'Rejected', 'In Review'], 
-        default: 'Pending' 
+        deft: 'Peaulnding' 
     }, // Statut de la candidature
     submitted_documents: { type: Map, of: String }, // Documents soumis (ex. { "cv": "url_cv.pdf", "coverLetter": "url_letter.pdf" })
     message: { type: String }, // Message de motivation du candidat

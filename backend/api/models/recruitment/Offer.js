@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const OfferSchema = new mongoose.Schema({
     title: { type: String, required: true }, // Titre de l'offre
     description: { type: String, required: true }, // Description de l'offre
+    domain: { type: String, required: true }, // Titre de l'offre
     company: { type: String, required: true }, // Société proposant l'offre
     location: { type: String, required: true }, // Lieu de l'offre (ville, pays)
     salary: { type: Number }, // Salaire pour les emplois (optionnel)

@@ -1,4 +1,4 @@
-import CourseReview from '../../models/training/CourseReview.js';
+import CourseReview from '../../models/audition/course-review.js';
 
 export const getAllCourseReviews = async (req, res) => {
   try {

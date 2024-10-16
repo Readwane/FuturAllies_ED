@@ -1,4 +1,4 @@
-import ContentVideo from '../../models/training/ContentVideo.js';
+import ContentVideo  from "../../models/audition/content-video.js";
 
 export const getAllContentVideos = async (req, res) => {
   try {

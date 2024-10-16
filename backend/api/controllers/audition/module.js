@@ -1,4 +1,4 @@
-import Module from '../models/Module.js';
+import Module from '../../models/audition/module.js';
 
 // Récupérer tous les modules
 export const getAllModules = async (req, res) => {

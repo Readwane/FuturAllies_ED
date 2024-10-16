@@ -11,6 +11,6 @@ const webinarApplicationtSchema = new mongoose.Schema({
     isConfirmed: { type: Boolean, required: true, default: false }, // Indique si l'inscription est confirmée
 }, { timestamps: true }); // Ajoute les champs createdAt et updatedAt
 
-const WebinarApplication = mongoose.model('WebinarEnrollment', webinarApplicationtSchema);
+const WebinarApplication = mongoose.model('WebinarApplication', webinarApplicationtSchema);
 
 export default WebinarApplication;

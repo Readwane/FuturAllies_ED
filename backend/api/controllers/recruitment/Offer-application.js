@@ -1,4 +1,5 @@
-import OfferApplication from '../models/OfferApplication';
+import OfferApplication from '../../models/recruitment/offer-application.js'
+import Offer from '../../models/recruitment/offer.js'
 
 export const createOfferApplication = async (req, res) => {
     try {
@@ -18,6 +19,40 @@ export const getOfferApplications = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Récupérer toutes les candidatures pour les offres de type "Job"
+export const getJobApplications = async (req, res) => {
+    try {
+        // Trouver les offres de type "Job"
+        const jobOffers = await Offer.find({ type: 'Job' });
+        const jobOfferIds = jobOffers.map(offer => offer._id);
+
+        // Trouver les candidatures associées à ces offres
+        const jobApplications = await OfferApplication.find({ offer_id: { $in: jobOfferIds } })
+            .populate('user_id', 'name email') // Peupler les informations de l'utilisateur
+
+        res.status(200).json(jobApplications);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupérer toutes les candidatures pour les offres de type "Internship"
+export const getInternshipApplications = async (req, res) => {
+    try {
+        // Trouver les offres de type "Internship"
+        const internshipOffers = await Offer.find({ type: 'Internship' });
+        const internshipOfferIds = internshipOffers.map(offer => offer._id);
+
+        // Trouver les candidatures associées à ces offres
+        const internshipApplications = await OfferApplication.find({ offer_id: { $in: internshipOfferIds } })
+            .populate('user_id', 'name email') // Peupler les informations de l'utilisateur
+
+        res.status(200).json(internshipApplications);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};  
 
 export const getOfferApplicationById = async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-import Offer from '../models/Offer';
+import Offer from '../../models/recruitment/offer.js'
 
 export const createOffer = async (req, res) => {
     try {
@@ -14,6 +14,26 @@ export const getOffers = async (req, res) => {
     try {
         const offers = await Offer.find();
         res.status(200).json(offers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupérer toutes les offres d'emploi
+export const getJobs = async (req, res) => {
+    try {
+        const jobs = await Offer.find({ type: 'Job' });
+        res.status(200).json(jobs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupérer toutes les offres de stage
+export const getInternships = async (req, res) => {
+    try {
+        const internships = await Offer.find({ type: 'Internship' });
+        res.status(200).json(internships);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

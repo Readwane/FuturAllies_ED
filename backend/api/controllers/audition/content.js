@@ -1,4 +1,4 @@
-import Content from '../../models/training/Content.js';
+import Content from '../../models/audition/content.js';
 
 export const getAllContents = async (req, res) => {
   try {

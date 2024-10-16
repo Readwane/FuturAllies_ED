@@ -1,4 +1,4 @@
-import ContentText from '../../models/training/ContentText.js';
+import ContentText from '../../models/audition/content-text.js'
 
 export const getAllContentTexts = async (req, res) => {
   try {
@@ -18,6 +18,7 @@ export const getContentTextById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export const createContentText = async (req, res) => {
   const { content_id, content } = req.body;

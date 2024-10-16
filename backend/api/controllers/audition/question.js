@@ -1,4 +1,4 @@
-import Question from '../../models/training/Question.js';
+import Question from '../../models/audition/question.js';
 
 export const getAllQuestions = async (req, res) => {
   try {

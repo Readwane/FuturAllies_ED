@@ -1,38 +1,39 @@
 // Importations de la partie authentication
-import User from "./authentication/user";
-import Group from "./authentication/group";
-import Profile from "./authentication/profile";
-import UserGroup from "./authentication/user-group";
-import Doc from "./authentication/doc";
+import User from "./authentication/user.js";
+import Group from "./authentication/group.js";
+import Profile from "./authentication/profile.js";
+import UserGroup from "./authentication/user-group.js";
+import Doc from "./authentication/doc.js";
 // Importations pour la partie audition
-import Domain from "./audition/Domain";
-import Path from "./audition/path";
-import Module from "./audition/module";
-import Course from "./audition/Course";
-import Part from "./audition/part";
-import Chapter from "./audition/Chapter";
-import Content from "./audition/Content";
-import ContentText from "./audition/Content-text";
-import ContentVideo from "./audition/content-video";
-import Quiz from "./audition/quiz";
-import Question from "./audition/Question";
-import CorrectAnswer from "./audition/correct-answer";
-import StudentAnswer from "./audition/student-answer";
-import CourseLearned from "./audition/Course-learned";
-import CourseReview from "./audition/course-review";
+import Domain from "./audition/domain.js";
+import Path from "./audition/path.js";
+import Module from "./audition/module.js";
+import Course from "./audition/course.js";
+import Part from "./audition/part.js";
+import Chapter from "./audition/chapter.js";
+import Content from "./audition/content.js";
+import ContentText from "./audition/content-text.js";
+import ContentVideo from "./audition/content-video.js";
+import Quiz from "./audition/quiz.js";
+import Question from "./audition/question.js";
+import CorrectAnswer from "./audition/correct-answer.js";
+import StudentAnswer from "./audition/student-answer.js";
+import CourseLearned from "./audition/course-learned.js";
+import CourseReview from "./audition/course-review.js";
 //Importations pour la partie certification
-import Certification from "./certification/certification";
-import CertificationGiven from "./certification/certification-given";
-import CertificationEvaluation from "./certification/certification-evaluation";
+import Certification from "./certification/certification.js";
+import CertificationGiven from "./certification/certification-given.js";
+import CertificationEvaluation from "./certification/certification-evaluation.js";
 // Importation pour la partie interaction
 
 // Importation pour la partie recruitment
-import Offer from "./recruitment/Offer";
-import OfferApplication from "./recruitment/Offer-application";
-import Training from "./training/training";
-import TrainingApplication from "./training/training-application";
-import Webinar from "./training/webinar";
-import WebinarApplication from "./training/webinar-application";
+import Offer from "./recruitment/offer.js";
+import OfferApplication from "./recruitment/offer-application.js";
+
+import Training from "./training/training.js";
+import TrainingApplication from "./training/training-application.js";
+import Webinar from "./training/webinar.js";
+import WebinarApplication from "./training/webinar-application.js";
 
 export {
   User, Group, UserGroup, Profile, 
