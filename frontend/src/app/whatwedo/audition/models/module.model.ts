@@ -1,4 +1,4 @@
-export class Domain {
+export class Module {
     id: number;
     title: string;
     path_id: string;

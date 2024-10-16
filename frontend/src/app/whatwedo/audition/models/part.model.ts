@@ -1,4 +1,4 @@
-export class part {
+export class Part {
     id: number;
     courseId: number;
     title: string;

@@ -5,12 +5,12 @@ export class ContentVideo extends Content {
 
     constructor(
         id: number, 
-        chapterId: number, 
+        contentId: number, 
         content_url: string,
         createdAt: Date = new Date(),
         updatedAt: Date = new Date()
     ) {
-        super(id, chapterId, 'video', createdAt, updatedAt);
+        super(id, contentId, 'video', createdAt, updatedAt);
         this.content_url = content_url;
     }
 }

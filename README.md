@@ -52,19 +52,33 @@ src/
 │   │   │   ├── components/        # Composants spécifiques à l'authentification (login, register)
 │   │   │   ├── services/          # Services pour la gestion d'authentification (login, register, forgot password)
 │   │   │   └── authentication.module.ts # Module d'authentification
-│   │   ├── catalogue/
-│   │   │   ├── components/        # Composants pour la gestion des cours (catalogue, détails des cours)
+│   │   ├── audition/
+│   │   │   ├── components/        # Composants pour la gestion des cours (détails des cours)
 │   │   │   ├── services/          # Services pour le catalogue (récupération des cours, filtres)
-│   │   │   └── catalogue.module.ts # Module du catalogue
-│   │   ├── offer/
-│   │   │   ├── components/        # Composants pour la gestion des offres (postuler à des stages, emplois)
-│   │   │   ├── services/          # Services pour la gestion des offres (offres de stages, emploi)
-│   │   │   └── offer.module.ts    # Module des offres (emploi, stage)
-│   │   ├── partnaire/
-│   │   │   ├── components/        # Composants spécifiques aux partenaires
-│   │   │   ├── services/          # Services pour la gestion des partenaires (partenariats)
-│   │   │   └── partnaire.module.ts # Module pour les partenaires
-│   │   └── ...
+│   │   │   └── audition.module.ts # Module du catalogue
+│   │   ├── training/
+│   │   │   ├── components/        # Composants pour la gestion offres de formation
+│   │   │   ├── services/          # Services pour la gestion offres de formation
+│   │   │   └── training.module.ts    # Module des offres (emploi, stage)
+│   │   ├── recruitment/
+│   │   │   ├── components/        # Composants spécifiques aux recrutement des offres de stage et d'emploi
+│   │   │   ├── services/          # Services pour les recrutement des offres de stage et d'emploi
+│   │   │   └── recruitment.module.ts # Module pour les partenaires
+│   │   ├── dashboard/
+│   │   │   ├── admin-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── admin-dashboard.module.ts
+│   │   │   ├── user-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── user-dashboard.module.ts
+│   │   │   ├── employer-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── employer-dashboard.module.ts
+│   │   │   └── dashboard.module.ts # Module regroupant les dashboards
+|   |   |   |...
 │   ├── layouts/
 │   │   ├── public-layout/         # Layout public (page login, signup)
 │   │   ├── admin-layout/          # Layout privé (espace utilisateur, employeur)
@@ -123,6 +137,23 @@ shared/
 |__sharedd.service.ts
 
 
+src/
+├── app/
+│   ├── features/
+│   │   ├── dashboard/
+│   │   │   ├── admin-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── admin-dashboard.module.ts
+│   │   │   ├── user-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── user-dashboard.module.ts
+│   │   │   ├── employer-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── employer-dashboard.module.ts
+│   │   │   └── dashboard.module.ts # Module regroupant les dashboards
 
 
 

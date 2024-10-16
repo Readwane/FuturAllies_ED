@@ -1,4 +1,4 @@
-export class LearningPath {
+export class Course {
   id: number;
   moduleId: number;
   title: string;

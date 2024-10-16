@@ -5,12 +5,12 @@ export class ContentText extends Content {
 
     constructor(
         id: number, 
-        chapterId: number, 
+        contentId: number, 
         content: string[],
         createdAt: Date = new Date(),
         updatedAt: Date = new Date()
     ) {
-        super(id, chapterId, 'text', createdAt, updatedAt);
+        super(id, contentId, 'text', createdAt, updatedAt);
         this.content = content;
     }
 }

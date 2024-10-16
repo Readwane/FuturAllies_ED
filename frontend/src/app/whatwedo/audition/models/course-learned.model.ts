@@ -1,4 +1,4 @@
-export class CourseTacked {
+export class CourseLearned {
     id: number;
     userId: number;
     courseId: number;
