@@ -2,18 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TrainingRoutingModule } from './training-routing.module';
-import { TrainingComponent } from './components/training/training.component';
-import { WebinarComponent } from './components/webinar/webinar.component';
+import { WebinarModule } from './webinar/webinar.module';
 
 
 @NgModule({
   declarations: [
-    TrainingComponent,
-    WebinarComponent
+
   ],
   imports: [
     CommonModule,
-    TrainingRoutingModule
+    TrainingRoutingModule,
+    WebinarModule
   ]
 })
 export class TrainingModule { }

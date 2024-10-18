@@ -1,3 +1,54 @@
+CREATE TABLE offers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL, -- Titre de l'offre
+  description TEXT NOT NULL, -- Description de l'offre
+  company VARCHAR(255) NOT NULL, -- Société proposant l'offre
+  location VARCHAR(255) NOT NULL, -- Lieu de l'offre (ville, pays)
+  salary DECIMAL(10, 2), -- Salaire pour les emplois (peut être optionnel)
+  duration INT, -- Durée en mois pour les stages (spécifique aux internships)
+  type ENUM('Job', 'Internship', 'Other') NOT NULL, -- Type d'offre
+  requirements TEXT, -- Compétences et qualifications requises
+  responsibilities TEXT, -- Responsabilités du poste
+  education_level VARCHAR(100), -- Niveau d'études requis (ex: Bac+3, Master, etc.)
+  experience_level VARCHAR(100), -- Niveau d'expérience requis (ex: Junior, Senior, etc.)
+  contract_type ENUM('Full-Time', 'Part-Time', 'Internship', 'Freelance', 'Temporary'), -- Type de contrat
+  benefits TEXT, -- Avantages associés à l'offre (assurances, tickets restaurant, etc.)
+  application_link VARCHAR(255), -- Lien vers le formulaire de candidature externe
+  contact_email VARCHAR(255), -- Email de contact pour les candidatures
+  is_remote BOOLEAN NOT NULL DEFAULT FALSE, -- Indique si le poste est en télétravail
+  posted_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Date de publication de l'offre
+  expiration_date DATETIME, -- Date d'expiration de l'offre
+  status ENUM('Open', 'Closed', 'Pending') NOT NULL DEFAULT 'Open', -- Statut de l'offre (ouverte, fermée, en attente)
+  application_mode ENUM('Online', 'Physical', 'Both') NOT NULL DEFAULT 'Online', -- Mode de dépôt des candidatures
+  physical_address TEXT, -- Adresse physique pour le dépôt des candidatures, si applicable
+  online_submission BOOLEAN NOT NULL DEFAULT TRUE, -- Indique si la soumission peut être faite en ligne
+  additional_info TEXT, -- Informations additionnelles à l'offre (par ex. conditions particulières)
+  INDEX (location),
+  INDEX (type),
+  INDEX (company)
+);
+
+
+
+CREATE TABLE offer_applications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  offer_id INT NOT NULL, -- Référence à l'offre
+  user_id INT NOT NULL, -- Référence à l'utilisateur (candidat)
+  application_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Date de la candidature
+  required_documents TEXT, -- Liste des documents à fournir (CV, lettre de motivation, etc.)
+  status ENUM('Pending', 'Accepted', 'Rejected', 'In Review') NOT NULL DEFAULT 'Pending', -- Statut de la candidature
+  submitted_documents JSON, -- Liste des documents soumis (par ex. CV, lettre de motivation)
+  message TEXT, -- Message de motivation ou commentaires du candidat
+  review_notes TEXT, -- Notes ou commentaires de l'examinateur de la candidature
+  last_updated DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Dernière mise à jour de la candidature
+  INDEX (offer_id),
+  INDEX (user_id),
+  FOREIGN KEY (offer_id) REFERENCES offers(id) ON DELETE CASCADE, -- Lien vers la table offers
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE -- Lien vers la table users
+);
+
+
+
 
 --****************************** GESTION DES OFFRES *********************************************
 -- Cette table stocke les informations communes à toutes les offres.

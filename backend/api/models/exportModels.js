@@ -1,45 +1,44 @@
-// Importation des modèles de la gestion des utilisateurs
-import User from './users/User.js';
-import Profile from './users/Profile.js'; 
-import Subscription from './users/Subscription.js'; 
-import Group from './users/Group.js'; 
-import Permission from './users/Permission.js'; 
-import UserGroup from './users/UserGroup.js'; 
-import UserPermission from './users/UserPermission.js'; 
-import GroupPermission from './users/GroupPermission.js'; 
-import UserSession from './users/UserSession.js'; 
-import UserNavigateLog from './users/UserNavigateLog.js'; 
-import Notification from './users/Notification.js'; 
-import Message from './users/Message.js'; 
+// Importations de la partie authentication
+import User from "./authentication/user.js";
+import Group from "./authentication/group.js";
+import Profile from "./authentication/profile.js";
+import UserGroup from "./authentication/user-group.js";
+import Doc from "./authentication/doc.js";
+// Importations pour la partie audition
+import Domain from "./audition/domain.js";
+import Path from "./audition/path.js";
+import Module from "./audition/module.js";
+import Course from "./audition/course.js";
+import Part from "./audition/part.js";
+import Chapter from "./audition/chapter.js";
+import Content from "./audition/content.js";
+import ContentText from "./audition/content-text.js";
+import ContentVideo from "./audition/content-video.js";
+import Quiz from "./audition/quiz.js";
+import Question from "./audition/question.js";
+import CorrectAnswer from "./audition/correct-answer.js";
+import StudentAnswer from "./audition/student-answer.js";
+import CourseLearned from "./audition/course-learned.js";
+import CourseReview from "./audition/course-review.js";
+//Importations pour la partie certification
+import Certification from "./certification/certification.js";
+import CertificationGiven from "./certification/certification-given.js";
+import CertificationEvaluation from "./certification/certification-evaluation.js";
+// Importation pour la partie interaction
 
-// Importation des modèles de la gestion du parcours libre
-import Domain from './catalogue/Domain.js';
-import LearningPath from './catalogue/LearningPath.js';
-import Course from './catalogue/Course.js';
-import CourseChapter from './catalogue/CourseChapter.js';
-import Lesson from './catalogue/Lesson.js';
-import LessonContent from './catalogue/LessonContent.js';
+// Importation pour la partie recruitment
+import Offer from "./recruitment/offer.js";
+import OfferApplication from "./recruitment/offer-application.js";
 
-// Importation des modèles de la gestion des offres (formation, stage, emploi)
-import Offer from './offres/Offer.js';
-import Training from './offres/Training.js';
-import TrainerAssignment from './offres/TrainingAssigment.js';
-import TrainingEvaluation from './offres/TrainingEvaluation.js';
-import TrainingFeedback from './offres/TrainingFeedBack.js';
-import Job from './offres/Job.js';
-import OfferApplication from './offres/OfferApplication.js';
-import Internship from './offres/Internship.js';
+import Training from "./training/training.js";
+import TrainingApplication from "./training/training-application.js";
+import Webinar from "./training/webinar.js";
+import WebinarApplication from "./training/webinar-application.js";
 
-
-import Webinar from './formations/Webinar.js';
-import WebinarEnrollment from './formations/WebinarEnrollment.js';
-
-// Exportation des modèles pour utilisation dans d'autres fichiers
 export {
-  User, Profile, Subscription, Group, Permission, UserGroup,
-  UserPermission, GroupPermission, UserSession, UserNavigateLog,
-  Notification, Message, Domain, LearningPath, Course,
-  CourseChapter, Lesson, LessonContent, Offer, Training,
-  TrainerAssignment, TrainingEvaluation, TrainingFeedback,
-  Job, OfferApplication, Internship, Webinar, WebinarEnrollment
+  User, Group, UserGroup, Profile, 
+  Doc, Domain, Path, Module, Course, Part, Chapter, Content, ContentText,
+  ContentVideo, Quiz, Question, CorrectAnswer, StudentAnswer,CourseLearned, CourseReview,
+  Certification, CertificationGiven, CertificationEvaluation,
+  Offer, OfferApplication, Training, TrainingApplication, Webinar, WebinarApplication
 };

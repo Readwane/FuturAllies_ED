@@ -6,6 +6,7 @@ import { DomainComponent } from './audition/components/domain/domain.component';
 import { LearningPathComponent } from './audition/components/learning-path/learning-path.component';
 import { CourseComponent } from './audition/components/course/course.component';
 import { CertificationComponent } from './audition/components/certification/certification.component';
+import { TrainingModule } from './training/training.module';
 
 
 @NgModule({
@@ -13,11 +14,13 @@ import { CertificationComponent } from './audition/components/certification/cert
     DomainComponent,
     LearningPathComponent,
     CourseComponent,
-    CertificationComponent
+    CertificationComponent,
+    
   ],
   imports: [
     CommonModule,
-    WhatWeDoRoutingModule
+    WhatWeDoRoutingModule,
+    TrainingModule
   ]
 })
 export class WhaWeDoModule { }

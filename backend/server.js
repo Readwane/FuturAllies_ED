@@ -36,7 +36,7 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
 server.use(adminJs.options.rootPath, adminRouter);
 
 // Middleware pour les API
-server.use('/fapi', app);
+server.use('', app);
 
 // Démarrage du serveur
 server.listen(PORT, () => {
