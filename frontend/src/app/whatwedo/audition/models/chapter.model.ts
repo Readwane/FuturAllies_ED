@@ -1,6 +1,6 @@
 export class Chapter {
-    id: number;
-    partId: number;
+    _id: string;
+    partId: string;
     title: string;
     description?: string;
     order: number;
@@ -8,15 +8,15 @@ export class Chapter {
     updatedAt: Date;
   
     constructor(
-      id: number,
-      partId: number,
+      _id: string,
+      partId: string,
       title: string,
       order: number,
       description?: string,
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.partId = partId;
       this.title = title;
       this.description = description;

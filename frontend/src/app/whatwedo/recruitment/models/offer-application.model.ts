@@ -1,7 +1,6 @@
 export class OfferApplication {
-  id: number;
-  offerId: number; // Référence à l'offre
-  userId: number; // Référence à l'utilisateur (candidat)
+  offerId: string; // Référence à l'offre
+  userId: string; // Référence à l'utilisateur (candidat)
   applicationDate: Date; // Date de la candidature
   requiredDocuments?: string; // Liste des documents à fournir (CV, lettre de motivation, etc.)
   status: 'Pending' | 'Accepted' | 'Rejected' | 'In Review'; // Statut de la candidature
@@ -11,14 +10,12 @@ export class OfferApplication {
   lastUpdated: Date; // Dernière mise à jour de la candidature
 
   constructor(
-    id: number,
-    offerId: number,
-    userId: number,
+    offerId: string,
+    userId: string,
     applicationDate: Date = new Date(),
     status: 'Pending' | 'Accepted' | 'Rejected' | 'In Review' = 'Pending',
     lastUpdated: Date = new Date()
   ) {
-    this.id = id;
     this.offerId = offerId;
     this.userId = userId;
     this.applicationDate = applicationDate;

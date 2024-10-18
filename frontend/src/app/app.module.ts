@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { WebinarModule } from './webinar/webinar.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
@@ -26,7 +25,6 @@ import { WhaWeDoModule } from './whatwedo/whatwedo.module';
     BrowserAnimationsModule,
     HttpClientModule,
     MatSnackBarModule,
-    WebinarModule,
     CoreModule,
     LayoutModule,
 ],

@@ -191,3 +191,98 @@ Pour cela on procède comme suite (Bien avec le consentement des propritaires du
          - ``git merge develop``
          - ``git push origin develop``
 
+
+
+Pour la gestion de tout le contenu et des services de la plateforme FuturAllies, les bonnes pratiques en matière de gestion et de structuration de tableaux de bord suggèrent généralement de diviser les tableaux de bord en plusieurs catégories. Voici les principaux types de tableaux de bord qui seraient pertinents pour une plateforme comme FuturAllies :
+
+1. Tableau de bord Administrateur Général
+Objectif : Fournir une vue d'ensemble sur les statistiques globales de la plateforme.
+Contenu :
+Nombre total d'utilisateurs (Freemium, Premium)
+Statistiques de fréquentation de la plateforme (visites, utilisateurs actifs)
+Revenus générés (abonnements premium, paiements pour formations, etc.)
+Performance des serveurs (état des services, latence, uptime)
+Alertes de sécurité et incidents.
+Utilisateurs Cibles : Administrateur de la plateforme.
+2. Tableau de bord Utilisateur (Apprenant)
+Objectif : Permettre aux apprenants de suivre leur progression dans les cours et les parcours de formation.
+Contenu :
+Cours en cours et terminés
+Certifications obtenues
+Progression dans les parcours (pourcentage de complétion, temps passé)
+Notifications (nouveaux cours, mises à jour)
+Historique des paiements et abonnements.
+Utilisateurs Cibles : Apprenants.
+3. Tableau de bord Formateur/Intervenant
+Objectif : Permettre aux formateurs de gérer leurs cours et de suivre la progression de leurs apprenants.
+Contenu :
+Liste des cours proposés
+Statistiques sur l'engagement des apprenants (nombre d'inscrits, taux de complétion)
+Feedbacks et évaluations des cours
+Gestion des ressources (ajout/modification de contenus)
+Notifications concernant les questions des apprenants.
+Utilisateurs Cibles : Formateurs et intervenants.
+4. Tableau de bord Employeur/Entreprise Partenaire
+Objectif : Offrir aux entreprises un espace pour gérer les offres d'emploi et de stage, et suivre les candidatures.
+Contenu :
+Gestion des offres publiées (stage, emploi)
+Liste des candidats et état de leurs candidatures
+Statistiques sur les candidatures (nombre de candidatures, profil des candidats)
+Options de communication avec les candidats (messagerie interne).
+Utilisateurs Cibles : Employeurs, entreprises partenaires.
+5. Tableau de bord Gestionnaire de Contenus
+Objectif : Faciliter la gestion de tous les contenus de la plateforme (cours, vidéos, documents).
+Contenu :
+Liste des cours et modules de formation
+Gestion des catégories de contenu (ajout, modification, suppression)
+Statistiques d'engagement sur chaque contenu (nombre de vues, taux de complétion)
+Historique des modifications et mises à jour.
+Utilisateurs Cibles : Équipe de gestion des contenus.
+6. Tableau de bord Financier
+Objectif : Gérer les aspects financiers liés aux paiements, abonnements, et flux de trésorerie.
+Contenu :
+Suivi des revenus (abonnements premium, formations, autres services)
+Tableau de suivi des paiements et factures
+Relevés mensuels, trimestriels et annuels
+Gestion des remboursements et réclamations.
+Utilisateurs Cibles : Comptable, responsable financier.
+7. Tableau de bord Support/Service Client
+Objectif : Permettre une gestion efficace des demandes de support des utilisateurs.
+Contenu :
+Liste des tickets de support ouverts, en cours, et résolus
+Temps de réponse moyen
+Statistiques sur les types de problèmes rencontrés
+Outils de communication directe avec les utilisateurs (chat, email).
+Utilisateurs Cibles : Équipe de support client.
+Conclusion
+Les 7 types de tableaux de bord ci-dessus permettent de couvrir les différents aspects de la gestion de la plateforme FuturAllies. Cette segmentation permet de mieux répondre aux besoins spécifiques de chaque groupe d'utilisateurs (administrateurs, apprenants, formateurs, entreprises, gestionnaires de contenu, équipe financière, support client) et de maintenir une gestion efficace et structurée de la plateforme.
+
+src/
+├── app/
+│   ├── features/
+│   │   ├── dashboard/
+│   │   │   ├── admin-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── admin-dashboard.module.ts
+│   │   │   ├── content-Manager-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── user-dashboard.module.ts
+│   │   │   ├── content-Manager-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── content-Manager-dashboard.module.ts
+│   │   │   ├── user-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── user-dashboard.module.ts
+│   │   │   ├── employer-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── employer-dashboard.module.ts
+│   │   │   ├── service-support-dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── service-support-dashboard.module.ts
+│   │   │   └── dashboard.module.ts # Module regroupant les dashboards

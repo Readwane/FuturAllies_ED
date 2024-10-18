@@ -1,5 +1,5 @@
 export class Domain {
-    id: number;
+    _id: string;
     title: string;
     pictureUrl?: string;
     description?: string;
@@ -7,14 +7,14 @@ export class Domain {
     updatedAt: Date;
   
     constructor(
-      id: number,
+      _id: string,
       title: string,
       pictureUrl?: string,
       description?: string,
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.title = title;
       this.pictureUrl = pictureUrl;
       this.description = description;

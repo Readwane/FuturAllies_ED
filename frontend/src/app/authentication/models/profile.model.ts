@@ -1,6 +1,6 @@
 export class Profile {
-    id: number;  // Identifiant unique du profil
-    userId: number;  // Référence vers l'utilisateur associé
+    _id: string;  // Identifiant unique du profil
+    userId: string;  // Référence vers l'utilisateur associé
     firstName: string;  // Prénom de l'utilisateur
     lastName: string;  // Nom de l'utilisateur
     type: 'Freemium' | 'Premium'
@@ -11,8 +11,8 @@ export class Profile {
     profilePictureUrl: string;  // URL de la photo de profil
   
     constructor(
-      id: number,
-      userId: number,
+      _id: string,
+      userId: string,
       firstName: string,
       lastName: string,
       type: 'Freemium' | 'Premium',
@@ -22,7 +22,7 @@ export class Profile {
       birthDate: Date,
       profilePictureUrl: string
     ) {
-      this.id = id;
+      this._id = _id;
       this.userId = userId;
       this.firstName = firstName;
       this.lastName = lastName;

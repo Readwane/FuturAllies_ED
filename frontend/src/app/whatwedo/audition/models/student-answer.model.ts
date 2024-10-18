@@ -1,18 +1,18 @@
 export class StudentAnswer {
-    id: number;
-    questionId: number;
+    _id: string;
+    questionId: string;
     answersList: string[];
     isCorrect: boolean;
     createdAt: Date;
   
     constructor(
-      id: number,
-      questionId: number,
+      _id: string,
+      questionId: string,
       answersList: string[],
       isCorrect: boolean = false,
       createdAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.questionId = questionId;
       this.answersList = answersList;
       this.isCorrect = isCorrect;

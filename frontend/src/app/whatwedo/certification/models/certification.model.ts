@@ -1,8 +1,8 @@
 export class Certification {
-    id: number;  // Identifiant unique de la certification
+    _id: string;  // Identifiant unique de la certification
+    pathId: string;  // Identifiant du parcours de formation ou du cours associé
     title: string;  // Titre de la certification (ex: "Certification en Marketing Digital")
     description: string;  // Description de la certification (détails sur ce que la certification couvre)
-    pathId: number;  // Identifiant du parcours de formation ou du cours associé
     issuer: string;  // Nom de l'organisme ou de l'institution qui délivre la certification
     issueDate: Date;  // Date à laquelle la certification a été délivrée
     expirationDate?: Date;  // Date d'expiration de la certification (si applicable)
@@ -18,10 +18,10 @@ export class Certification {
     language: string;  // Langue dans laquelle la certification est délivrée
   
     constructor(
-      id: number,
+      _id: string,
+      pathId: string,
       title: string,
       description: string,
-      pathId: number,
       issuer: string,
       issueDate: Date,
       level: 'beginner' | 'intermediate' | 'advanced',
@@ -36,10 +36,10 @@ export class Certification {
       skillsGained?: string[],
       language: string = 'English'
     ) {
-      this.id = id;
+      this._id = _id;
+      this.pathId = pathId;
       this.title = title;
       this.description = description;
-      this.pathId = pathId;
       this.issuer = issuer;
       this.issueDate = issueDate;
       this.level = level;

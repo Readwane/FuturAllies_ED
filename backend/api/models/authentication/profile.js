@@ -7,7 +7,7 @@ const ProfilSchema = new mongoose.Schema({
     type: { 
         type: String, 
         enum: ['Freemium', 'Premium'], 
-        deft: 'Freemium' 
+        deft: 'Freemium'
     }, // Statut de la candidature
     bio: { type: String },  // Courte biographie
     phone_number: { type: String },  // Numéro de téléphone

@@ -1,6 +1,6 @@
 export class Part {
-    id: number;
-    courseId: number;
+    _id: string;
+    courseId: string;
     title: string;
     description?: string;
     order: number;
@@ -8,15 +8,15 @@ export class Part {
     updatedAt: Date;
   
     constructor(
-      id: number,
-      courseId: number,
+      _id: string,
+      courseId: string,
       title: string,
       order: number,
       description?: string,
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.courseId = courseId;
       this.title = title;
       this.description = description;

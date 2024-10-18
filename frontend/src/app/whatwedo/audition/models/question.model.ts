@@ -1,6 +1,6 @@
 export class Question {
-    id: number;
-    quizId: number;
+    _id: string;
+    quizId: string;
     title: string;
     questionType: 'multiple_choice' | 'one_choice';
     choicesList: string[];
@@ -9,8 +9,8 @@ export class Question {
     updatedAt: Date;
   
     constructor(
-      id: number,
-      quizId: number,
+      _id: string,
+      quizId: string,
       title: string,
       questionType: 'multiple_choice' | 'one_choice',
       choicesList: string[],
@@ -18,7 +18,7 @@ export class Question {
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.quizId = quizId;
       this.title = title;
       this.questionType = questionType;

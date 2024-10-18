@@ -1,5 +1,5 @@
 export class WebinarEnrollment {
-    id: string; // Identifiant unique de l'inscription
+    _id: string; // Identifiant unique de l'inscription
     webinarId: string; // Identifiant du webinaire associé
     fullName: string; // Nom complet de l'inscrit
     email: string; // Email de l'inscrit
@@ -10,7 +10,7 @@ export class WebinarEnrollment {
     isConfirmed: boolean; // Indique si l'inscription est confirmée
   
     constructor(
-      id: string,
+      _id: string,
       webinarId: string,
       fullName: string,
       email: string,
@@ -21,7 +21,7 @@ export class WebinarEnrollment {
       paymentMethod?: 'creditCard' | 'orangeMoney' | 'moovMoney' | 'sankMoney',
       amountPaid?: number
     ) {
-      this.id = id;
+      this._id = _id;
       this.webinarId = webinarId;
       this.fullName = fullName;
       this.email = email;

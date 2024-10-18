@@ -1,19 +1,19 @@
 
   export class User {
-    id: number;  // Identifiant unique de l'utilisateur
+    _id: string;  // Identifiant unique de l'utilisateur
     username: string;  // Nom d'utilisateur
     password: string;  // Mot de passe (hashé)
     email: string;  // Adresse e-mail
     createdAt: Date;
 
     constructor(
-      id: number,
+      _id: string,
       username: string,
       password: string,
       email: string,
       createdAt: Date = new Date(),
     ) {
-      this.id = id;
+      this._id = _id;
       this.username = username;
       this.password = password;
       this.email = email;

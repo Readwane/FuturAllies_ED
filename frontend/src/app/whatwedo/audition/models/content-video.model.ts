@@ -4,13 +4,13 @@ export class ContentVideo extends Content {
     content_url: string;
 
     constructor(
-        id: number, 
-        contentId: number, 
+        _id: string, 
+        contentId: string, 
         content_url: string,
         createdAt: Date = new Date(),
         updatedAt: Date = new Date()
     ) {
-        super(id, contentId, 'video', createdAt, updatedAt);
+        super(_id, contentId, 'video', createdAt, updatedAt);
         this.content_url = content_url;
     }
 }

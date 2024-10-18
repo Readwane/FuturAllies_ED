@@ -1,6 +1,6 @@
 export class Path {
-    id: number;
-    domainId: number;
+    _id: string;
+    domainId: string;
     title: string;
     pictureUrl?: string;
     description: string;
@@ -9,8 +9,8 @@ export class Path {
     updatedAt: Date;
   
     constructor(
-      id: number,
-      domainId: number,
+      _id: string,
+      domainId: string,
       title: string,
       description: string,
       duration: string,
@@ -18,7 +18,7 @@ export class Path {
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.domainId = domainId;
       this.title = title;
       this.pictureUrl = pictureUrl;

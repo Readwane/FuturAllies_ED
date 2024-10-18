@@ -11,7 +11,7 @@ import {
 } from '../controllers/authentication/doc.js';
 
 import { 
-    getAllGroups,
+    getAllGroups,   
     getGroupById,
     createGroup,
     updateGroup,
@@ -428,7 +428,7 @@ trainingRoutes.post('/training-applications/create', createTrainingApplication);
 trainingRoutes.get('/training-applications', getTrainingApplications);
 trainingRoutes.get('/training-applications/:id', getTrainingApplicationById);
 trainingRoutes.put('/training-applications/:id/update', updateTrainingApplication);
-trainingRoutes.delete('/training-applications/:id/delete', deleteTrainingApplication);
+trainingRoutes.delete('/training-applications/:id', deleteTrainingApplication);
 
 
 // ****************************** Exportattion des diffrents routers *****************************************/

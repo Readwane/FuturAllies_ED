@@ -1,24 +1,24 @@
 export class Module {
-    id: number;
+    _id: string;
     title: string;
-    path_id: string;
+    pathId: string;
     pictureUrl?: string;
     description?: string;
     createdAt: Date;
     updatedAt: Date;
   
     constructor(
-      id: number,
+      _id: string,
       title: string,
-      path_id: string,
+      pathId: string,
       pictureUrl?: string,
       description?: string,
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.title = title;
-      this.path_id = path_id;
+      this.pathId = pathId;
       this.pictureUrl = pictureUrl;
       this.description = description;
       this.createdAt = createdAt;

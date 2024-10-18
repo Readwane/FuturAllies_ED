@@ -1,6 +1,6 @@
 export class CertificationGiven {
-    id: number;
-    userId: number;
+    _id: string;
+    userId: string;
     certificationId: number;
     certificationDate: Date;
     certificateUrl?: string;
@@ -9,8 +9,8 @@ export class CertificationGiven {
     updatedAt: Date;
   
     constructor(
-      id: number,
-      userId: number,
+      _id: string,
+      userId: string,
       certificationId: number,
       certificationDate: Date = new Date(),
       certificateUrl?: string,
@@ -18,7 +18,7 @@ export class CertificationGiven {
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.userId = userId;
       this.certificationId = certificationId;
       this.certificationDate = certificationDate;

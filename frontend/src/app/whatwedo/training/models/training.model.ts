@@ -1,8 +1,8 @@
 export class Training {
-  id: number;  // Identifiant unique de la formation
+  _id: string;  // Identifiant unique de la formation
   type: 'webinar' | 'in-person';  // Type of the training
   category: 'Talent' | 'Allies-cafe' | 'Commercial-company' | 'Commercial-student';  // Category of the training
-
+  domain: string;
   title: string;  // Titre de la formation
   description: string;  // Description détaillée de la formation
   location: string;  // Lieu de la formation (adresse ou "En ligne" pour les webinaires)
@@ -23,9 +23,10 @@ export class Training {
   language?: string;  // Langue de la formation
 
   constructor(
-    id: number,
+    _id: string,
     type: 'webinar' | 'in-person',  // Type de la formation
     category: 'Talent' | 'Allies-cafe' | 'Commercial-company' | 'Commercial-student',  // Catégorie de la formation
+    domain: string,
     title: string,
     description: string,
     location: string,
@@ -45,9 +46,10 @@ export class Training {
     certificateIssued: boolean = false,
     language?: string,
   ) {
-    this.id = id;
+    this._id = _id;
     this.type = type;
     this.category = category;
+    this.domain = domain,
     this.title = title;
     this.description = description;
     this.location = location;

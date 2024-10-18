@@ -1,18 +1,18 @@
 export class Content {
-    id: number;
-    chapterId: number;
+    _id: string;
+    chapterId: string;
     type: 'text' | 'video';
     createdAt: Date;
     updatedAt: Date;
   
     constructor(
-        id: number, 
-        chapterId: number, 
+        _id: string, 
+        chapterId: string, 
         type: 'text' | 'video',
         createdAt: Date = new Date(),
         updatedAt: Date = new Date()
     ) {
-      this.id = id;
+      this._id = _id;
       this.chapterId = chapterId;
       this.type = type;
       this.createdAt = createdAt;

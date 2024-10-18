@@ -36,7 +36,7 @@ export class WebinarEnrollComponent implements OnInit {
   onSubmit(): void {
     if (this.enrollForm.valid) {
       // Préparer les données d'inscription sans générer d'ID ici
-      const webinarEnrollment:  Omit<WebinarEnrollment, 'id'> = {
+      const webinarEnrollment:  Omit<WebinarEnrollment, '_id'> = {
         webinarId: this.webinarId,
         fullName: this.enrollForm.value.fullName,
         email: this.enrollForm.value.email,

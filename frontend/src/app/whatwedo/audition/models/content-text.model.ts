@@ -4,13 +4,13 @@ export class ContentText extends Content {
     content: string[];
 
     constructor(
-        id: number, 
-        contentId: number, 
+        _id: string, 
+        contentId: string, 
         content: string[],
         createdAt: Date = new Date(),
         updatedAt: Date = new Date()
     ) {
-        super(id, contentId, 'text', createdAt, updatedAt);
+        super(_id, contentId, 'text', createdAt, updatedAt);
         this.content = content;
     }
 }

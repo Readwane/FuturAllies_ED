@@ -1,7 +1,8 @@
 export class Offer {
-  id: number;
+  _id: string;
   title: string; // Titre de l'offre
   description: string; // Description de l'offre
+  domain: string; //  Domaine de l'offre
   company: string; // Société proposant l'offre
   location: string; // Lieu de l'offre (ville, pays)
   salary?: number; // Salaire pour les emplois (optionnel)
@@ -25,9 +26,10 @@ export class Offer {
   additionalInfo?: string; // Informations additionnelles à l'offre
 
   constructor(
-    id: number,
+    _id: string,
     title: string,
     description: string,
+    domain: string,
     company: string,
     location: string,
     type: 'Job' | 'Internship' | 'Other',
@@ -39,9 +41,10 @@ export class Offer {
     applicationMode: 'Online' | 'Physical' | 'Both' = 'Online',
     onlineSubmission: boolean = true
   ) {
-    this.id = id;
+    this._id = _id;
     this.title = title;
     this.description = description;
+    this.domain = domain;
     this.company = company;
     this.location = location;
     this.type = type;
