@@ -1,5 +1,5 @@
 import {
-  User, Group, UserGroup, Profile, 
+ Service, User, Group, UserGroup, Profile, 
   Doc, Domain, Path, Module, Course, Part, Chapter, Content, ContentText,
   ContentVideo, Quiz, Question, CorrectAnswer, CourseLearned, CourseReview,
   Certification, CertificationGiven, CertificationEvaluation,
@@ -7,6 +7,12 @@ import {
 } from '../api/models/exportModels.js';
   
   export const resources = [
+    {
+      resource: Service, 
+      options: {
+        parent: { name: 'Service Management', icon: 'Service' },
+      },
+    },
     {
       resource: User, 
       options: {

@@ -1,6 +1,15 @@
 
 import express from 'express';
 
+// *************************** Imports pour la partie service (wwedo) **********************************
+import {
+    getAllServices,
+    getServiceById,
+    createService,
+    updateService,
+    deleteService
+} from '../controllers/service/service.js'
+
 // *************************** Imports pour la partie authentication **********************************
 import { 
     getAllDocs,
@@ -224,13 +233,26 @@ import {
 } from '../controllers/training/training-application.js';
 
 
+
 // ********************************* Deinition des routers pour chaque partie *******************************/
+const servicesRoutes = express.Router();
 const authenticationRoutes = express.Router();
 const auditionRoutes = express.Router();
 const certificationRoutes = express.Router();
 const interactionRoutes = express.Router();
 const recruitmentRoutes = express.Router();
 const trainingRoutes = express.Router();
+
+
+//******************************* Routes pour la partie authnetication *************************************/
+
+// Routes pour Doc
+
+servicesRoutes.post('/services/create', createService);
+servicesRoutes.get('/services', getAllServices);
+servicesRoutes.get('/services/:id', getServiceById);
+servicesRoutes.put('/services/:id/update', updateService);
+servicesRoutes.delete('/services/:id/delete', deleteService);
 
 //******************************* Routes pour la partie authnetication *************************************/
 // Routes pour Doc
@@ -433,6 +455,7 @@ trainingRoutes.delete('/training-applications/:id', deleteTrainingApplication);
 
 // ****************************** Exportattion des diffrents routers *****************************************/
 export {
+    servicesRoutes,
     authenticationRoutes,
     auditionRoutes,
     certificationRoutes,

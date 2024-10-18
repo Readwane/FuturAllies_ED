@@ -5,6 +5,7 @@ import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
 
 import {
+  servicesRoutes,
   authenticationRoutes,
   auditionRoutes,
   certificationRoutes,
@@ -41,6 +42,7 @@ app.use('/fapi', webinarRoutes);
 app.use('/fapi', webinarEnrollmentRoutes);
 
 // ******************** Nouvelles routes *****************************************************
+app.use('/fapi', servicesRoutes);
 app.use('/fapi', authenticationRoutes);
 app.use('/fapi', auditionRoutes);
 app.use('/fapi', certificationRoutes);

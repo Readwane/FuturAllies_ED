@@ -30,15 +30,20 @@ import CertificationEvaluation from "./certification/certification-evaluation.js
 import Offer from "./recruitment/offer.js";
 import OfferApplication from "./recruitment/offer-application.js";
 
+// Importation pour la partie training
 import Training from "./training/training.js";
 import TrainingApplication from "./training/training-application.js";
 import Webinar from "./training/webinar.js";
 import WebinarApplication from "./training/webinar-application.js";
+
+// Importation pour la partie sevices
+import Service from "./service/service.js";
 
 export {
   User, Group, UserGroup, Profile, 
   Doc, Domain, Path, Module, Course, Part, Chapter, Content, ContentText,
   ContentVideo, Quiz, Question, CorrectAnswer, StudentAnswer,CourseLearned, CourseReview,
   Certification, CertificationGiven, CertificationEvaluation,
-  Offer, OfferApplication, Training, TrainingApplication, Webinar, WebinarApplication
+  Offer, OfferApplication, Training, TrainingApplication, Webinar, WebinarApplication,
+  Service
 };

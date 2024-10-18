@@ -7,6 +7,7 @@ import { LearningPathComponent } from './audition/components/learning-path/learn
 import { CourseComponent } from './audition/components/course/course.component';
 import { CertificationComponent } from './audition/components/certification/certification.component';
 import { TrainingModule } from './training/training.module';
+import { WwedoModule } from './wwedo/wwedo.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { TrainingModule } from './training/training.module';
     LearningPathComponent,
     CourseComponent,
     CertificationComponent,
+    WwedoModule,
     
   ],
   imports: [
