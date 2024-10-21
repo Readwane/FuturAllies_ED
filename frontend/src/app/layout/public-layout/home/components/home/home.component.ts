@@ -9,17 +9,9 @@ import { HomeServicesListComponent } from '../home-services-list/home-services-l
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-
-  imports: [
-    HomeBannerComponent,
-    HomeServicesListComponent,
-    
-  ]
-
 })
 
 export class HomeComponent{
-
   ngOnInit(): void {
    
   }

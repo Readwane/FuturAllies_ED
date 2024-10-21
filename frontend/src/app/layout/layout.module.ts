@@ -8,7 +8,6 @@ import { PublicLayoutModule } from './public-layout/public-layout.module';
   imports: [
     CommonModule,
     LayoutRoutingModule,
-    PublicLayoutModule,
   ],
 })
 export class LayoutModule {}

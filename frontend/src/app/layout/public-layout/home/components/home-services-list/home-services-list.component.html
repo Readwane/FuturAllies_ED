@@ -1,10 +1,7 @@
-<!-- components/services-list/services-list.component.html -->
-
 <div class="services-section">
-    <div class="service-card" *ngFor="let service of services">
-      <img [src]="service.icon_url" alt="{{ service.title }}" class="service-icon" />
+  <a *ngFor="let service of services" [href]="" class="service-card">
+      <img src="assets/autodidacte_ia.jpeg" alt="{{ service.title }}" class="service-icon" />
       <h3>{{ service.title }}</h3>
       <p>{{ service.description }}</p>
-    </div>
+  </a>
 </div>
-  

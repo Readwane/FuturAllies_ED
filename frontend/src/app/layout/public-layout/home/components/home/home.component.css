@@ -1,3 +1,23 @@
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.line {
+  flex: 1;
+  border: none;
+  border-top: 2px solid #000; /* Couleur et épaisseur de la ligne */
+  margin: 0 10px; /* Espace entre le titre et les lignes */
+}
+
+.title {
+  margin: 0;
+  font-size: 24px; /* Ajustez la taille de la police selon vos besoins */
+  text-align: center;
+  white-space: nowrap; /* Empêche le titre de passer à la ligne */
+}
 
 
 /* Application de la police */

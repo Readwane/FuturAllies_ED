@@ -9,7 +9,7 @@ import { Service } from 'src/app/core/models/service/service.model';
   providedIn: 'root',
 })
 export class HomeServicesService {
-  private apiUrl = 'http://localhost:3000/api/services'; // Remplacer par votre URL d'API
+  private apiUrl = 'http://localhost:3000/fapi/services'; // Remplacer par votre URL d'API
 
   constructor(private http: HttpClient) {}
 
