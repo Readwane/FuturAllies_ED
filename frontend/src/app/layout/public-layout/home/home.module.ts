@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './components/home/home.component';
 import { HomeBannerComponent } from './components/home-banner/home-banner.component';
 import { HomeServicesListComponent } from './components/home-services-list/home-services-list.component';
+import { HeaderModule } from 'src/app/core/components/header/header.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { HomeServicesListComponent } from './components/home-services-list/home-
   ],
   imports: [
     CommonModule,
+    HeaderModule
   ],
   exports: [HomeComponent],
 })
