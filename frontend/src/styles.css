@@ -8,3 +8,20 @@ html, body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+
+.dashboard-container {
+  display: flex;
+  gap: 16px;
+}
+
+.stat-card {
+  width: 25%;
+  text-align: center;
+}
+
+.user-management-container {
+  margin: 20px;
+}

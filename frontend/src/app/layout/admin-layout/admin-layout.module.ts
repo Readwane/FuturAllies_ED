@@ -5,7 +5,9 @@ import { AdminLayoutRoutingModule } from './admin-layout-routing.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  
+  ],
   imports: [
     CommonModule,
     AdminLayoutRoutingModule

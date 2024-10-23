@@ -22,7 +22,7 @@
 
 .service-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(82, 44, 187, 0.3); /* Ombre bleue plus prononcée au survol */
+  box-shadow: 0 4px 12px rgba(195, 190, 209, 0.3); /* Ombre bleue plus prononcée au survol */
   cursor: pointer;
 }
 
