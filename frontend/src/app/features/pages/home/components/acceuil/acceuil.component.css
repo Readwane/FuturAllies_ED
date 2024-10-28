@@ -37,7 +37,7 @@ input[type="text"] {
 }
 
 .images-fixed {
-  background-image: url('assets/ima1.jpg');
+  /* background-image: url('assets/ima1.jpg'); */
   background-size: cover; /* Ajuste l'image pour couvrir tout le conteneur */
   background-position: center; /* Centre l'image */
   background-repeat: no-repeat; /* Empêche la répétition de l'image */

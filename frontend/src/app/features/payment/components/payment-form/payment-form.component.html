@@ -1,0 +1,12 @@
+<form [formGroup]="paymentForm" (ngSubmit)="pay()">
+  <label for="name">Name</label>
+  <input formControlName="name" id="name" placeholder="Cardholder's name" />
+
+  <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+
+  <button type="submit" [disabled]="loading">
+    {{ loading ? 'Processing...' : 'Pay' }}
+  </button>
+  
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</form>

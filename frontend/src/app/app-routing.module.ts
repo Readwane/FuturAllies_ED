@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AcceuilComponent } from './features/pages/home/components/acceuil/acceuil.component';
+import { PaymentFormComponent } from './features/payment/components/payment-form/payment-form.component';
+import { FormComponent } from './features/payment/components/form/form.component';
 
 const routes: Routes = [
   {
@@ -35,15 +37,9 @@ const routes: Routes = [
     loadChildren: () => import('./features/dashboard/employer-dashboard/employer-dashboard.module').then(m => m.EmployerDashboardModule),
     canActivate: [AuthGuard]
   },
-  // {
-  //   path: '',
-  //   redirectTo: 'auth/login',
-  //   pathMatch: 'full'
-  // },
-  // {
-  //   path: '**',
-  //   redirectTo: 'auth/login'
-  // }
+  { path: 'payment', component: PaymentFormComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirection vers une page d'accueil (exemple)
+  { path: '**', redirectTo: '/home' } // Redirection vers la page d'accueil pour les routes non trouvées (exemple)
 ];
 
 @NgModule({

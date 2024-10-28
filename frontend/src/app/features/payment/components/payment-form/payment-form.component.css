@@ -1,0 +1,89 @@
+/* Style général du formulaire */
+form {
+  max-width: 400px; /* Largeur maximale du formulaire */
+  margin: 30px auto; /* Marges verticales pour espacer le formulaire */
+  padding: 20px; /* Espacement interne */
+  background-color: #ffffff; /* Couleur de fond blanche */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+  font-family: 'Arial', sans-serif; /* Police de caractère */
+}
+
+/* Style des labels */
+label {
+  display: block; /* Affichage en bloc */
+  margin-bottom: 8px; /* Espacement sous le label */
+  font-weight: bold; /* Gras */
+  color: #444; /* Couleur du texte */
+  font-size: 14px; /* Taille de police */
+}
+
+/* Style des champs de saisie */
+input[type="text"], input[type="email"], input[type="password"], input {
+  width: 100%; /* Prendre toute la largeur */
+  padding: 12px; /* Espacement interne */
+  margin-bottom: 15px; /* Espacement sous le champ */
+  border: 1px solid #ccc; /* Bordure légère */
+  border-radius: 5px; /* Coins arrondis */
+  font-size: 16px; /* Taille de police */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transition de la couleur de bordure */
+}
+
+/* État de focus pour les champs */
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+  border-color: #007bff; /* Bordure bleue au focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre légère au focus */
+  outline: none; /* Enlever le contour par défaut */
+}
+
+/* Style pour le bouton */
+button {
+  width: 100%; /* Prendre toute la largeur */
+  padding: 12px; /* Espacement interne */
+  background-color: #007bff; /* Couleur de fond bleu */
+  color: #fff; /* Couleur du texte blanche */
+  border: none; /* Pas de bordure */
+  border-radius: 5px; /* Coins arrondis */
+  font-size: 16px; /* Taille de police */
+  cursor: pointer; /* Curseur en pointeur */
+  transition: background-color 0.3s, transform 0.2s; /* Transition de couleur et transformation */
+}
+
+/* État de hover pour le bouton */
+button:hover {
+  background-color: #0056b3; /* Couleur de fond au hover */
+  transform: translateY(-1px); /* Légère élévation au hover */
+}
+
+/* État désactivé pour le bouton */
+button:disabled {
+  background-color: #cccccc; /* Couleur grise pour le bouton désactivé */
+  cursor: not-allowed; /* Curseur interdisant */
+}
+
+/* Style pour les messages d'erreur */
+.error {
+  color: red; /* Couleur du texte rouge */
+  margin-top: 10px; /* Espacement au-dessus du message */
+  font-size: 14px; /* Taille de police */
+}
+
+/* Style spécifique pour ngx-stripe-card (si nécessaire) */
+ngx-stripe-card {
+  margin-bottom: 20px; /* Espacement sous le composant */
+  padding: 12px; /* Espacement interne */
+  border: 1px solid #ccc; /* Bordure légère */
+  border-radius: 5px; /* Coins arrondis */
+  background-color: #f9f9f9; /* Fond léger */
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  form {
+    padding: 15px; /* Réduire l'espacement interne pour les petits écrans */
+  }
+
+  button {
+    font-size: 14px; /* Réduire la taille de police pour les petits écrans */
+  }
+}

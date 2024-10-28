@@ -16,7 +16,7 @@ import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { FeaturesModule } from './features/features.module';
 import { SharedModule } from './shared/shared.module';
-
+import { PaymentModule } from './features/payment/payment.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +39,8 @@ import { SharedModule } from './shared/shared.module';
     FeaturesModule,
     SharedModule,
     LayoutModule,
+    PaymentModule,
+    
   ],
   bootstrap: [AppComponent],
 })
