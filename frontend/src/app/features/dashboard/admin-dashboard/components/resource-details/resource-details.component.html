@@ -1,0 +1,9 @@
+<h2>Détails de la ressource</h2>
+
+<div *ngIf="resourceData">
+  <ul>
+    <li *ngFor="let key of objectKeys(resourceData)">
+      <strong>{{ key }}:</strong> {{ resourceData[key] }}
+    </li>
+  </ul>
+</div>

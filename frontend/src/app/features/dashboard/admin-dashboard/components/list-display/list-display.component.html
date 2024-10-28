@@ -1,0 +1,23 @@
+<h2>{{ title }}</h2>
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">{{ header }}</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of items">
+        <td *ngFor="let header of headers">
+            <a [routerLink]="['/details', resourceType, resourceId]" class="no-decoration">
+                {{ item[header.toLowerCase()] }}
+            </a>
+        </td>
+      <td>
+        <!-- Les boutons ne sont pas enveloppés pour éviter la navigation lors de leur clic -->
+        <button class="edit-button" (click)="editItem(item); $event.stopPropagation()">Modifier</button>
+        <button class="delete-button" (click)="deleteItem(item); $event.stopPropagation()">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

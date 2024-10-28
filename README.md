@@ -32,66 +32,131 @@ FuturAllies est une plateforme de collaboration éducative et professionnelle pe
 . └── README.md        # Document de présentation du projet
 
 ## Structure du code de la partie frontend
+1. Tous les services doivent-ils se trouver dans le dossier core?
+Non , tous les services ne doivent pas se trouver dans le dossier core. Voici une approche recommandée :
+
+Services globaux : Les services partagés dans toute l'application (comme l'authentification, la gestion des utilisateurs, ou des services communs) devraient être dans le dossier core. Ces services sont souvent injectés une seule fois via le module CoreModule.
+Services spécifiques aux fonctionnalités : Si un service est propre à une fonctionnalité, comme la gestion des cours ou l'envoi de candidatures, il doit être situé dans le module de cette fonctionnalité. Cela permet de mieux organiser le code et de réduire le couplage entre les différentes parties de l'application.
+2. Quels types de services mettre dans coreet lesquels laisser dans les modules spécifiques ?
+Services à mettre dans core:
+
+Services partagés à travers toute l'application (authentification, autorisation, gestion d'erreurs, gestion des notifications).
+Services globaux comme la gestion de session, la gestion des utilisateurs connectés, ou des configurations globales (thèmes, paramètres d'application).
+Services utilitaires (gestion de la logique métier commune, interception des requêtes HTTP via des intercepteurs).
+Services à laisser dans les modules spécifiques :
+
+Les services qui sont étroitement liés à une fonctionnalité particulière, comme :
+AuthenticationServicedans le moduleauthentication
+CourseServicedans le moduleaudition
+RecruitmentServicedans le modulerecruitment
+Ces services ne sont utilisés qu'au sein de leur propre module et ne doivent nécessairement pas être injectés au niveau global de l'application.
+3. Chaque module doit-il avoir son propre routage ?
+Pas avant tout , mais c'est souvent recommandé dans les grandes applications modulaires. Cela aide à diviser les responsabilités et permet une gestion plus souple des itinéraires. Voici comment le gérer :
+
+Modules avec leur propre routage : Chaque module spécifique ( authentication, audition, training, recruitment, etc.) peut avoir son propre fichier de routage (par exemple, authentication-routing.module.ts), ce qui permet de configurer les routes spécifiques à ce module et de les charger de manière paresseuse ( lazy chargement ).
+
+Gestion du routage global : Le fichier app-routing.module.tscentralise les routes principales et peut utiliser le lazy chargement pour charger les modules quand cela est nécessaire. Par exemple :
+
+
+const routes: Routes = [
+  { path: 'auth', loadChildren: () => import('./features/authentication/authentication.module').then(m => m.AuthenticationModule) },
+  { path: 'courses', loadChildren: () => import('./features/audition/audition.module').then(m => m.AuditionModule) },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' } // Route de fallback
+];
+
+Cette approche permet de gérer facilement des modules indépendants tout en optimisant le chargement de l'application.
+
+4. Détail de la structure avec plus de contexte
+Voici une version plus détaillée de votre structure avec des exemples de contenu dans chaque répertoire :
 
 src/
 ├── app/
-│   ├── core/
-│   │   ├── guards/                # Auth et route guards (protection des routes)
-│   │   ├── interceptors/          # HTTP interceptors pour gestion d'auth, erreurs
-│   │   ├── services/              # Services partagés (authentification, utilisateur, etc.)
-│   │   ├── models/                # Modèles de données (Typescript Interfaces)
-│   │   ├── constants/             # Constantes globales de l'application
-│   │   └── core.module.ts         # Module central pour injecter des services globaux
-│   ├── shared/
-│   │   ├── components/            # Composants réutilisables (boutons, modales, etc.)
-│   │   ├── directives/            # Directives Angular personnalisées
-│   │   ├── pipes/                 # Pipes personnalisés
-│   │   └── shared.module.ts       # Module pour les composants/directives/pipes partagés
-│   ├── features/
+│   ├── core/                              # Module central de l'application
+│   │   ├── guards/                        # AuthGuards, AdminGuards, RouteGuards
+│   │   │   ├── auth.guard.ts              # Guard pour la protection des routes
+│   │   │   ├── admin.guard.ts             # Guard pour vérifier les rôles d'administrateur
+│   │   ├── interceptors/                  # HTTP interceptors (gestion des erreurs, auth)
+│   │   │   ├── auth.interceptor.ts        # Intercepteur pour ajouter les tokens aux requêtes
+│   │   │   ├── error.interceptor.ts       # Intercepteur pour la gestion des erreurs
+│   │   ├── services/                      # Services globaux (auth, utilisateur, config)
+│   │   │   ├── auth.service.ts            # Service d'authentification partagé
+│   │   │   ├── user.service.ts            # Service pour la gestion des utilisateurs
+│   │   │   ├── config.service.ts          # Service pour la configuration globale
+│   │   ├── models/                        # Modèles globaux (User, Token, etc.)
+│   │   │   ├── user.model.ts
+│   │   │   ├── token.model.ts
+│   │   │   ├── role.model.ts
+│   │   │   ├── notification.model.ts
+│   │   ├── constants/                     # Constantes globales (ex: roles, API endpoints)
+│   │   │   ├── roles.ts                   # Liste des rôles utilisateur (admin, user, etc.)
+│   │   │   ├── endpoints.ts               # Points d'API utilisés dans l'application
+│   │   └── core.module.ts                 # Module pour charger les services globaux
+│   ├── shared/                            # Composants, pipes et directives partagés
+│   │   ├── components/                    # Composants génériques réutilisables
+│   │   │   ├── button/                    # Composants bouton (submit, cancel)
+│   │   │   │   ├── button.component.ts    # Composant de bouton générique
+│   │   │   ├── modal/                     # Modale réutilisable pour dialogues
+│   │   │   │   ├── modal.component.ts     # Composant de modal générique
+│   │   ├── directives/                    # Directives Angular personnalisées (ex: hide/show)
+│   │   │   ├── toggle.directive.ts        # Directive pour afficher/masquer un élément
+│   │   ├── pipes/                         # Pipes personnalisés (ex: format date)
+│   │   │   ├── date-format.pipe.ts        # Pipe pour formater les dates
+│   │   └── shared.module.ts               # Module pour composants, pipes et directives partagés
+│   ├── features/                          # Modules spécifiques aux fonctionnalités
 │   │   ├── authentication/
-│   │   │   ├── components/        # Composants spécifiques à l'authentification (login, register)
-│   │   │   ├── services/          # Services pour la gestion d'authentification (login, register, forgot password)
-│   │   │   └── authentication.module.ts # Module d'authentification
-│   │   ├── audition/
-│   │   │   ├── components/        # Composants pour la gestion des cours (détails des cours)
-│   │   │   ├── services/          # Services pour le catalogue (récupération des cours, filtres)
-│   │   │   └── audition.module.ts # Module du catalogue
-│   │   ├── training/
-│   │   │   ├── components/        # Composants pour la gestion offres de formation
-│   │   │   ├── services/          # Services pour la gestion offres de formation
-│   │   │   └── training.module.ts    # Module des offres (emploi, stage)
-│   │   ├── recruitment/
-│   │   │   ├── components/        # Composants spécifiques aux recrutement des offres de stage et d'emploi
-│   │   │   ├── services/          # Services pour les recrutement des offres de stage et d'emploi
-│   │   │   └── recruitment.module.ts # Module pour les partenaires
+│   │   │   ├── components/                # Composants de login, inscription, reset password
+│   │   │   │   ├── login.component.ts     # Composant pour la page de connexion
+│   │   │   │   ├── register.component.ts  # Composant pour la page d'inscription
+│   │   │   ├── services/                  # Services spécifiques à l'authentification
+│   │   │   │   ├── login.service.ts       # Service pour gérer les connexions
+│   │   │   ├── authentication.module.ts   # Module d'authentification
+│   │   │   ├── authentication-routing.module.ts  # Routage pour l'authentification
+│   │   ├── audition/                      # Module pour la gestion des cours
+│   │   │   ├── components/                # Composants pour cours (liste, détails, filtres)
+│   │   │   │   ├── course-list.component.ts # Liste des cours
+│   │   │   │   ├── course-detail.component.ts # Détails d'un cours
+│   │   │   ├── services/                  # Services de gestion des cours
+│   │   │   │   ├── course.service.ts      # Service pour la gestion des cours
+│   │   │   ├── audition.module.ts         # Module pour les cours
+│   │   │   ├── audition-routing.module.ts # Routage pour les cours
 │   │   ├── dashboard/
-│   │   │   ├── admin-dashboard/
+│   │   │   ├── admin-dashboard/           # Dashboard pour les administrateurs
 │   │   │   │   ├── components/
+│   │   │   │   │   ├── admin-home.component.ts # Composant pour la page d'accueil admin
+│   │   │   │   │   ├── user-management.component.ts # Gestion des utilisateurs
 │   │   │   │   ├── services/
-│   │   │   │   └── admin-dashboard.module.ts
-│   │   │   ├── user-dashboard/
+│   │   │   │   │   ├── admin.service.ts   # Service pour les fonctionnalités admin
+│   │   │   │   └── admin-dashboard.module.ts # Module pour le dashboard admin
+│   │   │   ├── user-dashboard/            # Dashboard pour les utilisateurs
 │   │   │   │   ├── components/
+│   │   │   │   │   ├── user-home.component.ts # Page d'accueil pour les utilisateurs
+│   │   │   │   │   ├── progress-tracker.component.ts # Suivi de la progression
 │   │   │   │   ├── services/
-│   │   │   │   └── user-dashboard.module.ts
-│   │   │   ├── employer-dashboard/
+│   │   │   │   │   ├── user-dashboard.service.ts # Service pour les fonctionnalités user
+│   │   │   │   └── user-dashboard.module.ts # Module pour le dashboard utilisateur
+│   │   │   ├── employer-dashboard/        # Dashboard pour les employeurs
 │   │   │   │   ├── components/
+│   │   │   │   │   ├── employer-home.component.ts # Page d'accueil pour les employeurs
+│   │   │   │   │   ├── job-postings.component.ts # Gestion des offres d'emploi
 │   │   │   │   ├── services/
-│   │   │   │   └── employer-dashboard.module.ts
-│   │   │   └── dashboard.module.ts # Module regroupant les dashboards
-|   |   |   |...
-│   ├── layouts/
-│   │   ├── public-layout/         # Layout public (page login, signup)
-│   │   ├── admin-layout/          # Layout privé (espace utilisateur, employeur)
-│   │   ├── partner-layout/        # Layout spécifique aux partenaires
-│   │   └── ...                    # Autres layouts (mobile-friendly, etc.)
-│   ├── app-routing.module.ts      # Fichier de routage principal de l'application
-│   └── app.module.ts              # Module racine de l'application
-├── assets/                        # Images, fichiers, etc.
-│   ├── styles/                    # Fichiers CSS/SCSS globaux
-│   └── i18n/                      # Fichiers de traduction pour l'internationalisation
-├── environments/                  # Configurations pour environnements (prod, dev)
-├── index.html                     # Fichier HTML principal
-└── main.ts                        # Point d'entrée de l'application
+│   │   │   │   │   ├── employer-dashboard.service.ts # Service pour les fonctionnalités employeurs
+│   │   │   │   └── employer-dashboard.module.ts # Module pour le dashboard employeurs
+│   │   │   ├── dashboard.module.ts        # Module regroupant les dashboards
+│   │   │   ├── dashboard-routing.module.ts # Routage pour les dashboards (avec lazy loading)
+│   │   ├── ...
+│   ├── layouts/                           # Layouts (public, admin, employeur)
+│   │   ├── public-layout/                 # Layout public (login, register)
+│   │   │   ├── public-layout.component.ts # Layout des pages publiques
+│   │   ├── admin-layout/                  # Layout pour les admins
+│   │   │   ├── admin-layout.component.ts  # Layout des pages pour admin
+│   │   ├── partner-layout/                # Layout spécifique pour les partenaires
+│   ├── app-routing.module.ts              # Fichier de routage principal avec lazy loading
+│   └── app.module.ts                      # Module racine de l'application
+├── assets/                                # Fichiers statiques (images, styles)
+├── environments/                          # Configurations d'environnement (prod, dev)
+├── index.html                             # Fichier HTML principal
+└── main.ts                                # Point d'entrée de l'application
 
 
 
@@ -137,23 +202,7 @@ shared/
 |__sharedd.service.ts
 
 
-src/
-├── app/
-│   ├── features/
-│   │   ├── dashboard/
-│   │   │   ├── admin-dashboard/
-│   │   │   │   ├── components/
-│   │   │   │   ├── services/
-│   │   │   │   └── admin-dashboard.module.ts
-│   │   │   ├── user-dashboard/
-│   │   │   │   ├── components/
-│   │   │   │   ├── services/
-│   │   │   │   └── user-dashboard.module.ts
-│   │   │   ├── employer-dashboard/
-│   │   │   │   ├── components/
-│   │   │   │   ├── services/
-│   │   │   │   └── employer-dashboard.module.ts
-│   │   │   └── dashboard.module.ts # Module regroupant les dashboards
+
 
 
 
