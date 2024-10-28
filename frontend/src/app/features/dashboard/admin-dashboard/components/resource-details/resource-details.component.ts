@@ -25,7 +25,6 @@ export class ResourceDetailsComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const resourceType = params.get('type') || '';
       const resourceId = Number(params.get('id'));
-      
       // Récupération de la ressource en fonction du type et de l'ID
       this.resourceData = this.adminService.getResourceByTypeAndId(resourceType, resourceId);
     });
