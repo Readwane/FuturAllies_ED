@@ -232,6 +232,63 @@ import {
     deleteTrainingApplication
 } from '../controllers/training/training-application.js';
 
+// ******************************** Imports pour la partie paiement *****************************************
+import {
+    getAllTransactions,
+    getTransactionById,
+    createTransaction,
+} from '../controllers/payment/transaction.controller.js';
+
+import {
+    getAllSubscriptions,
+    getSubscriptionById,
+    createSubscription,
+    updateSubscription,
+    deleteSubscription
+} from '../controllers/payment/subcription.controller.js';
+
+import {
+    getAllPaymentProviders,
+    getPaymentProviderById,
+    createPaymentProvider,
+    updatePaymentProvider,
+    deletePaymentProvider
+} from '../controllers/payment/payment-provider.controller.js';
+
+import{
+    getAllPaymentProviderTransactions,
+    getPaymentProviderTransactionById,
+    createPaymentProviderTransaction,
+    updatePaymentProviderTransaction,
+    deletePaymentProviderTransaction
+} from '../controllers/payment/payment-provider-transaction.controller.js';
+
+import {
+    getAllPaymentMethods,
+    getPaymentMethodById,
+    createPaymentMethod,
+    updatePaymentMethod,
+    deletePaymentMethod,
+    deletePaymentMethod
+} from '../controllers/payment/payment-methode.controller.js';
+
+import {
+    getAllPaymentLogs,
+    getPaymentLogById,
+    getPaymentLogById,
+    createPaymentLog,
+    updatePaymentLog,
+    deletePaymentLog
+} from '../controllers/payment/payment-log.controller.js';
+
+import {
+    getAllInvoices,
+    getInvoiceById,
+    createInvoice,
+    updateInvoice,
+    deleteInvoice
+} from '../controllers/payment/invoice.controller.js';
+
 
 
 // ********************************* Deinition des routers pour chaque partie *******************************/
@@ -242,6 +299,7 @@ const certificationRoutes = express.Router();
 const interactionRoutes = express.Router();
 const recruitmentRoutes = express.Router();
 const trainingRoutes = express.Router();
+const paymentRoutes = express.Router();
 
 
 //******************************* Routes pour la partie authnetication *************************************/
@@ -453,6 +511,58 @@ trainingRoutes.put('/training-applications/:id/update', updateTrainingApplicatio
 trainingRoutes.delete('/training-applications/:id', deleteTrainingApplication);
 
 
+//******************************* Routes pour la partie authnetication *************************************/
+// Routes pour subcription
+paymentRoutes.post('/subscriptions/create', createSubscription);
+paymentRoutes.get('/subscriptions', getAllSubscriptions);
+paymentRoutes.get('/subscriptions/:id', getSubscriptionById);
+paymentRoutes.put('/subscriptions/:id/update', updateSubscription);
+paymentRoutes.delete('/subscriptions/:id/delete', deleteSubscription);
+
+// Routes pour transaction
+paymentRoutes.post('/transactions/create', createTransaction);
+paymentRoutes.get('/transactions', getAllTransactions);
+paymentRoutes.get('/transactions/:id', getTransactionById);
+// paymentRoutes.put('/subscriptions/:id/update', updateSubscription);
+// paymentRoutes.delete('/subscriptions/:id/delete', deleteSubscription);
+
+// Routes pour payment-provider
+paymentRoutes.post('/payment-providers/create', createPaymentProvider);
+paymentRoutes.get('/payment-providers', getAllPaymentProviders);
+paymentRoutes.get('/payment-providers/:id', getPaymentProviderById);
+paymentRoutes.put('/payment-providers/:id/update', updatePaymentProvider);
+paymentRoutes.delete('/payment-providers/:id/delete', deletePaymentProvider);
+
+// Routes pour payment-provider-transaction   
+paymentRoutes.post('/payment-provider-transactions/create', createPaymentProviderTransaction);
+paymentRoutes.get('/payment-provider-transactions', getAllPaymentProviderTransactions);
+paymentRoutes.get('/payment-provider-transactions/:id', getPaymentProviderTransactionById);
+paymentRoutes.put('/payment-provider-transactions/:id/update', updatePaymentProviderTransaction);
+paymentRoutes.delete('/payment-provider-transactions/:id/delete', deletePaymentProviderTransaction);
+
+// Routes pour payment-methode
+paymentRoutes.post('/payment-methods/create', createPaymentMethod);
+paymentRoutes.get('/payment-methods', getAllPaymentMethods);
+paymentRoutes.get('/payment-methods/:id', getPaymentMethodById);
+paymentRoutes.put('/payment-methods/:id/update', updatePaymentMethod);
+paymentRoutes.delete('/payment-methods/:id/delete', deletePaymentMethod);
+
+// Routes pour payment-log
+paymentRoutes.post('/payment-logs/create', createPaymentLog);
+paymentRoutes.get('/payment-logs', getAllPaymentLogs);
+paymentRoutes.get('/payment-logs/:id', getPaymentLogById);
+paymentRoutes.put('/payment-logs/:id/update', updatePaymentLog);
+paymentRoutes.delete('/payment-logs/:id/delete', deletePaymentLog);
+
+
+// Routes pour invoice
+paymentRoutes.post('/invoices/create', createInvoice);
+paymentRoutes.get('/invoices', getAllInvoices);
+paymentRoutes.get('/invoices/:id', getInvoiceById);
+paymentRoutes.put('/invoices/:id/update', updateInvoice);
+paymentRoutes.delete('/invoices/:id/delete', deleteInvoice);
+
+
 // ****************************** Exportattion des diffrents routers *****************************************/
 export {
     servicesRoutes,
@@ -461,5 +571,6 @@ export {
     certificationRoutes,
     interactionRoutes,
     recruitmentRoutes,
-    trainingRoutes
+    trainingRoutes,
+    paymentRoutes
 };

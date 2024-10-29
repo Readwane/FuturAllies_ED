@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import connectDB from './config/db.js';
 import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
-import stripeRoutes from './routes/stripeRoutes.js'; // Nouvelle route Stripe
 
 import {
   servicesRoutes,
@@ -12,7 +11,8 @@ import {
   certificationRoutes,
   interactionRoutes,
   recruitmentRoutes,
-  trainingRoutes
+  trainingRoutes,
+  paymentRoutes,
 } from './routes/routes.js'
 
 
@@ -38,9 +38,9 @@ app.use((req, res, next) => {
 // ***************** ANciennes definitions de routes ******************************************
 app.use('/fapi', webinarRoutes);
 app.use('/fapi', webinarEnrollmentRoutes);
-app.use('/fapi', stripeRoutes); // Ajout de la route Stripe
 
 // ******************** Nouvelles routes *****************************************************
+app.use('/fapi', paymentRoutes); // Ajout de la route Stripe
 app.use('/fapi', servicesRoutes);
 app.use('/fapi', authenticationRoutes);
 app.use('/fapi', auditionRoutes);

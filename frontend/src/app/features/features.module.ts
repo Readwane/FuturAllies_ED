@@ -5,6 +5,7 @@ import { FeaturesRoutingModule } from './features-routing.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesModule } from './pages/pages.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { PagesModule } from './pages/pages.module';
     FeaturesRoutingModule,
     AuthenticationModule,
     DashboardModule,
-    PagesModule
+    PagesModule,
+    PaymentModule
   ]
 })
 export class FeaturesModule { }
