@@ -1,0 +1,45 @@
+<div class="payment-methods-container">
+    <h1>Choisissez votre méthode de paiement</h1>
+    <p>Sélectionnez la méthode qui vous convient le mieux.</p>
+    
+    <fieldset>
+      <legend><strong>Carte Bancaire</strong></legend>
+      <form>
+        <label>
+          Numéro de Carte :
+          <input type="text" placeholder="XXXX XXXX XXXX XXXX" required />
+        </label>
+        <label>
+          Date d'Expiration :
+          <input type="text" placeholder="MM/AA" required />
+        </label>
+        <label>
+          CVV :
+          <input type="text" placeholder="XXX" required />
+        </label>
+      </form>
+    </fieldset>
+  
+    <fieldset>
+      <legend><strong>Paiement Mobile</strong></legend>
+      <label>
+        <input type="radio" name="mobilePayment" value="orangeMoney" required />
+        Orange Money
+      </label>
+      <label>
+        <input type="radio" name="mobilePayment" value="moovMoney" />
+        Moov Money
+      </label>
+    </fieldset>
+  
+    <fieldset>
+      <legend><strong>Autres Méthodes de Paiement</strong></legend>
+      <label>
+        <input type="radio" name="otherPayment" value="paypal" required />
+        PayPal
+      </label>
+    </fieldset>
+  
+    <button class="confirm-button">Confirmer le Paiement</button>
+  </div>
+  

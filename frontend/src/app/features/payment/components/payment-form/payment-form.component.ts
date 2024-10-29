@@ -39,6 +39,7 @@ export class PaymentFormComponent implements OnInit {
   elementsOptions: StripeElementsOptions = {
     locale: 'en'
   };
+payment_method: any;
 
   constructor(
     private fb: FormBuilder,
