@@ -7,6 +7,8 @@ import { PaymentCardFormComponent } from './components/payment-card-form/payment
 import { PaymentMobileFormComponent } from './components/payment-mobile-form/payment-mobile-form.component';
 import { environment } from 'src/environments/environment';
 import { CardPaymentFormComponent } from './components/card-payment-form/card-payment-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { CardPaymentFormComponent } from './components/card-payment-form/card-pa
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     NgxStripeModule.forRoot(environment.STRIPE_PUBLISHABLE_KEY), // Remplacez par votre clé publique Stripe
   ],
   exports:[

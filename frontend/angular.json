@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "RecrutementIntelligent": {
+    "FuturAllies": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "RecrutementIntelligent:build:production"
+              "buildTarget": "FuturAllies:build:production"
             },
             "development": {
-              "browserTarget": "RecrutementIntelligent:build:development"
+              "buildTarget": "FuturAllies:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "RecrutementIntelligent:build"
+            "buildTarget": "FuturAllies:build"
           }
         },
         "test": {

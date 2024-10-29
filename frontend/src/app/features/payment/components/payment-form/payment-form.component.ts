@@ -37,7 +37,7 @@ export class PaymentFormComponent implements OnInit {
   };
 
   elementsOptions: StripeElementsOptions = {
-    locale: 'en'
+    locale: 'fr'
   };
 payment_method: any;
 
