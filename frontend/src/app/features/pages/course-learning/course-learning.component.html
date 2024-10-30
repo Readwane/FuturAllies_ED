@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-3 d-none d-md-block sidebar bg-light">
+        <div class="sidebar-sticky">
+          <h4>Table des Matières</h4>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{'text-success': isCourseCompleted}" [routerLink]="['/course', 'courseId']">
+                Titre du Cours <span *ngIf="isCourseCompleted" class="check-icon">✔️</span>
+              </a>
+            </li>
+            <li *ngFor="let part of courseParts">
+              <a class="nav-link" [ngClass]="{'text-success': isPartCompleted(part)}" [routerLink]="['/course', 'courseId', 'part', part.title]">
+                {{ part.title }} <span *ngIf="isPartCompleted(part)" class="check-icon">✔️</span>
+              </a>
+              <ul>
+                <li *ngFor="let chapter of part.chapters">
+                  <a class="nav-link" [ngClass]="{'text-success': isChapterCompleted(chapter)}" [routerLink]="['/course', 'courseId', 'part', part.title, 'chapter', chapter.title]">
+                    {{ chapter.title }} <span *ngIf="isChapterCompleted(chapter)" class="check-icon">✔️</span>
+                  </a>
+                  <ul>
+                    <li *ngFor="let lesson of chapter.lessons">
+                      <a class="nav-link" [ngClass]="{'text-success': lesson.completed}" [routerLink]="['/course', 'courseId', 'part', part.title, 'chapter', chapter.title, 'lesson', lesson.title]">
+                        {{ lesson.title }} <span *ngIf="lesson.completed" class="check-icon">✔️</span>
+                      </a>
+                    </li>
+                    <li *ngFor="let quiz of chapter.quizzes">
+                      <a class="nav-link" [ngClass]="{'text-success': quiz.completed, 'text-danger': !quiz.completed}" [routerLink]="['/course', 'courseId', 'part', part.title, 'chapter', chapter.title, 'quiz', quiz.title]">
+                        Quiz: {{ quiz.title }} <span *ngIf="quiz.completed" class="check-icon">✔️</span>
+                        <span *ngIf="!quiz.completed" class="check-icon">❌</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+      <main class="col-md-9 ml-sm-auto col-lg-9 px-4">
+        <h2>{{ courseTitle }}</h2>
+        <p>Description du cours...</p>
+        <div>
+          <h3>Contenu Principal</h3>
+          <!-- Ajoutez ici le contenu principal du cours -->
+        </div>
+      </main>
+    </div>
+  </div>
+  

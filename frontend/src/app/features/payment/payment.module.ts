@@ -8,6 +8,11 @@ import { PaymentMobileFormComponent } from './components/payment-mobile-form/pay
 import { environment } from 'src/environments/environment';
 import { CardPaymentFormComponent } from './components/card-payment-form/card-payment-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgPaymentCardModule } from 'ng-payment-card';
+import {CreditCardFormModule} from 'ng-payment-card-form';
+import { UserProfileTypeComponent } from './components/user-profile-type/user-profile-type.component';
+import { OmPaymentComponent } from './components/om-payment/om-payment.component';
+import { MmPaymentComponent } from './components/mm-payment/mm-payment.component';
 
 
 @NgModule({
@@ -16,11 +21,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PaymentMethodesComponent,
     PaymentCardFormComponent,
     PaymentMobileFormComponent,
-    CardPaymentFormComponent
+    CardPaymentFormComponent,
+    UserProfileTypeComponent,
+    PaymentMethodesComponent,
+    OmPaymentComponent,
+    MmPaymentComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    CreditCardFormModule,
     ReactiveFormsModule,
     NgxStripeModule.forRoot(environment.STRIPE_PUBLISHABLE_KEY), // Remplacez par votre clé publique Stripe
   ],
@@ -29,7 +39,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PaymentMethodesComponent,
     PaymentCardFormComponent,
     PaymentMobileFormComponent,
-    CardPaymentFormComponent
+    CardPaymentFormComponent,
+    UserProfileTypeComponent,
+    PaymentMethodesComponent,
+    OmPaymentComponent,
+    MmPaymentComponent
   ]
 })
 export class PaymentModule {

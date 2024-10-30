@@ -1,0 +1,36 @@
+<div class="moov-payment-page">
+    <div class="container">
+      <h1 class="title">Validez votre paiement Moov Money</h1>
+      <p class="description">
+        Pour finaliser votre paiement, veuillez suivre les instructions ci-dessous :
+      </p>
+      <ol class="instructions-list">
+        <li>Composez <strong>*103*MontantApayer*CODE PIN#</strong></li>
+        <li>Vous recevrez un code OTP par SMS.</li>
+        <li>Veuillez entrer le code OTP et votre numéro de téléphone ci-dessous.</li>
+      </ol>
+  
+      <div class="input-fields">
+        <label for="phone-number">Numéro de téléphone :</label>
+        <input
+          type="text"
+          id="phone-number"
+          [(ngModel)]="phoneNumber"
+          placeholder="Ex: 77XXXXXXXX"
+          class="input-field"
+        />
+  
+        <label for="otp-code">Code OTP :</label>
+        <input
+          type="text"
+          id="otp-code"
+          [(ngModel)]="otpCode"
+          placeholder="Entrez le code OTP"
+          class="input-field"
+        />
+  
+        <button (click)="submitPayment()" class="submit-button">Valider le Paiement</button>
+      </div>
+    </div>
+  </div>
+  

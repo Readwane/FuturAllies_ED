@@ -1,27 +1,27 @@
-<!-- <form class="checkout-form" [formGroup]="paymentForm">
-    <input type="text" formControlName="name" placeholder="Name"/>
-      <input type="text" formControlName="email" placeholder="Email">
-      <input type="number" formControlName="amount" placeholder="Amount"/>
-      <div class="stripe-card" ngxStripeCardGroup [elementsOptions]="elementsOptions">
-        <h4>Enter payment details</h4>
-        <div class="stripe-element">
-          <ngx-stripe-card-number
-            [options]="cardOptions"
-            [elementsOptions]="elementsOptions"
-          ></ngx-stripe-card-number>
-        </div>
-        <div fxLayout="row" fxLayoutGap="10px">
-          <div class="w-full stripe-element">
-            <ngx-stripe-card-expiry
-              [options]="cardOptions"
-            ></ngx-stripe-card-expiry>
-          </div>
-          <div class="w-full stripe-element">
-            <ngx-stripe-card-cvc
-              [options]="cardOptions"
-            ></ngx-stripe-card-cvc>
-          </div>
-        </div>
-      </div>
-      <button type="submit" (click)="pay(payment_method)">Submit Payment</button>
-    </form> -->
+<!-- <form [formGroup]="paymentForm" (ngSubmit)="pay()">
+  <label for="cardHolder">Nom du titulaire de la carte</label>
+  <input formControlName="cardHolder" id="cardHolder" placeholder="Nom du titulaire" />
+
+  <label for="cardNumber">Numéro de carte</label>
+  <input formControlName="cardNumber" id="cardNumber" placeholder="Numéro de carte" />
+
+  <label for="expirationMonth">Mois d'expiration</label>
+  <input formControlName="expirationMonth" id="expirationMonth" placeholder="MM" />
+
+  <label for="expirationYear">Année d'expiration</label>
+  <input formControlName="expirationYear" id="expirationYear" placeholder="YYYY" />
+
+  <label for="ccv">CCV</label>
+  <input formControlName="ccv" id="ccv" placeholder="CCV" type="number" />
+
+  <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+
+  <button type="submit" [disabled]="loading">
+    {{ loading ? 'Processing...' : 'Pay' }}
+  </button>
+  
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</form> -->
+
+<card-form (formSubmitted)="onCardFormSubmit($event)">
+</card-form>

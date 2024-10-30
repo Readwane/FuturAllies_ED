@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { StripeService } from 'ngx-stripe';
 import { StripeCardComponent } from 'ngx-stripe';
-import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
+import { StripeCardElementOptions } from '@stripe/stripe-js';
+import { StripeElementsOptions } from '@stripe/stripe-js';
+import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TransactionService } from '../../services/transaction.service';
+
 
 @Component({
   selector: 'app-payment-form',
@@ -39,30 +42,38 @@ export class CardPaymentFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private paymentService: TransactionService
+    private stripeService: StripeService,
+    private http: HttpClient
   ) {
     this.paymentForm = this.fb.group({
       cardHolder: [''],
+      cardNumber: [''],
+      expirationMonth: [''],
+      expirationYear: [''],
+      ccv: ['']
     });
   }
 
   ngOnInit(): void {}
 
-  onCardFormSubmit(cardDetails: any): void {
-    // Ici, `cardDetails` contient les données du formulaire
-    console.log(' Données:', cardDetails);
-
+  pay(): void {
     this.loading = true;
     this.errorMessage = null;
 
-    const amount = 5000; // 50,00 USD en cents par exemple
-    const cardHolderName = cardDetails.cardName;  // Utilisation de cardDetails
-
-    this.paymentService.createPaymentIntent(amount).subscribe({
+    const amount = 5000; // Par exemple, 50,00 USD (défini en cents)
+    this.http.post('/fapi/create-payment-intent', { amount }).subscribe({
       next: (response: any) => {
         const clientSecret = response.clientSecret;
 
-        this.paymentService.confirmCardPayment(clientSecret, this.cardElement.element, cardHolderName)
+        this.stripeService
+          .confirmCardPayment(clientSecret, {
+            payment_method: {
+              card: this.cardElement.element,
+              billing_details: {
+                name: this.paymentForm.get('cardHolder')?.value // Utilisez le champ "cardHolder" ici
+              }
+            }
+          })
           .subscribe({
             next: (result) => {
               this.loading = false;

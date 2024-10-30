@@ -1,54 +1,84 @@
-.payment-methods-container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
-    text-align: center;
-    color: #333;
-  }
-  
-  fieldset {
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    margin: 15px 0;
-    padding: 10px;
-  }
-  
-  legend {
-    font-weight: bold;
-    color: #444;
-  }
-  
-  label {
-    display: block;
-    margin: 10px 0;
-  }
-  
-  input[type="text"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .confirm-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .confirm-button:hover {
-    background-color: #218838;
-  }
-  
+/* payment-selection.component.css */
+.payment-selection-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Hauteur minimale pour centrer le contenu */
+  background-color: #f5f8fc;
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 2rem;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  background-color: #fff; /* Fond blanc pour le conteneur */
+  border-radius: 15px; /* Bords arrondis */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+  width: 100%;
+  max-width: 600px; /* Limitation de la largeur pour le conteneur */
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #2c3e50; /* Couleur bleu foncé */
+}
+
+.description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #7f8c8d; /* Couleur gris */
+}
+
+/* Options de paiement */
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem; /* Réduction de l'espace entre les cartes */
+}
+
+.payment-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+  border-radius: 10px;
+  background: rgba(52, 152, 219, 0.1); /* Bleu léger pour le fond de la carte */
+  border: 2px solid #3498db; /* Bord bleu pour le conteneur de paiement */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.payment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-options {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-option {
+  padding: 0.75rem;
+  border-radius: 5px;
+  background-color: #f39c12; /* Jaune doré */
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère pour le bouton */
+}
+
+.mobile-option:hover {
+  background-color: #e67e22; /* Teinte plus foncée de jaune doré */
+}
+
+a{
+  cursor: pointer;
+}
