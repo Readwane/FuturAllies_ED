@@ -1,6 +1,7 @@
+// Contrôleurs d'abonnement
+
 import Subscription from '../../models/Subscription.js';
 
-// Récupérer tous les abonnements
 export const getAllSubscriptions = async (req, res) => {
   try {
     const subscriptions = await Subscription.find().populate('userId');
@@ -10,7 +11,6 @@ export const getAllSubscriptions = async (req, res) => {
   }
 };
 
-// Récupérer un abonnement par ID
 export const getSubscriptionById = async (req, res) => {
   try {
     const subscription = await Subscription.findById(req.params.id).populate('userId');
@@ -21,7 +21,7 @@ export const getSubscriptionById = async (req, res) => {
   }
 };
 
-// Créer un nouvel abonnement
+// Création d'abonnement avec validation des dates
 export const createSubscription = async (req, res) => {
   const { userId, type, startDate, endDate, status, recurring } = req.body;
 
@@ -32,8 +32,8 @@ export const createSubscription = async (req, res) => {
   const subscription = new Subscription({
     userId,
     type,
-    startDate,
-    endDate,
+    startDate: new Date(startDate),
+    endDate: new Date(endDate),
     status,
     recurring,
   });
@@ -53,7 +53,7 @@ export const updateSubscription = async (req, res) => {
   try {
     const subscription = await Subscription.findByIdAndUpdate(
       req.params.id,
-      { type, startDate, endDate, status, recurring, updated_at: Date.now() },
+      { type, startDate, endDate, status, recurring },
       { new: true }
     );
     if (!subscription) return res.status(404).json({ message: 'Abonnement non trouvé' });

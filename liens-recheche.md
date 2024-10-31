@@ -5,8 +5,11 @@
 
 https://medium.com/@asrihsoufiane/unlocking-the-power-of-angular-a-step-by-step-guide-5ab60fc07a94
 
-# 3. Stripe
+# 3. Payment
 https://docs.stripe.com/js
+
+
+https://developer.flutterwave.com/docs
 
 # 4. ngx-stripe
 https://ngx-stripe.dev/docs/introduction
