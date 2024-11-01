@@ -1,11 +1,5 @@
-// Importation du modèle de transaction et de la bibliothèque Stripe
-import Transaction from '../../models/payment/transaction.model';
-import Stripe from 'stripe';
+import Transaction from '../../models/payment/transaction.model.js';
 import { validationResult } from 'express-validator';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: process.env.API_VERSION,
-});
 
 // Middleware de vérification admin
 const verifyAdmin = (req, res, next) => {
@@ -18,7 +12,7 @@ const verifyAdmin = (req, res, next) => {
 // Récupérer toutes les transactions (accès admin uniquement)
 export const getAllTransactions = [verifyAdmin, async (req, res) => {
   try {
-    const transactions = await Transaction.find().populate('userId paymentMethodId');
+    const transactions = await Transaction.find().populate('userId paymentMethodId providerId');
     res.status(200).json(transactions);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -28,7 +22,7 @@ export const getAllTransactions = [verifyAdmin, async (req, res) => {
 // Récupérer une transaction par ID
 export const getTransactionById = async (req, res) => {
   try {
-    const transaction = await Transaction.findById(req.params.id).populate('userId paymentMethodId');
+    const transaction = await Transaction.findById(req.params.id).populate('userId paymentMethodId providerId');
     if (!transaction) return res.status(404).json({ message: 'Transaction non trouvée' });
 
     if (req.user.id !== transaction.userId.toString() && !req.user.isAdmin) {
@@ -48,32 +42,26 @@ export const createTransaction = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { userId, paymentMethodId, amount, currency } = req.body;
+  const { userId, paymentMethodId, providerId, issueTransaction, amount, currency, description } = req.body;
 
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
-      payment_method: paymentMethodId,
-      confirmation_method: 'manual',
-      confirm: true,
-    });
-
     const transaction = new Transaction({
       userId,
       paymentMethodId,
+      providerId,
+      issueTransaction,
       amount,
       currency,
-      status: paymentIntent.status,
+      status: 'pending', // Défini par défaut à 'pending'
+      description,
     });
 
+    // Enregistrement de la transaction en base de données
     await transaction.save();
+
     res.status(201).json(transaction);
   } catch (error) {
-    const errorMessage = error.type === 'StripeCardError'
-      ? 'Erreur de carte : ' + error.message
-      : 'Erreur lors de la création de la transaction';
-    res.status(500).json({ message: errorMessage });
+    res.status(500).json({ message: 'Erreur lors de la création de la transaction' });
   }
 };
 
@@ -89,6 +77,7 @@ export const updateTransaction = async (req, res) => {
     }
 
     transaction.status = status;
+    transaction.updated_at = Date.now(); // Met à jour la date de modification
     await transaction.save();
 
     res.status(200).json(transaction);

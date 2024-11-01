@@ -1,4 +1,4 @@
-import PaymentLog from '../../models/PaymentLog.js';
+import PaymentLog from '../../models/payment/payment-log.model.js';
 
 // Récupérer tous les logs de paiement
 export const getAllPaymentLogs = async (req, res) => {

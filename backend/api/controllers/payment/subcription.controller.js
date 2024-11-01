@@ -1,6 +1,4 @@
-// Contrôleurs d'abonnement
-
-import Subscription from '../../models/Subscription.js';
+import Subscription from "../../models/payment/subscription.model.js";
 
 export const getAllSubscriptions = async (req, res) => {
   try {

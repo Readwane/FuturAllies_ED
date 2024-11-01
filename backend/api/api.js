@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import connectDB from './config/db.js';
+
 import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
 
@@ -35,7 +36,7 @@ app.use((req, res, next) => {
 
 // Routes
 
-// ***************** ANciennes definitions de routes ******************************************
+// ***************** Anciennes definitions de routes ******************************************
 app.use('/fapi', webinarRoutes);
 app.use('/fapi', webinarEnrollmentRoutes);
 

@@ -1,4 +1,4 @@
-import PaymentProvider from '../../models/PaymentProvider.js';
+import PaymentProvider from '../../models/payment/payment-provider.model.js';
 
 // Récupérer tous les fournisseurs de paiement
 export const getAllPaymentProviders = async (req, res) => {

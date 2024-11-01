@@ -213,7 +213,7 @@ import {
 
 // **************************** Imports pour la partie training ************************************
 import {
-    getWebinars,
+    // getWebinars,
     getInPersonTrainings,
     createTraining,
     getTrainings,
@@ -223,7 +223,7 @@ import {
 } from '../controllers/training/training.js';
 
 import {
-    getWebinarApplications, 
+    // getWebinarApplications, 
     getInPersonApplications,
     createTrainingApplication,
     getTrainingApplications,
@@ -268,13 +268,11 @@ import {
     getPaymentMethodById,
     createPaymentMethod,
     updatePaymentMethod,
-    deletePaymentMethod,
     deletePaymentMethod
-} from '../controllers/payment/payment-methode.controller.js';
+} from '../controllers/payment/payment-method.controller.js';
 
 import {
     getAllPaymentLogs,
-    getPaymentLogById,
     getPaymentLogById,
     createPaymentLog,
     updatePaymentLog,
@@ -300,6 +298,7 @@ const interactionRoutes = express.Router();
 const recruitmentRoutes = express.Router();
 const trainingRoutes = express.Router();
 const paymentRoutes = express.Router();
+// const webinarsRoutes = express.Router();
 
 
 //******************************* Routes pour la partie authnetication *************************************/
@@ -494,15 +493,17 @@ recruitmentRoutes.delete('/offers/:id/delete', deleteOffer);
 //******************************* Routes pour la partie training *************************************/
 // Routes pour Training
 trainingRoutes.post('/trainings', getTrainings);
-trainingRoutes.post('/webinars', getWebinars);
+// trainingRoutes.post('/webinars', getWebinars);
 trainingRoutes.get('/in-person-trainings', getInPersonTrainings);
 trainingRoutes.post('/trainings/create', createTraining);
 trainingRoutes.get('/trainings/:id', getTrainingById);
 trainingRoutes.put('/trainings/:id/update', updateTraining);
 trainingRoutes.delete('/trainings/:id/delete', deleteTraining);
 
+
+
 // Routes pour TrainingApplication
-trainingRoutes.post('/webinars-applications', getWebinarApplications);
+// trainingRoutes.post('/webinars-applications', getWebinarApplications);
 trainingRoutes.get('/in-persons-applications', getInPersonApplications);
 trainingRoutes.post('/training-applications/create', createTrainingApplication);
 trainingRoutes.get('/training-applications', getTrainingApplications);

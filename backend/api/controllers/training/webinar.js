@@ -19,6 +19,7 @@ export const getWebinarById = async (req, res) => {
   }
 };
 
+
 export const createWebinar = async (req, res) => {
   const { 
         id, 

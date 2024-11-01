@@ -6,6 +6,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesModule } from './pages/pages.module';
 import { PaymentModule } from './payment/payment.module';
+import { WebinarModule } from './webinar/webinar.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { PaymentModule } from './payment/payment.module';
     AuthenticationModule,
     DashboardModule,
     PagesModule,
-    PaymentModule
+    PaymentModule,
+    WebinarModule
   ]
 })
 export class FeaturesModule { }

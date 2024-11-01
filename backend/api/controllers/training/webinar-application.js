@@ -21,6 +21,8 @@ export const getWebinarEnrollmentById = async (req, res) => {
   }
 };
 
+
+
 // Créer une nouvelle inscription
 export const createWebinarEnrollment = async (req, res) => {
   const { 

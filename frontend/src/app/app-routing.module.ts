@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
+    path: 'webinars',
+    loadChildren: () => import('./features/webinar/webinar.module').then(m => m.WebinarModule)
+  },
+  {
     path: 'audition',
     loadChildren: () => import('./features/audition/audition.module').then(m => m.AuditionModule),
     canActivate: [AuthGuard]
