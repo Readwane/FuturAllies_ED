@@ -1,0 +1,20 @@
+<div class="training-list">
+    <h1>Formations Disponibles</h1>
+
+    <!-- Boutons de filtre -->
+    <div class="filter-buttons">
+        <button (click)="setFilter('all')" [class.active]="filterType === 'all'">All</button>
+        <button (click)="setFilter('in-person')" [class.active]="filterType === 'in-person'">In Person</button>
+        <button (click)="setFilter('webinar')" [class.active]="filterType === 'webinar'">Webinar</button>
+    </div>
+
+    <!-- Spinner de chargement -->
+    <div *ngIf="loading" class="loading-spinner">
+        <p>Chargement en cours...</p>
+    </div>
+
+    <!-- Liste des formations filtrées -->
+    <div *ngIf="!loading">
+        <app-training *ngFor="let training of filteredTrainings" [training]="training"></app-training>
+    </div>
+</div>

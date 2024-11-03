@@ -16,9 +16,7 @@ import { WebinarModule } from './webinar/webinar.module';
     FeaturesRoutingModule,
     UserModule,
     DashboardModule,
-    PagesModule,
-    PaymentModule,
-    WebinarModule
+    PagesModule, 
   ]
 })
 export class FeaturesModule { }

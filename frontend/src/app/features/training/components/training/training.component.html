@@ -1,0 +1,17 @@
+<div class="training-card">
+    <h2>{{ training.title }}</h2>
+    <p><strong>Type :</strong> {{ training.type }}</p>
+    <p><strong>Catégorie :</strong> {{ training.category }}</p>
+    <p><strong>Domaine :</strong> {{ training.domain }}</p>
+    <p><strong>Intervenant :</strong> {{ training.trainer }}</p>
+    <p><strong>Date de début :</strong> {{ training.startDate | date: 'short' }}</p>
+    <p><strong>Date de fin :</strong> {{ training.endDate | date: 'short' }}</p>
+    <p><strong>Lieu :</strong> {{ training.location }}</p>
+    <p><strong>Prix :</strong> {{ training.price | currency:'USD' }}</p>
+    <p><strong>Participants :</strong> {{ training.currentParticipants || 0 }}/{{ training.maxParticipants }}</p>
+    <p><strong>Statut :</strong> {{ training.status }}</p>
+    
+    <!-- Lien vers les détails de la formation avec l'ID -->
+    <a [routerLink]="['details', training._id]" class="details-link">Voir Détails</a>
+  </div>
+  

@@ -1,1 +1,21 @@
-<p>offer-list works!</p>
+<div class="offer-list">
+    <h1>Offres Disponibles</h1>
+
+    <!-- Boutons de filtre -->
+    <div class="filter-buttons">
+        <button (click)="setFilter('all')" [class.active]="filterType === 'all'">All</button>
+        <button (click)="setFilter('Job')" [class.active]="filterType === 'Job'">Jobs</button>
+        <button (click)="setFilter('Internship')" [class.active]="filterType === 'Internship'">Internships</button>
+        <button (click)="setFilter('Other')" [class.active]="filterType === 'Other'">Others</button>
+    </div>
+
+    <!-- Spinner de chargement -->
+    <div *ngIf="loading" class="loading-spinner">
+        <p>Chargement en cours...</p>
+    </div>
+
+    <!-- Liste des offres filtrées -->
+    <div *ngIf="!loading">
+        <app-offer *ngFor="let offer of filteredOffers" [offer]="offer"></app-offer>
+    </div>
+</div>

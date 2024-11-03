@@ -214,7 +214,7 @@ import {
 
 // **************************** Imports pour la partie training ************************************
 import {
-    // getWebinars,
+    getWebinars,
     getInPersonTrainings,
     createTraining,
     getTrainings,
@@ -224,7 +224,7 @@ import {
 } from '../controllers/training/training.js';
 
 import {
-    // getWebinarApplications, 
+    getWebinarApplications, 
     getInPersonApplications,
     createTrainingApplication,
     getTrainingApplications,
@@ -475,44 +475,43 @@ certificationRoutes.put('/certifications/:id/update', updateCertification);
 certificationRoutes.delete('/certifications/:id/delete', deleteCertification);
 
 //******************************* Routes pour la partie recruitment *************************************/
-// Routes pour OfferApplication
-recruitmentRoutes.get('/offer-applications', getOfferApplications);
-recruitmentRoutes.post('/jobs-applications', getJobApplications);
-recruitmentRoutes.get('/internships-applications', getInternshipApplications);
-recruitmentRoutes.post('/offer-applications/create', createOfferApplication);
-recruitmentRoutes.get('/offer-applications/:id', getOfferApplicationById);
-recruitmentRoutes.put('/offer-applications/:id/updte', updateOfferApplication);
-recruitmentRoutes.delete('/offer-applications/:id/delete', deleteOfferApplication);
+  // Routes pour OfferApplication
+  recruitmentRoutes.get('/offer-applications', getOfferApplications);
+  recruitmentRoutes.get('/offer-applications/jobs`', getJobApplications);
+  recruitmentRoutes.get('/offer-applications/internships', getInternshipApplications);
+  recruitmentRoutes.post('/offer-applications/create', createOfferApplication);
+  recruitmentRoutes.get('/offer-applications/:id', getOfferApplicationById);
+  recruitmentRoutes.put('/offer-applications/:id/updte', updateOfferApplication);
+  recruitmentRoutes.delete('/offer-applications/:id/delete', deleteOfferApplication);
 
-// Routes pour Offer
-recruitmentRoutes.get('/offers', getOffers);
-recruitmentRoutes.post('/jobs', getJobs);
-recruitmentRoutes.get('/internships', getInternships);
-recruitmentRoutes.post('/offers/create', createOffer);
-recruitmentRoutes.get('/offers/:id', getOfferById);
-recruitmentRoutes.put('/offers/:id/update', updateOffer);
-recruitmentRoutes.delete('/offers/:id/delete', deleteOffer);
+ // Routes pour Offer
+ recruitmentRoutes.get('/offers', getOffers);
+ recruitmentRoutes.get('offers/jobs', getJobs);
+ recruitmentRoutes.get('offers/internships', getInternships);
+ recruitmentRoutes.post('/offers/create', createOffer);
+ recruitmentRoutes.get('/offers/:id', getOfferById);
+ recruitmentRoutes.put('/offers/:id/update', updateOffer);
+ recruitmentRoutes.delete('/offers/:id/delete', deleteOffer);
 
 //******************************* Routes pour la partie training *************************************/
 // Routes pour Training
-trainingRoutes.post('/trainings', getTrainings);
-// trainingRoutes.post('/webinars', getWebinars);
-trainingRoutes.get('/in-person-trainings', getInPersonTrainings);
+trainingRoutes.get('/trainings', getTrainings);
+trainingRoutes.get('trainings/webinars', getWebinars);
+trainingRoutes.get('trainings/in-person', getInPersonTrainings);
 trainingRoutes.post('/trainings/create', createTraining);
 trainingRoutes.get('/trainings/:id', getTrainingById);
 trainingRoutes.put('/trainings/:id/update', updateTraining);
 trainingRoutes.delete('/trainings/:id/delete', deleteTraining);
 
 
-
 // Routes pour TrainingApplication
-// trainingRoutes.post('/webinars-applications', getWebinarApplications);
-trainingRoutes.get('/in-persons-applications', getInPersonApplications);
+trainingRoutes.get('training-applications/webinars', getWebinarApplications);
+trainingRoutes.get('training-applications/in-persons', getInPersonApplications);
 trainingRoutes.post('/training-applications/create', createTrainingApplication);
 trainingRoutes.get('/training-applications', getTrainingApplications);
 trainingRoutes.get('/training-applications/:id', getTrainingApplicationById);
 trainingRoutes.put('/training-applications/:id/update', updateTrainingApplication);
-trainingRoutes.delete('/training-applications/:id', deleteTrainingApplication);
+trainingRoutes.delete('/training-applications/:id/delete', deleteTrainingApplication);
 
 
 //******************************* Routes pour la partie authnetication *************************************/

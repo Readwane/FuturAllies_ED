@@ -1,0 +1,23 @@
+<!-- training-details.component.html -->
+<div class="training-details" *ngIf="training">
+    <div *ngIf="loading" class="loading-spinner">
+      <p>Chargement en cours...</p>
+    </div>
+    <div *ngIf="!loading">
+      <h1>{{ training.title }}</h1>
+      <p><strong>Domaine :</strong> {{ training.domain }}</p>
+      <p><strong>Orateur :</strong> {{ training.trainer }}</p>
+      <p><strong>Lieu :</strong> {{ training.location }}</p>
+      <p><strong>Date de début :</strong> {{ training.startDate | date:'short' }}</p>
+      <p><strong>Date de fin :</strong> {{ training.endDate | date:'short' }}</p>
+      <p><strong>Durée :</strong> {{ training.duration }} heures</p>
+      <p><strong>Description :</strong> {{ training.description }}</p>
+      <p><strong>Participants actuels :</strong> {{ training.currentParticipants || 0 }}/{{ training.maxParticipants }}</p>
+      <p><strong>Prix :</strong> {{ training.price > 0 ? (training.price + ' FCFA') : 'Gratuit' }}</p>
+      <p><strong>Organisateur :</strong> {{ training.organizer }}</p>
+      <p><strong>Objectifs pédagogiques :</strong> {{ training.learningObjectives }}</p>
+      <p><strong>Certificat :</strong> {{ training.certificateIssued ? 'Oui' : 'Non' }}</p>
+      <button (click)="register()">S'inscrire</button>
+    </div>
+  </div>
+  

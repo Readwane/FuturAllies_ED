@@ -18,6 +18,8 @@ import { FeaturesModule } from './features/features.module';
 import { SharedModule } from './shared/shared.module';
 import { PaymentModule } from './features/payment/payment.module';
 import { WebinarModule } from './features/webinar/webinar.module';
+import { TrainingModule } from './features/training/training.module';
+import { OfferModule } from './features/offer/offer.module';
 
 
 @NgModule({
@@ -38,14 +40,12 @@ import { WebinarModule } from './features/webinar/webinar.module';
     MatPaginatorModule,
     MatFormFieldModule,
 
-    CoreModule,
-    FeaturesModule,
-    SharedModule,
+    CoreModule,   
     LayoutModule,
-    PaymentModule,
-    WebinarModule
-
-    
+    FeaturesModule,
+    SharedModule,  
+    TrainingModule,
+    OfferModule
   ],
   bootstrap: [AppComponent],
 })
