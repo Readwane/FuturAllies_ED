@@ -12,9 +12,21 @@ import { catchError, Observable, of } from 'rxjs';
 })
 export class PaymentLoggingService {
 
+
+  
+  apiUrl = 'http://localhost:3000/fapi';
+  constructor(private http: HttpClient) {}
+
+
+  // Enregistrer une transaction
+  createTransaction(transaction: Partial<Transaction>) {
+    return this.http.post<Transaction>(`${this.apiUrl}/transactions/create`, transaction);
+  }
+
+
   // Mettre à jour le statut de la transaction
   updateTransaction(transactionId: string, status: string): Observable<void> {
-    const url = `${this.apiUrl}/${transactionId}`; // URL complète de la transaction
+    const url = `${this.apiUrl}/transactions/${transactionId}`; // URL complète de la transaction
     const body = { status };
 
     return this.http.put<void>(url, body).pipe(
@@ -25,14 +37,6 @@ export class PaymentLoggingService {
     );
   }
 
-  apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
-
-  // Enregistrer une transaction
-  createTransaction(transaction: Partial<Transaction>) {
-    return this.http.post<Transaction>(`${this.apiUrl}/transactions/create`, transaction);
-  }
-
   // Enregistrer une transaction auprès d'un fournisseur de paiement
   createProviderTransaction(providerTransaction: Partial<PaymentProviderTransaction>) {
     return this.http.post<PaymentProviderTransaction>(`${this.apiUrl}/payment-provider-transactions/create`, providerTransaction);
@@ -41,11 +45,11 @@ export class PaymentLoggingService {
   // Ajouter un log de paiement
   logPayment(transactionId: string, message: string, logType: 'info' | 'error') {
     const paymentLog: Partial<PaymentLog> = { transactionId, message, logType, createdAt: new Date() };
-    return this.http.post<PaymentLog>(`${this.apiUrl}/api/payment-logs/create`, paymentLog);
+    return this.http.post<PaymentLog>(`${this.apiUrl}/payment-logs/create`, paymentLog);
   }
 
   // Générer une facture
   createInvoice(invoice: Partial<Invoice>) {
-    return this.http.post<Invoice>(`${this.apiUrl}/api/invoices/create`, invoice);
+    return this.http.post<Invoice>(`${this.apiUrl}/invoices/create`, invoice);
   }
 }

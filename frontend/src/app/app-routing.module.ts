@@ -5,12 +5,12 @@ import { AcceuilComponent } from './features/pages/home/components/acceuil/acceu
 import { PaymentFormComponent } from './features/payment/components/payment-form/payment-form.component';
 import { PaymentCardFormComponent } from './features/payment/components/payment-card-form/payment-card-form.component';
 import { PaymentMobileFormComponent } from './features/payment/components/payment-mobile-form/payment-mobile-form.component';
-import { CardPaymentFormComponent } from './features/payment/components/card-payment-form/card-payment-form.component';
 import { UserProfileTypeComponent } from './features/payment/components/user-profile-type/user-profile-type.component';
 import { PaymentMethodesComponent } from './features/payment/components/payment-methodes/payment-methodes.component';
 import { OmPaymentComponent } from './features/payment/components/om-payment/om-payment.component';
 import { MmPaymentComponent } from './features/payment/components/mm-payment/mm-payment.component';
 import { CourseLearningComponent } from './features/pages/course-learning/course-learning.component';
+import { FlwtestComponent } from './features/payment/components/flwtest/flwtest.component';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./features/authentication/authentication.module').then(m => m.AuthenticationModule)
+    loadChildren: () => import('./features/authentication/user.module').then(m => m.UserModule)
   },
   {
     path: 'webinars',
@@ -58,7 +58,7 @@ const routes: Routes = [
   //   // canActivate: [AuthGuard]
   // },
 
-  { path: 'card-payment', component: CardPaymentFormComponent },
+  { path: 'flwtest', component: FlwtestComponent },
   { path: 'subscription', component: UserProfileTypeComponent },
   { path: 'payment-methodes', component: PaymentMethodesComponent },
   {path: 'om-payment', component: OmPaymentComponent},

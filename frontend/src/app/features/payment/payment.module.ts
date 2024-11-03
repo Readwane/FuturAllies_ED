@@ -6,7 +6,6 @@ import { PaymentMethodesComponent } from './components/payment-methodes/payment-
 import { PaymentCardFormComponent } from './components/payment-card-form/payment-card-form.component';
 import { PaymentMobileFormComponent } from './components/payment-mobile-form/payment-mobile-form.component';
 import { environment } from 'src/environments/environment';
-import { CardPaymentFormComponent } from './components/card-payment-form/card-payment-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgPaymentCardModule } from 'ng-payment-card';
 import {CreditCardFormModule} from 'ng-payment-card-form';
@@ -21,7 +20,6 @@ import { MmPaymentComponent } from './components/mm-payment/mm-payment.component
     PaymentMethodesComponent,
     PaymentCardFormComponent,
     PaymentMobileFormComponent,
-    CardPaymentFormComponent,
     UserProfileTypeComponent,
     PaymentMethodesComponent,
     OmPaymentComponent,
@@ -39,7 +37,6 @@ import { MmPaymentComponent } from './components/mm-payment/mm-payment.component
     PaymentMethodesComponent,
     PaymentCardFormComponent,
     PaymentMobileFormComponent,
-    CardPaymentFormComponent,
     UserProfileTypeComponent,
     PaymentMethodesComponent,
     OmPaymentComponent,

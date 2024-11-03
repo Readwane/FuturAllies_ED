@@ -1,70 +1,141 @@
 import { Injectable } from '@angular/core';
-import { PaymentLoggingService } from './payment-logging.service';
+import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { User } from 'src/app/core/models/user.model';
+import { Profile } from 'src/app/core/models/profile.model';
+import { UserService } from './user.service';
 import { Transaction } from '../models/transaction.model';
+import { PaymentLoggingService } from './payment-logging.service';
 import { PaymentProviderTransaction } from '../models/payment-provider-transaction.model';
 import { Invoice } from '../models/invoice.model';
-import { environment } from 'src/environments/environment';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { catchError } from 'rxjs/operators';
-import { throwError, of } from 'rxjs';
+import { TransactionService } from './transaction.service';
 
 declare var FlutterwaveCheckout: any;
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
+  private apiUrl = 'http://localhost:3000/fapi'; // URL de votre API
+
+  user!: User;
+  profile!: Profile;
+  errorMessage: string = '';
+
+  card_options: string[] = ["card, banktransfer, ussd"];
 
   constructor(
-    private loggingService: PaymentLoggingService,
-    private authService: AuthService,
-  ) {}
+     private http: HttpClient,
+     private userService: UserService,
+     private loggingService: PaymentLoggingService,
+     private transactionService: TransactionService
+    ) {}
 
-  makePayment(amount: number, currency: string, p0: { name: string; email: string; }, redirect_url: string) {
-    const customer = this.authService.currentUserValue;
-  
+    getUserAndProfile(username: string): Observable<{ user: User, profile: Profile }> {
+      return new Observable(observer => {
+        console.log('Début de la récupération de l\'utilisateur par nom:', username);
+        
+        this.userService.getUserByUsername(username).subscribe(
+          userData => {
+            if (!userData) {
+              console.warn('Aucun utilisateur trouvé avec ce username:', username);
+              observer.error('Utilisateur non trouvé');
+              return;
+            }
+            
+            const user = userData;
+            console.log('Utilisateur trouvé avec succès:', user);
+    
+            // Vérification de l'ID utilisateur avant la récupération du profil
+            if (user && user._id) {
+              console.log('Début de la récupération du profil pour userId:', user._id);
+    
+              this.userService.getProfileByUserId(user._id).subscribe(
+                profileData => {
+                  if (!profileData) {
+                    console.warn('Profil non trouvé pour l\'utilisateur:', user._id);
+                    observer.error('Profil non trouvé');
+                    return;
+                  }
+    
+                  const profile = profileData;
+                  console.log('Profil de l\'utilisateur trouvé:', profile);
+                  observer.next({ user, profile });
+                  observer.complete();
+                },
+                error => {
+                  console.error('Erreur lors de la récupération du profil:', error);
+                  observer.error('Erreur lors de la récupération du profil de l\'utilisateur');
+                }
+              );
+            } else {
+              console.warn('ID utilisateur non trouvé pour le profil');
+              observer.error('ID utilisateur non valide pour le profil');
+            }
+          },
+          error => {
+            console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+            observer.error('Utilisateur non trouvé ou erreur de serveur');
+          }
+        );
+      });
+    }
+    
+
+
+  onMakePayment(mount: number, devise: string) {
+    const username = 'Tegawende'; // Exemple de nom d'utilisateur à rechercher
+    this.getUserAndProfile(username).subscribe(
+      ({ user, profile }) => {
+        this.user = user;
+        this.profile = profile;
+        console.log('Utilisateur trouvé:', this.user);
+        console.log('Profil de l\'utilisateur trouvé:', this.profile);
+      },
+      (error) => {
+        this.errorMessage = error; // Gérer l'erreur
+        console.error(error);
+      }
+    );
+
     if (!FlutterwaveCheckout) {
       this.logError('no-flutterwave', 'Flutterwave SDK not loaded');
       return;
     }
 
-    // Étape 1 : Créer une transaction "pending" dans la BD
-    this.createPendingTransaction(amount, currency, customer).subscribe({
-      next: (transaction) => {
-        FlutterwaveCheckout({
-          public_key: environment.FLW_PUBLIC_KEY,
-          tx_ref: transaction._id.toString(),
-          amount: 500,
-          currency: 'XOF',
-          payment_options: "card, banktransfer, ussd",
-          redirect_url: 'payment-succes/',
-          meta: {
-            consumer_id: customer?._id,
-            consumer_mac: this.getConsumerMac(),
-          },
-          customer: {
-            email: customer?.email,
-            phone_number: '70987031',
-            name: customer?.username,
-          },
-          customizations: {
-            title: "My Store",
-            description: "Payment for selected items",
-            logo: "https://www.example.com/logo.png"
-          },
-          callback: (data: any) => this.handlePaymentCallback(data, transaction),
-          onclose: () => this.logInfo(transaction._id, 'Payment cancelled by user')
-        });
+    FlutterwaveCheckout({
+      public_key: "FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X",
+      tx_ref: "txref-DI0NzMx13",
+      amount: mount,
+      currency: devise,
+      payment_options: this.card_options,
+      meta: {
+        source: "docs-inline-test",
+        consumer_mac: this.getConsumerMac(),
       },
-      error: () => {
-        this.logError('transaction-error', 'Failed to create pending transaction');
+      customer: {
+        email: 'tegawendego@gmail.com',
+        phone_number:'70987031',
+        name: 'Tegawende',
+      },
+      customizations: {
+        title: "Flutterwave Developers",
+        description: "Test Payment",
+        logo: "https://checkout.flutterwave.com/assets/img/rave-logo.png",
+      },
+      callback: (data: any) => {
+        console.log("payment callback:", data);
+      },
+      onclose: () => {
+        console.log("Payment cancelled!");
       }
     });
   }
-  
+
   private handlePaymentCallback(data: any, transaction: Transaction) {
     if (data.status === "successful") {
-      this.updateTransactionStatus(transaction._id, 'completed').subscribe({
+      this.createTransaction(transaction.amount, 'pending').subscribe({
         next: () => {
           this.createProviderTransaction(transaction._id, data.transaction_id).subscribe({
             next: () => {
@@ -86,25 +157,28 @@ export class PaymentService {
     }
   }
 
-  private createPendingTransaction(amount: number, currency: string, customer: any) {
+
+  private createTransaction(amount: number, status: 'pending') {
     const transactionData: Partial<Transaction> = {
-      userId: customer._id,
-      amount,
-      currency,
-      status: 'pending',
+      userId: this.user._id,
+      paymentMethodId: '45dnndhgsgfsfjqhhss',
+      providerId: 'flutterwave.id',
+      issueTransaction: 'subscription',
+      amount: amount,
+      currency: 'XOF',
+      status,
       description: 'Initiating payment',
     };
-    
     return this.loggingService.createTransaction(transactionData).pipe(
       catchError(error => {
         this.logError('transaction-error', 'Failed to create pending transaction');
-        return throwError(() => error);
+        return throwError(error);
       })
     );
   }
   
   private updateTransactionStatus(transactionId: string, status: string) {
-    return this.loggingService.updateTransaction(transactionId, 'complet').pipe(
+    return this.transactionService.updateTransactionStatus(transactionId, status).pipe(
       catchError(error => {
         this.logError(transactionId, `Failed to update transaction status to ${status}`);
         return of(null);
@@ -120,7 +194,7 @@ export class PaymentService {
     return this.loggingService.createProviderTransaction(providerTransaction).pipe(
       catchError(error => {
         this.logError(transactionId, 'Failed to create provider transaction');
-        return throwError(() => error);
+        return throwError(error);
       })
     );
   }
@@ -133,7 +207,7 @@ export class PaymentService {
     return this.loggingService.createInvoice(invoice).pipe(
       catchError(error => {
         this.logError(transaction._id, 'Failed to create invoice');
-        return throwError(() => error);
+        return throwError(error);
       })
     );
   }

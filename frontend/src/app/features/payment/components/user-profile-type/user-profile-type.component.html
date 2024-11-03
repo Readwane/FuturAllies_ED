@@ -77,7 +77,7 @@
   
     <div class="account-comparison">
       <!-- Freemium Card -->
-      <a href="/signup?type=freemium" class="account-card freemium" (click)="onFreemiumClick($event)">
+      <a href="/signup?type=freemium" class="account-card freemium">
         <h2>Compte Freemium</h2>
         <p class="price">Gratuit</p>
         <ul class="features">
@@ -92,7 +92,7 @@
       </a>
   
       <!-- Premium Card -->
-      <a href="/signup?type=premium" class="account-card premium">
+      <a href="/signup?type=premium" class="account-card premium" (click)="onFreemiumClick($event)">
         <div class="recommended-tag">Recommandé</div>
         <h2>Compte Premium</h2>
         <p class="price">À partir de 10.000 FCFA / mois</p>

@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import connectDB from './config/db.js';
+import cors from 'cors';
 
 import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
@@ -22,17 +23,22 @@ const app = express();
 // Connexion à la base de données
 connectDB();
 
-// Middleware
+// Configuration des options CORS
+const corsOptions = {
+  origin: 'http://localhost:4200', // Autoriser uniquement les requêtes de cette origine
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Méthodes HTTP autorisées
+  allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
+  credentials: true // Permettre l'envoi de cookies
+};
+
+// Utiliser CORS avec les options définies
+app.use(cors(corsOptions));
+
+// Middleware pour le body parser
 app.use(bodyParser.json());
 
-// Middleware pour autoriser CORS
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-  });
-  
+// Gestion des requêtes OPTIONS pour les pré-requêtes CORS
+app.options('*', cors(corsOptions)); // Répond aux requêtes OPTIONS avec CORS
 
 // Routes
 

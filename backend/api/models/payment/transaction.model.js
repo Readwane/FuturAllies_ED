@@ -8,8 +8,8 @@ const TransactionSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
     currency: { type: String, required: true },
     status: { type: String, enum: ['pending', 'completed', 'failed', 'refunded'], required: true },
-    date: { type: Date, default: Date.now },
     description: { type: String },
+    date: { type: Date, default: Date.now },
 });
 
 const Transaction = mongoose.model('Transaction', TransactionSchema);

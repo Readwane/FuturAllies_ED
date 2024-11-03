@@ -32,14 +32,13 @@ import {
     getProfileById,
     createProfile,
     updateProfile,
-    deleteProfile
+    deleteProfile,
 } from '../controllers/authentication/profile.js';
 
 import { 
     getAllUserGroups,
     getUserGroupById,
     createUserGroup,
-    // updateUserGroup,
     deleteUserGroup
 } from '../controllers/authentication/user-group.js';
 
@@ -48,7 +47,9 @@ import {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserByUsername,
+    getProfileByUserId
 } from '../controllers/authentication/user.js';
 
 // *************************** Imports pour la partie audittion ***************************************
@@ -237,6 +238,7 @@ import {
     getAllTransactions,
     getTransactionById,
     createTransaction,
+    updateTransactionStatus
 } from '../controllers/payment/transaction.controller.js';
 
 import {
@@ -346,7 +348,8 @@ authenticationRoutes.get('/users', getAllUsers);
 authenticationRoutes.get('/users/:id', getUserById);
 authenticationRoutes.put('/users/:id/update', updateUser);
 authenticationRoutes.delete('/users/:id/delete', deleteUser);
-
+authenticationRoutes.get('/users/rep/:username', getUserByUsername);
+authenticationRoutes.get('users/byUser/rip/:userId', getProfileByUserId);
 
 //******************************* Routes pour la partie audition *************************************/
 // Routes pour Chapter
@@ -524,6 +527,7 @@ paymentRoutes.delete('/subscriptions/:id/delete', deleteSubscription);
 paymentRoutes.post('/transactions/create', createTransaction);
 paymentRoutes.get('/transactions', getAllTransactions);
 paymentRoutes.get('/transactions/:id', getTransactionById);
+paymentRoutes.put('/transactions/:id/status', updateTransactionStatus)
 // paymentRoutes.put('/subscriptions/:id/update', updateSubscription);
 // paymentRoutes.delete('/subscriptions/:id/delete', deleteSubscription);
 
