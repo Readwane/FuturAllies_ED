@@ -47,6 +47,6 @@ export class TrainingDetailsComponent implements OnInit {
   }
 
   register(): void {
-    this.router.navigate(['/application', this.trainingId]);
+    this.router.navigate(['/trainings/application', this.trainingId]);
   }
 }

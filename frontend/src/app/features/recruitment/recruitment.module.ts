@@ -5,7 +5,7 @@ import { RecruitmentRoutingModule } from './recruitment-routing.module';
 import { OfferComponent } from './components/offer/offer.component';
 import { OfferListComponent } from './components/offer-list/offer-list.component';
 import { OfferDetailsComponent } from './components/offer-details/offer-details.component';
-import { OfferApplication } from './models/offer-application.model';
+import { OfferApplicationComponent } from './components/offer-application/offer-application.component';
 
 
 
@@ -14,6 +14,7 @@ import { OfferApplication } from './models/offer-application.model';
     OfferComponent,
     OfferListComponent,
     OfferDetailsComponent,
+    OfferApplicationComponent
     
   ],
   imports: [
@@ -26,6 +27,7 @@ import { OfferApplication } from './models/offer-application.model';
     OfferComponent,
     OfferListComponent,
     OfferDetailsComponent,
+    OfferApplicationComponent
 
   ],
 })

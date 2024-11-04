@@ -13,7 +13,6 @@ const routes: Routes = [
   {
     path: '', component: AcceuilComponent
   },
-
   {
     path: 'course-learning', component: CourseLearningComponent
   },

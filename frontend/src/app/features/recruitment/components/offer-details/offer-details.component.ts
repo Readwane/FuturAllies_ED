@@ -45,6 +45,6 @@ export class OfferDetailsComponent implements OnInit {
   }
 
   register(): void {
-    this.router.navigate(['/application', this.offerId]);
+    this.router.navigate(['/offers/application', this.offerId]);
   }
 }

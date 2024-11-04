@@ -21,7 +21,6 @@ import { WebinarModule } from './features/webinar/webinar.module';
 import { TrainingModule } from './features/training/training.module';
 import { OfferModule } from './features/offer/offer.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +44,7 @@ import { OfferModule } from './features/offer/offer.module';
     FeaturesModule,
     SharedModule,  
     TrainingModule,
-    OfferModule
+    OfferModule,
   ],
   bootstrap: [AppComponent],
 })

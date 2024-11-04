@@ -1,1 +1,77 @@
-<p>offer-application works!</p>
+<div class="application-form-container">
+    <h2>Candidature à l'offre</h2>
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+      <!-- Prénom -->
+      <div class="form-group">
+        <label for="firstname">Prénom</label>
+        <input id="firstname" type="text" formControlName="firstname" class="form-control" placeholder="Prénom" />
+        <div *ngIf="applicationForm.get('firstname')?.invalid && applicationForm.get('firstname')?.touched" class="alert alert-danger">
+          Veuillez entrer votre Prénom.
+        </div>
+      </div>
+  
+      <!-- Nom-->
+      <div class="form-group">
+        <label for="lastname">Nom</label>
+        <input id="lastname" type="text" formControlName="lastname" class="form-control" placeholder="Nom" />
+        <div *ngIf="applicationForm.get('lastname')?.invalid && applicationForm.get('lastname')?.touched" class="alert alert-danger">
+          Veuillez entrer votre Nom.
+        </div>
+      </div>
+  
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" class="form-control" placeholder="Email" />
+        <div *ngIf="applicationForm.get('email')?.invalid && applicationForm.get('email')?.touched" class="alert alert-danger">
+          Veuillez entrer un email valide.
+        </div>
+      </div>
+  
+      <!-- Téléphone -->
+      <div class="form-group">
+        <label for="phone">Téléphone</label>
+        <input id="phone" type="tel" formControlName="phone" class="form-control" placeholder="Téléphone" />
+        <div *ngIf="applicationForm.get('phone')?.invalid && applicationForm.get('phone')?.touched" class="alert alert-danger">
+          Veuillez entrer un numéro de téléphone valide.
+        </div>
+      </div>
+  
+      <!-- Message de Motivation (déroulable) -->
+      <div class="form-group">
+        <label for="message">Message de Motivation</label>
+        <button type="button" class="toggle-button" (click)="isMessageExpanded = !isMessageExpanded">
+          {{ isMessageExpanded ? "Réduire" : "Voir plus" }}
+        </button>
+        <textarea *ngIf="isMessageExpanded" id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation"></textarea>
+        <div *ngIf="applicationForm.get('message')?.invalid && applicationForm.get('message')?.touched" class="alert alert-danger">
+          Le message ne doit pas dépasser 500 caractères.
+        </div>
+      </div>
+  
+      <!-- Documents Requis -->
+      <div class="form-group file-upload">
+        <label for="requiredDocuments">Documents Requis</label>
+        <input id="requiredDocuments" type="file" formControlName="requiredDocuments" class="form-control file-input" />
+        <div *ngIf="applicationForm.get('requiredDocuments')?.invalid && applicationForm.get('requiredDocuments')?.touched" class="alert alert-danger">
+          Veuillez fournir les documents requis.
+        </div>
+      </div>
+      
+  
+      <!-- Acceptation des Termes -->
+      <div class="form-group">
+        <label>
+          <input id="acceptTerms" type="checkbox" formControlName="acceptTerms" />
+          J'accepte les <a href="#">conditions générales</a>.
+        </label>
+        <div *ngIf="applicationForm.get('acceptTerms')?.invalid && applicationForm.get('acceptTerms')?.touched" class="alert alert-danger">
+          Vous devez accepter les conditions pour postuler.
+        </div>
+      </div>
+  
+      <!-- Bouton de soumission -->
+      <button type="submit" class="btn" [disabled]="applicationForm.invalid">Postuler</button>
+    </form>
+  </div>
+  

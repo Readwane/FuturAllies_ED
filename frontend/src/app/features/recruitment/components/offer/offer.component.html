@@ -14,5 +14,5 @@
     <p *ngIf="offer.additionalInfo"><strong>Infos supplémentaires :</strong> {{ offer.additionalInfo }}</p>
     
     <!-- Lien vers les détails de l'offre avec l'ID -->
-    <a [routerLink]="['offers-details', offer._id]" class="details-link">Voir Détails</a>
+    <a [routerLink]="['/offers/details', offer._id]" class="details-link">Voir Détails</a>
 </div>

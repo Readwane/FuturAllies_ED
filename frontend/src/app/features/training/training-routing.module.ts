@@ -15,6 +15,7 @@ const routes: Routes = [
   {
     path: 'application/:id', component: TrainingApplicationComponent,
   }
+  
 ];
 
 @NgModule({
