@@ -314,12 +314,12 @@ servicesRoutes.put('/services/:id/update', updateService);
 servicesRoutes.delete('/services/:id/delete', deleteService);
 
 //******************************* Routes pour la partie authnetication *************************************/
-// Routes pour Doc
-authenticationRoutes.post('/docs/create', createDoc);
-authenticationRoutes.get('/docs', getAllDocs);
-authenticationRoutes.get('/docs/:id', getDocById);
-authenticationRoutes.put('/docs/:id/update', updateDoc);
-authenticationRoutes.delete('/docs/:id/delete', deleteDoc);
+// Routes pour Doc en utilisant des conventions REST  
+authenticationRoutes.post('/docs', createDoc); // Créer un document  
+authenticationRoutes.get('/docs', getAllDocs); // Récupérer tous les documents  
+authenticationRoutes.get('/docs/:id', getDocById); // Récupérer un document par ID  
+authenticationRoutes.put('/docs/:id', updateDoc); // Mettre à jour un document par ID  
+authenticationRoutes.delete('/docs/:id', deleteDoc); // Supprimer un document par ID
 
 // Routes pour Group
 authenticationRoutes.post('/groups/create', createGroup);

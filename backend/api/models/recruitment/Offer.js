@@ -30,6 +30,7 @@ const OfferSchema = new mongoose.Schema({
         enum: ['Online', 'Physical', 'Both'], 
         default: 'Online' 
     }, // Mode de dépôt des candidatures
+    required_documents: { type: [String], default: [] }, // Liste des documents à fournir (CV, lettre de motivation, etc.)  
     physical_address: { type: String }, // Adresse physique pour le dépôt des candidatures
     online_submission: { type: Boolean, default: true }, // Indique si la soumission peut être faite en ligne
     additional_info: { type: String } // Informations additionnelles à l'offre

@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import connectDB from './config/db.js';
+import {connectDB} from './config/db.js';
 import cors from 'cors';
 
 import webinarRoutes from './routes/formations/webinarRoutes.js';
@@ -22,7 +22,6 @@ const app = express();
 
 // Connexion à la base de données
 connectDB();
-
 // Configuration des options CORS
 const corsOptions = {
   origin: 'http://localhost:4200', // Autoriser uniquement les requêtes de cette origine
