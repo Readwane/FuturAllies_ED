@@ -1,60 +1,105 @@
-/* offer-details.component.css */
-.offer-details {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 24px;
-    margin: 16px;
-}
+/* offer-details.component.css */  
+.offer-details {  
+    background-color: #f9f9f9;  
+    border-radius: 8px;   
+    border-top: 8px solid #6229cc; /* Bordure haut blue */  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 24px;  
+    margin: 16px;  
+}  
 
-.offer-details h1 {
-    color: #007bff;
-    font-size: 2em;
-    margin-bottom: 16px;
-}
+.offer-details h1 {  
+    color: #007bff;  
+    font-size: 2em;  
+    margin-bottom: 16px;  
+}  
 
-.offer-details p {
-    color: #333;
-    margin: 8px 0;
-    line-height: 1.6;
-}
+/* Styles pour les petits bodyCard */  
+.info-section {  
+    display: flex;  
+    justify-content: space-between;  
+    margin-bottom: 24px;  
+}  
 
-.offer-details button {
-    background-color: #ffcc00;
-    color: #007bff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 16px;
-}
+.summary-card, .company-card {  
+    background-color: white;  
+    border-radius: 8px;  
+    border-top: 50px solid #6229cc; /* Bordure haut blue */  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 16px;  
+    margin-bottom: 15px;
+    position: relative; /* Nécessaire pour le positionnement absolu des titres */   
+    width: 48%; /* Adapté pour deux colonnes */  
+}  
 
-.offer-details button:hover {
-    background-color: #007bff;
-    color: white;
-}
+.description-card, .skills-card, .responsibilities-card {  
+    background-color: white;  
+    border-radius: 8px;  
+    border-top: 50px solid #6229cc; /* Bordure haut blue */  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 16px;  
+    margin-bottom: 15px;
+    position: relative; /* Nécessaire pour le positionnement absolu des titres */   
+    width: 100%; /* Prendre toute la largeur */  
+}  
 
-/* Styles pour le spinner de chargement */
-.loading-spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+.summary-card h3, .company-card h3, .description-card h4, .skills-card h4, .responsibilities-card h4 {  
+    color: white; /* Titres dans la bordure supérieure en blanc */  
+    position: absolute; /* Positionnement de titre en absolu */  
+    top: -40px; /* Déplacement du titre au-dessus de la carte */  
+    left: 16px; /* Alignement à gauche */  
+    /* background-color: #6229cc; /* Arrière-plan pour le titre pour le faire ressortir */   
+    padding: 5px 10px; /* Padding pour rendre le titre plus visuel */  
+    border-radius: 4px; /* Coins arrondis pour le titre */  
+}  
 
-.loading-spinner p {
-    font-size: 18px;
-    color: #007bff;
-    animation: blink 1.5s infinite;
-}
+.summary-card p, .company-card p, .description-card p, .skills-card p, .responsibilities-card p {  
+    color: #333;  
+    margin: 4px 0;  
+}  
 
-@keyframes blink {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+.details-cards {  
+    display: flex;  
+    flex-direction: column;  
+    gap: 16px; /* Espacement entre les cartes */  
+}  
+
+.offer-details button {  
+    background-color: hsl(48, 100%, 50%);  
+    color: #007bff;  
+    border: none;  
+    border-radius: 4px;  
+    padding: 10px 20px;  
+    font-size: 1em;  
+    cursor: pointer;  
+    transition: background-color 0.3s ease;  
+    margin-top: 16px;  
+}  
+
+.offer-details button:hover {  
+    background-color: #007bff;  
+    color: white;  
+}  
+
+/* Styles pour le spinner de chargement */  
+.loading-spinner {  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    height: 100vh;  
+}  
+
+.loading-spinner p {  
+    font-size: 18px;  
+    color: #007bff;  
+    animation: blink 1.5s infinite;  
+}  
+
+@keyframes blink {  
+    0%, 100% {  
+        opacity: 1;  
+    }  
+    50% {  
+        opacity: 0.5;  
+    }  
 }

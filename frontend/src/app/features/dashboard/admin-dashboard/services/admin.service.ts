@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Doc } from "src/app/core/models/doc.model";
-import { Group } from "src/app/core/models/group.model";
-import { Profile } from "src/app/core/models/profile.model";
-import { UserGroup } from "src/app/core/models/user-group.model";
-import { User } from "src/app/core/models/user.model";
+import { Doc } from "src/app/features/user/models/doc.model";
+import { Group } from "src/app/features/user/models/group.model";
+import { Profile } from "src/app/features/user/models/profile.model";
+import { UserGroup } from "src/app/features/user/models/user-group.model";
+import { User } from "src/app/features/user/models/user.model";
 import { Chapter } from "src/app/features/audition/models/chapter.model";
 import { CourseLearned } from "src/app/features/audition/models/course-learned.model";
 import { CourseReview } from "src/app/features/audition/models/course-review.model";

@@ -1,77 +1,68 @@
-<div class="application-form-container">
-    <h2>Candidature à l'offre</h2>
-    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
-      <!-- Prénom -->
-      <div class="form-group">
-        <label for="firstname">Prénom</label>
-        <input id="firstname" type="text" formControlName="firstname" class="form-control" placeholder="Prénom" />
-        <div *ngIf="applicationForm.get('firstname')?.invalid && applicationForm.get('firstname')?.touched" class="alert alert-danger">
-          Veuillez entrer votre Prénom.
+<div class="application-form-container">  
+  <div class="application-card">  
+      <h2>Candidature à l'offre</h2>  
+      <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">  
+          <!-- Identifiant d'Offre -->  
+          <input type="hidden" formControlName="offerId" />  
+
+          <!-- Identifiant d'Utilisateur -->  
+          <input type="hidden" formControlName="userId" />  
+
+          <!-- Date de la candidature -->  
+          <input type="hidden" formControlName="applicationDate" [value]="today" />  
+
+          <!-- Message de Motivation -->  
+          <div class="form-group">  
+              <label for="message">Message de Motivation</label>  
+              <textarea id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation"></textarea>  
+              <div *ngIf="applicationForm.get('message')?.invalid && applicationForm.get('message')?.touched" class="alert alert-danger">  
+                  Le message ne doit pas dépasser 500 caractères.  
+              </div>  
+          </div>  
+
+          <!-- Documents Requis -->  
+          <div class="form-group file-upload">  
+            <label>Télécharger le CV</label>  
+            <div class="upload-card" (click)="cvInput.click()">  
+                <i class="upload-icon">📄</i>  
+                <span class="doc-name">CV</span>  
+            </div>  
+            <input type="file" #cvInput style="display: none;" (change)="onFileSelected($event, 'CV')" />  
+        </div>  
+        
+        <div class="form-group file-upload" *ngIf="showLM">  
+            <label>Télécharger la Lettre de Motivation</label>  
+            <div class="upload-card" (click)="lmInput.click()">  
+                <i class="upload-icon">📄</i>  
+                <span class="doc-name">LM</span>  
+            </div>  
+            <input type="file" #lmInput style="display: none;" (change)="onFileSelected($event, 'LM')" />  
+        </div>  
+        
+        <div class="form-group file-upload" *ngIf="showATTEST">  
+            <label>Télécharger l'Attestation</label>  
+            <div class="upload-card" (click)="attestInput.click()">  
+                <i class="upload-icon">📄</i>  
+                <span class="doc-name">ATTEST</span>  
+            </div>  
+            <input type="file" #attestInput style="display: none;" (change)="onFileSelected($event, 'ATTEST')" />  
         </div>
-      </div>
-  
-      <!-- Nom-->
-      <div class="form-group">
-        <label for="lastname">Nom</label>
-        <input id="lastname" type="text" formControlName="lastname" class="form-control" placeholder="Nom" />
-        <div *ngIf="applicationForm.get('lastname')?.invalid && applicationForm.get('lastname')?.touched" class="alert alert-danger">
-          Veuillez entrer votre Nom.
-        </div>
-      </div>
-  
-      <!-- Email -->
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" class="form-control" placeholder="Email" />
-        <div *ngIf="applicationForm.get('email')?.invalid && applicationForm.get('email')?.touched" class="alert alert-danger">
-          Veuillez entrer un email valide.
-        </div>
-      </div>
-  
-      <!-- Téléphone -->
-      <div class="form-group">
-        <label for="phone">Téléphone</label>
-        <input id="phone" type="tel" formControlName="phone" class="form-control" placeholder="Téléphone" />
-        <div *ngIf="applicationForm.get('phone')?.invalid && applicationForm.get('phone')?.touched" class="alert alert-danger">
-          Veuillez entrer un numéro de téléphone valide.
-        </div>
-      </div>
-  
-      <!-- Message de Motivation (déroulable) -->
-      <div class="form-group">
-        <label for="message">Message de Motivation</label>
-        <button type="button" class="toggle-button" (click)="isMessageExpanded = !isMessageExpanded">
-          {{ isMessageExpanded ? "Réduire" : "Voir plus" }}
-        </button>
-        <textarea *ngIf="isMessageExpanded" id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation"></textarea>
-        <div *ngIf="applicationForm.get('message')?.invalid && applicationForm.get('message')?.touched" class="alert alert-danger">
-          Le message ne doit pas dépasser 500 caractères.
-        </div>
-      </div>
-  
-      <!-- Documents Requis -->
-      <div class="form-group file-upload">
-        <label for="requiredDocuments">Documents Requis</label>
-        <input id="requiredDocuments" type="file" formControlName="requiredDocuments" class="form-control file-input" />
-        <div *ngIf="applicationForm.get('requiredDocuments')?.invalid && applicationForm.get('requiredDocuments')?.touched" class="alert alert-danger">
-          Veuillez fournir les documents requis.
-        </div>
-      </div>
-      
-  
-      <!-- Acceptation des Termes -->
-      <div class="form-group">
-        <label>
-          <input id="acceptTerms" type="checkbox" formControlName="acceptTerms" />
-          J'accepte les <a href="#">conditions générales</a>.
-        </label>
-        <div *ngIf="applicationForm.get('acceptTerms')?.invalid && applicationForm.get('acceptTerms')?.touched" class="alert alert-danger">
-          Vous devez accepter les conditions pour postuler.
-        </div>
-      </div>
-  
-      <!-- Bouton de soumission -->
-      <button type="submit" class="btn" [disabled]="applicationForm.invalid">Postuler</button>
-    </form>
-  </div>
-  
+
+          <!-- Accepter les Termes et Conditions -->  
+          <div class="form-group">  
+              <label>Accepter les Termes et Conditions</label>  
+              <mat-checkbox formControlName="acceptTerms">  
+                  J'accepte les termes et conditions.  
+              </mat-checkbox>  
+              <div *ngIf="applicationForm.get('acceptTerms')?.invalid && applicationForm.get('acceptTerms')?.touched" class="alert alert-danger">  
+                  Vous devez accepter les termes et conditions pour soumettre votre candidature.  
+              </div>  
+          </div>  
+
+          <!-- Soumettre le Formulaire -->  
+          <div class="form-group">  
+              <button type="submit" [disabled]="applicationForm.invalid" class="btn btn-primary">Soumettre la Candidature</button>  
+          </div>  
+      </form>  
+  </div>  
+</div>

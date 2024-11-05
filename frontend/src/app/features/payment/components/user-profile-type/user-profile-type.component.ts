@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
 import { PaymentService } from '../../services/payment.service';
-import { User } from 'src/app/core/models/user.model';
-import { Profile } from 'src/app/core/models/profile.model';
+import { User } from 'src/app/features/user/models/user.model';
+import { Profile } from 'src/app/features/user/models/profile.model';
 
 @Component({
   selector: 'app-account-selection',

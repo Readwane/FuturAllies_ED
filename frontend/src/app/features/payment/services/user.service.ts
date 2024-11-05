@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 // Modèles (à personnaliser selon vos interfaces ou classes)
-import { User } from 'src/app/core/models/user.model';
-import { Profile } from 'src/app/core/models/profile.model';
+import { User } from 'src/app/features/user/models/user.model';
+import { Profile } from 'src/app/features/user/models/profile.model';
 
 @Injectable({
   providedIn: 'root'
