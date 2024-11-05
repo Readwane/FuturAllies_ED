@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./features/authentication/user.module').then(m => m.UserModule)
+    loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)
   },
   {
     path: 'trainings',

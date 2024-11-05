@@ -1,94 +1,77 @@
-.application-form-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
-  }
-  
-  .application-form-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-weight: 600;
-    color: #444;
-    margin-bottom: 6px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .alert {
-    color: #d9534f;
-    font-size: 14px;
-    margin-top: 5px;
-  }
-  
-  .btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .toggle-button {
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 0;
-    margin-left: 10px;
-    font-weight: 600;
-    text-decoration: underline;
-  }
-  
-  .toggle-button:hover {
-    color: #0056b3;
-  }
+.application-form-container {  
+  display: flex;  
+  justify-content: center;  
+  margin: 16px;  
+}  
 
-  
-  .file-upload {
-    position: relative;
-  }
-  
-  .file-input::before {
-    content: "Charger un CV";
-    color: #aaa;
-    position: absolute;
-    left: 12px;
-    top: 10px;
-    pointer-events: none;
-    font-size: 16px;
-  }
-  
-  .file-input:not(:placeholder-shown)::before {
-    content: "";
-  }
-  
+.application-card {  
+  background-color: white;  
+  border-radius: 8px;  
+  border-top: 50px solid #6229cc; /* Bordure haut blue */  
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+  padding: 24px;  
+  width: 100%; /* Ou une largeur fixe selon votre design */  
+  max-width: 600px; /* Limite la largeur pour les grands écrans */  
+}  
+
+.upload-card {  
+  display: flex;  
+  flex-direction: column;  
+  align-items: center;  
+  justify-content: center;  
+  width: 100px;  
+  height: 100px;  
+  border: 2px dashed #007bff;  
+  border-radius: 8px;  
+  cursor: pointer;  
+  margin-bottom: 16px;  
+  transition: background-color 0.3s;  
+}  
+
+.upload-card:hover {  
+  background-color: rgba(0, 123, 255, 0.1);  
+}  
+
+.upload-icon {  
+  font-size: 24px;  
+}  
+
+.doc-name {  
+  margin-top: 8px;  
+  font-weight: bold;  
+}  
+
+.hidden-docs {  
+  display: none; /* Cacher les documents par défaut */  
+}  
+
+.form-group {  
+  margin-bottom: 16px;  
+}  
+
+.form-control {  
+  width: 100%;  
+  padding: 10px;  
+  border: 1px solid #ccc;  
+  border-radius: 4px;  
+}  
+
+.btn-primary {  
+  background-color: hsl(48, 100%, 50%);  
+  color: #fff;  
+  border: none;  
+  border-radius: 4px;  
+  padding: 10px 20px;  
+  cursor: pointer;  
+  transition: background-color 0.3s ease;  
+}  
+
+.btn-primary:hover {  
+  background-color: #007bff;  
+}  
+
+.alert {  
+  color: red;  
+  margin-top: 4px;  
+  font-size: 0.9em;  
+}

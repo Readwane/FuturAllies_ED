@@ -1,27 +1,49 @@
-<!-- offer-details.component.html -->
-<div class="offer-details" *ngIf="offer">
-    <div *ngIf="loading" class="loading-spinner">
-      <p>Chargement en cours...</p>
-    </div>
-    <div *ngIf="!loading">
-      <h1>{{ offer.title }}</h1>
-      <p><strong>Domaine :</strong> {{ offer.domain }}</p>
-      <p><strong>Société :</strong> {{ offer.company }}</p>
-      <p><strong>Lieu :</strong> {{ offer.location }}</p>
-      <p><strong>Type d'offre :</strong> {{ offer.type }}</p>
-      <p><strong>Type de contrat :</strong> {{ offer.contractType }}</p>
-      <p><strong>Publicée le :</strong> {{ offer.postedDate | date:'short' }}</p>
-      <p><strong>Date d'expiration :</strong> {{ offer.expirationDate | date:'short' }}</p>
-      <p><strong>Salaires :</strong> {{ offer.salary ? (offer.salary + ' FCFA') : 'Non spécifié' }}</p>
-      <p><strong>Description :</strong> {{ offer.description }}</p>
-      <p><strong>Compétences requises :</strong> {{ offer.requirements }}</p>
-      <p><strong>Responsabilités :</strong> {{ offer.responsibilities }}</p>
-      <p><strong>Niveau d'études requis :</strong> {{ offer.educationLevel }}</p>
-      <p><strong>Niveau d'expérience requis :</strong> {{ offer.experienceLevel }}</p>
-      <p><strong>Avantages :</strong> {{ offer.benefits }}</p>
-      <p><strong>Mode de candidature :</strong> {{ offer.applicationMode }}</p>
-      <p><strong>Email de contact :</strong> <a href="mailto:{{ offer.contactEmail }}">{{ offer.contactEmail }}</a></p>
-      <button (click)="register()">Postuler</button>
-    </div>
-  </div>
-  
+<!-- offer-details.component.html -->  
+<div class="offer-details" *ngIf="offer">  
+  <div *ngIf="loading" class="loading-spinner">  
+      <p>Chargement en cours...</p>  
+  </div>  
+  <div *ngIf="!loading">  
+      <h1>{{ offer.title }}</h1>  
+      
+      <!-- Section des petits bodyCard pour le résumé et les infos de l'entreprise -->  
+      <div class="info-section">  
+          <div class="summary-card">  
+              <h3>Résumé de l'Offre</h3>  
+              <p><strong>Domaine :</strong> {{ offer.domain }}</p>  
+              <p><strong>Société :</strong> {{ offer.company }}</p>  
+              <p><strong>Lieu :</strong> {{ offer.location }}</p>  
+              <p><strong>Type d'offre :</strong> {{ offer.type }}</p>  
+              <p><strong>Type de contrat :</strong> {{ offer.contractType }}</p>  
+              <p><strong>Publicée le :</strong> {{ offer.postedDate | date: 'short' }}</p>  
+              <p><strong>Date d'expiration :</strong> {{ offer.expirationDate | date: 'short' }}</p>  
+              <p><strong>Salaire :</strong> {{ offer.salary ? (offer.salary + ' FCFA') : 'Non spécifié' }}</p>  
+          </div>  
+          <div class="company-card">  
+              <h3>Information de l'Entreprise</h3>  
+              <!-- <p><strong>Nom :</strong> {{ offer.company }}</p>  
+              <p><strong>Localisation :</strong> {{ offer.companyLocation }}</p>  
+              <p><strong>Taille :</strong> {{ offer.companySize }}</p>  
+              <p><strong>Site Web :</strong> <a href="{{ offer.companyWebsite }}" target="_blank">{{ offer.companyWebsite }}</a></p>   -->
+          </div>  
+      </div>  
+
+      <!-- Sections pour la description, compétences et responsabilités -->  
+      <div class="details-cards">  
+          <div class="description-card">  
+              <h4>Description de l'Offre</h4>  
+              <p>{{ offer.description }}</p>  
+          </div>  
+          <div class="skills-card">  
+              <h4>Compétences Requises</h4>  
+              <p>{{ offer.requirements }}</p>  
+          </div>  
+          <div class="responsibilities-card">  
+              <h4>Responsabilités</h4>  
+              <p>{{ offer.responsibilities }}</p>  
+          </div>  
+      </div>  
+
+      <button (click)="register()">Postuler</button>  
+  </div>  
+</div>

@@ -1,18 +1,19 @@
-<div class="offer-card">
-    <h2>{{ offer.title }}</h2>
-    <p><strong>Entreprise :</strong> {{ offer.company }}</p>
-    <p><strong>Domaine :</strong> {{ offer.domain }}</p>
-    <p><strong>Lieu :</strong> {{ offer.location }}</p>
-    <p><strong>Type :</strong> {{ offer.type }}</p>
-    <p><strong>Contrat :</strong> {{ offer.contractType }}</p>
-    <p *ngIf="offer.salary"><strong>Salaire :</strong> {{ offer.salary | currency:'USD' }}</p>
-    <p *ngIf="offer.duration"><strong>Durée :</strong> {{ offer.duration }} mois</p>
-    <p><strong>Télétravail :</strong> {{ offer.isRemote ? 'Oui' : 'Non' }}</p>
-    <p><strong>Date de publication :</strong> {{ offer.postedDate | date: 'short' }}</p>
-    <p><strong>Date d'expiration :</strong> {{ offer.expirationDate | date: 'short' }}</p>
-    <p><strong>Statut :</strong> {{ offer.status }}</p>
-    <p *ngIf="offer.additionalInfo"><strong>Infos supplémentaires :</strong> {{ offer.additionalInfo }}</p>
+<div class="offer-card">  
+    <h2>{{ offer.title }}</h2>  
+    <div class="offer-details">  
+        <p><strong>Entreprise :</strong> {{ offer.company }}</p>  
+        <p><strong>Domaine :</strong> {{ offer.domain }}</p>  
+        <p><strong>Lieu :</strong> {{ offer.location }}</p>  
+        <p><strong>Type :</strong> {{ offer.type }}</p>  
+        <p><strong>Contrat :</strong> {{ offer.contractType }}</p>  
+        <p *ngIf="offer.salary"><strong>Salaire :</strong> {{ offer.salary | currency:'USD' }}</p>  
+        <p *ngIf="offer.duration"><strong>Durée :</strong> {{ offer.duration }} mois</p>  
+        <p><strong>Télétravail :</strong> {{ offer.isRemote ? 'Oui' : 'Non' }}</p>  
+        <p><strong>Date de publication :</strong> {{ offer.postedDate | date: 'short' }}</p>  
+        <p><strong>Date d'expiration :</strong> {{ offer.expirationDate | date: 'short' }}</p>  
+        <p><strong>Statut :</strong> {{ offer.status }}</p>  
+        <p *ngIf="offer.additionalInfo"><strong>Infos supplémentaires :</strong> {{ offer.additionalInfo }}</p>  
+    </div>  
     
-    <!-- Lien vers les détails de l'offre avec l'ID -->
-    <a [routerLink]="['/offers/details', offer._id]" class="details-link">Voir Détails</a>
+    <a [routerLink]="['/offers/details', offer._id]" class="details-link">Voir Détails</a>  
 </div>
