@@ -42,11 +42,12 @@ export class PaymentLoggingService {
     return this.http.post<PaymentProviderTransaction>(`${this.apiUrl}/payment-provider-transactions/create`, providerTransaction);
   }
 
-  // Ajouter un log de paiement
   logPayment(transactionId: string, message: string, logType: 'info' | 'error') {
     const paymentLog: Partial<PaymentLog> = { transactionId, message, logType, createdAt: new Date() };
+    console.log('Logging Payment:', paymentLog); // Debugging line
     return this.http.post<PaymentLog>(`${this.apiUrl}/payment-logs/create`, paymentLog);
   }
+  
 
   // Générer une facture
   createInvoice(invoice: Partial<Invoice>) {

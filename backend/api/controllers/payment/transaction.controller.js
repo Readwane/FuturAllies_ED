@@ -1,150 +1,128 @@
-import Transaction from '../../models/payment/transaction.model.js';
-import { validationResult } from 'express-validator';
+import Transaction from '../../models/payment/transaction.model.js';  
+import { validationResult } from 'express-validator';  
 
-// Récupérer toutes les transactions
-export const getAllTransactions = async (req, res) => {
-  try {
-    console.log('Débogage : Tentative de récupération de toutes les transactions'); // Ligne de débogage
-    const transactions = await Transaction.find().populate('userId paymentMethodId providerId');
-    console.log(`Débogage : Nombre de transactions récupérées : ${transactions.length}`); // Ligne de débogage
-    res.status(200).json(transactions);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des transactions :', error.message); // Ligne de débogage
-    res.status(500).json({ message: 'Erreur lors de la récupération des transactions' });
-  }
+// Récupérer toutes les transactions  
+export const getAllTransactions = async (req, res) => {  
+  try {  
+    const transactions = await Transaction.find().populate('userId paymentMethodId providerId');  
+    res.status(200).json({ success: true, data: transactions, count: transactions.length });  
+  } catch (error) {  
+    console.error('Erreur lors de la récupération des transactions :', error.message);  
+    res.status(500).json({ success: false, message: 'Erreur lors de la récupération des transactions' });  
+  }  
+};  
+
+// Récupérer une transaction par son ID  
+export const getTransactionById = async (req, res) => {  
+  try {  
+    const transaction = await Transaction.findById(req.params.id).populate('userId paymentMethodId providerId');  
+
+    if (!transaction) {  
+      return res.status(404).json({ success: false, message: 'Transaction non trouvée' });  
+    }  
+
+    res.status(200).json({ success: true, data: transaction });  
+  } catch (error) {  
+    console.error('Erreur lors de la récupération de la transaction :', error.message);  
+    res.status(500).json({ success: false, message: 'Erreur lors de la récupération de la transaction' });  
+  }  
+};  
+
+
+// Créer une nouvelle transaction  
+export const createTransaction = async (req, res) => {  
+  const errors = validationResult(req);  
+  if (!errors.isEmpty()) {  
+    return res.status(400).json({ success: false, errors: errors.array() });  
+  }  
+
+  const { userId, paymentMethodId, providerId, issueTransaction, amount, currency, description } = req.body;  
+
+  // Log each field to ensure they are populated
+  console.log('Creating transaction with:', { userId, paymentMethodId, providerId, amount, currency });
+
+  try {  
+    // Check for required fields explicitly  
+    if (!userId || !amount || !currency) {  
+      return res.status(400).json({ success: false, message: 'Champs obligatoires manquants' });  
+    }  
+
+    const transaction = new Transaction({  
+      userId,  
+      paymentMethodId,  
+      providerId,  
+      issueTransaction,  
+      amount,  
+      currency,  
+      status: 'pending', // Default status  
+      description,  
+    });  
+
+    await transaction.save();  
+    res.status(201).json({ success: true, data: transaction });  
+  } catch (error) {  
+    console.error('Erreur lors de la création de la transaction :', error.message);  
+    res.status(500).json({ success: false, message: 'Erreur lors de la création de la transaction' });  
+  }  
 };
+ 
 
-// Récupérer une transaction par son ID
-export const getTransactionById = async (req, res) => {
-  try {
-    console.log(`Débogage : Tentative de récupération de la transaction ID ${req.params.id}`); // Ligne de débogage
-    const transaction = await Transaction.findById(req.params.id).populate('userId paymentMethodId providerId');
-    
-    // Vérifie si la transaction existe
-    if (!transaction) {
-      console.log(`Débogage : Transaction ID ${req.params.id} non trouvée`); // Ligne de débogage
-      return res.status(404).json({ message: 'Transaction non trouvée' });
-    }
+// Mettre à jour une transaction existante  
+export const updateTransaction = async (req, res) => {  
+  const { status } = req.body;  
 
-    console.log('Débogage : Transaction trouvée', transaction); // Ligne de débogage
-    res.status(200).json(transaction);
-  } catch (error) {
-    console.error('Erreur lors de la récupération de la transaction :', error.message); // Ligne de débogage
-    res.status(500).json({ message: 'Erreur lors de la récupération de la transaction' });
-  }
-};
+  try {  
+    const transaction = await Transaction.findById(req.params.id);  
+    if (!transaction) {  
+      return res.status(404).json({ success: false, message: 'Transaction non trouvée' });  
+    }  
 
-// Créer une nouvelle transaction
-export const createTransaction = async (req, res) => {
-  const errors = validationResult(req);
-  
-  // Vérifie la présence d'erreurs de validation
-  if (!errors.isEmpty()) {
-    console.log('Débogage : Erreurs de validation trouvées', errors.array()); // Ligne de débogage
-    return res.status(400).json({ errors: errors.array() });
-  }
+    transaction.status = status;  
+    transaction.updated_at = Date.now();  
+    await transaction.save();  
 
-  // Récupère les informations de la requête
-  const { userId, paymentMethodId, providerId, issueTransaction, amount, currency, description } = req.body;
+    res.status(200).json({ success: true, data: transaction });  
+  } catch (error) {  
+    console.error('Erreur lors de la mise à jour de la transaction :', error.message);  
+    res.status(500).json({ success: false, message: 'Erreur lors de la mise à jour de la transaction' });  
+  }  
+};  
 
-  try {
-    // Vérifie les champs obligatoires
-    if (!userId || !amount || !currency) {
-      console.log('Débogage : Champs obligatoires manquants'); // Ligne de débogage
-      return res.status(400).json({ message: 'Champs obligatoires manquants' });
-    }
+// Supprimer une transaction par son ID  
+export const deleteTransaction = async (req, res) => {  
+  try {  
+    const transaction = await Transaction.findById(req.params.id);  
+    if (!transaction) {  
+      return res.status(404).json({ success: false, message: 'Transaction non trouvée' });  
+    }  
 
-    // Crée une nouvelle instance de Transaction
-    const transaction = new Transaction({
-      userId,
-      paymentMethodId,
-      providerId,
-      issueTransaction,
-      amount,
-      currency,
-      status: 'pending', // Statut par défaut défini sur 'pending'
-      description,
-    });
+    await transaction.deleteOne();  
+    res.status(200).json({ success: true, message: 'Transaction supprimée' });  
+  } catch (error) {  
+    console.error('Erreur lors de la suppression de la transaction :', error.message);  
+    res.status(500).json({ success: false, message: 'Erreur lors de la suppression de la transaction' });  
+  }  
+};  
 
-    // Sauvegarde la transaction dans la base de données
-    await transaction.save();
-    console.log('Débogage : Transaction créée avec succès', transaction); // Ligne de débogage
-    res.status(201).json(transaction);
-  } catch (error) {
-    console.error('Erreur lors de la création de la transaction :', error.message); // Ligne de débogage
-    res.status(500).json({ message: 'Erreur lors de la création de la transaction' });
-  }
-};
+// Mettre à jour le statut d'une transaction  
+export const updateTransactionStatus = async (req, res) => {  
+  try {  
+    const transactionId = req.params.id;  
+    const { status } = req.body;  
 
-// Mettre à jour une transaction existante
-export const updateTransaction = async (req, res) => {
-  const { status } = req.body;
-  
-  try {
-    console.log(`Débogage : Tentative de mise à jour de la transaction ID ${req.params.id}`); // Ligne de débogage
-    const transaction = await Transaction.findById(req.params.id);
-    
-    // Vérifie si la transaction existe
-    if (!transaction) {
-      console.log(`Débogage : Transaction ID ${req.params.id} non trouvée`); // Ligne de débogage
-      return res.status(404).json({ message: 'Transaction non trouvée' });
-    }
+    const transaction = await Transaction.findByIdAndUpdate(  
+      transactionId,  
+      { status },  
+      { new: true }  // retourne la transaction mise à jour  
+    );  
 
-    // Met à jour le statut de la transaction
-    transaction.status = status;
-    transaction.updated_at = Date.now(); // Met à jour la date de modification
-    await transaction.save();
+    if (!transaction) {  
+      return res.status(404).json({ success: false, message: 'Transaction non trouvée' });  
+    }  
 
-    console.log('Débogage : Transaction mise à jour avec succès', transaction); // Ligne de débogage
-    res.status(200).json(transaction);
-  } catch (error) {
-    console.error('Erreur lors de la mise à jour de la transaction :', error.message); // Ligne de débogage
-    res.status(500).json({ message: 'Erreur lors de la mise à jour de la transaction' });
-  }
-};
-
-// Supprimer une transaction par son ID
-export const deleteTransaction = async (req, res) => {
-  try {
-    console.log(`Débogage : Tentative de suppression de la transaction ID ${req.params.id}`); // Ligne de débogage
-    const transaction = await Transaction.findById(req.params.id);
-    
-    // Vérifie si la transaction existe
-    if (!transaction) {
-      console.log(`Débogage : Transaction ID ${req.params.id} non trouvée`); // Ligne de débogage
-      return res.status(404).json({ message: 'Transaction non trouvée' });
-    }
-
-    // Supprime la transaction de la base de données
-    await transaction.deleteOne();
-    console.log('Débogage : Transaction supprimée avec succès'); // Ligne de débogage
-    res.status(200).json({ message: 'Transaction supprimée' });
-  } catch (error) {
-    console.error('Erreur lors de la suppression de la transaction :', error.message); // Ligne de débogage
-    res.status(500).json({ message: 'Erreur lors de la suppression de la transaction' });
-  }
-};
-
-export const updateTransactionStatus = async (req, res) => {
-  try {
-    const transactionId = req.params.id;
-    const { status } = req.body;
-
-    // Recherche de la transaction par son ID et mise à jour du statut
-    const transaction = await Transaction.findByIdAndUpdate(
-      transactionId,
-      { status },
-      { new: true }  // retourne la transaction mise à jour
-    );
-
-    // Vérification si la transaction existe
-    if (!transaction) {
-      return res.status(404).json({ message: 'Transaction non trouvée' });
-    }
-
-    res.status(200).json({ message: 'Statut de la transaction mis à jour avec succès', status });
-  } catch (error) {
-    console.error('Erreur lors de la mise à jour du statut de la transaction:', error);
-    res.status(500).json({ message: 'Erreur serveur lors de la mise à jour de la transaction' });
-  }
+    res.status(200).json({ success: true, message: 'Statut de la transaction mis à jour avec succès', status });  
+  } catch (error) {  
+    console.error('Erreur lors de la mise à jour du statut de la transaction :', error.message);  
+    res.status(500).json({ success: false, message: 'Erreur serveur lors de la mise à jour de la transaction' });  
+  }  
 };

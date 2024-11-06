@@ -1,6 +1,32 @@
 import User from '../../models/authentication/user.js';
-import Profile
- from '../../models/authentication/profile.js';
+import Profile from '../../models/authentication/profile.js';
+import bcrypt from 'bcrypt';  
+
+// Créer un nouvel utilisateur  
+export const createUser = async (req, res) => {  
+  const { username, password, email, first_name, last_name, phone } = req.body; // Ajout des champs manquants  
+  console.log("Données pour le nouvel utilisateur:", { username, email, first_name, last_name, phone });  
+  // Hachage du mot de passe  
+  const hashedPassword = await bcrypt.hash(password, 10);  
+  const user = new User({   
+    username,   
+    password: hashedPassword,   
+    email,   
+    first_name,   
+    last_name,   
+    phone   
+  });  
+  try {  
+    const savedUser = await user.save();  
+    console.log("Utilisateur créé avec succès:", savedUser);  
+    res.status(201).json(savedUser);  
+  } catch (error) {  
+    console.error("Erreur lors de la création de l'utilisateur:", error);  
+    res.status(400).json({ message: error.message });  
+  }  
+};
+
+
 // Récupérer tous les utilisateurs
 export const getAllUsers = async (req, res) => {
   try {
@@ -72,48 +98,38 @@ export const getProfileByUserId = async (req, res) => {
   }
 };
 
+// Mettre à jour un utilisateur  
+export const updateUser = async (req, res) => {  
+  const { username, password, email } = req.body;   
+  console.log("Données pour la mise à jour de l'utilisateur:", { username, email });  
 
+  const updatedData = {  
+    username,   
+    email,   
+    updated_at: Date.now()  
+  };  
 
-// Créer un nouvel utilisateur
-export const createUser = async (req, res) => {
-  const { username, password, email } = req.body;
-  console.log("Données pour le nouvel utilisateur:", { username, password, email });
+  if (password) {  
+    updatedData.password = await bcrypt.hash(password, 10); // Hachage du nouveau mot de passe  
+  }  
 
-  // Vous devriez hacher le mot de passe avant de le sauvegarder
-  const user = new User({ username, password, email });
+  try {  
+    const user = await User.findByIdAndUpdate(  
+      req.params.id,  
+      updatedData,  
+      { new: true }  
+    );  
 
-  try {
-    const savedUser = await user.save();
-    console.log("Utilisateur créé avec succès:", savedUser);
-    res.status(201).json(savedUser);
-  } catch (error) {
-    console.error("Erreur lors de la création de l'utilisateur:", error);
-    res.status(400).json({ message: error.message });
-  }
-};
-
-// Mettre à jour un utilisateur
-export const updateUser = async (req, res) => {
-  const { username, password, email } = req.body;
-  console.log("Données pour la mise à jour de l'utilisateur:", { username, password, email });
-
-  try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { username, password, email, updated_at: Date.now() },
-      { new: true }
-    );
-
-    if (!user) {
-      console.warn("Utilisateur non trouvé pour mise à jour avec l'ID:", req.params.id);
-      return res.status(404).json({ message: 'Utilisateur non trouvé' });
-    }
-    console.log("Utilisateur mis à jour:", user);
-    res.status(200).json(user);
-  } catch (error) {
-    console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
-    res.status(400).json({ message: error.message });
-  }
+    if (!user) {  
+      console.warn("Utilisateur non trouvé pour mise à jour avec l'ID:", req.params.id);  
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });  
+    }  
+    console.log("Utilisateur mis à jour:", user);  
+    res.status(200).json(user);  
+  } catch (error) {  
+    console.error("Erreur lors de la mise à jour de l'utilisateur:", error);  
+    res.status(400).json({ message: error.message });  
+  }  
 };
 
 // Supprimer un utilisateur

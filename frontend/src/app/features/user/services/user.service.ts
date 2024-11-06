@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 // Modèles (à personnaliser selon vos interfaces ou classes)
 import { User } from 'src/app/features/user/models/user.model';
@@ -46,18 +46,21 @@ export class UserService {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/users/${id}/delete`, this.httpOptions);
   }
 
-  // Récupérer un utilisateur par nom d'utilisateur (username)
-getUserByUsername(username: string): Observable<User> {
-  // Assurez-vous que apiUrl et httpOptions sont correctement définis
-  return this.http.get<User>(`${this.apiUrl}/users/rep/${username}`, this.httpOptions).pipe(
-    // Ajout d'une gestion des erreurs si nécessaire
-    catchError((error) => {
-      console.error('Erreur lors de la récupération de l\'utilisateur:', error);
-      // Vous pouvez renvoyer un observable d'erreur si besoin
-      return throwError(() => new Error('Erreur lors de la récupération de l\'utilisateur'));
-    })
-  );
-}
+  getUserByUsername(username: string): Observable<User> {  
+    // Assurez-vous que apiUrl et httpOptions sont correctement définis  
+    return this.http.get<User>(`${this.apiUrl}/users/rep/${username}`, this.httpOptions).pipe(  
+      // Ajout d'une gestion des erreurs si nécessaire  
+      tap((user) => {  
+        // Affichage de l'utilisateur trouvé dans la console  
+        console.log('Utilisateur trouvé (dans service UserService):', user);  
+      }),  
+      catchError((error) => {  
+        console.error('Erreur lors de la récupération de l\'utilisateur:', error);  
+        // Vous pouvez renvoyer un observable d'erreur si besoin  
+        return throwError(() => new Error('Erreur lors de la récupération de l\'utilisateur'));  
+      })  
+    );  
+  }
 
 
   // CRUD pour Profils

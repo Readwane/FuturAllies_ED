@@ -1,0 +1,162 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { User } from 'src/app/features/user/models/user.model';
+import { Profile } from 'src/app/features/user/models/profile.model';
+import { UserService } from '../../user/services/user.service';
+import { Transaction } from '../models/transaction.model';
+import { PaymentLoggingService } from './payment-logging.service';
+import { PaymentProviderTransaction } from '../models/payment-provider-transaction.model';
+import { Invoice } from '../models/invoice.model';
+import { TransactionService } from './transaction.service';
+import { environment } from 'src/environments/environment';
+
+declare var FlutterwaveCheckout: any;
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PaymentService {
+  private apiUrl = 'http://localhost:3000/fapi'; // URL de votre API
+
+  user!: User;
+  profile!: Profile;
+  errorMessage: string = '';
+
+  card_options: string[] = ["card", "mobilemoney"];
+
+  constructor(
+     private http: HttpClient,
+     private userService: UserService,
+     private loggingService: PaymentLoggingService,
+     private transactionService: TransactionService
+  ) {}
+
+  onMakePayment(customer: User, mount: number, devise: string, redirect_url: string) {
+   
+    if (!FlutterwaveCheckout) {
+      this.logError('no-flutterwave', 'Flutterwave SDK not loaded');
+      return;
+    }
+
+    FlutterwaveCheckout({
+      public_key:"FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X", // or use : environment.FLW_PUBLIC_KEY,
+      tx_ref: "titanic-48981487343MDI0NzMx",
+      amount: mount,
+      currency: devise,
+      payment_options: this.card_options,
+      redirect_url: redirect_url,
+      meta: {
+        consumer_id: customer._id,
+        consumer_mac: this.getConsumerMac(),
+      },
+      customer: {
+        email: customer.email,
+        phone_number: customer.phone,
+        name: customer.first_name+ ' ' + customer.last_name,
+      },
+      customizations: {
+        title: "FuturAllies Store",
+        description: "Payment for a subscription",
+        logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
+      },
+      callback: function (data: any){
+        console.log("payment callback:", data);
+      },
+      onclose: function() {
+        console.log("Payment cancelled!");
+      }
+    });
+  }
+
+  private handlePaymentCallback(data: any, transaction: Transaction) {
+    if (data.status === "successful") {
+      this.createTransaction(transaction.amount, 'pending').subscribe({
+        next: () => {
+          this.createProviderTransaction(transaction._id, data.transaction_id).subscribe({
+            next: () => {
+              this.createInvoice(transaction).subscribe({
+                next: () => this.logInfo(transaction._id, 'Payment completed successfully'),
+                error: () => this.logError(transaction._id, 'Failed to create invoice')
+              });
+            },
+            error: () => this.logError(transaction._id, 'Failed to create provider transaction')
+          });
+        },
+        error: () => this.logError(transaction._id, 'Failed to update transaction status to completed')
+      });
+    } else {
+      this.updateTransactionStatus(transaction._id, 'failed').subscribe({
+        next: () => this.logError(transaction._id, 'Payment failed'),
+        error: () => this.logError(transaction._id, 'Failed to update transaction status to failed')
+      });
+    }
+  }
+
+  private createTransaction(amount: number, status: 'pending') {
+    const transactionData: Partial<Transaction> = {
+      userId: this.user._id,
+      paymentMethodId: '45dnndhgsgfsfjqhhss',
+      providerId: 'flutterwave.id',
+      issueTransaction: 'subscription',
+      amount: amount,
+      currency: 'XOF',
+      status,
+      description: 'Initiating payment',
+    };
+    return this.loggingService.createTransaction(transactionData).pipe(
+      catchError(error => {
+        this.logError('transaction-error', 'Failed to create pending transaction');
+        return throwError(error);
+      })
+    );
+  }
+  
+  private updateTransactionStatus(transactionId: string, status: string) {
+    return this.transactionService.updateTransactionStatus(transactionId, status).pipe(
+      catchError(error => {
+        this.logError(transactionId, `Failed to update transaction status to ${status}`);
+        return of(null);
+      })
+    );
+  }
+  
+  private createProviderTransaction(transactionId: string, providerId: string) {
+    const providerTransaction: Partial<PaymentProviderTransaction> = {
+      transactionId,
+      providerId: providerId,
+    };
+    return this.loggingService.createProviderTransaction(providerTransaction).pipe(
+      catchError(error => {
+        this.logError(transactionId, 'Failed to create provider transaction');
+        return throwError(error);
+      })
+    );
+  }
+  
+  private createInvoice(transaction: Transaction) {
+    const invoice: Partial<Invoice> = {
+      transactionId: transaction._id,
+      status: 'paid'
+    };
+    return this.loggingService.createInvoice(invoice).pipe(
+      catchError(error => {
+        this.logError(transaction._id, 'Failed to create invoice');
+        return throwError(error);
+      })
+    );
+  }
+  
+  private logError(reference: string, message: string) {
+    this.loggingService.logPayment(reference, message, 'error').subscribe();
+  }
+  
+  private logInfo(reference: string, message: string) {
+    this.loggingService.logPayment(reference, message, 'info').subscribe();
+  }
+  
+  private getConsumerMac(): string {
+    return "92a3-912ba-1192a";
+  }
+}
