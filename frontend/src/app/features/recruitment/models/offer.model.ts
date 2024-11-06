@@ -27,6 +27,9 @@ export class Offer {
   physicalAddress?: string; // Adresse physique pour le dépôt des candidatures  
   onlineSubmission: boolean; // Indique si la soumission peut être faite en ligne  
   additionalInfo?: string; // Informations additionnelles à l'offre  
+companyLocation: any;
+companySize: any;
+companyWebsite: any;
 
   constructor(  
     _id: string,  

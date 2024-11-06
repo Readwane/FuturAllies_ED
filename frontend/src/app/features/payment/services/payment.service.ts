@@ -157,7 +157,6 @@ export class PaymentService {
     }
   }
 
-
   private createTransaction(amount: number, status: 'pending') {
     const transactionData: Partial<Transaction> = {
       userId: this.user._id,

@@ -21,6 +21,12 @@ export class OfferApplicationComponent implements OnInit {
   showLM: boolean | undefined;
   showATTEST: boolean | undefined;
 
+  fileNames = {
+    CV: '',
+    LM: '',
+    ATTEST: ''
+  };
+
   constructor(  
     private fb: FormBuilder,  
     private recruitmentService: RecruitmentService,  
@@ -42,11 +48,11 @@ export class OfferApplicationComponent implements OnInit {
 
   onFileChange(event: Event): void {  
     const input = event.target as HTMLInputElement;  
-    if (input.files) {  
+     if (input.files) {  
       const files = Array.from(input.files);  
+     
       this.submittedDocuments = files.map(file => {  
         const type = this.getFileType(file.type); // Méthode pour définir le type selon votre logique  
-
         return new Doc(  
           '', // Laissez l'ID vide ; MongoDB s'en occupera lors de l'enregistrement  
           this.userId, // ID de l'utilisateur pour associer le document  
@@ -56,13 +62,13 @@ export class OfferApplicationComponent implements OnInit {
         );  
       });  
     }  
-  }  
+  } 
 
   // Méthode pour déterminer le type de document  
   getFileType(fileType: string): 'CV' | 'MotivationLetter' | 'Certificate' | 'Other' {  
-    if (fileType.includes('pdf')) {  
+    if (fileType.includes('cv')|| fileType.includes('CV')) {
       return 'CV'; // Cela peut être personnalisé selon votre logique  
-    } else if (fileType.includes('msword') || fileType.includes('word')) {  
+    } else if (fileType.includes('lm') || fileType.includes('LM') || fileType.includes('Lettre')) {  
       return 'MotivationLetter';  
     } else if (fileType.includes('image')) {  
       return 'Certificate';  
@@ -88,7 +94,7 @@ export class OfferApplicationComponent implements OnInit {
         addSubmittedDocument: function (document: Doc): void {
           throw new Error('Function not implemented.');
         }
-      };  
+      };
 
       this.recruitmentService.createOfferApplication(offerApplication).subscribe({  
         next: (response) => {  
@@ -122,7 +128,7 @@ export class OfferApplicationComponent implements OnInit {
         // Vérifiez si le fichier est défini  
         if (file) {  
             this.submittedDocuments.push({
-              type: 'CV', // Utiliser 'docType' plutôt que 'CV' pour la flexibilité  
+              type: 'CV', // Utiliser 'docType' pour spécifier le type de document  
               title: file.name,
               userId: '',
               _id: '',

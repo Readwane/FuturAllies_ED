@@ -5,9 +5,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
     padding: 24px;  
     margin: 16px 0;  
-    border-left: 8px solid #4CAF50; /* Bordure gauche verte */  
+    border-top: 50px solid #2232be;   
     transition: transform 0.3s ease, box-shadow 0.3s ease;  
-    width: 100%; /* Exploite toute la largeur du conteneur */  
+    width: 100%;   
+    display: flex;  
+    flex-direction: column; /* Permet d'organiser les éléments en colonne */  
 }  
 
 /* Effet au survol */  
@@ -20,37 +22,44 @@
 .offer-card h2 {  
     color: #007bff;  
     font-size: 1.8em;  
-    margin-bottom: 12px;  
-    font-weight: 600; /* Met en valeur le titre */  
+    border-top: -40px;
+    /* margin-bottom: 12px;   */
+    font-weight: 600;  
 }  
 
 /* Styles pour les détails de l'offre */  
 .offer-details {  
+    display: grid; /* Utiliser grid pour un meilleur agencement */  
+    grid-template-columns: 1fr 1fr; /* Deux colonnes pour exploiter l'espace */  
+    gap: 12px; /* Espace entre les éléments */  
     font-size: 1em;  
     color: #444;  
     margin-bottom: 16px;  
 }  
 
-/* Styles pour chaque paragraphe */  
-.offer-details p {  
-    margin: 8px 0;  
+/* Styles pour chaque élément de détail */  
+.detail-item {  
+    display: flex;  
+    justify-content: space-between;  
 }  
 
 /* Styles pour le lien de détails */  
 .details-link {  
     display: inline-block;  
     padding: 12px 20px;  
-    background-color: #4CAF50; /* Fond vert */  
+    background-color: #d7ec76;  
     color: white;  
     text-align: center;  
     text-decoration: none;  
-    border-radius: 6px;  
+    border-radius: 10px;  
+    border: solid;
+    width: 150px;
     transition: background-color 0.3s ease, transform 0.2s ease;  
-    font-weight: 500; /* Ajouter du poids au texte */  
+    font-weight: 500;  
 }  
 
 /* Effet au survol du lien */  
 .details-link:hover {  
-    background-color: #007bff; /* Change vers le bleu */  
-    transform: scale(1.05); /* Légère augmentation de taille */  
+    background-color: #d4c817;  
+    transform: scale(1.05);  
 }

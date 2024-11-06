@@ -5,7 +5,6 @@ const OfferApplicationSchema = new mongoose.Schema({
   offer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Offer', required: true }, // Référence à l'offre  
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Référence à l'utilisateur (candidat)  
   application_date: { type: Date, default: Date.now }, // Date de la candidature  
-  required_documents: { type: [String], default: [] }, // Liste des documents à fournir (CV, lettre de motivation, etc.)  
   status: {   
     type: String,   
     enum: ['Pending', 'Accepted', 'Rejected', 'In Review'],   
