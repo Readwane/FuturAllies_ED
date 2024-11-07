@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { User } from 'src/app/features/user/models/user.model';
 import { Profile } from 'src/app/features/user/models/profile.model';
-import { UserService } from '../../user/services/user.service';
-import { Transaction } from '../models/transaction.model';
-import { PaymentLoggingService } from './payment-logging.service';
-import { PaymentProviderTransaction } from '../models/payment-provider-transaction.model';
-import { Invoice } from '../models/invoice.model';
-import { TransactionService } from './transaction.service';
+import { UserService } from '../../../user/services/user.service';
+import { Transaction } from '../../models/transaction.model';
+import { PaymentLoggingService } from '../payment-log/payment-logging.service';
+import { PaymentProviderTransaction } from '../../models/payment-provider-transaction.model';
+import { Invoice } from '../../models/invoice.model';
+import { TransactionService } from '../transaction/transaction.service';
 import { environment } from 'src/environments/environment';
 
 declare var FlutterwaveCheckout: any;
@@ -16,7 +16,7 @@ declare var FlutterwaveCheckout: any;
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class FltwPaymentService {
   private apiUrl = 'http://localhost:3000/fapi';
 
   user!: User;

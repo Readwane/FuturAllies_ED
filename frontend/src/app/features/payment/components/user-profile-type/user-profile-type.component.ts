@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';  
 import { Router } from '@angular/router';  
-import { TransactionService } from '../../services/transaction.service';  
-import { PaymentService } from '../../services/payment.service';  
+import { TransactionService } from '../../services/transaction/transaction.service';
+import { FltwPaymentService} from '../../services/fltw-payment/fltw-payment.service';  
 import { User } from 'src/app/features/user/models/user.model';  
 import { UserService } from 'src/app/features/user/services/user.service';  
 
@@ -17,7 +17,7 @@ export class UserProfileTypeComponent implements OnInit {
 
   constructor(  
     private router: Router,  
-    private paymentService: PaymentService,  
+    private paymentService: FltwPaymentService,  
     private userService: UserService  
   ) {}  
 

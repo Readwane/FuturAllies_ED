@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     phone: { type: String, required: true },  // Numéro de téléphone  
     created_at: { type: Date, default: Date.now },  // Date de création de l'utilisateur  
     updated_at: { type: Date, default: Date.now }   // Date de la dernière mise à jour  
-});  
+});
 
 // Middleware pour mettre à jour updated_at lors des modifications  
 UserSchema.pre('save', function(next) {  
