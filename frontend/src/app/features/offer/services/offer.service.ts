@@ -9,7 +9,7 @@ import { OfferApplication } from '../models/offer-application.model';
 @Injectable({
   providedIn: 'root'
 })
-export class RecruitmentService {
+export class OfferService {
   private apiUrl = `${environment.apiBaseUrl}`;
 
   constructor(private http: HttpClient) {}

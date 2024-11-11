@@ -1,23 +1,130 @@
-<!-- training-details.component.html -->
-<div class="training-details" *ngIf="training">
-    <div *ngIf="loading" class="loading-spinner">
-      <p>Chargement en cours...</p>
-    </div>
-    <div *ngIf="!loading">
-      <h1>{{ training.title }}</h1>
-      <p><strong>Domaine :</strong> {{ training.domain }}</p>
-      <p><strong>Orateur :</strong> {{ training.trainer }}</p>
-      <p><strong>Lieu :</strong> {{ training.location }}</p>
-      <p><strong>Date de début :</strong> {{ training.startDate | date:'short' }}</p>
-      <p><strong>Date de fin :</strong> {{ training.endDate | date:'short' }}</p>
-      <p><strong>Durée :</strong> {{ training.duration }} heures</p>
-      <p><strong>Description :</strong> {{ training.description }}</p>
-      <p><strong>Participants actuels :</strong> {{ training.currentParticipants || 0 }}/{{ training.maxParticipants }}</p>
-      <p><strong>Prix :</strong> {{ training.price > 0 ? (training.price + ' FCFA') : 'Gratuit' }}</p>
-      <p><strong>Organisateur :</strong> {{ training.organizer }}</p>
-      <p><strong>Objectifs pédagogiques :</strong> {{ training.learningObjectives }}</p>
-      <p><strong>Certificat :</strong> {{ training.certificateIssued ? 'Oui' : 'Non' }}</p>
-      <button (click)="register()">S'inscrire</button>
-    </div>
-  </div>
-  
+<div class="training-details" *ngIf="training">  
+  <div *ngIf="loading" class="loading-spinner">  
+      <p>Chargement en cours...</p>  
+  </div>  
+  <div *ngIf="!loading">
+      <div class="training-header">
+          <h1>{{ training.title }}</h1>  
+          <p class="slogan">{{ training.slogan }}</p>
+      </div>
+      
+      <!-- Section des informations principales avec des icônes pour une meilleure lisibilité -->
+      <div class="info-section">  
+          <div class="summary-card">  
+              <h3>Informations de la Formation</h3>  
+              <div class="info-item">
+                  <i class="icon">📅</i>
+                  <p><strong>Type :</strong> {{ training.type === 'webinar' ? 'Webinaire' : 'En présentiel' }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">📚</i>
+                  <p><strong>Catégorie :</strong> {{ training.category }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">🏢</i>
+                  <p><strong>Domaine :</strong> {{ training.domain }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">📍</i>
+                  <p><strong>Lieu :</strong> {{ training.location }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">⏰</i>
+                  <p><strong>Date de début :</strong> {{ training.startDate | date: 'short' }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">📆</i>
+                  <p><strong>Date de fin :</strong> {{ training.endDate | date: 'short' }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">🕒</i>
+                  <p><strong>Durée :</strong> {{ training.duration ? training.duration + ' heures' : 'Non spécifié' }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">🌐</i>
+                  <p><strong>Langue :</strong> {{ training.language || 'Non spécifié' }}</p>  
+              </div>
+          </div>  
+          
+          <!-- Informations complémentaires avec des détails sur l'organisateur et le formateur -->
+          <div class="additional-info-card">  
+              <h3>Informations Complémentaires</h3>  
+              <div class="info-item">
+                  <i class="icon">👤</i>
+                  <p><strong>Organisateur :</strong> {{ training.organizer }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">📖</i>
+                  <p><strong>Formateur :</strong> {{ training.trainer }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">🔓</i>
+                  <p><strong>Statut :</strong> 
+                      {{ training.status === 'Open' ? 'Ouverte' : 
+                      (training.status === 'Closed' ? 'Fermée' : 'En attente') }}
+                  </p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">👥</i>
+                  <p><strong>Participants :</strong> {{ training.currentParticipants || 0 }} / {{ training.maxParticipants }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">💵</i>
+                  <p><strong>Prix :</strong> {{ training.price | currency: 'FCFA' }}</p>  
+              </div>
+              <div class="info-item">
+                  <i class="icon">📜</i>
+                  <p><strong>Certificat :</strong> {{ training.certificateIssued ? 'Oui' : 'Non' }}</p>  
+              </div>
+          </div>  
+      </div>  
+
+      <!-- Programme et contenu de la formation -->
+      <div class="details-cards">  
+           <!-- Programme de la Formation -->
+          <div class="modules-card">
+            <h4>Programme de la Formation</h4>
+            <div *ngFor="let module of modules" class="module-item">
+              <div class="module-info">
+                <p><strong>Module :</strong> {{ module.title }}</p>
+                <p><strong>Séances :</strong> {{ getSessionsForModule(module._id).length }}</p>
+                <p><strong>Formateur :</strong> {{ module.trainerName }}</p>
+              </div>
+              <div *ngFor="let session of getSessionsForModule(module._id)" class="session-info">
+                <p>- Séance {{ session.order }} : {{ session.title }} ({{ session.duration }} minutes)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section regroupant description, objectifs, et supports pédagogiques -->
+          <div class="combined-details-card">  
+              <h4>Détails de la Formation</h4>  
+
+              <p><strong>I. Description</strong></p>
+              <p>{{ training.description }}</p>  
+
+              <p><strong>II. Objectifs Pédagogiques</strong></p>
+              <ul>
+                  <li *ngIf="training.learningObjectives">{{ training.learningObjectives }}</li>  
+              </ul>
+
+              <p><strong>III. Prérequis</strong></p>
+              <ul>
+                  <li *ngIf="training.prerequisites">{{ training.prerequisites }}</li>  
+              </ul>
+
+              <p><strong>IV. Modalités d'Évaluation</strong></p>
+              <ul>
+                  <li *ngIf="training.assessmentMethod">{{ training.assessmentMethod }}</li>  
+              </ul>
+
+              <p><strong>V. Supports Pédagogiques</strong></p>
+              <ul>
+                  <li *ngIf="training.trainingMaterials">{{ training.trainingMaterials }}</li>  
+              </ul>
+          </div>  
+      </div>  
+
+      <button (click)="register()" class="register-button">S'inscrire</button>  
+  </div>  
+</div>

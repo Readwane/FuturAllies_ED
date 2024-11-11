@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TrainingApplication } from '../models/training-application.model'; // Importer le modèle d'application de formation
+import { TrainingApplication } from '../../models/training-application.model'; // Importer le modèle d'application de formation
 
 @Injectable({
   providedIn: 'root'

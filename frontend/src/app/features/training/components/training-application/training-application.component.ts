@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TrainingService } from '../../services/training.service';
+import { TrainingApplicationService } from '../../services/application/training-application.service';
 import { TrainingApplication } from '../../models/training-application.model';
-import { TrainingApplicationService } from '../../services/training-application.service';
+import { ApplicationStatus } from '../../models/training-application.model'; // Importez l'énumération ApplicationStatus
 
 @Component({
   selector: 'app-training-application',
@@ -44,7 +44,7 @@ export class TrainingApplicationComponent implements OnInit {
         trainingId: this.trainingId,
         userId: this.userId,
         enrollmentDate: new Date(),
-        status: 'Pending',
+        status: ApplicationStatus.Pending, // Utilisation de l'énumération ApplicationStatus
       };
 
       this.trainingService.createTrainingApplication(trainingApplication).subscribe({

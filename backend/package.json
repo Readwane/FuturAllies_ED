@@ -29,6 +29,7 @@
     "mongodb": "^6.8.1",
     "mongoose": "^8.7.0",
     "nodemon": "^3.1.7",
+    "paydunya": "^1.0.12",
     "stripe": "^17.2.1",
     "tslib": "^2.7.0"
   }

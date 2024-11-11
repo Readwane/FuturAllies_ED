@@ -21,7 +21,6 @@ export class UserProfileTypeComponent implements OnInit {
     private userService: UserService  
   ) {}  
 
-
   ngOnInit(): void {  
     this.getUser('Tegawende'); // Remplacez par le nom d'utilisateur que vous voulez rechercher  
   }  

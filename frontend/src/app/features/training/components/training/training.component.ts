@@ -23,5 +23,4 @@ export class TrainingComponent implements OnInit {
       console.log('ID de la formation reçu (_id) :', this.training._id);
     }
   }
-  
 }

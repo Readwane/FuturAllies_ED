@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Training } from '../models/training.model'; // Importez votre modèle Training si vous en avez un
+import { Training } from '../../models/training.model'; // Importez votre modèle Training si vous en avez un
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +50,20 @@ export class TrainingService {
   // Supprimer une formation par ID
   deleteTraining(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}/delete`, this.httpOptions);
+  }
+
+  // Récupère tous les trainers de la formation par ID de formation
+  getTrainingTrainersById(trainingId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${trainingId}/trainers`);
+  }
+
+  // Récupère tous les modules de la formation par ID de formation
+  getTrainingModulesById(trainingId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${trainingId}/modules`);
+  }
+
+  // Récupère toutes les sessions des différents modules de la formation par ID de formation
+  getAllTrainingModuleSessions(trainingId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${trainingId}/modules/sessions`);
   }
 }

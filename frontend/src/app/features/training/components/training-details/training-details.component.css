@@ -1,37 +1,177 @@
-/* training-details.component.css */
-.training-details {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 24px;
-    margin: 16px;
+.training-details {  
+    background-color: #f9f9f9;  
+    border-radius: 10px;   
+    border-top: 8px solid #6229cc; 
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.6);  
+    padding: 24px;  
+    margin: 16px;  
 }
 
-.training-details h1 {
-    color: #007bff;
-    font-size: 2em;
-    margin-bottom: 16px;
+.training-header h1 {  
+    color: #007bff;  
+    font-size: 2em;  
+    margin-bottom: 16px;  
 }
 
-.training-details p {
+.slogan {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Styles pour la section d'information */
+.info-section {  
+    display: flex;  
+    flex-wrap: wrap;  
+    gap: 16px;  
+    margin-bottom: 24px;  
+}  
+
+.summary-card, .additional-info-card {  
+    background-color: white;  
+    border-radius: 8px;  
+    border-top: 40px solid #6229cc;  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 16px;  
+    width: 48%; 
+    position: relative;  
+}
+
+.summary-card h3, .additional-info-card h3 {
+    font-size: 1.1em;
+    color: white;
+    position: absolute;
+    top: -32px;
+    left: 16px;
+    /* background-color: #6229cc; */
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.icon {
+    font-size: 1.2em;
+    color: #6229cc;
+}
+
+/* Styles pour les détails et sections pédagogiques */
+.details-cards {  
+    display: flex;  
+    flex-direction: column;  
+    gap: 16px;  
+}
+
+.modules-card, .combined-details-card {  
+    background-color: white;  
+    border-radius: 8px;  
+    border-top: 40px solid #6229cc;  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 16px;  
+    width: 100%;  
+}
+
+.combined-details-card h4, .modules-card h4 {
+    color: white;
+    top: -48px;
+    left: 16px;
+    position: relative;
+    /* background-color: #6229cc; */
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+/* Styles pour les sections intégrées */
+.combined-details-card p, .combined-details-card ul {
     color: #333;
     margin: 8px 0;
-    line-height: 1.6;
 }
 
-.training-details button {
-    background-color: #ffcc00;
+.combined-details-card strong {
+    font-weight: bold;
+    display: block;
+    margin-top: 12px;
+}
+
+/* Bouton d'inscription */
+.register-button {  
+    background-color: hsl(48, 100%, 50%);  
+    color: white;  
+    border: none;  
+    border-radius: 6px;  
+    padding: 12px 24px;  
+    font-size: 1em;  
+    cursor: pointer;  
+    transition: background-color 0.3s ease, transform 0.2s ease;  
+    margin-top: 20px;  
+    font-weight: bold;
+}
+
+.register-button:hover {  
+    background-color: #007bff;  
+    color: white;  
+    transform: scale(1.05);
+}
+
+/* Styles pour le spinner de chargement */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.loading-spinner p {
+    font-size: 18px;
     color: #007bff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 16px;
+    animation: blink 1.5s infinite;
 }
 
-.training-details button:hover {
-    background-color: #007bff;
-    color: white;
+
+/* Programme de la Formation */
+.modules-card {
+    background-color: white;
+    border-radius: 8px;
+    border-top: 40px solid #6229cc;
+    padding: 16px;
+    margin-top: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.module-item {
+    margin-bottom: 16px;
+    padding: 12px;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.module-info p {
+    margin: 0;
+    font-size: 1em;
+    color: #333;
+}
+
+.session-info {
+    margin-left: 16px;
+    color: #555;
+    font-size: 0.9em;
+}
+
+
+
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
 }

@@ -1,4 +1,8 @@
 import Training from '../../models/training/training.js'
+import { getAllTrainers } from './trainer.controller.js';
+import { getAllTrainingModules } from './training-module.controller.js';
+import { getAllTrainingSessions } from './training-session.controller.js';
+
 
 export const getTrainings = async (req, res) => {
     try {
@@ -65,6 +69,47 @@ export const deleteTraining = async (req, res) => {
         const training = await Training.findByIdAndDelete(req.params.id);
         if (!training) return res.status(404).json({ message: 'Training not found' });
         res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+// Récupère tous les trainers de la formation
+export const getTrainingTrainersById = async (req, res) => {
+    try {
+        const training = await Training.findById(req.params.id);
+        if (!training) return res.status(404).json({ message: 'Training not found' });
+
+        const trainers = await getAllTrainers(training.trainer); // Appel à la méthode getAllTrainers
+        res.status(200).json(trainers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupère tous les modules de la formation
+export const getTrainingModulesById = async (req, res) => {
+    try {
+        const training = await Training.findById(req.params.id);
+        if (!training) return res.status(404).json({ message: 'Training not found' });
+
+        const modules = await getAllTrainingModules(training.modules); // Appel à la méthode getAllTrainingModules
+        res.status(200).json(modules);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Récupère toutes les sessions des différents modules de la formation
+export const getAllTrainingModuleSessions = async (req, res) => {
+    try {
+        const training = await Training.findById(req.params.id);
+        if (!training) return res.status(404).json({ message: 'Training not found' });
+
+        const sessions = await getAllTrainingSessions(training.modules); // Appel à la méthode getAllTrainingSessions
+        res.status(200).json(sessions);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

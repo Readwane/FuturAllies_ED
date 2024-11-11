@@ -1,0 +1,126 @@
+.offer-details {  
+    background-color: #f9f9f9;  
+    border-radius: 10px;   
+    border-top: 8px solid #6229cc; 
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.6);  
+    padding: 24px;  
+    margin: 16px;  
+}
+
+.offer-header h1 {  
+    color: #007bff;  
+    font-size: 2em;  
+    margin-bottom: 20px;  
+}
+
+/* Styles pour la section d'information */
+.info-section {  
+    display: flex;  
+    flex-wrap: wrap;  
+    gap: 16px;  
+    margin-bottom: 24px;  
+}  
+
+.summary-card, .company-card {  
+    background-color: white;  
+    border-radius: 8px;  
+    border-top: 40px solid #6229cc;  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 16px;  
+    width: 48%; 
+    position: relative;  
+}
+
+.summary-card h3, .company-card h3{
+ top: -40px ;
+ /* background-color: white; */
+
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.icon {
+    font-size: 1.2em;
+    color: #6229cc;
+}
+
+h3{
+    font-size: 1.1em;
+    color: white;
+    position: absolute;
+    top: -32px;
+    left: 16px;
+    background-color: #6229cc;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+h3, h4{
+    font-weight: bold; /* Ajout du style pour mettre le titre en gras */
+}
+
+
+/* Styles pour les détails supplémentaires */
+.details-cards {  
+    display: flex;  
+    flex-direction: column;  
+    gap: 16px;  
+}
+
+.description-card, .skills-card, .responsibilities-card {  
+    background-color: white;  
+    border-radius: 8px;  
+    border-top: 4px solid #6229cc;  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 16px;  
+    width: 100%;  
+}
+
+/* Bouton de candidature */
+.apply-button {  
+    background-color: hsl(48, 100%, 50%);  
+    color: white;  
+    border: none;  
+    border-radius: 6px;  
+    padding: 12px 24px;  
+    font-size: 1em;  
+    cursor: pointer;  
+    transition: background-color 0.3s ease, transform 0.2s ease;  
+    margin-top: 20px;  
+    font-weight: bold;
+}
+
+.apply-button:hover {  
+    background-color: #007bff;  
+    color: white;  
+    transform: scale(1.05);
+}
+
+/* Styles pour le spinner de chargement */  
+.loading-spinner {  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    height: 100vh;  
+}  
+
+.loading-spinner p {  
+    font-size: 18px;  
+    color: #007bff;  
+    animation: blink 1.5s infinite;  
+}  
+
+@keyframes blink {  
+    0%, 100% {  
+        opacity: 1;  
+    }  
+    50% {  
+        opacity: 0.5;  
+    }  
+}

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';  
 import { MatSnackBar } from '@angular/material/snack-bar';  
 import { OfferApplication } from '../../models/offer-application.model';  
-import { RecruitmentService } from '../../services/recruitment.service';  
+import { OfferService } from '../../services/offer.service';
 import { Doc } from 'src/app/features/user/models/doc.model';  
 
 @Component({  
@@ -29,7 +29,7 @@ export class OfferApplicationComponent implements OnInit {
 
   constructor(  
     private fb: FormBuilder,  
-    private recruitmentService: RecruitmentService,  
+    private offerService: OfferService,  
     private router: Router,  
     private route: ActivatedRoute,  
     private snackBar: MatSnackBar  
@@ -96,7 +96,7 @@ export class OfferApplicationComponent implements OnInit {
         }
       };
 
-      this.recruitmentService.createOfferApplication(offerApplication).subscribe({  
+      this.offerService.createOfferApplication(offerApplication).subscribe({  
         next: (response) => {  
           this.snackBar.open('Candidature soumise avec succès', 'Fermer', {  
             duration: 3000,  

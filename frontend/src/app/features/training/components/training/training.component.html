@@ -1,16 +1,55 @@
 <div class="training-card">
+  <div class="training-header">
     <h2>{{ training.title }}</h2>
-    <p><strong>Type :</strong> {{ training.type }}</p>
-    <p><strong>Catégorie :</strong> {{ training.category }}</p>
-    <p><strong>Domaine :</strong> {{ training.domain }}</p>
-    <p><strong>Intervenant :</strong> {{ training.trainer }}</p>
-    <p><strong>Date de début :</strong> {{ training.startDate | date: 'short' }}</p>
-    <p><strong>Date de fin :</strong> {{ training.endDate | date: 'short' }}</p>
-    <p><strong>Lieu :</strong> {{ training.location }}</p>
-    <p><strong>Prix :</strong> {{ training.price | currency:'USD' }}</p>
-    <p><strong>Participants :</strong> {{ training.currentParticipants || 0 }}/{{ training.maxParticipants }}</p>
-    <p><strong>Statut :</strong> {{ training.status }}</p>
-    <!-- Lien vers les détails de la formation avec l'ID -->
-    <a [routerLink]="['/trainings/details', training._id]" class="details-link">Voir Détails</a>
+    <p class="slogan">{{ training.slogan }}</p>
   </div>
-  
+
+  <div class="training-info">
+    <div class="info-section">
+      <div class="info-item">
+        <i class="icon">📅</i>
+        <p><strong>Date de début :</strong> {{ training.startDate | date: 'short' }}</p>
+      </div>
+      <div class="info-item">
+        <i class="icon">📅</i>
+        <p><strong>Date de fin :</strong> {{ training.endDate | date: 'short' }}</p>
+      </div>
+      <div class="info-item">
+        <i class="icon">🏢</i>
+        <p><strong>Lieu :</strong> {{ training.location }}</p>
+      </div>
+      <div class="info-item">
+        <i class="icon">💵</i>
+        <p><strong>Prix :</strong> {{ training.price | currency:'USD' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="additional-info">
+    <div class="info-section">
+      <div class="info-item">
+        <i class="icon">👤</i>
+        <p><strong>Formateur :</strong> {{ training.trainer }}</p>
+      </div>
+      <div class="info-item">
+        <i class="icon">👥</i>
+        <p><strong>Participants :</strong> {{ training.currentParticipants || 0 }}/{{ training.maxParticipants }}</p>
+      </div>
+      <div class="info-item">
+        <i class="icon">📖</i>
+        <p><strong>Type :</strong> {{ training.type === 'webinar' ? 'Webinaire' : 'Présentiel' }}</p>
+      </div>
+      <div class="info-item">
+        <i class="icon">📚</i>
+        <p><strong>Catégorie :</strong> {{ training.category }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="description">
+    <h4>Description de la Formation</h4>
+    <p>{{ training.description }}</p>
+  </div> -->
+
+  <a [routerLink]="['/trainings/details', training._id]" class="details-link">Voir Détails</a>
+</div>

@@ -1,0 +1,38 @@
+
+var paydunya = require('paydunya');
+
+var setup = new paydunya.Setup({
+  masterKey: process.env.PAYDUNYA_MASTER_KEY,
+  privateKey: process.env.PAYDUNYA_PRIVATE_KEY,
+  publicKey: process.env.PAYDUNYA_PUBLIC_KEY,
+  token: process.env.PAYDUNYA_TOKEN,
+  mode: 'test' // Optionnel. Utilisez cette option pour les paiements tests.
+});
+
+
+// Configuration des informations de votre service/entreprise
+var store = new paydunya.Store({
+    name: 'FuturAllies', // Seul le nom est 
+    callbackURL: 'http://http://localhost:3000/fichier_de_reception_des_données_de_facturation',
+    tagline: "Adpotons la nouvelle facon de se former par l'IA",
+    phoneNumber: '22670987031',
+    postalAddress: '11 BP 136 CMS OUAGA 11',
+    websiteURL: 'http://localhost:4200',
+    logoURL: 'assets/logo-futurallies.png'
+});
+
+
+export const invoice = new paydunya.CheckoutInvoice(setup, store);
+
+invoice.addItem('Nom du cours', 1, 50000, 50000); // Nom, quantité, prix unitaire, prix total
+invoice.totalAmount = 50000; // Montant total de la facture
+
+invoice.create()
+  .then(() => {
+    // Redirigez l'utilisateur vers invoice.url pour le paiement
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+invoice.setCallbackUrl('http://localhost:4200/paydunya/callback');

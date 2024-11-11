@@ -214,24 +214,52 @@ import {
 
 // **************************** Imports pour la partie training ************************************
 import {
-    getWebinars,
-    getInPersonTrainings,
     createTraining,
     getTrainings,
+    getWebinars,
+    getInPersonTrainings,
     getTrainingById,
     updateTraining,
-    deleteTraining
+    deleteTraining,
+    getTrainingTrainersById,
+    getTrainingModulesById,
+    getAllTrainingModuleSessions
 } from '../controllers/training/training.js';
 
 import {
-    getWebinarApplications, 
-    getInPersonApplications,
     createTrainingApplication,
     getTrainingApplications,
+    getWebinarApplications, 
+    getInPersonApplications,
     getTrainingApplicationById,
     updateTrainingApplication,
     deleteTrainingApplication
 } from '../controllers/training/training-application.js';
+
+import {
+    getAllTrainers,
+    getTrainerById,
+    createTrainer,
+    updateTrainer,
+    deleteTrainer,
+} from '../controllers/training/trainer.controller.js';
+
+import {
+    getAllTrainingModules,
+    getTrainingModuleById,
+    createTrainingModule,
+    updateTrainingModule,
+    deleteTrainingModule,
+} from '../controllers/training/training-module.controller.js';
+
+import {
+    getAllTrainingSessions,
+    getTrainingSessionById,
+    createTrainingSession,
+    updateTrainingSession,
+    deleteTrainingSession,
+} from '../controllers/training/training-session.controller.js';
+
 
 // ******************************** Imports pour la partie paiement *****************************************
 import {
@@ -503,6 +531,10 @@ trainingRoutes.get('/trainings/:id', getTrainingById);
 trainingRoutes.put('/trainings/:id/update', updateTraining);
 trainingRoutes.delete('/trainings/:id/delete', deleteTraining);
 
+trainingRoutes.get('/trainings/:id/trainers', getTrainingTrainersById);
+trainingRoutes.get('/trainings/:id/modules', getTrainingModulesById);
+trainingRoutes.get('/trainings/:id/modules/sessions', getAllTrainingModuleSessions);
+
 
 // Routes pour TrainingApplication
 trainingRoutes.get('training-applications/webinars', getWebinarApplications);
@@ -513,6 +545,26 @@ trainingRoutes.get('/training-applications/:id', getTrainingApplicationById);
 trainingRoutes.put('/training-applications/:id/update', updateTrainingApplication);
 trainingRoutes.delete('/training-applications/:id/delete', deleteTrainingApplication);
 
+
+trainingRoutes.get('/trainers', getAllTrainers);
+trainingRoutes.get('/trainers/:id', getTrainerById);
+trainingRoutes.post('/trainers/create', createTrainer);
+trainingRoutes.put('/trainers/:id/update', updateTrainer);
+trainingRoutes.delete('/trainers/:id/delete', deleteTrainer);
+
+
+trainingRoutes.get('/training-modules', getAllTrainingModules);
+trainingRoutes.get('/training-modules/:id', getTrainingModuleById);
+trainingRoutes.post('/training-modules/create', createTrainingModule);
+trainingRoutes.put('/training-modules/:id/update', updateTrainingModule);
+trainingRoutes.delete('/training-modules/:id/delete', deleteTrainingModule);
+
+
+trainingRoutes.get('/training-sessions', getAllTrainingSessions);
+trainingRoutes.get('/training-sessions/:id', getTrainingSessionById);
+trainingRoutes.post('/training-sessions/create', createTrainingSession);
+trainingRoutes.put('/training-sessions/:id/update', updateTrainingSession);
+trainingRoutes.delete('/training-sessions/:id/delete', deleteTrainingSession);
 
 //******************************* Routes pour la partie authnetication *************************************/
 // Routes pour subcription

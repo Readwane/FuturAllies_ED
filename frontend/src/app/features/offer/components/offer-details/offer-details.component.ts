@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecruitmentService } from '../../services/recruitment.service';
+import { OfferService } from '../../services/offer.service';
 import { Offer } from '../../models/offer.model';
 
 @Component({
@@ -16,7 +16,7 @@ export class OfferDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recruitmentService: RecruitmentService
+    private offerService: OfferService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class OfferDetailsComponent implements OnInit {
     if (id) {
       this.offerId = id;
       this.loading = true;
-      this.recruitmentService.getOfferById(id).subscribe(
+      this.offerService.getOfferById(id).subscribe(
         (data: Offer) => {
           this.offer = data;
           this.loading = false;

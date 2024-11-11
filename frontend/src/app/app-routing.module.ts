@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'offers',
-    loadChildren: () => import('./features/recruitment/recruitment.module').then(m => m.RecruitmentModule)
+    loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule)
   },
   {
     path: 'audition',

@@ -1,0 +1,85 @@
+<div class="offer-details" *ngIf="offer">  
+    <div *ngIf="loading" class="loading-spinner">  
+        <p>Chargement en cours...</p>  
+    </div>  
+    <div *ngIf="!loading">
+        <div class="offer-header">
+            <h1>{{ offer.title }}</h1>  
+        </div>
+        
+        <!-- Section des informations principales avec des icônes pour une meilleure lisibilité -->
+        <div class="info-section">  
+            <div class="summary-card">  
+                <h3>Résumé de l'Offre</h3>  
+                <div class="info-item">
+                    <i class="icon">📋</i>
+                    <p><strong>Domaine :</strong> {{ offer.domain }}</p>  
+                </div>
+                <div class="info-item">
+                    <i class="icon">🏢</i>
+                    <p><strong>Société :</strong> {{ offer.company }}</p>  
+                </div>
+                <div class="info-item">
+                    <i class="icon">📍</i>
+                    <p><strong>Lieu :</strong> {{ offer.location }}</p>  
+                </div>
+                <div class="info-item">
+                    <i class="icon">📝</i>
+                    <p><strong>Type d'offre :</strong> {{ offer.type }}</p>  
+                </div>
+                <div class="info-item">
+                    <i class="icon">📄</i>
+                    <p><strong>Type de contrat :</strong> {{ offer.contractType }}</p>  
+                </div>
+                <div class="info-item">
+                    <i class="icon">📅</i>
+                    <p><strong>Publicée le :</strong> {{ offer.postedDate | date: 'short' }}</p>  
+                </div>
+                <div class="info-item">
+                    <i class="icon">⏳</i>
+                    <p><strong>Date d'expiration :</strong> {{ offer.expirationDate | date: 'short' }}</p>  
+                </div>
+                <div class="info-item">
+                    <i class="icon">💵</i>
+                    <p><strong>Salaire :</strong> {{ offer.salary ? (offer.salary + ' FCFA') : 'Non spécifié' }}</p>  
+                </div>
+            </div>  
+            
+            <!-- Informations sur l'entreprise avec icônes pour des détails supplémentaires -->
+            <div class="company-card">  
+                <h3>Information de l'Entreprise </h3>  
+                <div class="info-item" *ngIf="offer.companyLocation">
+                    <i class="icon">📍</i>
+                    <p><strong>Localisation :</strong> {{ offer.companyLocation }}</p>  
+                </div>
+                <div class="info-item" *ngIf="offer.companySize">
+                    <i class="icon">👥</i>
+                    <p><strong>Taille :</strong> {{ offer.companySize }}</p>  
+                </div>
+                <div class="info-item" *ngIf="offer.companyWebsite">
+                    <i class="icon">🌐</i>
+                    <p><strong>Site Web :</strong> <a href="{{ offer.companyWebsite }}" target="_blank">{{ offer.companyWebsite }}</a></p>  
+                </div>
+            </div>  
+        </div>  
+  
+        <!-- Sections pour la description, compétences et responsabilités avec un style plus professionnel -->  
+        <div class="details-cards">  
+            <div class="description-card">  
+                <h4>Description de l'Offre</h4>  
+                <p>{{ offer.description }}</p>  
+            </div>  
+            <div class="skills-card">  
+                <h4>Compétences Requises</h4>  
+                <p>{{ offer.requirements }}</p>  
+            </div>  
+            <div class="responsibilities-card">  
+                <h4>Responsabilités</h4>  
+                <p>{{ offer.responsibilities }}</p>  
+            </div>  
+        </div>  
+  
+        <button (click)="register()" class="apply-button">Postuler</button>  
+    </div>  
+  </div>
+  

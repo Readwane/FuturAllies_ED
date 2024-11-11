@@ -1,0 +1,93 @@
+/* Styles de base pour la carte de l'offre */
+.offer-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.6);
+    padding: 24px;
+    margin: 35px 16px 0;
+    border-top: 8px solid #2232be;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.offer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.2), -6px -6px 10px rgba(255, 255, 255, 0.6);
+}
+
+/* Styles pour le titre */
+.offer-header h2 {
+    color: #007bff;
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.company-name {
+    font-size: 1em;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 16px;
+}
+
+/* Conteneur pour les informations de l'offre */
+.offer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Organisation des informations en sections */
+.info-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f0f4ff;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    flex: 1 1 45%;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-item:hover {
+    background-color: #e8f0ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+    font-size: 1.2em;
+    color: #2232be;
+}
+
+.info-item p {
+    color: #333;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Bouton de détails */
+.details-link {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #e7e55f;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 500;
+    width: 150px;
+    margin-top: 16px;
+}
+
+.details-link:hover {
+    background-color: #837b07;
+    transform: scale(1.05);
+}

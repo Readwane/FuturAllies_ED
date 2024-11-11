@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Offer } from '../../models/offer.model';
-import { RecruitmentService } from '../../services/recruitment.service';
+import { OfferService } from '../../services/offer.service';
 
 @Component({
   selector: 'app-offer-list',
@@ -15,7 +15,7 @@ export class OfferListComponent implements OnInit {
   filterType: string = 'all'; // Type de filtre par défaut
 
   constructor(
-    private recruitmentService: RecruitmentService
+    private offerService: OfferService
   ) {}
 
   ngOnInit(): void {
@@ -24,7 +24,7 @@ export class OfferListComponent implements OnInit {
 
   getOffers(): void {
     this.loading = true;
-    this.recruitmentService.getOffers().subscribe(
+    this.offerService.getOffers().subscribe(
       (data: Offer[]) => {
         this.offers = data;
         this.applyFilter(); // Appliquer le filtre après chargement
