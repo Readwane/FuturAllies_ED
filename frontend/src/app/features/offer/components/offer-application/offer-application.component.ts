@@ -3,91 +3,157 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';  
 import { MatSnackBar } from '@angular/material/snack-bar';  
 import { OfferApplication } from '../../models/offer-application.model';  
-import { OfferService } from '../../services/offer.service';
+import { OfferService } from '../../services/offer.service';  
 import { Doc } from 'src/app/features/user/models/doc.model';  
+import { Offer } from '../../models/offer.model';  
 
-@Component({  
-  selector: 'app-offer-application',  
-  templateUrl: './offer-application.component.html',  
-  styleUrls: ['./offer-application.component.css']  
-})  
+@Component({
+  selector: 'app-offer-application',
+  templateUrl: './offer-application.component.html',
+  styleUrls: ['./offer-application.component.css']
+})
 export class OfferApplicationComponent implements OnInit {
-
   applicationForm!: FormGroup;  
   offerId!: string;  
   userId: string = '671cb559e6bff63f72443d9c'; // ID utilisateur à remplacer  
   submittedDocuments: Doc[] = []; // Pour stocker les documents soumis au format approprié  
   today: Date = new Date();  
-  showLM: boolean | undefined;
-  showATTEST: boolean | undefined;
+  showLM: boolean | undefined;  
+  showATTEST: boolean | undefined;  
+  canAddOtherDocs: boolean = false; // Pour afficher l'option d'ajouter d'autres documents  
+  offer!: Offer;  
 
-  fileNames = {
-    CV: '',
-    LM: '',
-    ATTEST: ''
-  };
+  // Variables pour la barre de progression  
+  isUploadingCV: boolean = false;  
+  isUploadingLM: boolean = false;  
+  isUploadingATTEST: boolean = false;  
+  isUploadingOtherDocs: boolean = false;  
+  uploadProgress: number = 0; // Progression de la barre de chargement (en pourcentage)
 
-  constructor(  
+  // Variables pour stocker les noms des fichiers  
+  cvFileName: string = '';  
+  lmFileName: string = '';  
+  attestFileName: string = '';  
+  otherDocsFileName: string = '';  
+
+  constructor(
     private fb: FormBuilder,  
     private offerService: OfferService,  
     private router: Router,  
     private route: ActivatedRoute,  
     private snackBar: MatSnackBar  
-  ) {}  
+  ) {}
 
   ngOnInit(): void {  
     this.offerId = this.route.snapshot.paramMap.get('id') || '';  
-    this.applicationForm = this.fb.group({  
-      offerId: [this.offerId], // Ajout de l'ID de l'offre dans le formulaire  
-      userId: [this.userId],   // Ajout de l'ID de l'utilisateur dans le formulaire  
-      applicationDate: [{ value: this.today, disabled: true }], // Date de la candidature  
-      message: ['', [Validators.maxLength(500)]], // Message de motivation  
-      acceptTerms: [false, Validators.requiredTrue] // Acceptation des termes  
-    });  
-  }  
+    this.offerService.getOfferById(this.offerId).subscribe({
+      next: (offer) => {
+        this.offer = offer; // Charger les informations de l'offre
+        this.initializeForm(); // Initialiser le formulaire après avoir récupéré l'offre
+      },
+      error: (err) => {
+        console.error('Erreur de récupération de l\'offre', err);
+        this.snackBar.open('Erreur de récupération de l\'offre', 'Fermer', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+      }
+    });
+  }
 
-  onFileChange(event: Event): void {  
-    const input = event.target as HTMLInputElement;  
-     if (input.files) {  
-      const files = Array.from(input.files);  
-     
-      this.submittedDocuments = files.map(file => {  
-        const type = this.getFileType(file.type); // Méthode pour définir le type selon votre logique  
-        return new Doc(  
-          '', // Laissez l'ID vide ; MongoDB s'en occupera lors de l'enregistrement  
-          this.userId, // ID de l'utilisateur pour associer le document  
-          file.name, // Utilisez le nom de fichier comme titre  
-          type, // Type de document défini précédemment  
-          '', // gridfs_id sera défini après l'enregistrement  
-        );  
-      });  
-    }  
-  } 
+  // Initialiser le formulaire en fonction de l'offre
+  initializeForm(): void {
+    this.applicationForm = this.fb.group({
+      offerId: [this.offerId],
+      userId: [this.userId],
+      applicationDate: [{ value: this.today, disabled: true }],
+      message: ['', [Validators.maxLength(500)]],
+      acceptTerms: [false, Validators.requiredTrue]
+    });
 
-  // Méthode pour déterminer le type de document  
-  getFileType(fileType: string): 'CV' | 'MotivationLetter' | 'Certificate' | 'Other' {  
-    if (fileType.includes('cv')|| fileType.includes('CV')) {
-      return 'CV'; // Cela peut être personnalisé selon votre logique  
-    } else if (fileType.includes('lm') || fileType.includes('LM') || fileType.includes('Lettre')) {  
-      return 'MotivationLetter';  
-    } else if (fileType.includes('image')) {  
-      return 'Certificate';  
-    } else {  
-      return 'Other';  
-    }  
-  }  
+    // Vérification des documents requis dans l'offre
+    this.showLM = this.offer.isRequiredMlDoc;
+    this.showATTEST = this.offer.canAddOthersDoc;
+    this.canAddOtherDocs = this.offer.canAddOthersDoc;
+  }
 
-  onSubmit(): void {  
-    if (this.applicationForm.valid) {  
+  // Méthode pour gérer les fichiers et la barre de progression
+  onFileChange(event: Event, fileName: string): void {
+    let docType: 'CV' | 'ML' | 'ATTESTATION' | 'CERTIFICATION' | 'OTHER' = 'OTHER'; // Définition explicite du type
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      const file = input.files[0];
+      if (file) {
+        // Commencer le téléchargement du fichier
+        if (fileName === 'CV') {
+          this.isUploadingCV = true;
+        } else if (fileName === 'LM') {
+          this.isUploadingLM = true;
+        } else if (fileName === 'ATTEST') {
+          this.isUploadingATTEST = true;
+        } else if (fileName === 'OTHER') {
+          this.isUploadingOtherDocs = true;
+        }
+
+        // Réinitialiser la progression
+        this.uploadProgress = 0;
+
+        // Simuler le téléchargement et mise à jour de la progression
+        const interval = setInterval(() => {
+          if (this.uploadProgress < 100) {
+            this.uploadProgress += 10; // Augmenter la progression de 10%
+          } else {
+            clearInterval(interval); // Arrêter la progression quand elle atteint 100
+            if (fileName === 'CV') {
+              this.isUploadingCV = false;
+              this.cvFileName = file.name; // Mettre à jour le nom du fichier pour le CV
+            } else if (fileName === 'LM') {
+              this.isUploadingLM = false;
+              this.lmFileName = file.name; // Mettre à jour le nom du fichier pour la LM
+            } else if (fileName === 'ATTEST') {
+              this.isUploadingATTEST = false;
+              this.attestFileName = file.name; // Mettre à jour le nom du fichier pour l'attestation
+            } else if (fileName === 'OTHER') {
+              this.isUploadingOtherDocs = false;
+              this.otherDocsFileName = file.name; // Mettre à jour le nom du fichier pour autres
+            }
+          }
+        }, 500);
+
+        // Vérifier si le nom du fichier contient un terme correspondant dans docTypes
+        if (file.name) {
+          // Convertir le nom du fichier en majuscule pour une comparaison insensible à la casse
+          const fileNameUpper = file.name.toUpperCase();
+
+          // Vérifier si le nom du fichier correspond à l'un des types
+          if (fileNameUpper.includes('CV')) {
+            docType = 'CV';
+          } else if (fileNameUpper.includes('ML') || fileNameUpper.includes('LETTRE')) {
+            docType = 'ML';
+          } else if (fileNameUpper.includes('ATTESTATION')) {
+            docType = 'ATTESTATION';
+          } else if (fileNameUpper.includes('CERTIFICATION')) {
+            docType = 'CERTIFICATION';
+          }
+
+          // Ajoutez le document avec le type correspondant
+          this.submittedDocuments.push(new Doc('', this.userId, file.name, docType, ''));
+        }
+      }
+    }
+  }
+
+  onSubmit(): void {
+    if (this.applicationForm.valid) {
       const offerApplication: OfferApplication = {
         offerId: this.applicationForm.value.offerId,
-        userId: this.userId,
+        candidatId: this.userId,
         applicationDate: new Date(),
-        submittedDocuments: this.submittedDocuments, // Récupérer les documents soumis  
-        status: 'Pending', // Définir le statut  
+        submittedDocuments: this.submittedDocuments,
+        status: 'Pending',
         message: this.applicationForm.value.message || '',
-        lastUpdated: new Date() // Mettre à jour la date de dernière modification  
-        ,
+        lastUpdated: new Date(),
         updateStatus: function (newStatus: 'Pending' | 'Accepted' | 'Rejected' | 'In Review'): void {
           throw new Error('Function not implemented.');
         },
@@ -96,57 +162,34 @@ export class OfferApplicationComponent implements OnInit {
         }
       };
 
-      this.offerService.createOfferApplication(offerApplication).subscribe({  
-        next: (response) => {  
-          this.snackBar.open('Candidature soumise avec succès', 'Fermer', {  
-            duration: 3000,  
-            verticalPosition: 'top',  
-            horizontalPosition: 'center',  
-          });  
-          this.router.navigate(['/offers']);  
-        },  
-        error: (err) => {  
-          console.error('Erreur lors de la soumission de la candidature', err);  
-          this.snackBar.open('Erreur lors de la soumission de la candidature', 'Fermer', {  
-            duration: 3000,  
-            verticalPosition: 'top',  
-            horizontalPosition: 'center',  
-          });  
-        }  
-      });  
-    } else {  
-      console.warn('Formulaire invalide', this.applicationForm.errors);  
-    }  
-  }  
+      this.offerService.createOfferApplication(offerApplication).subscribe({
+        next: (response) => {
+          this.snackBar.open('Candidature soumise avec succès', 'Fermer', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+          this.router.navigate(['/offers']);
+        },
+        error: (err) => {
+          console.error('Erreur lors de la soumission de la candidature', err);
+          this.snackBar.open('Erreur lors de la soumission de la candidature', 'Fermer', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+        }
+      });
+    } else {
+      console.warn('Formulaire invalide', this.applicationForm.errors);
+    }
+  }
 
-
-  onFileSelected(event: Event, docType: string) {  
-    const input = event.target as HTMLInputElement;  
-    if (input.files && input.files.length > 0) {  
-        const file = input.files[0];  
-        
-        // Vérifiez si le fichier est défini  
-        if (file) {  
-            this.submittedDocuments.push({
-              type: 'CV', // Utiliser 'docType' pour spécifier le type de document  
-              title: file.name,
-              userId: '',
-              _id: '',
-              gridfs_id: '',
-            });  
-        } else {  
-            console.error('Aucun fichier sélectionné.');  
-        }  
-    } else {  
-        console.error('Aucun fichier trouvé dans l\'input.');  
-    }  
-}
-
-documentUpload(docType: string) {  
-  if (docType === 'CV') {  
-      // Afficher les documents LM et ATTEST  
-      this.showLM = true;  
-      this.showATTEST = true;  
-  }  
-}
+  // Méthode pour afficher l'option d'ajout d'autres documents
+  documentUpload(docType: string) {
+    if (docType === 'CV') {
+      this.showLM = true;  // Afficher le champ LM si le CV est téléchargé
+      this.showATTEST = true;  // Afficher le champ pour attestation
+    }
+  }
 }

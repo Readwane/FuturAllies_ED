@@ -1,21 +1,20 @@
-import mongoose from 'mongoose';  
+import mongoose from 'mongoose';
 
-// Définition du schéma pour les candidatures aux offres d'emploi  
-const OfferApplicationSchema = new mongoose.Schema({  
-  offer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Offer', required: true }, // Référence à l'offre  
-  user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Référence à l'utilisateur (candidat)  
-  application_date: { type: Date, default: Date.now }, // Date de la candidature  
-  status: {   
-    type: String,   
-    enum: ['Pending', 'Accepted', 'Rejected', 'In Review'],   
-    default: 'Pending' // Correction de l'erreur de frappe, maintenant 'Pending'  
-  }, // Statut de la candidature  
-  submitted_documents: { type: Map, of: String, default: {} }, // Documents soumis (ex. { "cv": "url_cv.pdf", "coverLetter": "url_letter.pdf" })  
-  message: { type: String, default: '' }, // Message de motivation du candidat  
-  last_updated: { type: Date, default: Date.now } // Dernière mise à jour de la candidature  
-});  
+const OfferApplicationSchema = new mongoose.Schema({
+  offerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Offer', required: true }, // Référence à l'offre
+  candidatId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Référence au candidat
+  applicationDate: { type: Date, default: Date.now }, // Date de candidature
+  status: { 
+    type: String, 
+    enum: ['Pending', 'Accepted', 'Rejected', 'In Review'], 
+    default: 'Pending' 
+  }, // Statut de la candidature
+  message: { type: String, default: "Je suis très intéressé(e) par cette offre et je suis convaincu(e) que mes compétences et mon expérience correspondent aux attentes de votre entreprise. J'aimerais avoir l'opportunité de discuter de cette offre plus en détail et de contribuer au succès de votre équipe." }, // Message du candidat
+  lastUpdated: { type: Date, default: Date.now }, // Date de dernière mise à jour
+  submittedDocuments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doc' }] // Documents soumis par le candidat
+}, { timestamps: true });
 
-// Création du modèle à partir du schéma  
-const OfferApplication = mongoose.model('OfferApplication', OfferApplicationSchema);  
+// Vérifier si le modèle existe déjà
+const OfferApplication = mongoose.models.OfferApplication || mongoose.model('OfferApplication', OfferApplicationSchema);
 
 export default OfferApplication;

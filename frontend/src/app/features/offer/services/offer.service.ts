@@ -50,41 +50,39 @@ export class OfferService {
   deleteOffer(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/offers/${id}`);
   }
-
-  // CRUD for Offer Applications
-
+  
   // Create an offer application
   createOfferApplication(application: OfferApplication): Observable<OfferApplication> {
-    return this.http.post<OfferApplication>(`${this.apiUrl}/applications`, application);
+    return this.http.post<OfferApplication>(`${this.apiUrl}/offer-applications/create`, application);
   }
 
   // Get all applications
   getOfferApplications(): Observable<OfferApplication[]> {
-    return this.http.get<OfferApplication[]>(`${this.apiUrl}/applications`);
+    return this.http.get<OfferApplication[]>(`${this.apiUrl}/offer-applications`);
   }
 
   // Get job applications
   getJobApplications(): Observable<OfferApplication[]> {
-    return this.http.get<OfferApplication[]>(`${this.apiUrl}/applications/jobs`);
+    return this.http.get<OfferApplication[]>(`${this.apiUrl}/offer-applications/jobs`);
   }
 
   // Get internship applications
   getInternshipApplications(): Observable<OfferApplication[]> {
-    return this.http.get<OfferApplication[]>(`${this.apiUrl}/applications/internships`);
+    return this.http.get<OfferApplication[]>(`${this.apiUrl}/offer-applications/internships`);
   }
 
   // Get application by ID
   getOfferApplicationById(id: string): Observable<OfferApplication> {
-    return this.http.get<OfferApplication>(`${this.apiUrl}/applications/${id}`);
+    return this.http.get<OfferApplication>(`${this.apiUrl}/offer-applications/${id}`);
   }
 
   // Update an application by ID
   updateOfferApplication(id: string, application: OfferApplication): Observable<OfferApplication> {
-    return this.http.put<OfferApplication>(`${this.apiUrl}/applications/${id}`, application);
+    return this.http.put<OfferApplication>(`${this.apiUrl}/offer-applications/${id}/update`, application);
   }
 
   // Delete an application by ID
   deleteOfferApplication(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/applications/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/offer-applications/${id}/delete`);
   }
 }

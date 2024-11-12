@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox'; // Importer MatCheckboxModule
 
 import { OfferRoutingModule } from './offer-routing.module';
 import { OfferComponent } from './components/offer/offer.component';
@@ -22,6 +24,8 @@ import { OfferApplicationComponent } from './components/offer-application/offer-
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
+    MatCheckboxModule,
 
     OfferRoutingModule
   ],

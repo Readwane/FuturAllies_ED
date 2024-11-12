@@ -1,7 +1,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3000/fapi/',
+  apiBaseUrl: 'http://localhost:3000/fapi',
   
   FLW_PUBLIC_KEY: 'FLWPUBK_TEST-dc13edc654873f720046afce50d698ad-X',
   FLW_CKT: 'FlutterwaveCheckout',

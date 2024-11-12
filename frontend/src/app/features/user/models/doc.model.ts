@@ -2,7 +2,7 @@ export class Doc {
     _id: string;  // Identifiant unique du document
     userId: string;  // Référence vers l'utilisateur propriétaire du document
     title: string;  // Titre ou nom du document
-    type: 'CV' | 'MotivationLetter' | 'Certificate' | 'Other';  // Type de document
+    type: string;  // Type de document
     gridfs_id: string;  // URL du fichier stocké
     // uploadedAt: string;  // Date d'upload du document
   
@@ -10,7 +10,7 @@ export class Doc {
       _id: string,
       userId: string,
       title: string,
-      type: 'CV' | 'MotivationLetter' | 'Certificate' | 'Other',
+      type: 'CV'| 'ML'| 'ATTESTATION' | 'CERTIFICATION' | 'OTHER',
       gridfs_id: string,
       // uploadedAt: string
     ) {

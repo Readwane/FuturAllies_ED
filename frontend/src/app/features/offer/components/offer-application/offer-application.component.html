@@ -1,70 +1,74 @@
-<div class="application-form-container">  
-  <div class="application-card">  
-      <h2>Candidature à l'offre</h2>  
-      <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">  
-          <!-- Identifiant d'Offre -->  
-          <input type="hidden" formControlName="offerId" />  
+<div class="application-form-container">
+  <div class="application-card">
+    <h2>Candidature à l'offre de recrutement de {{offer.title}}</h2>
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+      <!-- Message de Motivation -->
+      <div class="form-group message">
+        <label for="message">Message de Motivation</label>
+        <textarea id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation"></textarea>
+      </div>
 
-          <!-- Identifiant d'Utilisateur -->  
-          <input type="hidden" formControlName="userId" />  
+      <!-- Documents Requis -->
+      <!-- CV -->
+      <div class="form-group file-upload" *ngIf="offer.isRequiredCvDoc">
+        <label>Télécharger le CV</label>
+        <div class="upload-card" (click)="cvInput.click()">
+          <i class="upload-icon">📄</i>
+          <span class="doc-name">CV</span>
+        </div>
+        <input type="file" #cvInput style="display: none;" (change)="onFileChange($event,'CV')" />
+        <mat-progress-bar *ngIf="isUploadingCV" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <span *ngIf="cvFileName" class="file-name">{{ cvFileName }}</span> <!-- Affichage du nom du fichier -->
+      </div>
 
-          <!-- Date de la candidature -->  
-          <input type="hidden" formControlName="applicationDate" [value]="today" />  
+      <!-- Lettre de Motivation -->
+      <div class="form-group file-upload" *ngIf="showLM">
+        <label>Télécharger la Lettre de Motivation</label>
+        <div class="upload-card" (click)="lmInput.click()">
+          <i class="upload-icon">📄</i>
+          <span class="doc-name">LM</span>
+        </div>
+        <input type="file" #lmInput style="display: none;" (change)="onFileChange($event, 'LM')" />
+        <mat-progress-bar *ngIf="isUploadingLM" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <span *ngIf="lmFileName" class="file-name">{{ lmFileName }}</span> <!-- Affichage du nom du fichier -->
+      </div>
 
-          <!-- Message de Motivation -->  
-          <div class="form-group">  
-              <label for="message">Message de Motivation</label>  
-              <textarea id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation"></textarea>  
-              <div *ngIf="applicationForm.get('message')?.invalid && applicationForm.get('message')?.touched" class="alert alert-danger">  
-                  Le message ne doit pas dépasser 500 caractères.  
-              </div>  
-          </div>
-          
-          <!-- Documents Requis -->  
-          <div class="form-group file-upload">
-            <label>Télécharger le CV</label>
-            <div class="upload-card" (click)="cvInput.click()">
-              <i class="upload-icon">⬇️</i>
-              <span class="doc-name">CV</span>
-            </div>
-            <input type="file" #cvInput style="display: none;" (change)="onFileSelected($event, 'CV')" />
-            <span *ngIf="fileNames.CV" class="file-name">{{ fileNames.CV }}</span> <!-- Affichage du nom du fichier -->
-          </div>
-          
-          <div class="form-group file-upload" *ngIf="showLM">
-            <label>Télécharger la Lettre de Motivation</label>
-            <div class="upload-card" (click)="lmInput.click()">
-              <i class="upload-icon">📄</i>
-              <span class="doc-name">LM</span>
-            </div>
-            <input type="file" #lmInput style="display: none;" (change)="onFileSelected($event, 'LM')" />
-            <span *ngIf="fileNames.LM" class="file-name">{{ fileNames.LM }}</span> <!-- Affichage du nom du fichier -->
-          </div>
-          
-          <div class="form-group file-upload" *ngIf="showATTEST">
-            <label>Télécharger l'Attestation</label>
-            <div class="upload-card" (click)="attestInput.click()">
-              <i class="upload-icon">📄</i>
-              <span class="doc-name">ATTEST</span>
-            </div>
-            <input type="file" #attestInput style="display: none;" (change)="onFileSelected($event, 'ATTEST')" />
-            <span *ngIf="fileNames.ATTEST" class="file-name">{{ fileNames.ATTEST }}</span> <!-- Affichage du nom du fichier -->
-          </div>
-          
-          <!-- Accepter les Termes et Conditions -->  
-          <div class="form-group">  
-              <label>Accepter les Termes et Conditions</label>  
-              <mat-checkbox formControlName="acceptTerms">  
-                  J'accepte les termes et conditions.  
-              </mat-checkbox>  
-              <div *ngIf="applicationForm.get('acceptTerms')?.invalid && applicationForm.get('acceptTerms')?.touched" class="alert alert-danger">  
-                  Vous devez accepter les termes et conditions pour soumettre votre candidature.  
-              </div>  
-          </div>  
-          <!-- Soumettre le Formulaire -->  
-          <div class="form-group">  
-              <button type="submit" [disabled]="applicationForm.invalid" class="btn btn-primary">Soumettre la Candidature</button>  
-          </div>  
-      </form>  
-  </div>  
+      <!-- Attestation -->
+      <div class="form-group file-upload" *ngIf="showATTEST">
+        <label>Télécharger l'Attestation</label>
+        <div class="upload-card" (click)="attestInput.click()">
+          <i class="upload-icon">📄</i>
+          <span class="doc-name">ATTEST</span>
+        </div>
+        <input type="file" #attestInput style="display: none;" (change)="onFileChange($event, 'ATTEST')" />
+        <mat-progress-bar *ngIf="isUploadingATTEST" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <span *ngIf="attestFileName" class="file-name">{{ attestFileName }}</span> <!-- Affichage du nom du fichier -->
+      </div>
+
+      <!-- Autres documents -->
+      <div class="form-group file-upload" *ngIf="canAddOtherDocs">
+        <label>Ajouter d'autres documents</label>
+        <div class="upload-card" (click)="otherDocsInput.click()">
+          <i class="upload-icon">📑</i>
+          <span class="doc-name">Autres</span>
+        </div>
+        <input type="file" #otherDocsInput style="display: none;" (change)="onFileChange($event, 'OTHER')" />
+        <mat-progress-bar *ngIf="isUploadingOtherDocs" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <span *ngIf="otherDocsFileName" class="file-name">{{ otherDocsFileName }}</span> <!-- Affichage du nom du fichier -->
+      </div>
+
+      <!-- Accepter les Termes et Conditions -->
+      <div class="form-group">
+        <label>Accepter les Termes et Conditions</label>
+        <mat-checkbox formControlName="acceptTerms">
+          J'accepte les termes et conditions.
+        </mat-checkbox>
+      </div>
+
+      <!-- Soumettre le Formulaire -->
+      <div class="form-group">
+        <button type="submit" [disabled]="applicationForm.invalid" class="btn btn-primary">Soumettre la Candidature</button>
+      </div>
+    </form>
+  </div>
 </div>

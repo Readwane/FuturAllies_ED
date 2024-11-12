@@ -12,7 +12,7 @@ const DocSchema = new mongoose.Schema({
     },  // Titre du document
     type: { 
         type: String, 
-        enum: ['CV', 'MotivationLetter', 'Certificate', 'Other'], 
+        enum: ['CV', 'ML', 'ATTESTATION', 'CERTIFICATION', 'OTHER'], 
         required: true 
     },  // Type de document
     gridfs_id: { 

@@ -1,5 +1,5 @@
-import OfferApplication from '../../models/recruitment/offer-application.js'
-import Offer from '../../models/recruitment/offer.js'
+import OfferApplication from '../../models/recruitment/Offer-application.js';
+import Offer from '../../models/recruitment/Offer.js';
 
 export const createOfferApplication = async (req, res) => {
     try {
