@@ -15,7 +15,7 @@
   "dependencies": {
     "@adminjs/express": "^6.1.0",
     "@adminjs/mongoose": "^4.1.0",
-    "adminjs": "^7.8.13",
+    "adminjs": "^7.6.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "connect-mongo": "^5.1.0",
@@ -26,11 +26,11 @@
     "express-session": "^1.18.0",
     "express-validator": "^7.2.0",
     "gridfs-stream": "^1.1.1",
-    "mongodb": "^6.8.1",
-    "mongoose": "^8.7.0",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.8.1",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.7",
-    "paydunya": "^1.0.12",
-    "stripe": "^17.2.1",
-    "tslib": "^2.7.0"
+    "paydunya": "^1.0.0",
+    "tslib": "^2.8.1"
   }
 }

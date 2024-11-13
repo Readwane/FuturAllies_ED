@@ -16,10 +16,10 @@ const routes: Routes = [
   {
     path: 'course-learning', component: CourseLearningComponent
   },
-  {
-    path: 'auth',
-    loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)
-  },
+  // {
+  //   path: 'auth',
+  //   loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)
+  // },
   {
     path: 'trainings',
     loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule)

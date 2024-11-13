@@ -1,4 +1,3 @@
-import { Doc } from "../../user/models/doc.model";  
 
 export class Offer {  
   _id: string;

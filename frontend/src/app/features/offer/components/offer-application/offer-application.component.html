@@ -5,7 +5,7 @@
       <!-- Message de Motivation -->
       <div class="form-group message">
         <label for="message">Message de Motivation</label>
-        <textarea id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation"></textarea>
+        <textarea id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation" [value]="mm"></textarea>
       </div>
 
       <!-- Documents Requis -->
@@ -16,9 +16,9 @@
           <i class="upload-icon">📄</i>
           <span class="doc-name">CV</span>
         </div>
-        <input type="file" #cvInput style="display: none;" (change)="onFileChange($event,'CV')" />
+        <input type="file" #cvInput style="display: none;" (change)="onFileChange($event, 'CV')" />
         <mat-progress-bar *ngIf="isUploadingCV" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="cvFileName" class="file-name">{{ cvFileName }}</span> <!-- Affichage du nom du fichier -->
+        <span *ngIf="cvFileName" class="file-name">{{ cvFileName }}</span>
       </div>
 
       <!-- Lettre de Motivation -->
@@ -30,7 +30,7 @@
         </div>
         <input type="file" #lmInput style="display: none;" (change)="onFileChange($event, 'LM')" />
         <mat-progress-bar *ngIf="isUploadingLM" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="lmFileName" class="file-name">{{ lmFileName }}</span> <!-- Affichage du nom du fichier -->
+        <span *ngIf="lmFileName" class="file-name">{{ lmFileName }}</span>
       </div>
 
       <!-- Attestation -->
@@ -42,7 +42,7 @@
         </div>
         <input type="file" #attestInput style="display: none;" (change)="onFileChange($event, 'ATTEST')" />
         <mat-progress-bar *ngIf="isUploadingATTEST" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="attestFileName" class="file-name">{{ attestFileName }}</span> <!-- Affichage du nom du fichier -->
+        <span *ngIf="attestFileName" class="file-name">{{ attestFileName }}</span>
       </div>
 
       <!-- Autres documents -->
@@ -54,7 +54,7 @@
         </div>
         <input type="file" #otherDocsInput style="display: none;" (change)="onFileChange($event, 'OTHER')" />
         <mat-progress-bar *ngIf="isUploadingOtherDocs" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="otherDocsFileName" class="file-name">{{ otherDocsFileName }}</span> <!-- Affichage du nom du fichier -->
+        <span *ngIf="otherDocsFileName" class="file-name">{{ otherDocsFileName }}</span>
       </div>
 
       <!-- Accepter les Termes et Conditions -->

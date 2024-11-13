@@ -10,7 +10,7 @@ export class Doc {
       _id: string,
       userId: string,
       title: string,
-      type: 'CV'| 'ML'| 'ATTESTATION' | 'CERTIFICATION' | 'OTHER',
+      type: 'CV' | 'ML' | 'ATTESTATION' | 'CERTIFICATE' | 'OTHER',
       gridfs_id: string,
       // uploadedAt: string
     ) {

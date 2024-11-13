@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, throwError } from 'rxjs';
-import { User } from 'src/app/features/user/models/user.model';
-import { Profile } from 'src/app/features/user/models/profile.model';
-import { UserService } from '../../../user/services/user.service';
+import { User } from 'src/app/core/models/user/user.model';
+import { Profile } from 'src/app/core/models/user/profile.model';
+import { UserService } from 'src/app/core/services/user/user.service';
 import { Transaction } from '../../models/transaction.model';
 import { PaymentLoggingService } from '../payment-log/payment-logging.service';
 import { PaymentProviderTransaction } from '../../models/payment-provider-transaction.model';

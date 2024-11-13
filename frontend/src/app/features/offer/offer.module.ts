@@ -2,15 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatCheckboxModule } from '@angular/material/checkbox'; // Importer MatCheckboxModule
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { OfferRoutingModule } from './offer-routing.module';
 import { OfferComponent } from './components/offer/offer.component';
 import { OfferListComponent } from './components/offer-list/offer-list.component';
 import { OfferDetailsComponent } from './components/offer-details/offer-details.component';
 import { OfferApplicationComponent } from './components/offer-application/offer-application.component';
-
-
 
 @NgModule({
   declarations: [

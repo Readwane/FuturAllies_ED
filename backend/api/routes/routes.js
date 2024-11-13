@@ -199,7 +199,7 @@ import {
     getOfferApplicationById,
     updateOfferApplication,
     deleteOfferApplication
-} from '../controllers/recruitment/offer-application.js'
+} from '../controllers/recruitment/Offer-application.js'
 
 import {
     createOffer,
@@ -318,6 +318,28 @@ import {
 } from '../controllers/payment/invoice.controller.js';
 
 
+import {
+    createApplicationFile,
+    getApplicationFiles,
+    deleteApplicationFile
+} from '../controllers/authentication/application-file.controller.js';
+
+import {
+    uploadFile,
+    getFiles,
+    getFileById,
+    deleteFile,
+    updateFile
+} from '../controllers/authentication/file.controller.js'
+
+
+import {
+    createUserFile,
+    getUserFiles,
+    getUserFileById,
+    deleteUserFile,
+    updateUserFile
+} from '../controllers/authentication/user-file.controller.js'
 
 // ********************************* Deinition des routers pour chaque partie *******************************/
 const servicesRoutes = express.Router();
@@ -348,6 +370,29 @@ authenticationRoutes.get('/docs', getAllDocs); // Récupérer tous les documents
 authenticationRoutes.get('/docs/:id', getDocById); // Récupérer un document par ID  
 authenticationRoutes.put('/docs/:id', updateDoc); // Mettre à jour un document par ID  
 authenticationRoutes.delete('/docs/:id', deleteDoc); // Supprimer un document par ID
+
+// Routes pour File
+authenticationRoutes.post('/files/upload', uploadFile);
+authenticationRoutes.get('/files', getFiles);
+authenticationRoutes.get('/files/:id', getFileById);
+authenticationRoutes.put('/files/:id/update', updateFile);
+authenticationRoutes.delete('/files/:id/delete', deleteFile);
+
+
+// Routes pour User-file
+authenticationRoutes.post('/user-files/create', createUserFile);
+authenticationRoutes.get('/user-files', getUserFiles);
+authenticationRoutes.get('/user-files/:id', getUserFileById);
+authenticationRoutes.put('/user-files/:id/update', updateUserFile);
+authenticationRoutes.delete('/user-files/:id/delete', deleteUserFile);
+
+
+// Routes pour Group
+authenticationRoutes.post('/application-files/create', createApplicationFile);
+authenticationRoutes.get('/application-files', getApplicationFiles);
+authenticationRoutes.get('/application-files/:id', deleteApplicationFile);
+// authenticationRoutes.put('/application-files/:id/update', updateGroup);
+// authenticationRoutes.delete('/application-files/:id/delete', deleteGroup);
 
 // Routes pour Group
 authenticationRoutes.post('/groups/create', createGroup);

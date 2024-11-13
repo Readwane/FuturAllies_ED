@@ -1,4 +1,4 @@
-import { Doc } from "../../user/models/doc.model";  
+import { ApplicationFile } from "src/app/core/models/doc/application-file.model";
 
 export class OfferApplication {
   offerId: string; 
@@ -7,12 +7,12 @@ export class OfferApplication {
   status: 'Pending' | 'Accepted' | 'Rejected' | 'In Review';
   message: string; // Message de motivation, initialisé avec un message par défaut
   lastUpdated: Date;
-  submittedDocuments: Doc[];
+  submittedDocumentsIds: string[];
 
   constructor(
     offerId: string,  
     candidatId: string,  
-    submittedDocuments: Doc[], 
+    submittedDocumentsIds: string[], 
     applicationDate: Date = new Date(),  
     status: 'Pending' | 'Accepted' | 'Rejected' | 'In Review' = 'Pending',  
     lastUpdated: Date = new Date(),  
@@ -20,22 +20,11 @@ export class OfferApplication {
   ) {  
     this.offerId = offerId;  
     this.candidatId = candidatId;  
-    this.submittedDocuments = submittedDocuments; 
+    this.submittedDocumentsIds = submittedDocumentsIds;
     this.applicationDate = applicationDate;  
     this.status = status;  
     this.lastUpdated = lastUpdated;  
     this.message = message; // Utilisation du message de motivation par défaut
   }
 
-  // Méthode pour mettre à jour le statut de la candidature  
-  updateStatus(newStatus: 'Pending' | 'Accepted' | 'Rejected' | 'In Review'): void {  
-    this.status = newStatus;  
-    this.lastUpdated = new Date();
-  }
-
-  // Méthode pour ajouter des documents soumis  
-  addSubmittedDocument(document: Doc): void {   
-    this.submittedDocuments.push(document);
-    this.lastUpdated = new Date();
-  }  
 }

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';  
 import { TransactionService } from '../../services/transaction/transaction.service';
 import { FltwPaymentService} from '../../services/fltw-payment/fltw-payment.service';  
-import { User } from 'src/app/features/user/models/user.model';  
-import { UserService } from 'src/app/features/user/services/user.service';  
+import { User } from 'src/app/core/models/user/user.model';
+import { UserService } from 'src/app/core/services/user/user.service'; 
 
 @Component({  
   selector: 'app-account-selection',  

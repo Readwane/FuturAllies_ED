@@ -32,44 +32,6 @@ FuturAllies est une plateforme de collaboration éducative et professionnelle pe
 . └── README.md        # Document de présentation du projet
 
 ## Structure du code de la partie frontend
-1. Tous les services doivent-ils se trouver dans le dossier core?
-Non , tous les services ne doivent pas se trouver dans le dossier core. Voici une approche recommandée :
-
-Services globaux : Les services partagés dans toute l'application (comme l'authentification, la gestion des utilisateurs, ou des services communs) devraient être dans le dossier core. Ces services sont souvent injectés une seule fois via le module CoreModule.
-Services spécifiques aux fonctionnalités : Si un service est propre à une fonctionnalité, comme la gestion des cours ou l'envoi de candidatures, il doit être situé dans le module de cette fonctionnalité. Cela permet de mieux organiser le code et de réduire le couplage entre les différentes parties de l'application.
-2. Quels types de services mettre dans coreet lesquels laisser dans les modules spécifiques ?
-Services à mettre dans core:
-
-Services partagés à travers toute l'application (authentification, autorisation, gestion d'erreurs, gestion des notifications).
-Services globaux comme la gestion de session, la gestion des utilisateurs connectés, ou des configurations globales (thèmes, paramètres d'application).
-Services utilitaires (gestion de la logique métier commune, interception des requêtes HTTP via des intercepteurs).
-Services à laisser dans les modules spécifiques :
-
-Les services qui sont étroitement liés à une fonctionnalité particulière, comme :
-AuthenticationServicedans le moduleauthentication
-CourseServicedans le moduleaudition
-RecruitmentServicedans le modulerecruitment
-Ces services ne sont utilisés qu'au sein de leur propre module et ne doivent nécessairement pas être injectés au niveau global de l'application.
-3. Chaque module doit-il avoir son propre routage ?
-Pas avant tout , mais c'est souvent recommandé dans les grandes applications modulaires. Cela aide à diviser les responsabilités et permet une gestion plus souple des itinéraires. Voici comment le gérer :
-
-Modules avec leur propre routage : Chaque module spécifique ( authentication, audition, training, recruitment, etc.) peut avoir son propre fichier de routage (par exemple, authentication-routing.module.ts), ce qui permet de configurer les routes spécifiques à ce module et de les charger de manière paresseuse ( lazy chargement ).
-
-Gestion du routage global : Le fichier app-routing.module.tscentralise les routes principales et peut utiliser le lazy chargement pour charger les modules quand cela est nécessaire. Par exemple :
-
-
-const routes: Routes = [
-  { path: 'auth', loadChildren: () => import('./features/authentication/authentication.module').then(m => m.AuthenticationModule) },
-  { path: 'courses', loadChildren: () => import('./features/audition/audition.module').then(m => m.AuditionModule) },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' } // Route de fallback
-];
-
-Cette approche permet de gérer facilement des modules indépendants tout en optimisant le chargement de l'application.
-
-4. Détail de la structure avec plus de contexte
-Voici une version plus détaillée de votre structure avec des exemples de contenu dans chaque répertoire :
-
 src/
 ├── app/
 │   ├── core/                              # Module central de l'application
