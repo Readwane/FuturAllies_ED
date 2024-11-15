@@ -1,74 +1,62 @@
 <div class="application-form-container">
   <div class="application-card">
-    <h2>Candidature à l'offre de recrutement de {{offer.title}}</h2>
+    <h1 *ngIf="offer">Candidature à l'offre : {{ offer.title }}</h1>
     <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
-      <!-- Message de Motivation -->
-      <div class="form-group message">
+      <!-- Message de motivation -->
+      <div>
         <label for="message">Message de Motivation</label>
-        <textarea id="message" formControlName="message" rows="4" class="form-control" placeholder="Expliquez votre motivation" [value]="mm"></textarea>
+        <textarea
+          id="message"
+          formControlName="message"
+          rows="4"
+          class="form-control"
+          placeholder="Expliquez votre motivation"
+        ></textarea>
       </div>
 
-      <!-- Documents Requis -->
-      <!-- CV -->
-      <div class="form-group file-upload" *ngIf="offer.isRequiredCvDoc">
-        <label>Télécharger le CV</label>
-        <div class="upload-card" (click)="cvInput.click()">
-          <i class="upload-icon">📄</i>
-          <span class="doc-name">CV</span>
-        </div>
-        <input type="file" #cvInput style="display: none;" (change)="onFileChange($event, 'CV')" />
-        <mat-progress-bar *ngIf="isUploadingCV" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="cvFileName" class="file-name">{{ cvFileName }}</span>
+      <!-- Fichiers requis -->
+      <div>
+        <label for="cv">Télécharger votre CV</label>
+        <input
+          id="cv"
+          type="file"
+          (change)="onFileSelected($event, 'CV')"
+          accept=".pdf,.doc,.docx"
+        />
       </div>
 
-      <!-- Lettre de Motivation -->
-      <div class="form-group file-upload" *ngIf="showLM">
-        <label>Télécharger la Lettre de Motivation</label>
-        <div class="upload-card" (click)="lmInput.click()">
-          <i class="upload-icon">📄</i>
-          <span class="doc-name">LM</span>
-        </div>
-        <input type="file" #lmInput style="display: none;" (change)="onFileChange($event, 'LM')" />
-        <mat-progress-bar *ngIf="isUploadingLM" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="lmFileName" class="file-name">{{ lmFileName }}</span>
+      <div>
+        <label for="lm">Télécharger votre Lettre de Motivation</label>
+        <input
+          id="lm"
+          type="file"
+          (change)="onFileSelected($event, 'LM')"
+          accept=".pdf,.doc,.docx"
+        />
       </div>
 
-      <!-- Attestation -->
-      <div class="form-group file-upload" *ngIf="showATTEST">
-        <label>Télécharger l'Attestation</label>
-        <div class="upload-card" (click)="attestInput.click()">
-          <i class="upload-icon">📄</i>
-          <span class="doc-name">ATTEST</span>
-        </div>
-        <input type="file" #attestInput style="display: none;" (change)="onFileChange($event, 'ATTEST')" />
-        <mat-progress-bar *ngIf="isUploadingATTEST" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="attestFileName" class="file-name">{{ attestFileName }}</span>
+      <div>
+        <label for="otherDocs">Télécharger d'autres documents</label>
+        <input
+          id="otherDocs"
+          type="file"
+          (change)="onFileSelected($event, 'OTHER')"
+          multiple
+          accept=".pdf,.doc,.docx"
+        />
       </div>
 
-      <!-- Autres documents -->
-      <div class="form-group file-upload" *ngIf="canAddOtherDocs">
-        <label>Ajouter d'autres documents</label>
-        <div class="upload-card" (click)="otherDocsInput.click()">
-          <i class="upload-icon">📑</i>
-          <span class="doc-name">Autres</span>
-        </div>
-        <input type="file" #otherDocsInput style="display: none;" (change)="onFileChange($event, 'OTHER')" />
-        <mat-progress-bar *ngIf="isUploadingOtherDocs" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-        <span *ngIf="otherDocsFileName" class="file-name">{{ otherDocsFileName }}</span>
-      </div>
-
-      <!-- Accepter les Termes et Conditions -->
-      <div class="form-group">
-        <label>Accepter les Termes et Conditions</label>
+      <!-- Accepter les termes -->
+      <div>
         <mat-checkbox formControlName="acceptTerms">
           J'accepte les termes et conditions.
         </mat-checkbox>
       </div>
 
-      <!-- Soumettre le Formulaire -->
-      <div class="form-group">
-        <button type="submit" [disabled]="applicationForm.invalid" class="btn btn-primary">Soumettre la Candidature</button>
-      </div>
+      <!-- Bouton de soumission -->
+      <button type="submit" [disabled]="applicationForm.invalid" class="btn btn-primary">
+        Soumettre
+      </button>
     </form>
   </div>
 </div>

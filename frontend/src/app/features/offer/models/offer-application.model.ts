@@ -1,10 +1,9 @@
-import { ApplicationFile } from "src/app/core/models/doc/application-file.model";
 
 export class OfferApplication {
   offerId: string; 
   candidatId: string;
   applicationDate: Date; 
-  status: 'Pending' | 'Accepted' | 'Rejected' | 'In Review';
+  status: string
   message: string; // Message de motivation, initialisé avec un message par défaut
   lastUpdated: Date;
   submittedDocumentsIds: string[];

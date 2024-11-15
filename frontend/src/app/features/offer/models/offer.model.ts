@@ -51,7 +51,7 @@ export class Offer {
     status: 'Open' | 'Closed' | 'Pending' = 'Open',
     applicationMode: 'Online' | 'Physical' | 'Both' = 'Online',
     isRequiredCvDoc: boolean = true,
-    isRequiredMlDoc: boolean = true,
+    isRequiredMlDoc: boolean = false,
     canAddOthersDoc: boolean = false,
     onlineSubmission: boolean = true,
     salary?: number,

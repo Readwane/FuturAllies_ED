@@ -193,6 +193,7 @@ import {
 // *************************** Imports pour la partie recruitment ************************************
 import {
     createOfferApplication,
+    submiteOfferApplication,
     getOfferApplications,
     getJobApplications, 
     getInternshipApplications,
@@ -326,6 +327,7 @@ import {
 
 import {
     uploadFile,
+    uploadFiles,
     getFiles,
     getFileById,
     deleteFile,
@@ -340,6 +342,7 @@ import {
     deleteUserFile,
     updateUserFile
 } from '../controllers/authentication/user-file.controller.js'
+
 
 // ********************************* Deinition des routers pour chaque partie *******************************/
 const servicesRoutes = express.Router();
@@ -373,6 +376,7 @@ authenticationRoutes.delete('/docs/:id', deleteDoc); // Supprimer un document pa
 
 // Routes pour File
 authenticationRoutes.post('/files/upload', uploadFile);
+authenticationRoutes.post('/uploads', uploadFiles);
 authenticationRoutes.get('/files', getFiles);
 authenticationRoutes.get('/files/:id', getFileById);
 authenticationRoutes.put('/files/:id/update', updateFile);
@@ -550,9 +554,10 @@ certificationRoutes.delete('/certifications/:id/delete', deleteCertification);
 //******************************* Routes pour la partie recruitment *************************************/
   // Routes pour OfferApplication
   recruitmentRoutes.get('/offer-applications', getOfferApplications);
-  recruitmentRoutes.get('/offer-applications/jobs`', getJobApplications);
-  recruitmentRoutes.get('/offer-applications/internships', getInternshipApplications);
-  recruitmentRoutes.post('/offer-applications/create', createOfferApplication);
+//   recruitmentRoutes.get('/offer-applications/jobs`', getJobApplications);
+//   recruitmentRoutes.get('/offer-applications/internships', getInternshipApplications);
+  recruitmentRoutes.post('/offer-applications/create', submiteOfferApplication);
+//   recruitmentRoutes.post('/offer-applications/create', createOfferApplication);
   recruitmentRoutes.get('/offer-applications/:id', getOfferApplicationById);
   recruitmentRoutes.put('/offer-applications/:id/updte', updateOfferApplication);
   recruitmentRoutes.delete('/offer-applications/:id/delete', deleteOfferApplication);

@@ -12,57 +12,144 @@ const upload = multer({
   limits: { fileSize: 16 * 1024 * 1024 }, // 16MB
 }).single('file'); // Utilisation d'un fichier unique
 
+// Modification pour accepter plusieurs fichiers (par exemple jusqu'à 10 fichiers)
+const uploads = multer({
+  storage: storage,
+  limits: { fileSize: 16 * 1024 * 1024 }, // 16MB
+}).array('files', 10); // Utilisation de plusieurs fichiers (le nom de champ est 'files')
+
+
 export const uploadFile = async (req, res) => {
-  return new Promise((resolve, reject) => {
-    console.log('Début du processus de téléchargement du fichier...');
-    upload(req, res, async (err) => {
-      if (err) {
-        console.error('Erreur de téléchargement :', err.message);
-        return reject({ message: 'Erreur de téléchargement du fichier : ' + err.message });
-      }
+  console.log('Début du processus de téléchargement du fichier...');
 
-      const { file } = req;
-      if (!file) {
-        console.error('Aucun fichier téléchargé');
-        return reject({ message: 'Aucun fichier téléchargé.' });
-      }
+  upload(req, res, async (err) => {
+    if (err) {
+      console.error('Erreur de téléchargement :', err.message);
+      return res.status(500).json({ message: 'Erreur de téléchargement du fichier : ' + err.message });
+    }
 
-      // Extraction des informations du fichier téléchargé
-      const fileType = file.mimetype;
-      const fileSize = file.size;
-      console.log(`Fichier téléchargé : ${file.originalname}, Type: ${fileType}, Taille: ${fileSize} octets`);
+    const { file } = req;
+    if (!file) {
+      console.error('Aucun fichier téléchargé');
+      return res.status(400).json({ message: 'Aucun fichier téléchargé.' });
+    }
 
-      // Upload dans GridFS
-      const uploadStream = gridFSBucket.openUploadStream(file.originalname);
-      uploadStream.end(file.buffer);
+    // Extraction des informations du fichier téléchargé
+    const fileType = file.mimetype;
+    const fileSize = file.size;
+    console.log(`Fichier téléchargé : ${file.originalname}, Type: ${fileType}, Taille: ${fileSize} octets`);
 
-      uploadStream.on('finish', async () => {
-        const newFile = new File({
-          title: file.originalname,
-          type: fileType,
-          fileSize: fileSize,
-          gridfs_id: uploadStream.id,
-        });
+    // Upload dans GridFS
+    const uploadStream = gridFSBucket.openUploadStream(file.originalname);
 
-        try {
-          const savedFile = await newFile.save();
-          console.log('Fichier enregistré dans la base de données:', savedFile);
-          resolve(savedFile); // Résoudre la promesse avec l'objet `savedFile`
-        } catch (error) {
-          console.error('Erreur lors de l\'enregistrement du fichier :', error.message);
-          reject({ message: error.message });
-        }
-      });
-
-      uploadStream.on('error', (error) => {
-        console.error('Erreur lors de l\'upload du fichier :', error.message);
-        reject({ message: 'Erreur lors de l\'upload du fichier : ' + error.message });
-      });
+    // Gestion des erreurs et de la fin du stream
+    uploadStream.on('error', (error) => {
+      console.error('Erreur lors de l\'upload du fichier :', error.message);
+      return res.status(500).json({ message: 'Erreur lors de l\'upload du fichier : ' + error.message });
     });
-  }).catch((err) => {
-    res.status(500).json(err); // Gérer l'erreur ici en cas de problème avec la promesse
+
+    uploadStream.on('finish', async () => {
+      const newFile = new File({
+        title: file.originalname,
+        type: fileType,
+        fileSize: fileSize,
+        gridfs_id: uploadStream.id,
+      });
+
+      try {
+        const savedFile = await newFile.save();
+        console.log('Fichier enregistré dans la base de données:', savedFile);
+        return res.status(200).json({
+          message: 'Fichier téléchargé avec succès.',
+          file: savedFile,
+        });
+      } catch (error) {
+        console.error('Erreur lors de l\'enregistrement du fichier :', error.message);
+        return res.status(500).json({ message: error.message });
+      }
+    });
+
+    // Écriture du buffer dans le stream
+    uploadStream.end(file.buffer);
   });
 };
+
+export const uploadFiles = (req, res) => {
+  console.log('Début du processus de téléchargement des fichiers...');
+
+  return new Promise((resolve, reject) => {
+    uploads(req, res, async (err) => {
+      if (err) {
+        console.error('Erreur de téléchargement :', err.message);
+        reject(new Error('Erreur de téléchargement du fichier : ' + err.message));
+        return;
+      }
+
+      const { files } = req;
+      if (!files || files.length === 0) {
+        console.error('Aucun fichier téléchargé');
+        reject(new Error('Aucun fichier téléchargé.'));
+        return;
+      }
+
+      const uploadedFiles = [];
+
+      try {
+        // Utiliser Promise.all pour uploader tous les fichiers en parallèle
+        await Promise.all(files.map(async (file) => {
+          // Extraction des informations du fichier téléchargé
+          const fileType = file.mimetype;
+          const fileSize = file.size;
+          console.log(`Fichier téléchargé : ${file.originalname}, Type: ${fileType}, Taille: ${fileSize} octets`);
+
+          // Upload dans GridFS
+          const uploadStream = gridFSBucket.openUploadStream(file.originalname);
+
+          await new Promise((resolveStream, rejectStream) => {
+            uploadStream.on('error', (error) => {
+              console.error('Erreur lors de l\'upload du fichier :', error.message);
+              rejectStream(error);
+            });
+
+            uploadStream.on('finish', async () => {
+              const newFile = new File({
+                title: file.originalname,
+                type: fileType,
+                fileSize: fileSize,
+                gridfs_id: uploadStream.id,
+              });
+
+              try {
+                const savedFile = await newFile.save();
+                console.log('Fichier enregistré dans la base de données:', savedFile);
+                uploadedFiles.push(savedFile);
+                resolveStream();
+              } catch (error) {
+                console.error('Erreur lors de l\'enregistrement du fichier :', error.message);
+                rejectStream(error);
+              }
+            });
+
+            // Écriture du buffer dans le stream
+            uploadStream.end(file.buffer);
+          });
+        }));
+
+        // Résoudre la promesse avec les fichiers téléchargés
+        resolve(uploadedFiles);
+
+      } catch (error) {
+        console.error('Erreur lors du traitement des fichiers:', error.message);
+        reject(new Error('Erreur lors du traitement d\'un fichier : ' + error.message));
+      }
+    });
+  });
+};
+
+
+
+
+
 
 
 

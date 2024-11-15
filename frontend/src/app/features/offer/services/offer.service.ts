@@ -10,7 +10,7 @@ import { OfferApplication } from '../models/offer-application.model';
   providedIn: 'root'
 })
 export class OfferService {
-  private apiUrl = `${environment.apiBaseUrl}`;
+  private apiUrl = 'http://localhost:3000/fapi';
 
   constructor(private http: HttpClient) {}
 
@@ -51,10 +51,60 @@ export class OfferService {
     return this.http.delete<void>(`${this.apiUrl}/offers/${id}`);
   }
   
-  // Create an offer application
-  createOfferApplication(application: OfferApplication): Observable<OfferApplication> {
-    return this.http.post<OfferApplication>(`${this.apiUrl}/offer-applications/create`, application);
+  // // Create an offer application
+  // createOfferApplication_1(application: OfferApplication): Observable<OfferApplication> {
+  //   return this.http.post<OfferApplication>(`${this.apiUrl}/offer-applications/create`, application);
+  // }
+
+
+  // /**
+  //  * Méthode pour soumettre une candidature.
+  //  * @param offerApplication L'objet `OfferApplication` contenant les données de la candidature.
+  //  * @param files Les fichiers soumis avec la candidature.
+  //  * @returns Un Observable pour traiter la réponse du serveur.
+  //  */
+  // createOfferApplication_2(
+  //   offerApplication: OfferApplication,
+  //   files: File[]
+  // ): Observable<any> {
+  //   const formData = new FormData();
+  //   // Ajouter les champs texte à formData
+  //   formData.append('offerId', offerApplication.offerId);
+  //   formData.append('candidatId', offerApplication.candidatId);
+  //   formData.append('message', offerApplication.message);
+
+  //   // Ajouter les fichiers
+  //   files.forEach((file) => {
+  //     formData.append('files', file, file.name);
+  //   });
+
+  //   // Faire la requête POST
+  //   return this.http.post(`${this.apiUrl}/create`, formData);
+  // }
+
+   // Méthode pour créer une nouvelle candidature
+   createOfferApplication(offerApplication: OfferApplication, files: File[]): Observable<any> {
+    const formData = new FormData();
+  
+    // Ajouter les champs texte à formData
+    formData.append('offerId', offerApplication.offerId);
+    formData.append('candidatId', offerApplication.candidatId);
+    formData.append('message', offerApplication.message);
+  
+    // Ajouter les fichiers à formData
+    files.forEach((file) => {
+      formData.append('files', file);
+    });
+  
+    // Faire la requête POST
+    return this.http.post(`${this.apiUrl}/offer-applications/create`, formData);
   }
+  
+
+  // submitOfferApplication(formData: FormData): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}/offer-applications/create`, formData);
+  // }
+
 
   // Get all applications
   getOfferApplications(): Observable<OfferApplication[]> {

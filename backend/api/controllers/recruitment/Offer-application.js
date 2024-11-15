@@ -1,47 +1,103 @@
 import OfferApplication from '../../models/recruitment/Offer-application.js';
-import { uploadFile } from './file.controller.js';  // Controller uploadFile pour gérer le téléchargement
+import { uploadFile, uploadFiles } from '../authentication/file.controller.js'
 
 // Créer une candidature avec plusieurs fichiers soumis
-// Créer une candidature avec plusieurs fichiers soumis
+
+
 export const createOfferApplication = async (req, res) => {
-    const { user_id, offerId, message } = req.body;
-    const { files } = req;  // Le tableau de fichiers à télécharger
+  const { user_id, offerId, message } = req.body;
+  const { files } = req; // Le tableau de fichiers à télécharger
+  if (!files || files.length === 0) {
+    return res.status(400).json({ message: 'Aucun fichier téléchargé.' });
+  }
+  try {
+    // Tableau pour stocker les ID des fichiers téléchargés
+    const uploadedFilesIds = [];
+    // Traiter chaque fichier individuellement et appeler uploadFile
+    for (const file of files) {
+      req.file = file; // Définir chaque fichier comme `req.file`
+      // Appel de la méthode `uploadFile` et attendre sa réponse
+      const result = await new Promise((resolve, reject) => {
+        uploadFile(req, {
+          ...res,
+          locals: {},
+        }, (err) => {
+          if (err) {
+            return reject(err);
+          }
 
-    if (!files || files.length === 0) {
-        return res.status(400).json({ message: 'Aucun fichier téléchargé.' });
-    }
-    try {
-        // Tableau pour stocker les ID des fichiers téléchargés
-        const uploadedFiles = [];
-        // Traiter chaque fichier et appeler le controller pour le télécharger
-        for (const file of files) {
-            try {
-                // Appel direct à uploadFile pour gérer chaque fichier
-                const uploadedFile = await uploadFile(req, res);
-                uploadedFiles.push(uploadedFile._id);  // Ajouter l'ID du fichier à la liste des fichiers téléchargés
-            } catch (fileError) {
-                // Si une erreur survient lors du téléchargement d'un fichier, arrêter le processus
-                console.error(`Erreur lors du téléchargement du fichier ${file.originalname}: ${fileError.message}`);
-                return res.status(400).json({ message: `Erreur lors du téléchargement du fichier: ${file.originalname}.` });
-            }
-        }
-        // Créer la nouvelle candidature avec la liste des fichiers soumis
-        const newOfferApplication = new OfferApplication({
-            offerId,
-            candidatId: user_id,
-            message,
-            submittedDocuments: uploadedFiles, // Associer tous les fichiers téléchargés à la candidature
+          if (res.locals.uploadedFile) {
+            uploadedFilesIds.push(res.locals.uploadedFile._id);
+            resolve(res.locals.uploadedFile);
+          } else {
+            reject(new Error('Erreur pendant le téléchargement du fichier'));
+          }
         });
-        // Sauvegarder la candidature
-        const savedOfferApplication = await newOfferApplication.save();
-        console.log('Candidature créée avec succès:', savedOfferApplication);
-        res.status(201).json(savedOfferApplication);  // Répondre avec la candidature créée
-    } catch (error) {
-        // Gestion des erreurs générales
-        console.error('Erreur lors de la création de la candidature :', error.message);
-        res.status(400).json({ message: error.message });
+      });
+      if (!result) {
+        console.error(`Erreur pendant le téléchargement du fichier : ${file.originalname}`);
+        return res.status(400).json({ message: `Erreur lors du téléchargement du fichier: ${file.originalname}.` });
+      }
     }
+    // Créer la nouvelle candidature avec la liste des fichiers soumis
+    const newOfferApplication = new OfferApplication({
+      offerId,
+      candidatId: user_id,
+      message,
+      submittedDocumentsIds: uploadedFilesIds,
+      applicationDate: new Date(),
+      status: 'Pending',
+      lastUpdated: new Date(),
+    });
+
+    // Sauvegarder la candidature
+    const savedOfferApplication = await newOfferApplication.save();
+    console.log('Candidature créée avec succès:', savedOfferApplication);
+    res.status(201).json(savedOfferApplication);
+
+  } catch (error) {
+    // Gestion des erreurs générales
+    console.error('Erreur lors de la création de la candidature :', error.message);
+    res.status(500).json({ message: error.message });
+  }
 };
+
+
+
+
+export const submiteOfferApplication = async (req, res) => {
+  try {
+    // Appel à uploadFiles pour télécharger les fichiers
+    const uploadedFiles = await uploadFiles(req, res);
+
+    // Vérifier si les fichiers ont été téléchargés avec succès
+    if (!uploadedFiles || uploadedFiles.length === 0) {
+      return res.status(400).json({ message: 'Aucun fichier téléchargé.' });
+    }
+
+    // Création de la candidature après que les fichiers aient été téléchargés
+    const { offerId, candidatId, message } = req.body;
+    const uploadedFilesIds = uploadedFiles.map(file => file._id);
+
+    const newOfferApplication = new OfferApplication({
+      offerId,
+      candidatId,
+      message,
+      submittedDocumentsIds: uploadedFilesIds, // Associer les fichiers téléchargés à la candidature
+    });
+
+    // Sauvegarder la candidature
+    const savedOfferApplication = await newOfferApplication.save();
+    console.log('Candidature créée avec succès:', savedOfferApplication);
+    return res.status(201).json(savedOfferApplication);
+
+  } catch (error) {
+    // Gestion des erreurs générales
+    console.error('Erreur lors de la création de la candidature :', error.message);
+    return res.status(500).json({ message: 'Erreur lors de la création de la candidature : ' + error.message });
+  }
+};
+
 
 
 

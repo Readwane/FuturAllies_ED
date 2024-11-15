@@ -2,82 +2,35 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Pour centrer verticalement le formulaire */
+  min-height: 100vh; /* Centrage vertical */
   background-color: #f4f7fc; /* Fond légèrement gris */
 }
-
 
 .application-card {
   background-color: white;
   margin: 16px;
   border-radius: 8px;
   border-top: 50px solid #6229cc; /* Bordure du haut avec couleur attrayante */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Ombre douce pour un effet de profondeur */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Ombre douce */
   padding: 24px;
   width: 100%;
   max-width: 700px;
   transition: transform 0.3s ease-in-out;
 }
 
-.application-card h2 {
-  color: white;
-  top: -65px;
-  left: 16px;
-  position: relative;
-  border-radius: 4px;
-  margin-bottom: 2px;
+.application-card h1 {
+  color: #6229cc;
+  font-size: 1.8em;
+  text-align: center;
+  margin-bottom: 16px;
 }
 
 .application-card:hover {
-  transform: translateY(-10px); /* Effet au survol du formulaire */
-}
-
-.upload-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 100px;
-  border: 2px dashed #007bff;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 16px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.upload-card:hover {
-  background-color: rgba(0, 123, 255, 0.1);
-  transform: scale(1.05); /* Légère agrandissement au survol */
-}
-
-.upload-icon {
-  font-size: 28px;
-  color: #007bff; /* Icone en bleu */
-}
-
-.doc-name {
-  margin-top: 8px;
-  font-weight: bold;
-  color: #333; /* Couleur plus foncée pour le texte */
-}
-
-.file-name {
-  margin-top: 8px;
-  font-style: italic;
-  color: #007bff;
-  display: inline-block;
-  margin-left: 12px;
-}
-
-.mat-progress-bar {
-  margin-top: 0;
-  margin-left: 12px; /* Espacement pour aligner à droite */
-  display: flex;
+  transform: translateY(-10px); /* Effet au survol */
 }
 
 .form-group {
-  margin-bottom: 24px; /* Augmentation de l'espacement entre les champs */
+  margin-bottom: 24px; /* Espacement entre les champs */
 }
 
 .form-control {
@@ -91,57 +44,64 @@
 }
 
 .form-control:focus {
-  border-color: #007bff; /* Changer la couleur du border au focus */
-  outline: none; /* Retirer l'outline */
+  border-color: #007bff; /* Couleur au focus */
+  outline: none; /* Suppression de l'outline */
 }
 
-.mat-checkbox {
-  font-size: 16px;
-  color: #333;
-}
-
-.mat-checkbox-label {
-  font-weight: normal;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px; /* Coins arrondis */
-  padding: 12px 24px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  width: 100%;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.alert {
-  color: red;
-  margin-top: 4px;
-  font-size: 0.9em;
-  text-align: center;
+textarea.form-control {
+  resize: none; /* Désactiver le redimensionnement */
 }
 
 .upload-card {
-  background-color: #f9f9f9; /* Légèrement plus clair pour l'upload */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border: 2px dashed #007bff;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.upload-card input {
-  display: none;
+.upload-card:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: scale(1.05); /* Légère agrandissement */
 }
 
-.hidden-docs {
-  display: none;
+.upload-icon {
+  font-size: 28px;
+  color: #007bff; /* Couleur de l'icône */
 }
 
-/* Style pour les checkbox d'acceptation des termes */
+.doc-name {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #333; /* Couleur pour le texte */
+}
+
+.file-name {
+  margin-top: 8px;
+  font-style: italic;
+  color: #007bff;
+  display: inline-block;
+}
+
+.mat-progress-bar {
+  margin-top: 8px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+
 .mat-checkbox .mat-checkbox-inner-container {
-  border-radius: 6px; /* Coins arrondis pour le carré de la checkbox */
+  border-radius: 4px; /* Coins arrondis pour la case */
   border: 2px solid #007bff;
 }
 
@@ -152,4 +112,31 @@
 
 .mat-checkbox-checked .mat-checkbox-ripple .mat-ripple-element {
   background-color: rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px; /* Coins arrondis */
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+.alert {
+  color: red;
+  margin-top: 8px;
+  font-size: 0.9em;
+  text-align: center;
 }
