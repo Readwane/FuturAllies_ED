@@ -1,5 +1,6 @@
 <div class="offer-details" *ngIf="offer">  
     <div *ngIf="loading" class="loading-spinner">  
+        <mat-progress-spinner mode="indeterminate" diameter="70" color="primary"></mat-progress-spinner>
         <p>Chargement en cours...</p>  
     </div>  
     <div *ngIf="!loading">
@@ -47,7 +48,7 @@
             
             <!-- Informations sur l'entreprise avec icônes pour des détails supplémentaires -->
             <div class="company-card">  
-                <h3>Information de l'Entreprise </h3>  
+                <h3>Information de l'Entreprise</h3>  
                 <div class="info-item" *ngIf="offer.companyLocation">
                     <i class="icon">📍</i>
                     <p><strong>Localisation :</strong> {{ offer.companyLocation }}</p>  
@@ -71,15 +72,18 @@
             </div>  
             <div class="skills-card">  
                 <h4>Compétences Requises</h4>  
-                <p>{{ offer.requirements }}</p>  
+                <ul>
+                    <li *ngFor="let skill of offer.requirements">{{ skill }}</li>
+                </ul>
             </div>  
             <div class="responsibilities-card">  
                 <h4>Responsabilités</h4>  
-                <p>{{ offer.responsibilities }}</p>  
+                <ul>
+                    <li *ngFor="let responsibility of offer.responsibilities">{{ responsibility }}</li>
+                </ul>
             </div>  
         </div>  
   
         <button (click)="register()" class="apply-button">Postuler</button>  
     </div>  
-  </div>
-  
+</div>

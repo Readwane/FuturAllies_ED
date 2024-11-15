@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon'; // Optionnel, si vous utilisez des icônes
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { OfferRoutingModule } from './offer-routing.module';
 import { OfferComponent } from './components/offer/offer.component';
@@ -37,6 +38,7 @@ import { OfferApplicationComponent } from './components/offer-application/offer-
     MatButtonModule,
     MatSnackBarModule,
     MatIconModule, // Optionnel
+    MatProgressSpinnerModule,
 
     OfferRoutingModule
   ],

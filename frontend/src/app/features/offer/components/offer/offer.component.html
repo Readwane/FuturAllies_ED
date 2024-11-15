@@ -22,9 +22,6 @@
                 <i class="icon">📄</i>
                 <p><strong>Contrat :</strong> {{ offer.contractType }}</p>
             </div>
-        </div>
-
-        <div class="info-section">
             <div class="info-item" *ngIf="offer.salary">
                 <i class="icon">💵</i>
                 <p><strong>Salaire :</strong> {{ offer.salary | currency: 'USD' }}</p>
@@ -37,9 +34,6 @@
                 <i class="icon">🏠</i>
                 <p><strong>Télétravail :</strong> {{ offer.isRemote ? 'Oui' : 'Non' }}</p>
             </div>
-        </div>
-
-        <div class="info-section">
             <div class="info-item">
                 <i class="icon">📅</i>
                 <p><strong>Date de publication :</strong> {{ offer.postedDate | date: 'short' }}</p>
@@ -53,14 +47,9 @@
                 <p><strong>Statut :</strong> {{ offer.status }}</p>
             </div>
         </div>
-
-        <!-- <div class="info-section" *ngIf="offer.additionalInfo">
-            <div class="info-item">
-                <i class="icon">ℹ️</i>
-                <p><strong>Infos supplémentaires :</strong> {{ offer.additionalInfo }}</p>
-            </div>
-        </div> -->
     </div>
 
-    <a [routerLink]="['/offers/details', offer._id]" class="details-link">Voir Détails</a>
+    <div class="details-container">
+        <a [routerLink]="['/offers/details', offer._id]" class="details-link">Voir Détails</a>
+    </div>
 </div>

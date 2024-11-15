@@ -13,49 +13,55 @@
     text-align: center;
     margin-bottom: 24px;
 }
-
 /* Styles pour les boutons de filtre */
 .filter-buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 15px;
+    margin-bottom: 35px;
 }
 
 .filter-buttons button {
-    background-color: #ffffff;
-    border: 1px solid #007bff;
-    color: #007bff;
-    border-radius: 5px;
-    padding: 8px 16px;
+    background: #ffffff;
+    border: 2px solid #004aad;
+    color: #004aad;
+    border-radius: 50px;
+    padding: 12px 30px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
+    font-size: 1.1em;
+    transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.3s ease;
+    outline: none;
 }
 
 .filter-buttons button.active {
-    background-color: #007bff;
+    background: #004aad;
     color: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 74, 173, 0.3);
 }
 
 .filter-buttons button:hover {
-    background-color: #007bff;
+    background: #004aad;
     color: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 74, 173, 0.3);
 }
 
 /* Styles pour le spinner */
 .loading-spinner {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 60vh;
+    gap: 15px;
 }
 
 .loading-spinner p {
-    font-size: 18px;
-    color: #007bff;
-    animation: blink 1.5s infinite;
+    font-size: 1.5em;
+    color: #004aad;
+    animation: fade-in-out 2s infinite;
 }
+
 
 @keyframes blink {
     0%, 100% {

@@ -104,7 +104,8 @@ export const submiteOfferApplication = async (req, res) => {
 // Récupérer toutes les candidatures pour une offre donnée
 export const getOfferApplications = async (req, res) => {
     try {
-        const applications = await OfferApplication.find().populate('offerId userId');
+        const applications = await OfferApplication.find(); 
+        // .populate('offerId candidatId');
         res.status(200).json(applications);
     } catch (error) {
         console.error('Erreur lors de la récupération des candidatures :', error.message);

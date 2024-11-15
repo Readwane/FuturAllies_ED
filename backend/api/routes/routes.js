@@ -554,8 +554,8 @@ certificationRoutes.delete('/certifications/:id/delete', deleteCertification);
 //******************************* Routes pour la partie recruitment *************************************/
   // Routes pour OfferApplication
   recruitmentRoutes.get('/offer-applications', getOfferApplications);
-//   recruitmentRoutes.get('/offer-applications/jobs`', getJobApplications);
-//   recruitmentRoutes.get('/offer-applications/internships', getInternshipApplications);
+  recruitmentRoutes.get('/applications/jobs`', getJobApplications);
+  recruitmentRoutes.get('/applications/internships', getInternshipApplications);
   recruitmentRoutes.post('/offer-applications/create', submiteOfferApplication);
 //   recruitmentRoutes.post('/offer-applications/create', createOfferApplication);
   recruitmentRoutes.get('/offer-applications/:id', getOfferApplicationById);
