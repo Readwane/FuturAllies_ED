@@ -213,6 +213,16 @@ import {
 } from '../controllers/recruitment/offer.js';
 
 
+
+import {  
+    createEnterprise,  
+    getEnterprises,  
+    getEnterpriseById,  
+    updateEnterprise,  
+    deleteEnterprise  
+} from '../controllers/recruitment/enterprise.controller.js';  
+
+
 // **************************** Imports pour la partie training ************************************
 import {
     createTraining,
@@ -570,6 +580,14 @@ certificationRoutes.delete('/certifications/:id/delete', deleteCertification);
  recruitmentRoutes.get('/offers/:id', getOfferById);
  recruitmentRoutes.put('/offers/:id/update', updateOffer);
  recruitmentRoutes.delete('/offers/:id/delete', deleteOffer);
+
+// Routes pour l'entreprise 
+recruitmentRoutes.get('/enterprises', getEnterprises); // Récupérer toutes les entreprises  
+recruitmentRoutes.post('/enterprises/create', createEnterprise); // Créer une nouvelle entreprise  
+recruitmentRoutes.get('/enterprises/:id', getEnterpriseById); // Récupérer une entreprise par ID  
+recruitmentRoutes.put('/enterprises/:id/update', updateEnterprise); // Mettre à jour une entreprise  
+recruitmentRoutes.delete('/enterprises/:id/delete', deleteEnterprise); // Supprimer une entreprise 
+
 
 //******************************* Routes pour la partie training *************************************/
 // Routes pour Training
