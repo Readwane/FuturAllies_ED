@@ -1,2 +1,50 @@
-<h2>Détails de l'étudiant</h2>
-<p>Identifiant : {{ studentId }}</p>
+<mat-card class="student-details-card">
+    <mat-toolbar color="primary" class="details-toolbar">
+      <button mat-icon-button routerLink="/students" aria-label="Retour à la liste">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>Détails de l'Étudiant</span>
+      <div class="actions-container">
+        <button mat-raised-button color="accent" (click)="editStudent(student)">Modifier</button>
+        <button mat-raised-button color="warn" (click)="deleteStudent(student)">Supprimer</button>
+      </div>
+    </mat-toolbar>
+  
+    <div class="student-info-container">
+      <!-- Section de l'avatar et des informations principales -->
+      <div class="student-main">
+        <img
+          src="https://via.placeholder.com/150"
+          alt="Avatar de l'étudiant"
+          class="student-avatar"
+        />
+        <div class="student-main-info">
+          <h2>{{ student.name }}</h2>
+          <p>Email : <a href="mailto:{{ student.email }}">{{ student.email }}</a></p>
+          <p>Discipline : {{ student.major }}</p>
+        </div>
+      </div>
+  
+      <!-- Section des détails supplémentaires -->
+      <div class="student-details">
+        <h3>Informations supplémentaires</h3>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListIcon>today</mat-icon>
+            Âge : {{ student.age }} ans
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon>date_range</mat-icon>
+            Inscrit depuis : 01 janvier 2024
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon>school</mat-icon>
+            Parcours : Licence en {{ student.major }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  
+    
+  </mat-card>
+  

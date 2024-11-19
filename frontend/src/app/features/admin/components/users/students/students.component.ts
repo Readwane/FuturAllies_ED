@@ -52,6 +52,13 @@ export class StudentsComponent {
     this.filteredStudents = this.students.filter(student =>
       student.name.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
+    this.updatePaginatedStudents(); // Actualiser les données paginées après le filtrage
+  }
+
+  updatePaginatedStudents() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedStudents = this.filteredStudents.slice(startIndex, endIndex);
   }
 
   // Vérifie si toutes les lignes sont sélectionnées
@@ -109,16 +116,14 @@ export class StudentsComponent {
 
   // Méthode appelée lors de la pagination
   changePage(event: PageEvent) {
-    this.pageSize = event.pageSize; // Taille de la page
-    this.currentPage = event.pageIndex; // Index de la page actuelle
-    const startIndex = this.currentPage * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-
-    this.paginatedStudents = this.filteredStudents.slice(startIndex, endIndex);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePaginatedStudents(); // Actualiser les données paginées lors du changement de page
   }
 
    // Méthode pour naviguer vers les détails d'un étudiant
    goToDetails(student: any) {
     this.router.navigate(['/students', student.id]); // Navigue vers '/students/:id'
   }
+  
 }

@@ -5,12 +5,17 @@
       <mat-label>Rechercher</mat-label>
       <input matInput placeholder="Nom ou prénom" [(ngModel)]="searchQuery" (keyup)="applyFilter()">
     </mat-form-field>
+    <!-- Bouton flottant pour ajouter un utilisateur -->
+    <button mat-fab color="primary" class="add-user-button" (click)="addStudent()">
+        <mat-icon>add</mat-icon>
+    </button>
+  
     <div class="actions-toolbar" *ngIf="hasSelectedRows()">
       <button mat-raised-button color="warn" (click)="deleteSelectedRows()">Supprimer tout</button>
     </div>
   </div>
   
-<table mat-table [dataSource]="filteredStudents" class="students-table">
+<table mat-table [dataSource]="paginatedStudents" class="students-table">
 
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
@@ -75,6 +80,11 @@
 
   </table>
   
-  <mat-paginator [length]="students.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" (page)="changePage($event)">
-  </mat-paginator>
+  <mat-paginator
+  [length]="filteredStudents.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 20]"
+  (page)="changePage($event)"
+>
+</mat-paginator>
   
