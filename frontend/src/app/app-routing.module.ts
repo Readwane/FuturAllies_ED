@@ -24,6 +24,7 @@ const routes: Routes = [
     path: 'trainings',
     loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule)
   },
+  
   {
     path: 'offers',
     loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule)
@@ -35,25 +36,9 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./features/dashboard/admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
+    loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)
   },
-  {
-    path: 'user',
-    loadChildren: () => import('./features/dashboard/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'trainer',
-    loadChildren: () => import('./features/dashboard/trainer-dashboard/trainer-dashboard.module').then(m => m.TrainerDashboardModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'employer',
-    loadChildren: () => import('./features/dashboard/employer-dashboard/employer-dashboard.module').then(m => m.EmployerDashboardModule),
-    canActivate: [AuthGuard]
-  },
-
-
+ 
   { path: 'flwtest', component: FlwtestComponent },
   { path: 'subscription', component: UserProfileTypeComponent },
   { path: 'payment-methodes', component: PaymentMethodesComponent },

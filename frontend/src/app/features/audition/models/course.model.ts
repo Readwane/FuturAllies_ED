@@ -1,4 +1,7 @@
 export class Course {
+  id(id: any, value: any) {
+    throw new Error('Method not implemented.');
+  }
   _id: string;
   moduleId: string;
   title: string;

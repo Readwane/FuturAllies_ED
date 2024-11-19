@@ -1,0 +1,95 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" opened class="sidenav">
+    <mat-toolbar>FuturAllies</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        <span>Tableau de bord</span>
+      </a>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-icon>people</mat-icon>
+          <span>Utilisateurs</span>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/students">Etudiants</a>
+          <a mat-list-item routerLink="/instructors">Formateurs</a>
+          <a mat-list-item routerLink="/companies">Entreprises</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-icon>school</mat-icon>
+          <span>Ecoles</span>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/universities">Universités</a>
+          <a mat-list-item routerLink="/institutes">Instituts</a>
+          <a mat-list-item routerLink="/training-centers">Centres de formations</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-icon>menu_book</mat-icon>
+          <span>Cours</span>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/domains">Domaines</a>
+          <a mat-list-item routerLink="/training-paths">Parcours de formations</a>
+          <a mat-list-item routerLink="/free-courses">Cours libres</a>
+          <a mat-list-item routerLink="/paid-courses">Cours payants</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-icon>verified</mat-icon>
+          <span>Certifications</span>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/certification-bodies">Organismes de certifications</a>
+          <a mat-list-item routerLink="/available-certifications">Certifications disponibles</a>
+          <a mat-list-item routerLink="/issued-certifications">Certifications délivrées</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-icon>work</mat-icon>
+          <span>Offres</span>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/jobs">Emplois</a>
+          <a mat-list-item routerLink="/internships">Stages</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="header">
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Administration</span>
+      <span class="spacer"></span>
+      <div>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>account_circle</mat-icon>
+            <span>Mon profil</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            <span>Déconnexion</span>
+          </button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="userMenu">
+          <img *ngIf="user.isLoggedIn && user.avatarUrl" [src]="user.avatarUrl" class="avatar">
+          <mat-icon *ngIf="!user.avatarUrl">account_circle</mat-icon>
+          <span>{{ user.name }}</span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

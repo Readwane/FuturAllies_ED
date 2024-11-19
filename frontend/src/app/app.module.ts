@@ -17,9 +17,16 @@ import { LayoutModule } from './layout/layout.module';
 import { FeaturesModule } from './features/features.module';
 import { SharedModule } from './shared/shared.module';
 import { PaymentModule } from './features/payment/payment.module';
-import { WebinarModule } from './features/webinar/webinar.module';
 import { TrainingModule } from './features/training/training.module';
 import { OfferModule } from './features/offer/offer.module';
+
+// Angular Material Modules
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { AdminModule } from './features/admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -32,12 +39,27 @@ import { OfferModule } from './features/offer/offer.module';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+
     MatButtonModule,
     MatCardModule,
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatTableModule,
 
     CoreModule,   
     LayoutModule,
@@ -45,6 +67,8 @@ import { OfferModule } from './features/offer/offer.module';
     SharedModule,  
     TrainingModule,
     OfferModule,
+
+    AdminModule
   ],
   bootstrap: [AppComponent],
 })

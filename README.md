@@ -2,7 +2,15 @@
 
 ## NB: Mettez votre navigateur en langue anglaise pour eviter toute confusion de noms
 ## Description
-FuturAllies est une plateforme de collaboration éducative et professionnelle permettant de guider les étudiants et jeunes professionnels dans leur carrière. Elle intègre des fonctionnalités comme des cours, stages, offres d'emploi, et bien plus.
+FuturAllies est une plateforme de collaboration éducative et professionnelle permettant :
+- l'audition libre (le user parcours le catalogue et suit en son guise les cours libres qu'il veut)
+- l' audition certifiéé (visualise les parcours de certification, s'inscrit et commence à evacuer les cours contenus du parcours)
+- Des offres de formation (en presentiel et en webinaire) de diverses natures
+- Des offres d'emploi et de stage
+- De l'orientattion professionnelle
+
+
+de guider les étudiants et jeunes professionnels dans leur carrière. Elle intègre des fonctionnalités comme des cours, stages, offres d'emploi, et bien plus.
 
 ## Technologies
 - Node.js / Django pour l'API
