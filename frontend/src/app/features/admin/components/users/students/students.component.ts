@@ -101,7 +101,7 @@ export class StudentsComponent {
 
   // Ajouter un étudiant
   addStudent() {
-    console.log('Add Student');
+    this.router.navigate(['/users/cu']);
   }
 
   // Modifier un étudiant

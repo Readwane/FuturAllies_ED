@@ -1,0 +1,63 @@
+/* Conteneur principal de la carte */
+.cu-resource-card {
+    margin: 24px auto;
+    padding: 16px;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Barre d'outils */
+  mat-toolbar {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Champs de formulaire */
+  .form-field {
+    margin-bottom: 16px;
+  }
+  
+  /* Formulaire */
+  mat-form-field {
+    width: 100%;
+  }
+  
+  /* Boutons d'action */
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+  
+  .actions button {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 8px 24px;
+  }
+  
+  /* Effets au survol */
+  .actions button:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Zones de texte et sélection */
+  textarea {
+    resize: vertical;
+  }
+  
+  mat-select {
+    width: 100%;
+  }
+  
+  /* Messages d'erreur */
+  mat-error {
+    font-size: 0.85em;
+    color: red;
+  }
+  

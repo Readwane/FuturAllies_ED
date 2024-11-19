@@ -14,16 +14,20 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './components/admin/admin.component';
 import { DynamicMenuComponent } from './components/dynamic-menu/dynamic-menu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StudentsComponent } from './components/users/students/students.component';
-import { FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StudentDetailsComponent } from './components/users/students-details/students-details.component';
+import { CuResourceComponent } from './components/cu-resource/cu-resource.component';
+import { CuUsersComponent } from './components/cu-users/cu-users.component';
 
 
 
@@ -33,7 +37,9 @@ import { StudentDetailsComponent } from './components/users/students-details/stu
     DynamicMenuComponent,
     DashboardComponent,
     StudentsComponent,
-    StudentDetailsComponent
+    StudentDetailsComponent,
+    CuResourceComponent,
+    CuUsersComponent
   ],
   imports: [
 
@@ -55,14 +61,18 @@ import { StudentDetailsComponent } from './components/users/students-details/stu
     MatPaginatorModule,
     FormsModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    MatOptionModule
   ],
   exports: [
     AdminComponent,
     DynamicMenuComponent,
     DashboardComponent,
     StudentsComponent,
-    StudentDetailsComponent
+    StudentDetailsComponent,
+    CuResourceComponent,
+    CuUsersComponent
   ]
 })
 export class AdminModule { }

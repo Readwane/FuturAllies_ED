@@ -4,6 +4,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StudentsComponent } from './components/users/students/students.component';
 import { StudentDetailsComponent } from './components/users/students-details/students-details.component';
+import { CuUsersComponent } from './components/cu-users/cu-users.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent }, // Tableau de bord
       { path: 'students', component: StudentsComponent }, // Gestion des étudiants
       { path: 'students/:id', component: StudentDetailsComponent }, // Page des détails
+      { path: 'users/cu', component: CuUsersComponent }, 
       // Ajoutez d'autres routes enfants ici
     ]
   }
