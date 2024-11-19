@@ -1,28 +1,75 @@
-// app/admin/admin.component.ts
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin',
-  // standalone: true,
-  // imports: [],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
   user = {
-    isLoggedIn: true, // Définit si l'utilisateur est connecté
-    avatarUrl: '',    // L'URL de l'avatar. Vide signifie qu'un avatar par défaut sera affiché
-    name: 'Utilisateur' // Nom d'affichage de l'utilisateur
+    isLoggedIn: true,
+    avatarUrl: '',
+    name: 'Utilisateur',
+    notifications: 5,
+    messages: 3
   };
 
-  // Méthode pour gérer la déconnexion
-  logout() {
-    console.log('Utilisateur déconnecté');
-    this.user.isLoggedIn = false;
-    this.user.avatarUrl = '';
-    this.user.name = 'Utilisateur';
-  }
+  menuItems = [
+    { label: 'Tableau de bord', icon: 'dashboard', route: '/dashboard' },
+    {
+      label: 'Utilisateurs',
+      icon: 'people',
+      children: [
+        { label: 'Étudiants', route: '/students' },
+        { label: 'Formateurs', route: '/instructors' },
+        { label: 'Entreprises', route: '/companies' },
+        { label: 'Administrateurs', route: '/admintrators' },
+      ]
+    },
+    {
+      label: 'Écoles',
+      icon: 'school',
+      children: [
+        { label: 'Universités', route: '/universities' },
+        { label: 'Instituts', route: '/institutes' },
+        { label: 'Centres de formations', route: '/training-centers' }
+      ]
+    },
+    {
+      label: 'Cours',
+      icon: 'menu_book',
+      children: [
+        { label: 'Domaines', route: '/domains' },
+        { label: 'Parcours de formations', route: '/training-paths' },
+        { label: 'Cours libres', route: '/free-courses' },
+        { label: 'Cours payants', route: '/paid-courses' }
+      ]
+    },
+    {
+      label: 'Certifications',
+      icon: 'verified',
+      children: [
+        { label: 'Organismes de certifications', route: '/certification-bodies' },
+        { label: 'Certifications disponibles', route: '/available-certifications' },
+        { label: 'Certifications délivrées', route: '/issued-certifications' }
+      ]
+    },
+    {
+      label: 'Offres',
+      icon: 'work',
+      children: [
+        { label: 'Emplois', route: '/jobs' },
+        { label: 'Stages', route: '/internships' }
+      ]
+    },
+    {
+      label: 'Paramètres',
+      icon: 'settings',
+      children: [
+        { label: 'Thèmes', route: '/themes' },
+        { label: 'Apparence', route: '/appearance' },
+        { label: 'Politique d’utilisation', route: '/policy' }
+      ]
+    }
+  ];
 }
-
-
-

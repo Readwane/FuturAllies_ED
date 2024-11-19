@@ -10,16 +10,14 @@ import { CourseLearningComponent } from './features/pages/course-learning/course
 import { FlwtestComponent } from './features/payment/components/flwtest/flwtest.component';
 
 const routes: Routes = [
+
   {
     path: '', component: AcceuilComponent
   },
   {
     path: 'course-learning', component: CourseLearningComponent
   },
-  // {
-  //   path: 'auth',
-  //   loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)
-  // },
+ 
   {
     path: 'trainings',
     loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule)
