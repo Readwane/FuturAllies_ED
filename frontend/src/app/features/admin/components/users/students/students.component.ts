@@ -101,12 +101,12 @@ export class StudentsComponent {
 
   // Ajouter un étudiant
   addStudent() {
-    this.router.navigate(['/users/cu']);
+    this.router.navigate(['/c-users']);
   }
 
   // Modifier un étudiant
   editStudent(student: any) {
-    console.log('Edit Student', student);
+    this.router.navigate(['/u-users']);
   }
 
   // Supprimer un étudiant

@@ -1,60 +1,54 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-interface FieldConfig {
-  name: string;
-  type: string;
-  label: string;
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  options?: { value: string; label: string }[];
-}
-
 @Component({
   selector: 'app-cu-resource',
   templateUrl: './cu-resource.component.html',
-  styleUrls: ['./cu-resource.component.css']
+  styleUrls: ['./cu-resource.component.css'],
 })
 export class CuResourceComponent implements OnInit {
-  @Input() resource: any = {}; // Données de la ressource
-  @Input() fieldsConfig: FieldConfig[] = []; // Configuration des champs
-  @Input() mode: 'create' | 'update' = 'create'; // Mode : 'create' ou 'update'
-  @Output() formSubmit = new EventEmitter<any>(); // Émet les données du formulaire
+  @Input() mode: 'create' | 'update' = 'create'; // Mode (création ou modification)
+  @Input() resourceData: any = {}; // Données pour modification
+  @Input() fieldsConfig: any[] = []; // Configuration des champs dynamiques
+  @Output() submit = new EventEmitter<any>(); // Événement pour soumettre les données
+  @Output() cancel = new EventEmitter<void>(); // Événement pour annuler
 
-  form!: FormGroup; // Utilisation de `!` pour indiquer que cette propriété sera initialisée
+  form!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.createForm();
+    this.initializeForm();
   }
 
-  createForm() {
-    const formControls: { [key: string]: any } = {};
+  initializeForm(): void {
+    if (!this.fieldsConfig || this.fieldsConfig.length === 0) {
+      console.error('Aucune configuration de champ fournie.');
+      return;
+    }
 
-    this.fieldsConfig.forEach((field) => {
-      formControls[field.name] = [
-        this.resource[field.name] || '', // Valeur par défaut
-        this.getValidators(field) // Validations dynamiques
+    const formControls = this.fieldsConfig.reduce((acc: any, field: any) => {
+      acc[field.name] = [
+        this.mode === 'update' && this.resourceData[field.name] !== undefined
+          ? this.resourceData[field.name] // Valeur existante pour modification
+          : '', // Valeur par défaut pour création
+        field.required ? Validators.required : [], // Validateurs
       ];
-    });
+      return acc;
+    }, {});
 
     this.form = this.fb.group(formControls);
   }
 
-  getValidators(field: FieldConfig) {
-    const validators = [];
-    if (field.required) validators.push(Validators.required);
-    if (field.type === 'email') validators.push(Validators.email);
-    if (field.minLength) validators.push(Validators.minLength(field.minLength));
-    if (field.maxLength) validators.push(Validators.maxLength(field.maxLength));
-    return validators;
+  onSubmit(): void {
+    if (this.form.valid) {
+      this.submit.emit(this.form.value);
+    } else {
+      console.error('Formulaire invalide');
+    }
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      this.formSubmit.emit(this.form.value); // Émet les données du formulaire
-    }
+  onCancel(): void {
+    this.cancel.emit();
   }
 }

@@ -1,0 +1,27 @@
+<div class="users-container">
+    <h2>Gestion des utilisateurs</h2>
+    <app-generic-listing
+      [fieldsConfig]="fieldsConfig"
+      [data]="users"
+      [actions]="actions"
+      [paginationConfig]="paginationConfig"
+      [searchable]="searchable"
+      (addEvent)="addUser()"
+      [selectable]="true"
+      [bulkActions]="bulkActions"
+      [rowClickable]="rowClickable"
+      [displayedColumns]="displayedColumns"
+      (searchEvent)="handleSearch($event)">
+    </app-generic-listing>
+  </div>
+  
+  <!-- <app-generic-listing
+  [fieldsConfig]="fieldsConfig"
+  [data]="data"
+  [actions]="actions"
+  [paginationConfig]="paginationConfig"
+  [searchable]="true"
+  [sortable]="true"
+  [addAction]="true"
+  (addEvent)="addUser()"
+></app-generic-listing> -->

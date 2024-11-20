@@ -21,7 +21,7 @@ export class AdminComponent {
       icon: 'people',
       children: [
         { label: 'Étudiants', route: '/students' },
-        { label: 'Formateurs', route: '/instructors' },
+        { label: 'Formateurs', route: '/users' },
         { label: 'Entreprises', route: '/companies' },
         { label: 'Administrateurs', route: '/admintrators' },
       ]

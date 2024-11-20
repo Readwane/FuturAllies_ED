@@ -19,6 +19,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './components/admin/admin.component';
@@ -27,8 +29,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StudentsComponent } from './components/users/students/students.component';
 import { StudentDetailsComponent } from './components/users/students-details/students-details.component';
 import { CuResourceComponent } from './components/cu-resource/cu-resource.component';
-import { CuUsersComponent } from './components/cu-users/cu-users.component';
-
+import { CuUsersComponent } from './components/users/cu-users/cu-users.component';
+import { CUsersComponent } from './components/users/c-users/c-users.component';
+import { UUsersComponent } from './components/users/u-users/u-users.component';
+import { GenericListingComponent } from './components/generic-listing/generic-listing.component';
+import { UsersComponent } from './components/users/users/users.component';
+import { GenericCreateComponent } from './components/generic-create/generic-create.component';
+import { GenericEditComponent } from './components/generic-edit/generic-edit.component';
 
 
 @NgModule({
@@ -39,7 +46,13 @@ import { CuUsersComponent } from './components/cu-users/cu-users.component';
     StudentsComponent,
     StudentDetailsComponent,
     CuResourceComponent,
-    CuUsersComponent
+    CuUsersComponent,
+    CUsersComponent,
+    UUsersComponent,
+    GenericListingComponent,
+    UsersComponent,
+    GenericCreateComponent,
+    GenericEditComponent,
   ],
   imports: [
 
@@ -63,7 +76,10 @@ import { CuUsersComponent } from './components/cu-users/cu-users.component';
     MatTableModule,
     MatCheckboxModule,
     ReactiveFormsModule,
-    MatOptionModule
+    MatOptionModule,
+    MatTooltipModule,
+    MatSelectModule
+  
   ],
   exports: [
     AdminComponent,
@@ -72,7 +88,13 @@ import { CuUsersComponent } from './components/cu-users/cu-users.component';
     StudentsComponent,
     StudentDetailsComponent,
     CuResourceComponent,
-    CuUsersComponent
+    CuUsersComponent,
+    CUsersComponent,
+    UUsersComponent,
+    GenericListingComponent,
+    UsersComponent,
+    GenericCreateComponent,
+    GenericEditComponent,
   ]
 })
 export class AdminModule { }

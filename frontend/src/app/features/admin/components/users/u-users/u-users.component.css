@@ -1,0 +1,136 @@
+/* Conteneur principal pour la page */
+.users-container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  /* Titre principal */
+  h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #3f51b5;
+    margin: 0;
+  }
+  
+  /* Table des utilisateurs */
+  .users-table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+  
+  .users-table th {
+    background-color: #f4f4f4;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9em;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .users-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.95em;
+  }
+  
+  .users-table tr:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Boutons d'actions */
+  button {
+    text-transform: uppercase;
+    font-size: 0.85em;
+    padding: 8px 16px;
+  }
+  
+  button[mat-button] {
+    color: #3f51b5;
+  }
+  
+  button[mat-button]:hover {
+    background-color: rgba(63, 81, 181, 0.1);
+  }
+  
+  /* Formulaire de modification */
+  app-cu-resource {
+    margin-top: 24px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 24px;
+    background-color: #ffffff;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Champs du formulaire */
+  .cu-resource-form .mat-form-field {
+    width: 100%;
+  }
+  
+  .cu-resource-form .form-field {
+    margin-bottom: 16px;
+  }
+  
+  /* Boutons d'actions pour le formulaire */
+  .cu-resource-form .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+  
+  .cu-resource-form button {
+    font-size: 0.9em;
+    padding: 10px 20px;
+    text-transform: uppercase;
+  }
+  
+  .cu-resource-form button[type='submit'] {
+    background-color: #4caf50;
+    color: #ffffff;
+  }
+  
+  .cu-resource-form button[type='submit']:hover {
+    background-color: #43a047;
+  }
+  
+  .cu-resource-form button[type='button'] {
+    background-color: #f44336;
+    color: #ffffff;
+  }
+  
+  .cu-resource-form button[type='button']:hover {
+    background-color: #e53935;
+  }
+  
+  /* Responsivité */
+  @media (max-width: 768px) {
+    .users-container {
+      padding: 8px;
+    }
+  
+    .users-table th, 
+    .users-table td {
+      padding: 8px;
+    }
+  
+    app-cu-resource {
+      padding: 16px;
+      max-width: 100%;
+    }
+  
+    .cu-resource-form .actions {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .cu-resource-form button {
+      width: 100%;
+    }
+  }
+  
