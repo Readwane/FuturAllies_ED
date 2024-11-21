@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Offer } from '../../models/offer.model';  
 import { Router } from '@angular/router';  
 import { EnterpriseService } from '../../services/enterprise.service'; // Importer le service Enterprise  
-import { Enterprise } from '../../models/enterprise.model'; // Importer le modèle Enterprise  
+import { Enterprise } from '../../../../core/models/user/enterprise.model'; // Importer le modèle Enterprise  
 
 @Component({  
   selector: 'app-offer',  

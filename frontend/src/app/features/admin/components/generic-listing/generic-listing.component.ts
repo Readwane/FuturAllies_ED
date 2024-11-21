@@ -6,7 +6,6 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
   styleUrls: ['./generic-listing.component.css'],
 })
 export class GenericListingComponent implements OnInit {
-
   @Input() fieldsConfig: { name: string; label: string; type: string }[] = [];
   @Input() data: any[] = [];
   @Input() actions: { name: string; label: string; icon: string; callback: (item: any) => void }[] = [];
@@ -90,6 +89,15 @@ export class GenericListingComponent implements OnInit {
     this.updateSelectedItems();
   }
 
+  /** Exécute une action pour un élément donné */
+  executeAction(action: any, item: any): void {
+    if (action.callback) {
+      action.callback(item);
+    } else {
+      console.warn(`Aucune fonction de rappel définie pour l'action : ${action.name}`);
+    }
+  }
+
   /** Gère le clic sur une ligne */
   handleRowClick(item: any): void {
     if (this.rowClickable) {
@@ -101,8 +109,4 @@ export class GenericListingComponent implements OnInit {
   onAddClick(): void {
     this.addEvent.emit();
   }
-
-  executeAction(_t65: { name: string; label: string; icon: string; callback: (item: any) => void; },_t54: any) {
-    // throw new Error('Method not implemented.');
-    }
 }

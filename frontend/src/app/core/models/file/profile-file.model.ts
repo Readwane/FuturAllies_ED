@@ -3,18 +3,18 @@ import { User } from '../user/user.model';
 
 export class UserFile {
     _id: string;
-  userId: string;
+  profileId: string;
   fileId: string;
-  purpose: 'CV' | 'ProfilePicture' | 'Other';
+  purpose: 'CV' | 'PROFILE_IMG' | 'OTHER';
 
   constructor(
     _id: string,
-    userId: string,
+    profileId: string,
     fileId: string,
-    purpose: 'CV' | 'ProfilePicture' | 'Other'
+    purpose: 'CV' | 'PROFILE_IMG' | 'OTHER'
   ) {
     this._id = _id;
-    this.userId = userId;
+    this.profileId = profileId;
     this.fileId = fileId;
     this.purpose = purpose;
   }

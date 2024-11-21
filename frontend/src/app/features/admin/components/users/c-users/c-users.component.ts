@@ -17,7 +17,7 @@ export class CUsersComponent {
   ];
 
   // Label du bouton
-  submitButtonLabel = 'Créer Utilisateur';
+  submitButtonLabel = 'Crééer un utilisateur';
 
   // Valeurs par défaut
   defaultValues = {

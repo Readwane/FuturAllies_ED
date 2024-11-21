@@ -1,0 +1,46 @@
+<mat-card class="details-container" [ngClass]="cssClasses.container">
+    <mat-toolbar color="primary" class="details-toolbar">
+      <span>Détails</span>
+    </mat-toolbar>
+  
+    <div class="details-content">
+      <div
+        *ngFor="let field of fieldsConfig"
+        class="details-field"
+        [ngClass]="cssClasses.field"
+      >
+        <strong>{{ field.label }}:</strong>
+        <ng-container [ngSwitch]="field.type">
+          <!-- Texte -->
+          <span *ngSwitchCase="'text'">{{ data[field.name] }}</span>
+  
+          <!-- Email -->
+          <a *ngSwitchCase="'email'" [href]="'mailto:' + data[field.name]">
+            {{ data[field.name] }}
+          </a>
+  
+          <!-- Image -->
+          <img *ngSwitchCase="'image'" [src]="data[field.name]" alt="{{ field.label }}" />
+  
+          <!-- Date -->
+          <span *ngSwitchCase="'date'">{{ data[field.name] | date }}</span>
+  
+          <!-- Par défaut -->
+          <span *ngSwitchDefault>{{ data[field.name] }}</span>
+        </ng-container>
+      </div>
+    </div>
+  
+    <div class="actions" [ngClass]="cssClasses.button">
+      <button
+        *ngFor="let action of actions"
+        mat-raised-button
+        color="primary"
+        (click)="action.callback()"
+      >
+        <mat-icon *ngIf="action.icon">{{ action.icon }}</mat-icon>
+        {{ action.label }}
+      </button>
+    </div>
+  </mat-card>
+  

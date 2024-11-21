@@ -29,13 +29,15 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StudentsComponent } from './components/users/students/students.component';
 import { StudentDetailsComponent } from './components/users/students-details/students-details.component';
 import { CuResourceComponent } from './components/cu-resource/cu-resource.component';
-import { CuUsersComponent } from './components/users/cu-users/cu-users.component';
 import { CUsersComponent } from './components/users/c-users/c-users.component';
 import { UUsersComponent } from './components/users/u-users/u-users.component';
 import { GenericListingComponent } from './components/generic-listing/generic-listing.component';
-import { UsersComponent } from './components/users/users/users.component';
+import { ListUsersComponent } from './components/users/list-users/list-users.component';
 import { GenericCreateComponent } from './components/generic-create/generic-create.component';
 import { GenericEditComponent } from './components/generic-edit/generic-edit.component';
+import { GenericDetailsComponent } from './components/generic-details/generic-details.component';
+import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -46,13 +48,14 @@ import { GenericEditComponent } from './components/generic-edit/generic-edit.com
     StudentsComponent,
     StudentDetailsComponent,
     CuResourceComponent,
-    CuUsersComponent,
     CUsersComponent,
     UUsersComponent,
     GenericListingComponent,
-    UsersComponent,
+    ListUsersComponent,
     GenericCreateComponent,
     GenericEditComponent,
+    GenericDetailsComponent,
+    UserDetailsComponent
   ],
   imports: [
 
@@ -78,7 +81,8 @@ import { GenericEditComponent } from './components/generic-edit/generic-edit.com
     ReactiveFormsModule,
     MatOptionModule,
     MatTooltipModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   
   ],
   exports: [
@@ -88,13 +92,14 @@ import { GenericEditComponent } from './components/generic-edit/generic-edit.com
     StudentsComponent,
     StudentDetailsComponent,
     CuResourceComponent,
-    CuUsersComponent,
     CUsersComponent,
     UUsersComponent,
     GenericListingComponent,
-    UsersComponent,
+    ListUsersComponent,
     GenericCreateComponent,
     GenericEditComponent,
+    GenericDetailsComponent,
+    UserDetailsComponent
   ]
 })
 export class AdminModule { }

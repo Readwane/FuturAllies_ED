@@ -1,13 +1,13 @@
-.generic-edit-card {
+.details-container {
     margin: 24px auto;
     padding: 24px;
-    max-width: 700px;
+    max-width: 800px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
   }
   
-  .generic-edit-toolbar {
-    font-size: 1.6em;
+  .details-toolbar {
+    font-size: 1.5em;
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -16,24 +16,25 @@
     color: white;
   }
   
-  .generic-edit-form {
+  .details-content {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
+    padding: 16px 0;
   }
   
-  .form-field {
+  .details-field {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
   }
   
   .actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 16px;
     margin-top: 24px;
-  }
-  
-  button {
-    min-width: 120px;
   }
   

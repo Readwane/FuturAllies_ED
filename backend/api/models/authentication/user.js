@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';  
 
 const UserSchema = new mongoose.Schema({  
-    _id: { type: String, required: true },  // Identifiant unique de l'utilisateur  
     username: { type: String, required: true, unique: true },  // Nom d'utilisateur  
     password: { type: String, required: true },  // Mot de passe (hashé)  
     email: { type: String, required: true, unique: true },  // Adresse e-mail  

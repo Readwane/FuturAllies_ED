@@ -1,5 +1,5 @@
 export class Enterprise {  
-    _id: string;  
+    _id: string;  // reference l'id de l'utilisateur correspondant
     name: string;  
     location: string;  
     recruitmentEmail: string;
@@ -22,7 +22,7 @@ export class Enterprise {
       name: string,   
       location: string,   
       recruitmentEmail: string,
-      size: "Small" | "Medium" | "Large" ,  
+      size: "SMALL" | "MEDIUM" | "LARGE" ,  
       website: string,  
       description?: string,  
       industry?: string,  

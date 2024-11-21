@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OfferService } from '../../services/offer.service';  
 import { EnterpriseService } from '../../services/enterprise.service'; // Import du service Enterprise  
 import { Offer } from '../../models/offer.model';  
-import { Enterprise } from '../../models/enterprise.model'; // Import du modèle Enterprise  
+import { Enterprise } from '../../../../core/models/user/enterprise.model'; // Import du modèle Enterprise  
 
 @Component({  
   selector: 'app-offer-details',  

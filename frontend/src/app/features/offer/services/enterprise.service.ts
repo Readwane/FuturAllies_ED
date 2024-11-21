@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';  
 import { HttpClient, HttpHeaders } from '@angular/common/http';  
 import { Observable } from 'rxjs';  
-import { Enterprise } from '../models/enterprise.model'; // Assurez-vous d'avoir un modèle d'Enterprise défini  
+import { Enterprise } from '../../../core/models/user/enterprise.model'; // Assurez-vous d'avoir un modèle d'Enterprise défini  
 
 @Injectable({  
   providedIn: 'root'  

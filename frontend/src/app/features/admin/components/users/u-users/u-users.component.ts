@@ -1,44 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-u-users',
   templateUrl: './u-users.component.html',
   styleUrls: ['./u-users.component.css']
 })
-export class UUsersComponent {
+export class UUsersComponent implements OnInit {
+  userToEdit: any; // Données de l'utilisateur à modifier
+  isLoading: boolean = true; // Indique si les données sont en cours de chargement
+
   fieldsConfig = [
-    { name: 'name', type: 'text', label: 'Nom', required: true },
-    { name: 'email', type: 'email', label: 'Adresse Email', required: true },
-    { name: 'password', type: 'password', label: 'Mot de passe', required: false },
-    { name: 'role', type: 'select', label: 'Rôle', required: true, options: [
-        { value: 'admin', label: 'Administrateur' },
-        { value: 'user', label: 'Utilisateur' }
-      ]
+    { name: 'username', label: 'Nom d\'utilisateur', type: 'text', required: true, readonly: true },
+    { name: 'email', label: 'E-mail', type: 'email', required: true },
+    { name: 'first_name', label: 'Prénom', type: 'text', required: true },
+    { name: 'last_name', label: 'Nom', type: 'text', required: true },
+    { name: 'phone', label: 'Téléphone', type: 'text' }
+  ];
+
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
+
+  ngOnInit(): void {
+    const userId = this.route.snapshot.paramMap.get('id'); // Récupération de l'ID utilisateur
+    if (userId) {
+      this.loadUser(userId); // Charge les données utilisateur
+    } else {
+      this.isLoading = false; // Arrête le spinner si aucun ID n'est trouvé
     }
-  ];
-
-  selectedUser: any = null; // Utilisateur sélectionné pour modification
-
-  users = [
-    { id: 1, name: 'Alice', email: 'alice@example.com', role: 'user' },
-    { id: 2, name: 'Bob', email: 'bob@example.com', role: 'admin' }
-  ];
-
-  // Appelé lors de la sélection d'un utilisateur pour modification
-  editUser(user: any) {
-    this.selectedUser = { ...user }; // Crée une copie de l'utilisateur
   }
 
-  // Appelé lors de la soumission des modifications
-  updateUser(data: any) {
-    console.log('Utilisateur mis à jour :', data);
-    // Logique backend pour mettre à jour l'utilisateur
-    this.selectedUser = null; // Réinitialiser après mise à jour
+  loadUser(userId: string): void {
+    this.userService.getUserById(userId).subscribe({
+      next: (user) => {
+        this.userToEdit = user;
+        this.isLoading = false; // Arrête le spinner une fois les données chargées
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération de l\'utilisateur :', err);
+        this.isLoading = false; // Arrête le spinner même en cas d'erreur
+      }
+    });
   }
 
-  // Annuler la modification
-  cancelEdit() {
+  onSubmit(updatedData: any): void {
+    console.log('Données mises à jour :', updatedData);
+    // Appel au service pour mettre à jour l'utilisateur
+    // this.userService.updateUser(updatedData).subscribe({
+    //   next: () => console.log('Utilisateur mis à jour avec succès !'),
+    //   error: (err) => console.error('Erreur lors de la mise à jour :', err)
+    // });
+  }
+
+  onCancel(): void {
     console.log('Modification annulée');
-    this.selectedUser = null;
   }
 }

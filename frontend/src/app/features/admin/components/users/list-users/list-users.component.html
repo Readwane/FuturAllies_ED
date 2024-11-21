@@ -1,0 +1,41 @@
+<!-- <div class="users-container">
+    <h2>Gestion des utilisateurs</h2>
+    <app-generic-listing
+      [fieldsConfig]="fieldsConfig"
+      [data]="users"
+      [actions]="actions"
+      [paginationConfig]="paginationConfig"
+      [searchable]="searchable"
+      (addEvent)="addUser()"
+      [selectable]="true"
+      [bulkActions]="bulkActions"
+      [rowClickable]="rowClickable"
+      [displayedColumns]="displayedColumns"
+      (searchEvent)="handleSearch($event)">
+    </app-generic-listing>
+  </div> -->
+
+  <div class="users-container">
+    <h2>Gestion des utilisateurs</h2>
+    <div *ngIf="isLoading" class="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="error" class="error">
+      {{ error }}
+    </div>
+    <app-generic-listing
+      *ngIf="!isLoading && !error"
+      [fieldsConfig]="fieldsConfig"
+      [data]="users"
+      [actions]="actions"
+      [paginationConfig]="paginationConfig"
+      [searchable]="searchable"
+      (addEvent)="addUser()"
+      [selectable]="true"
+      [bulkActions]="bulkActions"
+      [rowClickable]="rowClickable"
+      [displayedColumns]="displayedColumns"
+      (searchEvent)="handleSearch($event)"
+    ></app-generic-listing>
+  </div>
+  

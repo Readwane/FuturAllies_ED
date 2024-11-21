@@ -15,16 +15,17 @@ export class AdminComponent {
   };
 
   menuItems = [
-    { label: 'Tableau de bord', icon: 'dashboard', route: '/dashboard' },
+    { label: 'Tableau de bord', icon: 'dashboard', route: 'dashboard' },
     {
       label: 'Utilisateurs',
       icon: 'people',
       children: [
-        { label: 'Étudiants', route: '/students' },
-        { label: 'Formateurs', route: '/users' },
-        { label: 'Entreprises', route: '/companies' },
-        { label: 'Administrateurs', route: '/admintrators' },
+        { label: 'Étudiants', route: 'users/list-users/students' },
+        { label: 'Formateurs', route: 'users/list-users/trainers' },
+        { label: 'Entreprises', route: 'users/list-users/enterprises' },
+        { label: 'Administrateurs', route: 'users/list-users/admins' },
       ]
+
     },
     {
       label: 'Écoles',

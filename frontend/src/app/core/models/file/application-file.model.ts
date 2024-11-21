@@ -3,14 +3,14 @@ export class ApplicationFile {
   _id: string;
   applicationId: string;
   fileId: string;
-  type: 'CV' | 'ML' | 'CERTIFICAT' | 'OTHER';
+  type: string;
   submittedAt: Date;
 
   constructor(
     _id: string,
     applicationId: string,
     fileId: string,
-    type: 'CV' | 'ML' | 'CERTIFICAT' | 'OTHER',
+    type: 'CV' | 'ML' | 'ATTESTATION' | 'CERTIFICAT' | 'OTHER',
     submittedAt: Date = new Date()
   ) {
     this._id = _id;
