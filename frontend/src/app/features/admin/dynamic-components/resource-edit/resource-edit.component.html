@@ -1,0 +1,45 @@
+<div *ngFor="let config of resourceFieldsConfig">
+    <!-- Champs de texte, email, téléphone, nombre -->
+    <mat-form-field *ngIf="config.type === 'text' || config.type === 'email' || config.type === 'tel' || config.type === 'number'">
+      <mat-label>{{ config.label }}</mat-label>
+      <input 
+        matInput 
+        [type]="config.type" 
+        [formControlName]="config.name" 
+        [placeholder]="config.placeholder || ''"  
+        [matTooltip]="config.tooltip || ''"      
+        [minlength]="config.minLength || ''" 
+        [maxlength]="config.maxLength || ''" 
+      >
+    </mat-form-field>
+  
+    <!-- Champ de texte long (textarea) -->
+    <mat-form-field *ngIf="config.type === 'textarea'">
+      <mat-label>{{ config.label }}</mat-label>
+      <textarea 
+        matInput 
+        [formControlName]="config.name" 
+        [placeholder]="config.placeholder || ''"  
+        [matTooltip]="config.tooltip || ''"   
+        [minlength]="config.minLength || ''" 
+        [maxlength]="config.maxLength || ''" 
+      ></textarea>
+    </mat-form-field>
+  
+    <!-- Champ de date -->
+    <mat-form-field *ngIf="config.type === 'date'">
+        <mat-label>{{ config.label }}</mat-label>
+        <input 
+        matInput 
+        [matDatepicker]="picker" 
+        [formControlName]="config.name" 
+        [placeholder]="config.placeholder || ''" 
+        [matTooltip]="config.tooltip || ''"
+        >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Autres champs similaires -->
+  </div>
+  

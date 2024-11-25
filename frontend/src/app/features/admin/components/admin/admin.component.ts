@@ -9,7 +9,7 @@ export class AdminComponent {
   user = {
     isLoggedIn: true,
     avatarUrl: '',
-    name: 'Utilisateur',
+    name: 'Tegawende',
     notifications: 5,
     messages: 3
   };
@@ -20,10 +20,10 @@ export class AdminComponent {
       label: 'Utilisateurs',
       icon: 'people',
       children: [
-        { label: 'Étudiants', route: 'users/list-users/students' },
-        { label: 'Formateurs', route: 'users/list-users/trainers' },
-        { label: 'Entreprises', route: 'users/list-users/enterprises' },
-        { label: 'Administrateurs', route: 'users/list-users/admins' },
+        { label: 'Étudiants', route: 'users/students' },
+        { label: 'Formateurs', route: 'users/trainers' },
+        { label: 'Entreprises', route: 'users/enterprises' },
+        { label: 'Administrateurs', route: 'users/admins' },
       ]
 
     },

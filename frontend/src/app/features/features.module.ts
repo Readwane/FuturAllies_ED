@@ -11,7 +11,6 @@ import { PaymentModule } from './payment/payment.module';
   imports: [
     CommonModule,
     FeaturesRoutingModule,
-    PagesModule, 
   ]
 })
 export class FeaturesModule { }

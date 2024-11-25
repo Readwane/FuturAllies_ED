@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/core/models/user/user.model';
 import { UserService } from 'src/app/core/services/user/user.service';
+import { ConfirmationDialogComponent } from '../../../dynamic-components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -9,11 +12,10 @@ import { UserService } from 'src/app/core/services/user/user.service';
   styleUrls: ['./list-users.component.css'],
 })
 export class ListUsersComponent implements OnInit {
-  users: User[] = []; // Liste des utilisateurs chargés depuis le service
-  isLoading: boolean = true; // Indique si les données sont en cours de chargement
-  error: string | null = null; // Stocke les erreurs éventuelles
+  users: User[] = [];
+  isLoading: boolean = true;
+  error: string | null = null;
 
-  // Configuration des champs pour l'affichage
   fieldsConfig = [
     { name: 'username', label: 'Nom d’utilisateur', type: 'text' },
     { name: 'email', label: 'Email', type: 'email' },
@@ -23,10 +25,8 @@ export class ListUsersComponent implements OnInit {
     { name: 'actions', label: 'Actions', type: 'actions' },
   ];
 
-  // Configuration des colonnes à afficher
   displayedColumns = ['username', 'email', 'first_name', 'last_name', 'phone', 'actions'];
 
-  // Actions dynamiques
   actions = [
     {
       name: 'details',
@@ -40,44 +40,37 @@ export class ListUsersComponent implements OnInit {
       icon: 'edit',
       callback: (user: User) => this.editUser(user),
     },
-    {
-      name: 'delete',
-      label: 'Supprimer',
-      icon: 'delete',
-      callback: (user: User) => this.deleteUser(user),
-    },
+    // {
+    //   name: 'delete',
+    //   label: 'Supprimer',
+    //   icon: 'delete',
+    //   callback: (user: User) => this.confirmDeleteUser(user),
+    // },
   ];
 
-  bulkActions = [
-    {
-      name: 'deleteSelected',
-      label: 'Supprimer tout',
-      callback: () => this.deleteSelectedUsers(),
-    },
-  ];
+  paginationConfig = { pageSize: 10, currentPage: 1, totalItems: 0 };
 
-  // Pagination Config
-  paginationConfig = { pageSize: 10, pageSizeOptions: [5, 10, 20], currentPage: 1 };
-
-  // Recherche activée
   searchable = true;
 
   constructor(
     private router: Router,
     private act_router: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
-  /** Charge les utilisateurs via le service */
   loadUsers(): void {
     this.isLoading = true;
-    this.userService.getAllUsers().subscribe({
-      next: (users: User[]) => {
-        this.users = users;
+    const { pageSize, currentPage } = this.paginationConfig;
+    this.userService.getUsersPaginated(currentPage, pageSize).subscribe({
+      next: (response) => {
+        this.users = response.data;
+        this.paginationConfig.totalItems = response.totalItems;
         this.isLoading = false;
       },
       error: (err) => {
@@ -89,44 +82,53 @@ export class ListUsersComponent implements OnInit {
   }
 
   viewDetails(user: User): void {
-    console.log('Afficher les détails de l’utilisateur:', user);
-    this.router.navigate(['/admin/users/details', user._id]); 
+    this.router.navigate(['/admin/users/details', user._id]);
   }
 
   editUser(user: User): void {
-    console.log('Modifier utilisateur:', user);
     this.router.navigate(['/admin/users/edit', user._id]);
   }
 
+  confirmDeleteUser(user: User): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmer la suppression',
+        message: `Êtes-vous sûr de vouloir supprimer l'utilisateur ${user.username} ?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.deleteUser(user);
+      }
+    });
+  }
+
   deleteUser(user: User): void {
-    console.log('Supprimer utilisateur:', user);
-    // Supprimer l'utilisateur côté serveur
     this.userService.deleteUser(user._id).subscribe({
       next: () => {
-        this.users = this.users.filter((u) => u._id !== user._id); // Supprimer localement
+        this.users = this.users.filter((u) => u._id !== user._id);
+        this.snackBar.open('Utilisateur supprimé avec succès.', 'Fermer', { duration: 3000 });
       },
       error: (err) => {
-        console.error('Erreur lors de la suppression de l’utilisateur:', err);
+        this.snackBar.open('Erreur lors de la suppression de l’utilisateur.', 'Fermer', { duration: 3000 });
+        console.error('Error deleting user:', err);
       },
     });
   }
 
-  deleteSelectedUsers(): void {
-    console.log('Supprimer les utilisateurs sélectionnés');
-    // Supprimer les utilisateurs sélectionnés
-  }
-
-  // Méthode déclenchée lors d'un clic sur une ligne
-  rowClickable = (user: User) => this.viewDetails(user);
-
-  // Gestion de l'événement de recherche
   handleSearch(query: string): void {
-    console.log('Recherche:', query);
-    // Rechercher côté serveur ou filtrer localement
+    console.log('Search query:', query);
+    // TODO: Implémenter la recherche côté serveur
   }
 
   addUser(): void {
-    console.log('Ajouter un utilisateur');
     this.router.navigate(['/admin/users/create']);
+  }
+
+  onPageChange(event: any): void {
+    this.paginationConfig.currentPage = event.pageIndex + 1;
+    this.paginationConfig.pageSize = event.pageSize;
+    this.loadUsers();
   }
 }

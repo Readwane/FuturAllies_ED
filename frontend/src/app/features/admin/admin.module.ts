@@ -1,4 +1,3 @@
-// app/admin/admin.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -8,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatMenuModule } from '@angular/material/menu'; // Pour le menu utilisateur
+import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
@@ -21,6 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './components/admin/admin.component';
@@ -37,7 +39,13 @@ import { GenericCreateComponent } from './components/generic-create/generic-crea
 import { GenericEditComponent } from './components/generic-edit/generic-edit.component';
 import { GenericDetailsComponent } from './components/generic-details/generic-details.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { ResourceListComponent } from './dynamic-components/resource-list/resource-list.component';
+import { ResourceEditComponent } from './dynamic-components/resource-edit/resource-edit.component';
+import { ResourceCreateComponent } from './dynamic-components/resource-create/resource-create.component';
+import { ResourceDetailsComponent } from './dynamic-components/resource-details/resource-details.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './dynamic-components/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -55,12 +63,19 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     GenericCreateComponent,
     GenericEditComponent,
     GenericDetailsComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    BreadcrumbsComponent,
+
+    // dynamic-components
+    ResourceListComponent,
+    ResourceEditComponent,
+    ResourceCreateComponent,
+    ResourceDetailsComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
 
     AdminRoutingModule,
-    
     CommonModule,
     RouterModule,
     MatSidenavModule,
@@ -82,8 +97,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatOptionModule,
     MatTooltipModule,
     MatSelectModule,
-    MatProgressSpinnerModule
-  
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule
   ],
   exports: [
     AdminComponent,
@@ -99,7 +116,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     GenericCreateComponent,
     GenericEditComponent,
     GenericDetailsComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    BreadcrumbsComponent,
+
+    // dynamic-components
+    ResourceListComponent,
+    ResourceEditComponent,
+    ResourceCreateComponent,
+    ResourceDetailsComponent,
+    ConfirmationDialogComponent
   ]
 })
+
 export class AdminModule { }

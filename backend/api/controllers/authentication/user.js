@@ -40,6 +40,40 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+
+// Récupérer tous les utilisateurs avec pagination
+export const getAllUsersPaginated = async (req, res) => {
+  try {
+    // Extraction des paramètres de pagination
+    const page = parseInt(req.query.page, 10) || 1; // Par défaut, page = 1
+    const pageSize = parseInt(req.query.pageSize, 10) || 10; // Par défaut, pageSize = 10
+
+    console.log(`Récupération des utilisateurs - Page : ${page}, Taille : ${pageSize}`);
+
+    // Calculer le décalage (skip) et la limite
+    const skip = (page - 1) * pageSize;
+
+    // Récupérer les utilisateurs paginés
+    const users = await User.find().skip(skip).limit(pageSize);
+
+    // Compter le nombre total d'utilisateurs
+    const totalItems = await User.countDocuments();
+
+    console.log("Utilisateurs récupérés :", users);
+    console.log("Nombre total d'utilisateurs :", totalItems);
+
+    // Réponse avec les données paginées et le total
+    res.status(200).json({
+      data: users,
+      totalItems,
+    });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des utilisateurs :", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 // Récupérer un utilisateur par ID
 export const getUserById = async (req, res) => {
   try {
@@ -56,6 +90,36 @@ export const getUserById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+// Récupérer le nom d'un utilisateur par son ID
+export const getUserNameById = async (req, res) => {
+  try {
+    console.log(`Tentative de récupération du nom de l'utilisateur avec l'ID: ${req.params.id}`);
+    
+    // Recherche de l'utilisateur par son ID
+    const user = await User.findById(req.params.id, 'first_name last_name'); // Sélectionne uniquement les champs nécessaires
+
+    // Vérification si l'utilisateur a été trouvé
+    if (!user) {
+      console.warn("Utilisateur non trouvé avec l'ID:", req.params.id);
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    }
+
+    // Combine les champs pour former le nom complet
+    const fullName = `${user.first_name} ${user.last_name}`;
+
+    console.log("Nom de l'utilisateur récupéré:", fullName);
+
+    // Réponse avec le nom complet
+    res.status(200).json({ name: fullName });
+  } catch (error) {
+    // Gestion des erreurs
+    console.error("Erreur lors de la récupération du nom de l'utilisateur:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 // Récupérer un utilisateur par nom d'utilisateur (username)
 export const getUserByUsername = async (req, res) => {

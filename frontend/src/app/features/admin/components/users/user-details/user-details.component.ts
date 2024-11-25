@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, Renderer2, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { User } from 'src/app/core/models/user/user.model';
@@ -46,9 +46,21 @@ export class UserDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
-    private userService: UserService) {}
+    private userService: UserService,
+    private renderer: Renderer2, 
+    private el: ElementRef,
+  ) {}
+
+
+    removeChild() {  
+      const child = this.el.nativeElement.querySelector('.child');  
+      if (child) {  
+        this.renderer.removeChild(this.el.nativeElement, child);  
+      }  
+    } 
 
     ngOnInit(): void {
+      this.removeChild();
       const userId = this.route.snapshot.paramMap.get('id'); // Vérifie l'ID dans l'URL
       if (userId) {
         console.log('ID utilisateur récupéré depuis la route:', userId); // Ajoutez cette ligne pour confirmer l'ID
@@ -85,8 +97,20 @@ export class UserDetailsComponent implements OnInit {
   }
 
   deleteUser() {
-    throw new Error('Method not implemented.');
+    const confirmation = window.confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');
+    if (confirmation && this.user) {
+      this.userService.deleteUser(this.user._id).subscribe({
+        next: () => {
+          console.log('Utilisateur supprimé');
+          // Rediriger ou mettre à jour l'interface utilisateur après la suppression
+        },
+        error: (err) => {
+          console.error('Erreur lors de la suppression:', err);
+        },
+      });
+    }
   }
+  
 
   goBack(): void {
     console.log('Retour');

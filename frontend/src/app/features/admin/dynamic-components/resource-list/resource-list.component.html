@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-title>Liste des {{ resource.name }}</mat-card-title>
+    
+    <mat-table [dataSource]="resources">
+      <!-- Génération dynamique des colonnes -->
+      <ng-container *ngFor="let field of fieldsConfig" [matColumnDef]="field.name">
+        <mat-header-cell *matHeaderCellDef> {{ field.label }} </mat-header-cell>
+        <mat-cell *matCellDef="let resource"> 
+          {{ resource[field.name] }} <!-- Affichage dynamique des données -->
+        </mat-cell>
+      </ng-container>
+      
+      <mat-header-row *matHeaderRowDef="columnNames"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnNames;" (click)="onSelect(row)"></mat-row>
+    </mat-table>
+    
+    <button mat-raised-button color="primary" (click)="onCreate()">Créer {{ resource.name }}</button>
+  </mat-card>
+  

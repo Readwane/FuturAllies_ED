@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import {connectDB} from './config/db.js';
 import cors from 'cors';
 
+import {router} from './routes/routage.js';
+
 import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
 
@@ -42,7 +44,7 @@ app.options('*', cors(corsOptions)); // Répond aux requêtes OPTIONS avec CORS
 // Routes
 
 // ***************** Anciennes definitions de routes ******************************************
-app.use('/fapi', webinarRoutes);
+// app.use('/fapi', router);
 app.use('/fapi', webinarEnrollmentRoutes);
 
 // ******************** Nouvelles routes *****************************************************

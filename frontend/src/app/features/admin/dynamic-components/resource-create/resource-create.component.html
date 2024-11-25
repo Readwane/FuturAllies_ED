@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-title>Créer {{ resource.name }}</mat-card-title>
+    <form [formGroup]="resourceForm" (ngSubmit)="onCreate()">
+      <div *ngFor="let control of resourceForm.controls | keyvalue">
+        <mat-form-field>
+          <mat-label>{{ control.key }}</mat-label>
+          <input matInput [formControlName]="control.key">
+          
+          <!-- Erreurs de validation -->
+          <mat-error *ngIf="resourceForm.get(control.key)?.hasError('required')">
+            Ce champ est requis.
+          </mat-error>
+          <mat-error *ngIf="resourceForm.get(control.key)?.hasError('pattern')">
+            Format invalide.
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <!-- Bouton de soumission désactivé si le formulaire est invalide -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="resourceForm.invalid">Créer</button>
+    </form>
+  </mat-card>
+  

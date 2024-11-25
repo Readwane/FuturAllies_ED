@@ -1,53 +1,59 @@
-.generic-create-card {
-    margin: 24px auto;
-    padding: 24px;
-    max-width: 700px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-  }
-  
-  .generic-create-toolbar {
-    font-size: 1.6em;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 0;
-    color: white;
-  }
-  
-  .generic-create-form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding-top: 16px; /* Ajout d'un espacement entre le titre et le formulaire */
-  }
-  
-  .form-field {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 16px; /* Espacement entre les boutons */
-    margin-top: 24px;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: space-between; /* Positionne les boutons aux extrémités */
-    align-items: center; /* Centre verticalement les boutons */
-    margin-top: 24px; /* Ajoute un espacement au-dessus */
-  }
-  
-  button[type="submit"],
-  button[type="button"] {
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 12px 24px;
-    min-width: 120px; /* Largeur minimale pour un alignement visuel cohérent */
-  }
-  
-  
+.generic-create-card {  
+  margin: 24px auto;  
+  padding: 24px;  
+  max-width: 700px;  
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);  
+  border-radius: 8px;  
+}  
+
+.generic-create-toolbar {  
+  font-size: 1.6em;  
+  font-weight: 500;   
+  display: flex;  
+  justify-content: center;  
+  align-items: center;  
+  padding: 16px 0;  
+  color: white;  
+}  
+
+.generic-create-form {  
+  display: flex;  
+  flex-direction: column;  
+  gap: 24px;  
+  padding-top: 16px;  
+}  
+
+.form-field {  
+  display: flex;  
+  flex-direction: column;  
+} 
+
+.form-field-container {  
+  margin-top: 16px; /* Ajustez l'espacement selon vos préférences */  
+}
+
+.form-field {  
+  display: flex;  
+  flex-direction: column;  
+}  
+
+.actions {  
+  display: flex;  
+  justify-content: flex-end;  
+  gap: 16px;   
+  margin-top: 24px;   
+}  
+
+button[type="submit"],  
+button[type="button"] {  
+    font-weight: bold;  
+    text-transform: uppercase;  
+    padding: 12px 24px;  
+    min-width: 120px;  
+    transition: background-color 0.3s, transform 0.3s;  
+}  
+
+button[type="submit"]:hover,  
+button[type="button"]:hover {  
+    transform: scale(1.05); /* Légère augmentation lors du survol */  
+}

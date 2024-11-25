@@ -44,10 +44,12 @@ import {
 
 import { 
     getAllUsers,
+    getAllUsersPaginated,
     getUserById,
     createUser,
     updateUser,
     deleteUser,
+    getUserNameById,
     getUserByUsername,
     getProfileByUserId
 } from '../controllers/authentication/user.js';
@@ -432,11 +434,13 @@ authenticationRoutes.delete('/user-groups/:id/delete', deleteUserGroup);
 // Routes pour User
 authenticationRoutes.post('/users/create', createUser);
 authenticationRoutes.get('/users', getAllUsers);
+authenticationRoutes.get('/users/paginated', getAllUsersPaginated);
 authenticationRoutes.get('/users/:id', getUserById);
-// authenticationRoutes.put('/users/:id/update', updateUser);
-// authenticationRoutes.delete('/users/:id/delete', deleteUser);
-// authenticationRoutes.get('/users/rep/:username', getUserByUsername);
-// authenticationRoutes.get('users/byUser/rip/:userId', getProfileByUserId);
+authenticationRoutes.put('/users/:id/update', updateUser);
+authenticationRoutes.get('/users/gnbId/:id', getUserNameById);
+authenticationRoutes.delete('/users/:id/delete', deleteUser);
+authenticationRoutes.get('/users/rep/:username', getUserByUsername);
+authenticationRoutes.get('users/byUser/rip/:userId', getProfileByUserId);
 
 //******************************* Routes pour la partie audition *************************************/
 // Routes pour Chapter

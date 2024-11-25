@@ -1,13 +1,14 @@
 <mat-card *ngIf="isLoading" class="loading-card">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-  </mat-card>
-  
-  <app-generic-details
-    *ngIf="!isLoading && user"
-    [data]="user"
-    [fieldsConfig]="fieldsConfig"
-    [actions]="actions"
-  ></app-generic-details>
-  
-  <p *ngIf="!isLoading && !user" class="error-message">Utilisateur introuvable.</p>
-  
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</mat-card>
+
+<mat-card *ngIf="!isLoading && !user" class="error-card">
+  <p class="error-message">Utilisateur introuvable.</p>
+</mat-card>
+
+<app-generic-details
+  *ngIf="!isLoading && user"
+  [data]="user"
+  [fieldsConfig]="fieldsConfig"
+  [actions]="actions"
+></app-generic-details>

@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-title>Détails de {{ resource.name }}</mat-card-title>
+  
+    <div *ngFor="let field of fieldsConfig">
+      <mat-form-field *ngIf="field.type === 'text'">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [placeholder]="field.placeholder || ''" [value]="resourceData[field.name]">
+      </mat-form-field>
+  
+      <mat-form-field *ngIf="field.type === 'date'">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [matDatepicker]="picker" [placeholder]="field.placeholder || ''" [value]="resourceData[field.name]">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field *ngIf="field.type === 'number'">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [placeholder]="field.placeholder || ''" [value]="resourceData[field.name]" type="number">
+      </mat-form-field>
+  
+      <!-- Ajouter plus de champs en fonction du type (checkbox, select, etc.) -->
+    </div>
+  </mat-card>
+  

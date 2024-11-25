@@ -21,6 +21,7 @@ export class UserService {
 
   // CRUD pour Utilisateurs
 
+  
   // Récupérer tous les utilisateurs
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`, this.httpOptions);
@@ -29,6 +30,11 @@ export class UserService {
   // Récupérer un utilisateur par ID
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/${id}`, this.httpOptions);
+  }
+
+  // Méthode pour récupérer le nom d'un utilisateur par ID
+  getUserNameById(userId: string): Observable<{ name: string }> {
+    return this.http.get<{ name: string }>(`${this.apiUrl}/users/gnbId/${userId}`);
   }
 
   // Créer un utilisateur
@@ -40,6 +46,14 @@ export class UserService {
   updateUser(id: string, user: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/users/${id}/update`, user, this.httpOptions);
   }
+
+
+  getUsersPaginated(page: number, pageSize: number): Observable<{ data: User[]; totalItems: number }> {
+    return this.http.get<{ data: User[]; totalItems: number }>(
+      `${this.apiUrl}/users/paginated?page=${page}&pageSize=${pageSize}`
+    );
+  }
+  
 
   // Supprimer un utilisateur
   deleteUser(id: string): Observable<{ message: string }> {

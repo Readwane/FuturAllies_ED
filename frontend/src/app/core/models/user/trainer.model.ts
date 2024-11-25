@@ -1,5 +1,5 @@
 export class Trainer {
-    userId: string;             // Référence vers le profil associé
+    userId: string;            // reference l'id de l'utilisateur correspondant
     trainingId: string;
     expertise: string[];            // Liste des domaines d'expertise du formateur
     experienceYears?: number;       // Années d'expérience dans le domaine de la formation
