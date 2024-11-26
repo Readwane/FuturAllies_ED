@@ -22,45 +22,45 @@ export class ResourceCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    const editableColumns = this.resource?.editableColumns ?? [];
+    // const editableColumns = this.resource?.editableColumns ?? [];
   
-    if (editableColumns.length > 0) {
-      const formControls: { [key: string]: any } = {};
+    // if (editableColumns.length > 0) {
+    //   const formControls: { [key: string]: any } = {};
   
-      editableColumns.forEach((key) => {
-        const fieldConfig = this.getFieldConfig(key);
+    //   editableColumns.forEach((key) => {
+    //     const fieldConfig = this.getFieldConfig(key);
   
-        // Appliquer les validations en fonction du type de champ
-        let validators = [Validators.required]; // Par défaut, tout champ est requis
+    //     // Appliquer les validations en fonction du type de champ
+    //     let validators = [Validators.required]; // Par défaut, tout champ est requis
   
-        // Ajouter des validations spécifiques basées sur le type du champ
-        if (fieldConfig) {
-          if (fieldConfig.type === FieldType.EMAIL) {
-            validators.push(Validators.email);
-          } else if (fieldConfig.type === FieldType.TEL) {
-            validators.push(Validators.pattern('^[0-9]{10}$')); // Exemple de pattern pour un numéro de téléphone
-          }
-          if (fieldConfig.minLength) {
-            validators.push(Validators.minLength(fieldConfig.minLength));
-          }
-          if (fieldConfig.maxLength) {
-            validators.push(Validators.maxLength(fieldConfig.maxLength));
-          }
-        }
+    //     // Ajouter des validations spécifiques basées sur le type du champ
+    //     if (fieldConfig) {
+    //       if (fieldConfig.type === FieldType.EMAIL) {
+    //         validators.push(Validators.email);
+    //       } else if (fieldConfig.type === FieldType.TEL) {
+    //         validators.push(Validators.pattern('^[0-9]{10}$')); // Exemple de pattern pour un numéro de téléphone
+    //       }
+    //       if (fieldConfig.minLength) {
+    //         validators.push(Validators.minLength(fieldConfig.minLength));
+    //       }
+    //       if (fieldConfig.maxLength) {
+    //         validators.push(Validators.maxLength(fieldConfig.maxLength));
+    //       }
+    //     }
   
-        // Créer les contrôles de formulaire dynamiquement
-        formControls[key] = ['', validators];
-      });
+    //     // Créer les contrôles de formulaire dynamiquement
+    //     formControls[key] = ['', validators];
+    //   });
   
-      this.resourceForm = this.fb.group(formControls);
-    }
+    //   this.resourceForm = this.fb.group(formControls);
+    // }
   }
   
   
 
-  private getFieldConfig(key: string): ResourceFieldConfig | undefined {
-    return this.resource?.['fields'].find((field: { name: string; }) => field.name === key);
-  }
+  // private getFieldConfig(key: string): ResourceFieldConfig | undefined {
+  //   return this.resource?.['fields'].find((field: { name: string; }) => field.name === key);
+  // }
 
   onCreate() {
     if (this.resourceForm.valid) {

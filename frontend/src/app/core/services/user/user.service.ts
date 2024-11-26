@@ -42,17 +42,16 @@ export class UserService {
     return this.http.post<User>(`${this.apiUrl}/users/create`, user, this.httpOptions);
   }
 
-  // Mettre à jour un utilisateur
-  updateUser(id: string, user: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/users/${id}/update`, user, this.httpOptions);
-  }
-
   getUsersPaginated(page: number, pageSize: number): Observable<{ data: User[]; totalItems: number }> {
     return this.http.get<{ data: User[]; totalItems: number }>(
       `${this.apiUrl}/users/paginated?page=${page}&pageSize=${pageSize}`
     );
   }
   
+  // Mettre à jour un utilisateur
+  updateUser(id: string, data: any): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/users/${id}/update`, data, this.httpOptions);
+  }
 
   // Supprimer un utilisateur
   deleteUser(id: string): Observable<{ message: string }> {

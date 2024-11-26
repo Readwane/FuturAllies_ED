@@ -14,11 +14,13 @@ export class UUsersComponent implements OnInit, OnDestroy {
   errorMessage: string | null = null; // Pour afficher un message d'erreur éventuel
 
   fieldsConfig = [
-    { name: 'username', label: 'Nom d\'utilisateur', type: 'text', required: true, readonly: true },
-    { name: 'email', label: 'E-mail', type: 'email', required: true },
+    { name: 'username', label: 'Nom d’utilisateur', type: 'text', required: true },
     { name: 'first_name', label: 'Prénom', type: 'text', required: true },
     { name: 'last_name', label: 'Nom', type: 'text', required: true },
-    { name: 'phone', label: 'Téléphone', type: 'text' }
+    { name: 'email', label: 'Adresse e-mail', type: 'email', required: true },
+    { name: 'password', label: 'Mot de passe', type: 'password', required: true },
+    { name: 'confirm_password', label: 'Confirmer le mot de passe', type: 'password', required: true },
+    { name: 'phone', label: 'Téléphone', type: 'text' },
   ];
 
   constructor(
@@ -34,9 +36,10 @@ export class UUsersComponent implements OnInit, OnDestroy {
     const userId = this.route.snapshot.paramMap.get('id'); // Récupération de l'ID utilisateur
     if (userId) {
       this.loadUser(userId); // Charge les données utilisateur
+      console.log('Id de utilisateur à initialisation :', userId)
     } else {
       this.isLoading = false;
-      this.showToast('ID utilisateur manquant', 'error');
+      this.showToast('ID utilisateur manquant l\'initialisation du component', 'error');
     }
   }
 
@@ -70,14 +73,24 @@ export class UUsersComponent implements OnInit, OnDestroy {
       this.showToast('Données utilisateur invalides.', 'error');
       return;
     }
-
+  
+    // Vérifie si l'ID est valide
+    console.log('ID utilisateur à la soumission:', this.userToEdit._id);
+  
+    if (!this.userToEdit._id) {
+      this.showToast('L\'ID utilisateur est manquant à la soumission du formulaire.', 'error');
+      return;
+    }
+  
     this.isLoading = true;
-
-    this.userService.updateUser(this.userToEdit.id, updatedData).subscribe({
+    console.log('Donées de MAJ :', updatedData);
+  
+    // Envoie des données avec un ID valide
+    this.userService.updateUser(this.userToEdit._id, updatedData).subscribe({
       next: (response) => {
         this.isLoading = false;
         this.showToast('Utilisateur mis à jour avec succès.', 'success');
-        this.router.navigate(['/users']); // Redirection après succès
+        this.router.navigate(['/admin/users/students']);
       },
       error: (err) => {
         this.isLoading = false;
@@ -86,12 +99,13 @@ export class UUsersComponent implements OnInit, OnDestroy {
       }
     });
   }
+  
 
   /**
    * Gère l'annulation de la modification
    */
   onCancel(): void {
-    this.router.navigate(['/users']); // Redirection vers la liste des utilisateurs
+    this.router.navigate(['/admin/users/students']); // Redirection vers la liste des utilisateurs
     this.showToast('Modification annulée.', 'info');
   }
 

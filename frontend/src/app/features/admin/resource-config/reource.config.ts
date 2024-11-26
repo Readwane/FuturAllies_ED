@@ -1,15 +1,26 @@
-import { Resource, ResourceFieldConfig, FieldType } from "../models/resource.model";
+import { FieldType, Resource, ResourceFieldConfig } from "../models/resource.model";
 
-export const resourcesConfig: { [key: string]: { resource: Resource, fields: ResourceFieldConfig[] } } = {
+
+export const resourcesConfig: {
+  [key: string]: { resource: Resource; fields: ResourceFieldConfig[] };
+} = {
   user: {
     resource: {
       name: 'User',
       displayableColumns: ['username', 'email', 'first_name', 'last_name', 'phone', 'created_at', 'updated_at'],
       editableColumns: ['username', 'email', 'first_name', 'last_name', 'phone'],
-      filtrableColumns: ['username', 'email', 'first_name', 'last_name'],
+      filtrableColumns: [
+        { name: 'username', type: 'text' },
+        { name: 'email', type: 'text' },
+        { name: 'created_at', type: 'range' },
+      ],
       sortableColumns: ['username', 'email', 'first_name', 'last_name'],
       defaultSortColumn: 'username',
       pageSizeOptions: [10, 20, 50],
+      actions: [
+        { name: 'Edit', icon: 'edit', handler: (item) => console.log('Editing', item) },
+        { name: 'Delete', icon: 'delete', handler: (item) => console.log('Deleting', item) },
+      ],
     },
     fields: [
       { name: 'username', label: 'Nom d\'utilisateur', type: FieldType.TEXT, required: true, minLength: 3, maxLength: 50 },
@@ -22,5 +33,4 @@ export const resourcesConfig: { [key: string]: { resource: Resource, fields: Res
       { name: 'updated_at', label: 'Date de mise à jour', type: FieldType.DATE },
     ],
   },
-  // Ajoutez ici d'autres ressources
 };

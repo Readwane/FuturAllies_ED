@@ -35,13 +35,7 @@ export class UserDetailsComponent implements OnInit {
       icon: 'delete',
       callback: () => this.deleteUser(),
     },
-    {
-      name: 'back',
-      label: 'Retour',
-      icon: 'arrow_back',
-      callback: () => this.goBack(),
-    },
-
+  
   ];
 
   constructor(
@@ -51,16 +45,7 @@ export class UserDetailsComponent implements OnInit {
     private el: ElementRef,
   ) {}
 
-
-    // removeChild() {  
-    //   const child = this.el.nativeElement.querySelector('.child');  
-    //   if (child) {  
-    //     this.renderer.removeChild(this.el.nativeElement, child);  
-    //   }  
-    // } 
-
     ngOnInit(): void {
-      // this.removeChild();
       const userId = this.route.snapshot.paramMap.get('id'); // Vérifie l'ID dans l'URL
       if (userId) {
         console.log('ID utilisateur récupéré depuis la route:', userId); // Ajoutez cette ligne pour confirmer l'ID

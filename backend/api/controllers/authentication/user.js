@@ -162,39 +162,51 @@ export const getProfileByUserId = async (req, res) => {
   }
 };
 
-// Mettre à jour un utilisateur  
-export const updateUser = async (req, res) => {  
-  const { username, password, email } = req.body;   
-  console.log("Données pour la mise à jour de l'utilisateur:", { username, email });  
+ 
+// Mettre à jour un utilisateur
+export const updateUser = async (req, res) => {
+  try {
+    console.log(`Tentative de mise à jour de l'utilisateur avec le nom: ${req.params.username}`);
 
-  const updatedData = {  
-    username,   
-    email,   
-    updated_at: Date.now()  
-  };  
+    // Extraction des champs de la requête
+    const { username, email, first_name, last_name, phone, password } = req.body;
 
-  if (password) {  
-    updatedData.password = await bcrypt.hash(password, 10); // Hachage du nouveau mot de passe  
-  }  
+    // Construction des données à mettre à jour
+    const updatedData = {};
+    if (username) updatedData.username = username;
+    if (email) updatedData.email = email;
+    if (first_name) updatedData.first_name = first_name;
+    if (last_name) updatedData.last_name = last_name;
+    if (phone) updatedData.phone = phone;
 
-  try {  
-    const user = await User.findByIdAndUpdate(  
-      req.params.id,  
-      updatedData,  
-      { new: true }  
-    );  
+    // Hachage du mot de passe si nécessaire
+    if (password) {
+      if (password.trim() === "") {
+        return res.status(400).json({ message: "Le mot de passe ne peut pas être vide." });
+      }
+      updatedData.password = await bcrypt.hash(password, 10);
+    }
 
-    if (!user) {  
-      console.warn("Utilisateur non trouvé pour mise à jour avec l'ID:", req.params.id);  
-      return res.status(404).json({ message: 'Utilisateur non trouvé' });  
-    }  
-    console.log("Utilisateur mis à jour:", user);  
-    res.status(200).json(user);  
-  } catch (error) {  
-    console.error("Erreur lors de la mise à jour de l'utilisateur:", error);  
-    res.status(400).json({ message: error.message });  
-  }  
+    // Ajout du champ updated_at
+    updatedData.updated_at = Date.now();
+
+    // Mise à jour de l'utilisateur
+    const user = await User.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+
+    // Vérification si l'utilisateur existe
+    if (!user) {
+      console.warn("Utilisateur non trouvé pour mise à jour avec l'ID:", req.params.id);
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    console.log("Utilisateur mis à jour avec succès:", user);
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
+    res.status(500).json({ message: "Erreur interne du serveur." });
+  }
 };
+
 
 // Supprimer un utilisateur
 export const deleteUser = async (req, res) => {

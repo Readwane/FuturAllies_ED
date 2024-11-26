@@ -43,6 +43,13 @@ export class ListUsersComponent implements OnInit {
     },
   ];
 
+  bulkActions = [
+    {
+      label: 'Supprimer tout',
+      callback: (selectedItems: any[]) => this.deleteSelectedUsers(selectedItems),
+    },
+  ];
+
   paginationConfig = { pageSize: 10, currentPage: 1, totalItems: 0 };
 
   searchable = true;
@@ -62,13 +69,7 @@ export class ListUsersComponent implements OnInit {
     this.loadUsers();
   }
 
-  // ngOnDestroy(): void {
-  //   // Assurez-vous que le Renderer2 est utilisé au lieu d'un accès direct DOM.
-  //   const tooltips = this.el.nativeElement.querySelectorAll('.mat-tooltip');
-  //   tooltips.forEach((tooltip: HTMLElement) => {
-  //     this.renderer.removeChild(this.el.nativeElement, tooltip);
-  //   });
-  // }
+
 
   loadUsers(): void {
     this.isLoading = true;
@@ -120,6 +121,21 @@ export class ListUsersComponent implements OnInit {
         this.snackBar.open('Erreur lors de la suppression de l’utilisateur.', 'Fermer', { duration: 3000 });
         console.error('Error deleting user:', err);
       },
+    });
+  }
+
+  deleteSelectedUsers(selectedItems: any[]): void {
+    selectedItems.forEach((user) => {
+      this.userService.deleteUser(user._id).subscribe({
+        next: () => {
+          this.users = this.users.filter((u) => u._id !== user._id);
+          this.snackBar.open('Utilisateur supprimé avec succès.', 'Fermer', { duration: 3000 });
+        },
+        error: (err) => {
+          this.snackBar.open('Erreur lors de la suppression de l’utilisateur.', 'Fermer', { duration: 3000 });
+          console.error('Error deleting user:', err);
+        },
+      });
     });
   }
 

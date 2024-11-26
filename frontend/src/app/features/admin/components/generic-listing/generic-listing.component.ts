@@ -96,9 +96,16 @@ export class GenericListingComponent implements OnInit, OnDestroy {
   }
 
   executeBulkDelete(): void {
-    this.bulkActions.find((action) => action.label === 'Supprimer tout')?.callback(this.selectedItems);
-    this.updateSelectedItems();
-  }
+    if (this.selectedItems.length > 0) {
+      const selectedIds = this.selectedItems.map((item) => item._id); // ou utiliser un autre identifiant
+      const bulkDeleteAction = this.bulkActions.find(action => action.label === 'Supprimer tout');
+      if (bulkDeleteAction && bulkDeleteAction.callback) {
+        bulkDeleteAction.callback(this.selectedItems);
+      }
+    } else {
+      console.warn('Aucun élément sélectionné pour la suppression en masse.');
+    }
+  }  
 
   executeAction(action: any, item: any): void {
     if (action.callback) {
