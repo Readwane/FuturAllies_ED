@@ -46,6 +46,7 @@ import { ResourceCreateComponent } from './dynamic-components/resource-create/re
 import { ResourceDetailsComponent } from './dynamic-components/resource-details/resource-details.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './dynamic-components/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { ConfirmationDialogComponent } from './dynamic-components/confirmation-d
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule 
   ],
   exports: [
     AdminComponent,

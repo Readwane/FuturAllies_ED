@@ -1,12 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-generic-edit',
   templateUrl: './generic-edit.component.html',
   styleUrls: ['./generic-edit.component.css']
 })
-export class GenericEditComponent implements OnInit {
+export class GenericEditComponent implements OnInit, OnDestroy {
   @Input() fieldsConfig: {
     name: string;
     label: string;
@@ -25,10 +28,32 @@ export class GenericEditComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  @ViewChildren(MatTooltip) tooltips!: QueryList<MatTooltip>;
+
+  constructor(
+    private fb: FormBuilder,
+    private location: Location,
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private overlayContainer: OverlayContainer
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+  }
+
+  ngOnDestroy(): void {
+    // Masquer les tooltips actifs
+    this.tooltips.forEach((tooltip) => tooltip.hide(0));
+
+    // Supprimer les conteneurs d'overlays de Material Angular
+    this.overlayContainer.getContainerElement().innerHTML = '';
+
+    // Optionnel : Supprimer les éléments tooltips directement dans le DOM
+    const tooltips = this.el.nativeElement.querySelectorAll('.mat-tooltip');
+    tooltips.forEach((tooltip: HTMLElement) => {
+      this.renderer.removeChild(this.el.nativeElement, tooltip);
+    });
   }
 
   private initializeForm(): void {
@@ -64,6 +89,11 @@ export class GenericEditComponent implements OnInit {
     this.onCancel.emit();
   }
 
+  handleBack(): void {
+    // Logic to go back to the previous page or a specific route
+    this.location.back(); // Ou utilisez un autre mécanisme de navigation si nécessaire
+  }
+  
   handleFileInput(event: Event, fieldName: string): void {
     const inputElement = event.target as HTMLInputElement;
     if (inputElement?.files) {

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/core/models/user/user.model';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { ConfirmationDialogComponent } from '../../../dynamic-components/confirmation-dialog/confirmation-dialog.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-users',
@@ -40,12 +41,6 @@ export class ListUsersComponent implements OnInit {
       icon: 'edit',
       callback: (user: User) => this.editUser(user),
     },
-    // {
-    //   name: 'delete',
-    //   label: 'Supprimer',
-    //   icon: 'delete',
-    //   callback: (user: User) => this.confirmDeleteUser(user),
-    // },
   ];
 
   paginationConfig = { pageSize: 10, currentPage: 1, totalItems: 0 };
@@ -57,12 +52,23 @@ export class ListUsersComponent implements OnInit {
     private act_router: ActivatedRoute,
     private userService: UserService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private location: Location,
+    private renderer: Renderer2, 
+    private el: ElementRef
   ) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
+
+  // ngOnDestroy(): void {
+  //   // Assurez-vous que le Renderer2 est utilisé au lieu d'un accès direct DOM.
+  //   const tooltips = this.el.nativeElement.querySelectorAll('.mat-tooltip');
+  //   tooltips.forEach((tooltip: HTMLElement) => {
+  //     this.renderer.removeChild(this.el.nativeElement, tooltip);
+  //   });
+  // }
 
   loadUsers(): void {
     this.isLoading = true;
@@ -130,5 +136,11 @@ export class ListUsersComponent implements OnInit {
     this.paginationConfig.currentPage = event.pageIndex + 1;
     this.paginationConfig.pageSize = event.pageSize;
     this.loadUsers();
+  }
+
+  // Méthode pour gérer le retour
+  navigateToPreviousPage(): void {
+    console.log('Retour arrière avec Location');
+    this.location.back();
   }
 }

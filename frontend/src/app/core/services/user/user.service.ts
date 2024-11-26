@@ -47,7 +47,6 @@ export class UserService {
     return this.http.put<User>(`${this.apiUrl}/users/${id}/update`, user, this.httpOptions);
   }
 
-
   getUsersPaginated(page: number, pageSize: number): Observable<{ data: User[]; totalItems: number }> {
     return this.http.get<{ data: User[]; totalItems: number }>(
       `${this.apiUrl}/users/paginated?page=${page}&pageSize=${pageSize}`

@@ -1,65 +1,72 @@
 <mat-card class="generic-edit-card">
-    <mat-toolbar color="primary" class="generic-edit-toolbar">
-      {{ submitButtonLabel }}
-    </mat-toolbar>
-  
-    <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="generic-edit-form">
-      <div *ngFor="let field of fieldsConfig" class="form-field">
-        <!-- Input Text, Email, Password -->
-        <mat-form-field appearance="outline" *ngIf="['text', 'email', 'password'].includes(field.type)">
-          <mat-label>{{ field.label }}</mat-label>
-          <input
-            matInput
-            [type]="field.type"
-            [formControlName]="field.name"
-            [placeholder]="field.placeholder || ''"
-            [readonly]="field.readonly || false"
-          />
-          <mat-error *ngIf="form.get(field.name)?.hasError('required')">
-            Ce champ est requis
-          </mat-error>
-          <mat-error *ngIf="form.get(field.name)?.hasError('email')">
-            Adresse e-mail invalide
-          </mat-error>
-        </mat-form-field>
-  
-        <!-- Select Dropdown -->
-        <mat-form-field appearance="outline" *ngIf="field.type === 'select'">
-          <mat-label>{{ field.label }}</mat-label>
-          <mat-select [formControlName]="field.name" [multiple]="field.multiple || false">
-            <mat-option *ngFor="let option of field.options" [value]="option.value">
-              {{ option.label }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="form.get(field.name)?.hasError('required')">
-            Ce champ est requis
-          </mat-error>
-        </mat-form-field>
-  
-        <!-- Textarea -->
-        <mat-form-field appearance="outline" *ngIf="field.type === 'textarea'">
-          <mat-label>{{ field.label }}</mat-label>
-          <textarea
-            matInput
-            [formControlName]="field.name"
-            [placeholder]="field.placeholder || ''"
-            [readonly]="field.readonly || false"
-          ></textarea>
-          <mat-error *ngIf="form.get(field.name)?.hasError('required')">
-            Ce champ est requis
-          </mat-error>
-        </mat-form-field>
-      </div>
-  
-      <!-- Buttons -->
-      <div class="actions">
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-          {{ submitButtonLabel }}
-        </button>
-        <button mat-raised-button color="warn" type="button" (click)="handleCancel()">
-          Annuler
-        </button>
-      </div>
-    </form>
-  </mat-card>
-  
+  <mat-toolbar color="primary" class="generic-edit-toolbar">
+    <!-- Bouton retour avec icône -->
+    <button mat-icon-button (click)="handleBack()">
+      <mat-icon>arrow_back</mat-icon> <!-- Icône "arrow_back" de Material Icons -->
+    </button>
+    {{ submitButtonLabel }}
+  </mat-toolbar>
+
+  <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="generic-edit-form">
+    <div *ngFor="let field of fieldsConfig" class="form-field">
+      <!-- Input Text, Email, Password -->
+      <mat-form-field appearance="outline" *ngIf="['text', 'email', 'password'].includes(field.type)">
+        <mat-label>{{ field.label }}</mat-label>
+        <input
+          matInput
+          [type]="field.type"
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+          [readonly]="field.readonly || false"
+          [matTooltip]="field.label" 
+          [matTooltipDisabled]="!field.label" 
+        />
+        <mat-error *ngIf="form.get(field.name)?.hasError('required')">
+          Ce champ est requis
+        </mat-error>
+        <mat-error *ngIf="form.get(field.name)?.hasError('email')">
+          Adresse e-mail invalide
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Select Dropdown -->
+      <mat-form-field appearance="outline" *ngIf="field.type === 'select'">
+        <mat-label>{{ field.label }}</mat-label>
+        <mat-select [formControlName]="field.name" [multiple]="field.multiple || false">
+          <mat-option *ngFor="let option of field.options" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get(field.name)?.hasError('required')">
+          Ce champ est requis
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Textarea -->
+      <mat-form-field appearance="outline" *ngIf="field.type === 'textarea'">
+        <mat-label>{{ field.label }}</mat-label>
+        <textarea
+          matInput
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+          [readonly]="field.readonly || false"
+          [matTooltip]="field.label" 
+          [matTooltipDisabled]="!field.label" 
+        ></textarea>
+        <mat-error *ngIf="form.get(field.name)?.hasError('required')">
+          Ce champ est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Buttons -->
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ submitButtonLabel }}
+      </button>
+      <button mat-raised-button color="warn" type="button" (click)="handleCancel()">
+        Annuler
+      </button>
+    </div>
+  </form>
+</mat-card>

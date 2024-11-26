@@ -1,39 +1,39 @@
 .generic-edit-card {
-    margin: 24px auto;
-    padding: 24px;
-    max-width: 700px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-  }
-  
-  .generic-edit-toolbar {
-    font-size: 1.6em;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 0;
-    color: white;
-  }
-  
-  .generic-edit-form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  
-  .form-field {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 24px;
-  }
-  
-  button {
-    min-width: 120px;
-  }
-  
+  margin: 24px auto;
+  padding: 24px;
+  max-width: 700px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+.generic-edit-toolbar {
+  font-size: 1.6em;
+  font-weight: bold;
+  display: flex;
+  align-items: center; /* Alignement vertical centré */
+  gap: 12px; /* Espacement entre l'icône et le texte */
+  padding: 16px 0;
+  color: white;
+}
+
+.generic-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 16px; /* Ajout d'un espacement entre l'en-tête et le premier champ */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+button {
+  min-width: 120px;
+}

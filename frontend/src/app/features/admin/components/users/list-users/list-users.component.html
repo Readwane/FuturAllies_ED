@@ -9,6 +9,7 @@
   <app-generic-listing
     *ngIf="!isLoading && !error"
     [fieldsConfig]="fieldsConfig"
+    (onBack)="navigateToPreviousPage()" 
     [data]="users"
     [actions]="actions"
     [searchable]="searchable"

@@ -57,3 +57,14 @@ button[type="submit"]:hover,
 button[type="button"]:hover {  
     transform: scale(1.05); /* Légère augmentation lors du survol */  
 }
+
+
+.generic-create-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.generic-create-toolbar button {
+  margin-right: auto;
+}

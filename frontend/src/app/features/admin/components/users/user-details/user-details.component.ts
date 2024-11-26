@@ -52,15 +52,15 @@ export class UserDetailsComponent implements OnInit {
   ) {}
 
 
-    removeChild() {  
-      const child = this.el.nativeElement.querySelector('.child');  
-      if (child) {  
-        this.renderer.removeChild(this.el.nativeElement, child);  
-      }  
-    } 
+    // removeChild() {  
+    //   const child = this.el.nativeElement.querySelector('.child');  
+    //   if (child) {  
+    //     this.renderer.removeChild(this.el.nativeElement, child);  
+    //   }  
+    // } 
 
     ngOnInit(): void {
-      this.removeChild();
+      // this.removeChild();
       const userId = this.route.snapshot.paramMap.get('id'); // Vérifie l'ID dans l'URL
       if (userId) {
         console.log('ID utilisateur récupéré depuis la route:', userId); // Ajoutez cette ligne pour confirmer l'ID

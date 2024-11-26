@@ -1,4 +1,17 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, Renderer2, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+  Renderer2,
+  ElementRef,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
+import { MatTooltip } from '@angular/material/tooltip';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-generic-listing',
@@ -17,25 +30,33 @@ export class GenericListingComponent implements OnInit, OnDestroy {
   @Output() searchEvent = new EventEmitter<string>();
   @Output() addEvent = new EventEmitter<void>();
 
+  @ViewChildren(MatTooltip) tooltips!: QueryList<MatTooltip>;
+
   searchQuery = '';
   paginatedData: any[] = [];
   selectedItems: any[] = [];
+  showBulkDeleteButton = false;
   allColumns: string[] = [];
 
   constructor(
-    private renderer: Renderer2, 
-    private el: ElementRef
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private overlayContainer: OverlayContainer
   ) {}
 
   ngOnInit(): void {
     this.updatePaginatedData();
-    this.allColumns = this.selectable ? ['select', ...this.displayedColumns] : [...this.displayedColumns];
+    this.updateDisplayedColumns();
   }
 
   ngOnDestroy(): void {
-    // Supprime tous les tooltips au moment de la destruction
-    const tooltips = document.querySelectorAll('.mat-tooltip');
-    tooltips.forEach((tooltip) => tooltip.remove());
+    // Nettoyer les tooltips et les overlays
+    this.tooltips.forEach((tooltip) => tooltip.hide(0));
+    this.overlayContainer.getContainerElement().innerHTML = '';
+    const tooltips = this.el.nativeElement.querySelectorAll('.mat-tooltip');
+    tooltips.forEach((tooltip: HTMLElement) => {
+      this.renderer.removeChild(this.el.nativeElement, tooltip);
+    });
   }
 
   updatePaginatedData(): void {
@@ -43,7 +64,9 @@ export class GenericListingComponent implements OnInit, OnDestroy {
     const endIndex = startIndex + this.paginationConfig.pageSize;
     const filteredData = this.searchQuery
       ? this.data.filter((item) =>
-          Object.values(item).some((value) => value?.toString().toLowerCase().includes(this.searchQuery.toLowerCase()))
+          Object.values(item).some((value) =>
+            value?.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+          )
         )
       : this.data;
     this.paginatedData = filteredData.slice(startIndex, endIndex);
@@ -61,28 +84,20 @@ export class GenericListingComponent implements OnInit, OnDestroy {
     this.updatePaginatedData();
   }
 
-  isAllSelected(): boolean {
-    return this.paginatedData.every((item) => item.selected);
-  }
-
   toggleAllRows(isChecked: boolean): void {
     this.paginatedData.forEach((item) => (item.selected = isChecked));
     this.updateSelectedItems();
   }
 
   updateSelectedItems(): void {
-    this.selectedItems = this.paginatedData.filter((item) => item.selected);
+    this.selectedItems = this.data.filter((item) => item.selected);
+    this.showBulkDeleteButton = this.selectedItems.length > 0;
+    this.updateDisplayedColumns();
   }
 
-  hasSelectedRows(): boolean {
-    return this.selectedItems.length > 0;
-  }
-
-  executeBulkAction(action: any): void {
-    if (this.hasSelectedRows()) {
-      action.callback(this.selectedItems);
-      this.updateSelectedItems();
-    }
+  executeBulkDelete(): void {
+    this.bulkActions.find((action) => action.label === 'Supprimer tout')?.callback(this.selectedItems);
+    this.updateSelectedItems();
   }
 
   executeAction(action: any, item: any): void {
@@ -95,5 +110,13 @@ export class GenericListingComponent implements OnInit, OnDestroy {
 
   onAddClick(): void {
     this.addEvent.emit();
+  }
+
+  updateDisplayedColumns(): void {
+    if (this.showBulkDeleteButton) {
+      this.allColumns = this.selectable ? ['select', ...this.displayedColumns.filter(col => col !== 'actions')] : [...this.displayedColumns];
+    } else {
+      this.allColumns = this.selectable ? ['select', ...this.displayedColumns] : [...this.displayedColumns];
+    }
   }
 }

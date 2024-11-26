@@ -98,3 +98,25 @@
     color: white; /* Change la couleur de l'icône en blanc */
   }
   
+
+  .search-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .search-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 600px; /* Ajoute un espace entre la barre de recherche et le bouton */
+  }
+  
+  .search-bar {
+    flex: 1; /* Permet à la barre de recherche d'occuper tout l'espace disponible */
+  }
+  
+  .delete-all-button {
+    white-space: nowrap;
+  }
+  

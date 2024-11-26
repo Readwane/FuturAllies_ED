@@ -1,35 +1,45 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-generic-create',
   templateUrl: './generic-create.component.html',
   styleUrls: ['./generic-create.component.css']
 })
-export class GenericCreateComponent implements OnInit {
-  @Input() fieldsConfig: {
-    name: string;
-    label: string;
-    type: string; // Peut inclure "text", "email", "password", "file", "select", "textarea"
-    required?: boolean;
-    options?: { value: any; label: string }[];
-    placeholder?: string;
-    multiple?: boolean; // Pour fichiers multiples ou sélections multiples
-  }[] = [];
+export class GenericCreateComponent implements OnInit, OnDestroy {
+  @Input() fieldsConfig: { name: string; label: string; type: string; required?: boolean; options?: { value: any; label: string }[]; placeholder?: string; multiple?: boolean, tooltip?: string; }[] = [];
+  @Input() submitButtonLabel: string = 'Créer';
+  @Input() defaultValues: Record<string, any> = {};
+  @Input() errorMessages: Record<string, Record<string, string>> = {};
+  @Input() backRoute: string | null = null; // Route optionnelle pour le retour
+  @Output() onSubmit = new EventEmitter<any>();
+  @Output() onCancel = new EventEmitter<any>();
+  @Output() onBack = new EventEmitter<void>(); // Événement pour le retour
 
-  @Input() submitButtonLabel: string = 'Créer'; // Texte du bouton de soumission
-  @Input() defaultValues: Record<string, any> = {}; // Valeurs initiales des champs
-  @Input() errorMessages: Record<string, Record<string, string>> = {}; // Messages d'erreurs spécifiques
-  @Output() onSubmit = new EventEmitter<any>(); // Événement de soumission du formulaire
-  @Output() onCancel = new EventEmitter<any>(); // Événement de soumission du formulaire
-
-  
   form!: FormGroup;
+  @ViewChildren(MatTooltip) tooltips!: QueryList<MatTooltip>;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private location: Location, private renderer: Renderer2, private el: ElementRef, private overlayContainer: OverlayContainer) {}
 
   ngOnInit(): void {
     this.initializeForm();
+  }
+
+  ngOnDestroy(): void {
+    // Masquer les tooltips actifs
+    this.tooltips.forEach((tooltip) => tooltip.hide(0));
+
+    // Supprimer les conteneurs d'overlays de Material Angular
+    this.overlayContainer.getContainerElement().innerHTML = '';
+
+    // Optionnel : Supprimer les éléments tooltips directement dans le DOM
+    const tooltips = this.el.nativeElement.querySelectorAll('.mat-tooltip');
+    tooltips.forEach((tooltip: HTMLElement) => {
+      this.renderer.removeChild(this.el.nativeElement, tooltip);
+    });
   }
 
   private initializeForm(): void {
@@ -64,12 +74,21 @@ export class GenericCreateComponent implements OnInit {
     if (this.form.valid) {
       this.onSubmit.emit(this.form.value);
     } else {
-      this.form.markAllAsTouched(); // Affiche les erreurs si le formulaire est invalide
+      this.form.markAllAsTouched();
     }
   }
 
   handleCancel(): void {
-    this.onCancel.emit(); // Pas besoin de valider le formulaire pour l'annulation
+    this.onCancel.emit();
   }
-  
+
+  handleBack(): void {
+    // Si backRoute est défini, redirige vers cette route. Sinon, utilise la fonction de retour générique.
+    if (this.backRoute) {
+      this.location.replaceState(this.backRoute);
+    } else {
+      this.location.back();
+    }
+    this.onBack.emit(); // Émet l'événement pour informer le parent
+  }
 }

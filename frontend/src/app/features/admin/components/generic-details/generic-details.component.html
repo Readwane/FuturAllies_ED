@@ -1,5 +1,9 @@
 <mat-card class="details-container" [ngClass]="cssClasses.container">
   <mat-toolbar color="primary" class="details-toolbar">
+    <!-- Bouton de retour -->
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>  <!-- Icône de retour -->
+    </button>
     <span>Détails</span>
   </mat-toolbar>
 
@@ -11,23 +15,19 @@
     >
       <strong>{{ field.label }}:</strong>
       <ng-container [ngSwitch]="field.type">
-        <!-- Texte -->
         <span *ngSwitchCase="'text'">{{ data[field.name] }}</span>
-
-        <!-- Email -->
         <a *ngSwitchCase="'email'" [href]="'mailto:' + data[field.name]">
           {{ data[field.name] }}
         </a>
-
-        <!-- Image -->
         <img *ngSwitchCase="'image'" [src]="data[field.name]" alt="{{ field.label }}" />
-
-        <!-- Date -->
         <span *ngSwitchCase="'date'">{{ data[field.name] | date }}</span>
-
-        <!-- Par défaut -->
         <span *ngSwitchDefault>{{ data[field.name] }}</span>
       </ng-container>
+
+      <!-- Tooltip ajouté ici -->
+      <mat-tooltip *ngIf="field.tooltip" [matTooltip]="field.tooltip">
+        {{ field.label }}
+      </mat-tooltip>
     </div>
   </div>
 
