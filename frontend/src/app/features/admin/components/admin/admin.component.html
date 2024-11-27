@@ -5,7 +5,7 @@
         <span>FuturAllies</span>
       </a>
     </mat-toolbar>
-    <app-dynamic-menu [menuItems]="menuItems"></app-dynamic-menu>
+    <app-dynamic-menu />
   </mat-sidenav>
   <mat-sidenav-content>
     <!-- Header -->
@@ -17,10 +17,10 @@
       <div class="spacer"></div>
       <!-- User Section -->
       <div class="user-profile">
-        <button mat-icon-button matBadge="{{user.notifications}}" matBadgeColor="warn" aria-label="Notifications" class="badge-button notifications-badge" matTooltip="Notifications">
+        <button mat-icon-button matBadge="{{userConnectedd.notifications}}" matBadgeColor="warn" aria-label="Notifications" class="badge-button notifications-badge" matTooltip="Notifications">
           <mat-icon>notifications</mat-icon>
         </button>
-        <button mat-icon-button matBadge="{{user.messages}}" matBadgeColor="accent" aria-label="Messages" class="badge-button messages-badge" matTooltip="Messages">
+        <button mat-icon-button matBadge="{{userConnectedd.messages}}" matBadgeColor="accent" aria-label="Messages" class="badge-button messages-badge" matTooltip="Messages">
           <mat-icon>message</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">
@@ -34,9 +34,9 @@
           </button>
         </mat-menu>
         <button mat-button class="user-menu-button" [matMenuTriggerFor]="userMenu">
-          <img *ngIf="user.isLoggedIn && user.avatarUrl" [src]="user.avatarUrl" class="avatar" matTooltip="Mon profil">
-          <mat-icon *ngIf="!user.avatarUrl" matTooltip="Mon profil">account_circle</mat-icon>
-          <span class="user-name">{{ user.name }}</span>
+          <img *ngIf="userConnectedd.isLoggedIn && userConnectedd.avatarUrl" [src]="userConnectedd.avatarUrl" class="avatar" matTooltip="Mon profil">
+          <mat-icon *ngIf="!userConnectedd.avatarUrl" matTooltip="Mon profil">account_circle</mat-icon>
+          <span class="user-name">{{ userConnectedd.name }}</span>
         </button>
       </div>
     </mat-toolbar>

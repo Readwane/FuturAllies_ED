@@ -9,13 +9,13 @@
   <app-generic-listing
     *ngIf="!isLoading && !error"
     [fieldsConfig]="fieldsConfig"
-    (onBack)="navigateToPreviousPage()" 
     [data]="users"
     [actions]="actions"
+    [displayedColumns]="displayedColumns"
     [searchable]="searchable"
     (addEvent)="addUser()"
-    [displayedColumns]="displayedColumns"
     (pageEvent)="onPageChange($event)"
     (searchEvent)="handleSearch($event)"
+    (actionEvent)="handleAction($event.action, $event.item)"
   ></app-generic-listing>
 </div>
