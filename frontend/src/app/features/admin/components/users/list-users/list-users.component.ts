@@ -2,10 +2,9 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from 'src/app/core/models/user/user.model';
-import { UserService } from 'src/app/core/services/user/user.service';
-import { ConfirmationDialogComponent } from '../../../dynamic-components/confirmation-dialog/confirmation-dialog.component';
 import { Location } from '@angular/common';
+import { resourcesConfig } from '../../../models/resource.model';
+import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'app-users',
@@ -13,7 +12,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./list-users.component.css'],
 })
 export class ListUsersComponent implements OnInit {
-  users: User[] = [];
+  users: any[] = [];
   isLoading: boolean = true;
   error: string | null = null;
 
@@ -49,9 +48,13 @@ export class ListUsersComponent implements OnInit {
       callback: (selectedItems: any[]) => this.deleteSelectedUsers(selectedItems),
     },
   ];
+  // Charger la configuration dynamique pour les utilisateurs
+  resourceConfig = resourcesConfig['user'];
+  fieldsConfig = this.resourceConfig.fields;
+  displayedColumns = this.resourceConfig.resource.displayableColumns || [];
+  actions = this.resourceConfig.resource.actions || [];
 
   paginationConfig = { pageSize: 10, currentPage: 1, totalItems: 0 };
-
   searchable = true;
 
   constructor(
@@ -68,8 +71,6 @@ export class ListUsersComponent implements OnInit {
   ngOnInit(): void {
     this.loadUsers();
   }
-
-
 
   loadUsers(): void {
     this.isLoading = true;
@@ -88,64 +89,10 @@ export class ListUsersComponent implements OnInit {
     });
   }
 
-  viewDetails(user: User): void {
-    this.router.navigate(['/admin/users/details', user._id]);
-  }
-
-  editUser(user: User): void {
-    this.router.navigate(['/admin/users/edit', user._id]);
-  }
-
-  confirmDeleteUser(user: User): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: {
-        title: 'Confirmer la suppression',
-        message: `Êtes-vous sûr de vouloir supprimer l'utilisateur ${user.username} ?`,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === true) {
-        this.deleteUser(user);
-      }
-    });
-  }
-
-  deleteUser(user: User): void {
-    this.userService.deleteUser(user._id).subscribe({
-      next: () => {
-        this.users = this.users.filter((u) => u._id !== user._id);
-        this.snackBar.open('Utilisateur supprimé avec succès.', 'Fermer', { duration: 3000 });
-      },
-      error: (err) => {
-        this.snackBar.open('Erreur lors de la suppression de l’utilisateur.', 'Fermer', { duration: 3000 });
-        console.error('Error deleting user:', err);
-      },
-    });
-  }
-
-  deleteSelectedUsers(selectedItems: any[]): void {
-    selectedItems.forEach((user) => {
-      this.userService.deleteUser(user._id).subscribe({
-        next: () => {
-          this.users = this.users.filter((u) => u._id !== user._id);
-          this.snackBar.open('Utilisateur supprimé avec succès.', 'Fermer', { duration: 3000 });
-        },
-        error: (err) => {
-          this.snackBar.open('Erreur lors de la suppression de l’utilisateur.', 'Fermer', { duration: 3000 });
-          console.error('Error deleting user:', err);
-        },
-      });
-    });
-  }
-
-  handleSearch(query: string): void {
-    console.log('Search query:', query);
-    // TODO: Implémenter la recherche côté serveur
-  }
-
-  addUser(): void {
-    this.router.navigate(['/admin/users/create']);
+  handleAction(action: any, user: any): void {
+    if (action.handler) {
+      action.handler(user);
+    }
   }
 
   onPageChange(event: any): void {
@@ -154,9 +101,7 @@ export class ListUsersComponent implements OnInit {
     this.loadUsers();
   }
 
-  // Méthode pour gérer le retour
   navigateToPreviousPage(): void {
-    console.log('Retour arrière avec Location');
     this.location.back();
   }
 }

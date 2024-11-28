@@ -11,7 +11,7 @@ export class AdminComponent {
   @ViewChild('sidenav') sidenav: any;
   tooltips: any[] = [];  // Liste des tooltips à gérer
 
-  user = {
+  userConnectedd = {
     isLoggedIn: true,
     avatarUrl: '',
     name: 'Tegawende',
@@ -21,6 +21,7 @@ export class AdminComponent {
 
   constructor(private overlayContainer: OverlayContainer, private el: ElementRef) {}
 
+<<<<<<< HEAD
 
   menuItems = [
     { label: 'Tableau de bord', icon: 'dashboard', route: 'dashboard' },
@@ -82,6 +83,8 @@ export class AdminComponent {
     }
   ];
 
+=======
+>>>>>>> 4b11eaac29262a9313c174b18e796fc49b6e2697
   ngAfterViewInit(): void {
     // Vous pouvez ajouter ici des tooltips ou autres fonctionnalités interactives si nécessaire.
   }
