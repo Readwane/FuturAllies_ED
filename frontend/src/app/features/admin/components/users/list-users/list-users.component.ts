@@ -43,7 +43,7 @@ export class ListUsersComponent implements OnInit {
     },
   ];
 
-  bulkActions = [
+  bulkAction = [
     {
       label: 'Supprimer tout',
       callback: (selectedItems: any[]) => this.deleteSelectedUsers(selectedItems),

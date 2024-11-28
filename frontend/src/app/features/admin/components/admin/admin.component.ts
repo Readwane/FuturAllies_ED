@@ -36,22 +36,22 @@ export class AdminComponent {
 
     },
     {
-      label: 'Écoles',
-      icon: 'school',
-      children: [
-        { label: 'Universités', route: '/universities' },
-        { label: 'Instituts', route: '/institutes' },
-        { label: 'Centres de formations', route: '/training-centers' }
-      ]
-    },
-    {
-      label: 'Cours',
+      label: 'Audition',
       icon: 'menu_book',
       children: [
         { label: 'Domaines', route: '/domains' },
         { label: 'Parcours de formations', route: '/training-paths' },
         { label: 'Cours libres', route: '/free-courses' },
         { label: 'Cours payants', route: '/paid-courses' }
+      ]
+    },
+    {
+      label: 'Écoles',
+      icon: 'school',
+      children: [
+        { label: 'Universités', route: '/universities' },
+        { label: 'Instituts', route: '/institutes' },
+        { label: 'Centres de formations', route: '/training-centers' }
       ]
     },
     {
