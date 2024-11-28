@@ -1,4 +1,5 @@
 <div class="generic-listing-container">
+  
   <!-- Barre de recherche et bouton "Supprimer tout" -->
   <div class="search-toolbar" *ngIf="searchable">
     <div class="search-bar-container">
@@ -18,63 +19,63 @@
     </div>
   </div>
 
-<!-- Tableau -->
-<table mat-table [dataSource]="paginatedData" class="listing-table mat-elevation-z8">
-  <!-- Colonne de sélection -->
-  <ng-container *ngIf="selectable" matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-checkbox
-        (change)="toggleAllRows($event.checked)"
-        [checked]="selectedItems.length > 0 && selectedItems.length === data.length"
-        [indeterminate]="selectedItems.length > 0 && selectedItems.length !== data.length"
-      ></mat-checkbox>
-    </th>
-    <td mat-cell *matCellDef="let element">
-      <mat-checkbox [(ngModel)]="element.selected" (change)="updateSelectedItems()"></mat-checkbox>
-    </td>
-  </ng-container>
+  <!-- Tableau -->
+  <table mat-table [dataSource]="paginatedData" class="listing-table mat-elevation-z8">
+    <!-- Colonne de sélection -->
+    <ng-container *ngIf="selectable" matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="toggleAllRows($event.checked)"
+          [checked]="selectedItems.length > 0 && selectedItems.length === data.length"
+          [indeterminate]="selectedItems.length > 0 && selectedItems.length !== data.length"
+        ></mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox [(ngModel)]="element.selected" (change)="updateSelectedItems()"></mat-checkbox>
+      </td>
+    </ng-container>
 
-  <!-- Colonnes dynamiques -->
-  <ng-container *ngFor="let field of fieldsConfig" [matColumnDef]="field.name">
-    <th mat-header-cell *matHeaderCellDef>{{ field.label }}</th>
-    <td mat-cell *matCellDef="let element">
-      <ng-container *ngIf="field.type !== 'actions'">
-        {{ element[field.name] }}
-      </ng-container>
-      <ng-container *ngIf="field.type === 'actions' && !showBulkDeleteButton">
-        <button
-          *ngFor="let action of actions"
-          mat-icon-button
-          [matTooltip]="action.label"
-          (click)="executeAction(action, element)"
-        >
-          <mat-icon>{{ action.icon }}</mat-icon>
-        </button>
-      </ng-container>
-    </td>
-  </ng-container>
+    <!-- Colonnes dynamiques -->
+    <ng-container *ngFor="let field of fieldsConfig" [matColumnDef]="field.name">
+      <th mat-header-cell *matHeaderCellDef>{{ field.label }}</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="field.type !== 'actions'">
+          {{ element[field.name] }}
+        </ng-container>
+        <ng-container *ngIf="field.type === 'actions' && !showBulkDeleteButton">
+          <button
+            *ngFor="let action of actions"
+            mat-icon-button
+            [matTooltip]="action.label"
+            (click)="executeAction(action, element)"
+          >
+            <mat-icon>{{ action.icon }}</mat-icon>
+          </button>
+        </ng-container>
+      </td>
+    </ng-container>
 
-  <!-- Lignes et en-têtes -->
-  <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: allColumns"></tr>
-</table>
+    <!-- Lignes et en-têtes -->
+    <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: allColumns"></tr>
+  </table>
 
-<!-- Pagination -->
-<mat-paginator
-  [length]="data.length"
-  [pageSize]="paginationConfig.pageSize"
-  [pageSizeOptions]="paginationConfig.pageSizeOptions"
-  (page)="onPageChange($event)"
-></mat-paginator>
+  <!-- Pagination -->
+  <mat-paginator
+    [length]="data.length"
+    [pageSize]="paginationConfig.pageSize"
+    [pageSizeOptions]="paginationConfig.pageSizeOptions"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
 
-<!-- Bouton flottant pour ajouter -->
-<button
-  *ngIf="addEvent"
-  mat-fab
-  color="primary"
-  class="add-resource-button"
-  (click)="onAddClick()"
->
-  <mat-icon>add</mat-icon>
-</button>
+  <!-- Bouton flottant pour ajouter -->
+  <button
+    *ngIf="addEvent"
+    mat-fab
+    color="primary"
+    class="add-resource-button"
+    (click)="onAddClick()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

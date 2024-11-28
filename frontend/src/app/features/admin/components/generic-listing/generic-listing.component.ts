@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { OverlayContainer } from '@angular/cdk/overlay';
-// import { ResourceFieldConfig } from '../../models/resource.model';
 
 @Component({
   selector: 'app-generic-listing',
@@ -20,10 +19,10 @@ import { OverlayContainer } from '@angular/cdk/overlay';
   styleUrls: ['./generic-listing.component.css'],
 })
 export class GenericListingComponent implements OnInit, OnDestroy {
-  // @Input() fieldsConfig: ResourceFieldConfig[] = [];
+  @Input() fieldsConfig: { name: string; label: string; type: string }[] = [];
   @Input() data: any[] = [];
-  @Input() actions: Array<{ name: string; label: string; icon: string; callback: (item: any) => void }> = [];
-  @Input() bulkActions: Array<{ label: string; callback: (selectedItems: any[]) => void }> = [];
+  @Input() actions: { name: string; label: string; icon: string; callback: (item: any) => void }[] = [];
+  @Input() bulkActions: { label: string; callback: (selectedItems: any[]) => void }[] = [];
   @Input() paginationConfig = { pageSize: 10, pageSizeOptions: [5, 10, 20], currentPage: 1 };
   @Input() searchable = false;
   @Input() selectable = true;
@@ -31,16 +30,19 @@ export class GenericListingComponent implements OnInit, OnDestroy {
   @Output() searchEvent = new EventEmitter<string>();
   @Output() addEvent = new EventEmitter<void>();
 
+  @ViewChildren(MatTooltip) tooltips!: QueryList<MatTooltip>;
+
   searchQuery = '';
   paginatedData: any[] = [];
   selectedItems: any[] = [];
   showBulkDeleteButton = false;
   allColumns: string[] = [];
 
-  @ViewChildren(MatTooltip) tooltips!: QueryList<MatTooltip>;
-
-
-  constructor(private renderer: Renderer2, private el: ElementRef, private overlayContainer: OverlayContainer) {}
+  constructor(
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private overlayContainer: OverlayContainer
+  ) {}
 
   ngOnInit(): void {
     this.updatePaginatedData();
@@ -118,6 +120,10 @@ export class GenericListingComponent implements OnInit, OnDestroy {
   }
 
   updateDisplayedColumns(): void {
-    this.allColumns = this.selectable ? ['select', ...this.displayedColumns] : [...this.displayedColumns];
+    if (this.showBulkDeleteButton) {
+      this.allColumns = this.selectable ? ['select', ...this.displayedColumns.filter(col => col !== 'actions')] : [...this.displayedColumns];
+    } else {
+      this.allColumns = this.selectable ? ['select', ...this.displayedColumns] : [...this.displayedColumns];
+    }
   }
 }

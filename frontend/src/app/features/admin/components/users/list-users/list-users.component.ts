@@ -2,9 +2,10 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { Location } from '@angular/common';
-import { resourcesConfig } from '../../../models/resource.model';
+import { User } from 'src/app/core/models/user/user.model';
 import { UserService } from 'src/app/core/services/user/user.service';
+import { ConfirmationDialogComponent } from '../../../dynamic-components/confirmation-dialog/confirmation-dialog.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-users',
@@ -12,8 +13,9 @@ import { UserService } from 'src/app/core/services/user/user.service';
   styleUrls: ['./list-users.component.css'],
 })
 export class ListUsersComponent implements OnInit {
-  users: any[] = [];
+  users: User[] = [];
   isLoading: boolean = true;
+  isDeleting: boolean = false;
   error: string | null = null;
 
   fieldsConfig = [
@@ -40,6 +42,12 @@ export class ListUsersComponent implements OnInit {
       icon: 'edit',
       callback: (user: User) => this.editUser(user),
     },
+    // {
+    //   name: 'delete',
+    //   label: 'Supprimer',
+    //   icon: 'delete',
+    //   callback: (user: User) => this.deleteUser(user),
+    // }
   ];
 
   bulkAction = [
@@ -48,13 +56,10 @@ export class ListUsersComponent implements OnInit {
       callback: (selectedItems: any[]) => this.deleteSelectedUsers(selectedItems),
     },
   ];
-  // Charger la configuration dynamique pour les utilisateurs
-  resourceConfig = resourcesConfig['user'];
-  fieldsConfig = this.resourceConfig.fields;
-  displayedColumns = this.resourceConfig.resource.displayableColumns || [];
-  actions = this.resourceConfig.resource.actions || [];
+  
 
   paginationConfig = { pageSize: 10, currentPage: 1, totalItems: 0 };
+
   searchable = true;
 
   constructor(
@@ -71,6 +76,8 @@ export class ListUsersComponent implements OnInit {
   ngOnInit(): void {
     this.loadUsers();
   }
+
+
 
   loadUsers(): void {
     this.isLoading = true;
@@ -89,10 +96,90 @@ export class ListUsersComponent implements OnInit {
     });
   }
 
-  handleAction(action: any, user: any): void {
-    if (action.handler) {
-      action.handler(user);
-    }
+  viewDetails(user: User): void {
+    this.router.navigate(['/admin/users/details', user._id]);
+  }
+
+  editUser(user: User): void {
+    this.router.navigate(['/admin/users/edit', user._id]);
+  }
+
+  confirmDeleteUser(user: User): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmer la suppression',
+        message: `Êtes-vous sûr de vouloir supprimer l'utilisateur ${user.username} ?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.deleteUser(user);
+      }
+    });
+  }
+
+  deleteUser(user: User): void {
+    this.userService.deleteUser(user._id).subscribe({
+      next: () => {
+        this.users = this.users.filter((u) => u._id !== user._id);
+        this.snackBar.open('Utilisateur supprimé avec succès.', 'Fermer', { duration: 3000 });
+      },
+      error: (err) => {
+        this.snackBar.open('Erreur lors de la suppression de l’utilisateur.', 'Fermer', { duration: 3000 });
+        console.error('Error deleting user:', err);
+      },
+    });
+  }
+
+  deleteSelectedUsers(selectedItems: any[]): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmer la suppression',
+        message: `Êtes-vous sûr de vouloir supprimer ces ${selectedItems.length} utilisateurs ?`,
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.isDeleting = true; // Démarre le processus de suppression
+        selectedItems.forEach((user, index) => {
+          this.userService.deleteUser(user._id).subscribe({
+            next: () => {
+              this.users = this.users.filter((u) => u._id !== user._id);
+              if (index === selectedItems.length - 1) {
+                this.isDeleting = false; // Arrête le spinner lorsque tous les utilisateurs sont supprimés
+                this.snackBar.open('Utilisateurs supprimés avec succès.', 'Fermer', { duration: 3000 });
+
+                 // Renaviguer vers la même route pour actualiser la page
+                this.router.navigate(['/admin/users/students']).then(() => {
+                  // Recharger les utilisateurs après la navigation
+                  this.loadUsers();
+                });
+              }
+
+            },
+            error: (err) => {
+              if (index === selectedItems.length - 1) {
+                this.isDeleting = false; // Arrête le spinner en cas d'erreur
+                this.snackBar.open('Erreur lors de la suppression de certains utilisateurs.', 'Fermer', { duration: 3000 });
+              }
+              console.error('Error deleting user:', err);
+            },
+          });
+        });
+      }
+    });
+  }
+  
+
+  handleSearch(query: string): void {
+    console.log('Search query:', query);
+    // TODO: Implémenter la recherche côté serveur
+  }
+
+  addUser(): void {
+    this.router.navigate(['/admin/users/create']);
   }
 
   onPageChange(event: any): void {
@@ -101,7 +188,9 @@ export class ListUsersComponent implements OnInit {
     this.loadUsers();
   }
 
+  // Méthode pour gérer le retour
   navigateToPreviousPage(): void {
+    console.log('Retour arrière avec Location');
     this.location.back();
   }
 }

@@ -109,7 +109,7 @@
   .search-bar-container {
     display: flex;
     align-items: center;
-    gap: 600px; /* Ajoute un espace entre la barre de recherche et le bouton */
+    gap: 250px; /* Ajoute un espace entre la barre de recherche et le bouton */
   }
   
   .search-bar {
