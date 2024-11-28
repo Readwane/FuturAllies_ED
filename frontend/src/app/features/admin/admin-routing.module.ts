@@ -7,6 +7,7 @@ import { UUsersComponent } from './components/users/u-users/u-users.component';
 import { ListUsersComponent } from './components/users/list-users/list-users.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 import { UserResolver } from 'src/app/core/services/user/user-resolver.service';
+import { ResourceListComponent } from './dynamic-components/resource-list/resource-list.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
         path: 'users',
         children: [
           { path: 'students', component: ListUsersComponent},
+          { path: 'trainers/:resourceType', component: ResourceListComponent},
           { path: 'create', component: CUsersComponent },
           { path: 'details/:id', component: UserDetailsComponent },
           { path: 'edit/:id', component: UUsersComponent }

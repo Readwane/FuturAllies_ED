@@ -19,7 +19,7 @@ export class DynamicMenuComponent implements OnDestroy, AfterViewInit {
       icon: 'people',
       children: [
         { label: 'Étudiants', route: 'users/students' },
-        { label: 'Formateurs', route: 'users/trainers' },
+        { label: 'Formateurs', route: 'users/trainers/users' },
         { label: 'Entreprises', route: 'users/enterprises' },
         { label: 'Administrateurs', route: 'users/admins' },
       ]

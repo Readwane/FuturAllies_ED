@@ -8,7 +8,7 @@ import { Resource , ResourceFieldConfig} from '../models/resource.model';
   providedIn: 'root'
 })
 export class ResourceService {
-  private apiUrl = 'https://localhost/fapi';
+  private apiUrl = 'http://localhost:3000/fapi';
 
   constructor(private http: HttpClient) {}
 
@@ -30,9 +30,5 @@ export class ResourceService {
 
   deleteResource(resourceType: string, id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${resourceType}/${id}`);
-  }
-
-  getResourceFieldConfigs(resourceType: string): Observable<ResourceFieldConfig[]> {
-    return this.http.get<ResourceFieldConfig[]>(`${this.apiUrl}/${resourceType}/field-configs`);
   }
 }

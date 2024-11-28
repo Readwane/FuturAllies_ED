@@ -1,35 +1,4 @@
-// export interface MenuItem {
-//     label: string; 
-//     icon: string; 
-//     route?: string; 
-//     children?: MenuItemChildren[]; 
-//   }
-  
-  
-//   export interface MenuItemChildren {
-//     label: string;
-//     route: string; 
-//   }
-  
-  
-  /***
-   * Exemple de MenuItems et leurs enfants MenuItemChildren
-   * menuItems:
-   * {
-   * label: 'Utilisateurs',
-   * icon: 'People',
-   * children: [
-   *  {
-  *    label: 'Students',
-  *    route: 'users/students
-  *   }
-  *   {
-  *    label: 'formateurs',
-  *    route: 'users/trainers
-  *   }
-  * ]
-  * }
-  */
+
   
   
   export interface ResourceCategory { 
