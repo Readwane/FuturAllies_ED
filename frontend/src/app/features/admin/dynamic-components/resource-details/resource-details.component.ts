@@ -1,59 +1,104 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import { ResourceService } from '../../services/resource.service';
-import { FieldType, Resource, ResourceFieldConfig } from '../../models/resource.model';
+import { Property, ressources } from '../../resource-config/dynamic-resource.config';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-resource-details',
   templateUrl: './resource-details.component.html',
-  styleUrls: ['./resource-details.component.css']
+  styleUrls: ['./resource-details.component.css'],
 })
-export class ResourceDetailsComponent implements OnInit {
-  @Input() resource!: Resource;
-  resourceData: { [key: string]: any } = {};  // Typage explicite
-  fieldsConfig: ResourceFieldConfig[] = [];
+export class ResourceDetailsComponent implements OnInit, OnDestroy {
+  resourceId!: string;
+  resourceType!: string;
+  resourceFields!: Property[];
+  resource!: any;
+  isLoading: boolean = true;
+  isDeleting: boolean = false; // Pour gérer l'état de suppression avec le spinner
+  errorMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
+    private snackBar: MatSnackBar,
+    private location: Location,
+    private router: Router,
+    private dialog: MatDialog // Injecter le MatDialog pour ouvrir le dialogue
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      console.error('ID non trouvé dans l\'URL');
-      return;
+    this.resourceId = this.route.snapshot.paramMap.get('id')!;
+    this.resourceType = this.route.snapshot.paramMap.get('resourceType')!;
+  
+    if (ressources[this.resourceType]) {
+      this.resource = ressources[this.resourceType]?.resource;
+      this.resourceFields = this.resource.options.properties.showProperties; // Propriétés à afficher
+      this.loadResource(this.resourceType, this.resourceId);
+    } else {
+      this.isLoading = false;
+      this.showToast('Type de ressource inconnu', 'error');
     }
-  
-    this.resourceService.getResource(this.resource.name, id).subscribe(
-      (data: Record<string, any>) => {  // 'Record<string, any>' permet une indexation plus flexible
-        this.resourceData = data;
-  
-        this.fieldsConfig = this.resource.displayableColumns?.map((column) => ({
-          name: column,
-          label: this.getColumnLabel(column),
-          type: this.getFieldType(data[column]),
-        })) || [];
+  }
+
+  ngOnDestroy(): void {}
+
+  loadResource(resourceType: string, resourceId: string): void {
+    this.resourceService.getResource(resourceType, resourceId).subscribe({
+      next: (resource) => {
+        this.resource = resource;
+        this.isLoading = false;
       },
-      (error) => {
-        console.error('Erreur lors de la récupération des données:', error);
+      error: (err) => {
+        this.errorMessage = 'Impossible de charger les données.';
+        this.isLoading = false;
+        this.showToast('Erreur lors du chargement', 'error');
       }
-    );
-  }
-  
-
-  // Fonction pour déterminer le type du champ basé sur les données
-  private getFieldType(value: any): FieldType {
-    if (typeof value === 'string') return FieldType.TEXT;
-    if (typeof value === 'number') return FieldType.NUMBER;
-    if (typeof value === 'boolean') return FieldType.CHECKBOX;
-    if (value instanceof Date) return FieldType.DATE;
-    return FieldType.TEXT; // Par défaut, on retourne TEXT
+    });
   }
 
-  // Fonction pour récupérer un label spécifique en fonction du nom du champ (optionnel)
-  private getColumnLabel(column: string): string {
-    const fieldConfig = this.fieldsConfig.find(config => config.name === column);
-    return fieldConfig ? fieldConfig.label : column;
+  showToast(message: string, type: 'success' | 'error' | 'info'): void {
+    this.snackBar.open(message, 'Fermer', {
+      duration: 3000,
+      panelClass: `toast-${type}`
+    });
+  }
+
+  handleBack(): void {
+    this.location.back();
+  }
+
+  editResource(): void {
+    this.router.navigate([`admin/edit/${this.resourceType}/${this.resourceId}`]);
+  }
+
+  deleteResource(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmer la suppression',
+        message: `Êtes-vous sûr de vouloir supprimer cette ressource ?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.isDeleting = true;  // Afficher le spinner de suppression
+
+        this.resourceService.deleteResource(this.resourceType, this.resourceId).subscribe({
+          next: () => {
+            this.isDeleting = false; // Masquer le spinner
+            this.showToast('Ressource supprimée avec succès', 'success');
+            this.location.back();
+          },
+          error: (err) => {
+            this.isDeleting = false; // Masquer le spinner
+            this.showToast('Erreur lors de la suppression', 'error');
+          }
+        });
+      }
+    });
   }
 }

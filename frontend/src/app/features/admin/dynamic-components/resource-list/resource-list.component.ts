@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit, Renderer2, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ressources, Resource, Property } from '../../resource-config/dynamic-resource.config';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OverlayContainer } from 'ngx-toastr';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-resource-list',
@@ -12,8 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrls: ['./resource-list.component.css']
 })
 export class ResourceListComponent implements OnInit, OnDestroy {
-
-  resourceName: string = '';
+  resourceType: string = '';
   resourceConfig: Resource | undefined;
   data: any[] = [];
   paginatedData: any[] = [];
@@ -22,169 +22,197 @@ export class ResourceListComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   isDeleting: boolean = false;
   showBulkDeleteButton: boolean = false;
-
-  // Configurations liées à la ressource récupérées dynamiquement
-  displayedColumns: string[] = [];
+  columns: string[] = [];
+  listToDisplay!: Property[];
   actions: { name: string; label: string; icon?: string; callback: (item: any) => void }[] = [];
-  bulkActions: { label: string; callback: (selectedItems: any[]) => void }[] = [];
-  searchable: boolean = false;
-  selectable: boolean = true;
   pageSizeOptions: number[] = [];
-  paginationConfig = { pageSize: 10, pageSizeOptions: [5, 10, 20], currentPage: 1 };
-  
+  paginationConfig = { pageSize: 10, pageSizeOptions: this.pageSizeOptions, currentPage: 1 };
+
+  @ViewChildren(MatTooltip) tooltips!: QueryList<MatTooltip>;
 
   constructor(
     private route: ActivatedRoute,
     private resourceService: ResourceService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private overlayContainer: OverlayContainer
   ) {}
 
   ngOnInit(): void {
-    // Récupérer le nom de la ressource depuis l'URL
-    this.resourceName = this.route.snapshot.paramMap.get('resourceType') || '';
+    this.resourceType = this.route.snapshot.paramMap.get('resourceType') || '';
     this.loadResourceConfig();
     this.loadData();
   }
 
-  ngOnDestroy(): void {
-    // Cleanup si nécessaire
+  ngAfterViewInit(): void {
+    
   }
 
-  // Charger la configuration dynamique de la ressource
+  ngOnDestroy(): void {
+    // Nettoyer les tooltips et les overlays
+    this.tooltips.forEach((tooltip) => tooltip.hide(0));
+    this.overlayContainer.getContainerElement().innerHTML = '';
+    const tooltips = this.el.nativeElement.querySelectorAll('.mat-tooltip');
+    tooltips.forEach((tooltip: HTMLElement) => {
+      this.renderer.removeChild(this.el.nativeElement, tooltip);
+    });
+  }
+  
+
   loadResourceConfig(): void {
-    const resourceToLoad = ressources[this.resourceName];
+    const resourceToLoad = ressources[this.resourceType];
     if (resourceToLoad) {
       this.resourceConfig = resourceToLoad.resource;
       const options = this.resourceConfig.options;
       
-      // Configurations associées à la ressource
-      this.displayedColumns = options.properties.showProperties.map(p => p.name);
+      this.listToDisplay = options.properties.showProperties;
+      // Ajout de 'select' en première position
+      this.columns = ['select', ...options.properties.showProperties.map(p => p.name), 'actions'];
       this.actions = options.actions || [];
       this.pageSizeOptions = options.pageSizeOptions || [5, 10, 20];
-      this.searchable = true;
     } else {
-      console.error('Ressource introuvable');
+      console.error('Resource not found');
     }
   }
 
-  // Charger les données pour la ressource
   loadData(): void {
     if (!this.resourceConfig) return;
     this.loading = true;
 
-    this.resourceService.getResources(this.resourceName).subscribe(
+    this.resourceService.getResources(this.resourceType).subscribe(
       data => {
-        this.data = data;
+        this.data = data.map(item => ({ ...item, selected: false })); // Ajout de `selected` par défaut
         this.updatePaginatedData();
         this.loading = false;
       },
       error => {
-        console.error('Erreur lors du chargement des données', error);
+        console.error('Error loading data', error);
         this.loading = false;
       }
     );
   }
 
-  // Mise à jour des données paginées
+
   updatePaginatedData(): void {
+    // Appliquer le filtrage si une recherche est effectuée
+    const filteredData = this.searchQuery
+      ? this.data.filter((item) =>
+          Object.values(item).some((value) =>
+            value?.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+          )
+        )
+      : this.data;
+  
+    // Calculer l'index des éléments pour la pagination
     const startIndex = (this.paginationConfig.currentPage - 1) * this.paginationConfig.pageSize;
     const endIndex = startIndex + this.paginationConfig.pageSize;
-    const filteredData = this.searchQuery
-      ? this.data.filter(item => Object.values(item).some(value => value?.toString().toLowerCase().includes(this.searchQuery.toLowerCase())))
-      : this.data;
+  
+    // Affecter les données paginées
     this.paginatedData = filteredData.slice(startIndex, endIndex);
   }
-
-  // Méthode de recherche
-  onSearchChange(): void {
-    this.paginationConfig.currentPage = 1;
-    this.updatePaginatedData();
-  }
-
-  // Gestion de la sélection de toutes les lignes
-  toggleAllRows(isChecked: boolean): void {
-    this.paginatedData.forEach(item => (item.selected = isChecked));
-    this.updateSelectedItems();
-  }
-
-  // Mise à jour des éléments sélectionnés
-  updateSelectedItems(): void {
-    this.selectedItems = this.paginatedData.filter(item => item.selected);
-    this.showBulkDeleteButton = this.selectedItems.length > 0;
-  }
-
-  // Action de suppression en masse
-  // deleteSelectedUsers(resource: Resource, selectedItems: any[]): void {
-  //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-  //     data: {
-  //       title: 'Confirmer la suppression',
-  //       message: `Êtes-vous sûr de vouloir supprimer ces ${selectedItems.length} ${resourceName}s ?`,
-  //     },
-  //   });
   
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result === true) {
-  //       this.isDeleting = true; // Démarre le processus de suppression
-  //       selectedItems.forEach((user, index) => {
-  //         this.resourceService.deleteResource(resourceName, ).subscribe({
-  //           next: () => {
-  //             this.users = this.users.filter((u) => u._id !== user._id);
-  //             if (index === selectedItems.length - 1) {
-  //               this.isDeleting = false; // Arrête le spinner lorsque tous les utilisateurs sont supprimés
-  //               this.snackBar.open('Utilisateurs supprimés avec succès.', 'Fermer', { duration: 3000 });
+  
 
-  //                // Renaviguer vers la même route pour actualiser la page
-  //               this.router.navigate(['/admin/users/students']).then(() => {
-  //                 // Recharger les utilisateurs après la navigation
-  //                 this.loadUsers();
-  //               });
-  //             }
+  onSearchChange(): void {
+    this.paginationConfig.currentPage = 1;  // Réinitialiser à la première page
+    this.updatePaginatedData(); // Mettre à jour les données paginées
+  }
+  
 
-  //           },
-  //           error: (err) => {
-  //             if (index === selectedItems.length - 1) {
-  //               this.isDeleting = false; // Arrête le spinner en cas d'erreur
-  //               this.snackBar.open('Erreur lors de la suppression de certains utilisateurs.', 'Fermer', { duration: 3000 });
-  //             }
-  //             console.error('Error deleting user:', err);
-  //           },
-  //         });
-  //       });
-  //     }
-  //   });
-  // }
-
-  // Supprimer un élément spécifique
-  // deleteItem(item: any): void {
-  //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-  //     data: { message: `Êtes-vous sûr de vouloir supprimer cet élément : ${item[this.displayedColumns[0]]} ?` }
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result) {
-  //       this.loading = true;
-  //       this.resourceService.delete(this.resourceName, item._id).subscribe(() => {
-  //         this.loading = false;
-  //         this.loadData();
-  //       });
-  //     }
-  //   });
-  // }
-
-  executeBulkDelete() {
-    throw new Error('Method not implemented.');
+  toggleAllRows(isChecked: boolean): void {
+    this.paginatedData.forEach((item) => {
+      item.selected = isChecked;
+    });
+    this.updateSelectedItems(); // Mettre à jour la sélection
+    this.updateDisplayedColumns(); // Mettre à jour les colonnes après sélection
+  }
+  
+  updateSelectedItems(): void {
+    this.selectedItems = this.paginatedData.filter((item) => item.selected);
+    this.showBulkDeleteButton = this.selectedItems.length > 0;  // Affiche le bouton de suppression si des éléments sont sélectionnés
+    this.updateDisplayedColumns(); // Mise à jour des colonnes après modification de la sélection
   }
 
-  // Pagination
+
+  updateDisplayedColumns(): void {
+    // Vérifie si des éléments sont sélectionnés et met à jour les colonnes en conséquence
+    if (this.selectedItems.length > 0) {
+      this.columns = this.columns.filter(col => col !== 'actions');  // Retire la colonne 'actions' si des éléments sont sélectionnés
+    } else {
+      if (!this.columns.includes('actions')) {
+        this.columns.push('actions');  // Ajoute la colonne 'actions' si aucune ligne n'est sélectionnée
+      }
+    }
+  }
+  
+
+  executeBulkDelete(): void {
+    if (this.selectedItems.length > 0) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: {
+          title: 'Confirm bulk delete',
+          message: `Are you sure you want to delete these ${this.selectedItems.length} items?`
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.isDeleting = true;  // Indique que la suppression est en cours
+          this.selectedItems.forEach((item, index) => {
+            this.resourceService.deleteResource(this.resourceType, item._id).subscribe({
+              next: () => {
+                // Supprimer l'élément de la liste
+                this.data = this.data.filter(i => i._id !== item._id);
+                if (index === this.selectedItems.length - 1) {
+                  // Réinitialiser après la suppression de tous les éléments
+                  this.loadData(); // Recharger les données
+                  this.isDeleting = false;
+                  this.updatePaginatedData(); // Mettre à jour les données paginées
+                  this.selectedItems = []; // Réinitialiser les éléments sélectionnés
+                  this.updateDisplayedColumns(); // Mettre à jour les colonnes
+                }
+              },
+              error: (err) => {
+                console.error('Error deleting item:', err);
+                this.isDeleting = false;
+              }
+            });
+          });
+        }
+      });
+    }
+  }
+  
+  
+
   onPageChange(event: any): void {
+    // Met à jour la taille de la page et la page actuelle
     this.paginationConfig.pageSize = event.pageSize;
     this.paginationConfig.currentPage = event.pageIndex + 1;
     this.updatePaginatedData();
   }
+  
 
-  // Ajouter un nouvel élément
   onAddClick(): void {
-    this.router.navigate([`admini/${this.resourceName}/add`]);
+    this.router.navigate([`admin/create/${this.resourceType}`]);
   }
+
+   // Méthode pour afficher les détails de l'élément
+   viewElementDetails(item: any): void {
+    console.log('View details for item:', item);
+    this.router.navigate([`admin/details/${this.resourceType}/${item._id}`]);
+  }
+
+  // Méthode pour éditer l'élément
+  editElement(item: any): void {
+    console.log('Edit element:', item);
+    this.router.navigate([`admin/edit/${this.resourceType}/${item._id}`]);
+  }
+
+  isActionsColumnVisible(): boolean {
+    return this.selectedItems.length === 0; // La colonne des actions disparait si des éléments sont sélectionnés
+  }
+  
 }

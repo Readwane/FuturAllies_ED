@@ -432,13 +432,13 @@ authenticationRoutes.get('/user-groups/:id', getUserGroupById);
 authenticationRoutes.delete('/user-groups/:id/delete', deleteUserGroup);
 
 // Routes pour User
-authenticationRoutes.post('/users/create', createUser);
+authenticationRoutes.post('/users', createUser);
 authenticationRoutes.get('/users', getAllUsers);
 authenticationRoutes.get('/users/paginated', getAllUsersPaginated);
 authenticationRoutes.get('/users/:id', getUserById);
-authenticationRoutes.put('/users/:id/update', updateUser);
+authenticationRoutes.put('/users/:id', updateUser);
 authenticationRoutes.get('/users/gnbId/:id', getUserNameById);
-authenticationRoutes.delete('/users/:id/delete', deleteUser);
+authenticationRoutes.delete('/users/:id', deleteUser);
 authenticationRoutes.get('/users/rep/:username', getUserByUsername);
 authenticationRoutes.get('users/byUser/rip/:userId', getProfileByUserId);
 

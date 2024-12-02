@@ -22,7 +22,7 @@
   <!-- Tableau -->
   <table mat-table [dataSource]="paginatedData" class="listing-table mat-elevation-z8">
     <!-- Colonne de sélection -->
-    <ng-container *ngIf="selectable" matColumnDef="select">
+    <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox
           (change)="toggleAllRows($event.checked)"

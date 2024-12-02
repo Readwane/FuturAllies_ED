@@ -16,6 +16,7 @@ export enum FieldType {
     RADIO = 'radio',
     CHECKBOX = 'checkbox',
     PASSWORD = 'password',
+    FILE = 'file',
 }
 
 export interface Property {
@@ -36,14 +37,14 @@ export interface Property {
 
 
 export interface Properties {
-    showProperties: Property[];    // Propriétés visibles à l'utilisateur, par exemple dans une vue simplifiée
     listProperties: Property[];    // Propriétés complètes, toutes les informations disponibles sur l'objet
+    showProperties: Property[];    // Propriétés visibles à l'utilisateur, par exemple dans une vue simplifiée
     filterProperties: Property[];  // Propriétés utilisées pour les filtres ou les critères de recherche
-    editProperties: Property[];    // Propriétés qui peuvent être modifiées
+    editProperties: Property[];    // Propriétés qui peuvent être modifiées ou créées
 }
 
 export interface Resource {
-    name: string; // Nom de la ressource
+    model: string; // Nom de la ressource
     options: {
         parent: ResourceCategory; // Catégorie de la ressource (menu, catégorie, etc.)
         properties: Properties; // Propriétés d'une ressource
@@ -57,10 +58,10 @@ export interface Resource {
     };
 }
 
-export const ressources: { [key: string]: { resource: Resource } } = {
+export const ressources: { [resourceType: string]: { resource: Resource } } = {
     users: {
         resource: {
-            name: 'Users',
+            model: 'User',
             options: {
                 parent: { label: 'Utilisateurs', icon: 'People' },
                 properties: {
@@ -106,23 +107,23 @@ export const ressources: { [key: string]: { resource: Resource } } = {
                             tooltip: 'Numéro de téléphone valide',
                             errorMessage: 'Le numéro de téléphone doit être valide et respecter le format international.'
                         },
-                        { 
-                            label: 'Date d\inscription', 
-                            name: 'created_at',
-                            type: FieldType.DATE, 
-                            disabled: true, 
-                            tooltip: 'Date de création' 
-                        },
+                        // { 
+                        //     label: 'Date d\inscription', 
+                        //     name: 'created_at',
+                        //     type: FieldType.DATE, 
+                        //     disabled: true, 
+                        //     tooltip: 'Date de création' 
+                        // },
                     ],
                     listProperties: [
                         { 
-                            label: '_id', 
-                            name: 'username',
+                            label: 'Identifiant', 
+                            name: '_id',
                             type: FieldType.TEXT, 
                             disabled: true 
                         },
                         { 
-                            label: 'username', 
+                            label: 'Nom d\'utilisateur', 
                             name: 'username', 
                             type: FieldType.TEXT, 
                             required: true, minLength: 5, 
@@ -130,7 +131,7 @@ export const ressources: { [key: string]: { resource: Resource } } = {
                             errorMessage: 'Le nom d\'utilisateur est requis.' 
                         },
                         { 
-                            label: 'username',
+                            label: 'Email',
                             name: 'email', 
                             type: FieldType.EMAIL, 
                             required: true, 
@@ -138,37 +139,38 @@ export const ressources: { [key: string]: { resource: Resource } } = {
                             errorMessage: 'L\'email est requis et doit être valide.' 
                         },
                         { 
-                            label: 'username',
+                            label: 'Mot da passe',
                             name: 'password', 
                             type: FieldType.PASSWORD, 
                             required: true, 
                             minLength: 8, 
                             maxLength: 20, 
                             tooltip: 'Mot de passe sécurisé', 
-                            errorMessage: 'Le mot de passe doit comporter entre 8 et 20 caractères.' 
+                            errorMessage: 'Le mot de passe doit comporter entre 8 et 20 caractères.', 
+                            disabled: true,
                         },
                         { 
-                            label: 'username',
+                            label: 'Prenom',
                             name: 'first_name', 
                             type: FieldType.TEXT 
                         },
                         { 
-                            label: 'username',
+                            label: 'Nom de famille',
                             name: 'last_name', 
                             type: FieldType.TEXT 
                         },
                         { 
-                            label: 'username',
+                            label: 'Telephone',
                             name: 'phone', 
                             type: FieldType.TEL 
                         },
                         { 
-                            label: 'username',
+                            label: 'Date d\'inscription',
                             name: 'created_at', 
                             type: FieldType.DATE 
                         },
                         { 
-                            label: 'username',
+                            label: 'Date de mise a jour',
                             name: 'updated_at', 
                             type: FieldType.DATE 
                         },
@@ -192,7 +194,7 @@ export const ressources: { [key: string]: { resource: Resource } } = {
                     ],
                     editProperties: [
                         { 
-                            label: 'username', 
+                            label: 'Nom d\'utilisateur', 
                             name: 'username',
                             type: FieldType.TEXT, 
                             required: true, 
@@ -201,16 +203,16 @@ export const ressources: { [key: string]: { resource: Resource } } = {
                             errorMessage: 'Le nom d\'utilisateur est requis et doit comporter au moins 5 caractères.'
                         },
                         { 
-                            label: 'email', 
-                            name: 'username',
+                            label: 'Email', 
+                            name: 'email',
                             type: FieldType.EMAIL, 
                             required: true, 
                             tooltip: 'Adresse email valide', 
                             errorMessage: 'L\'email est requis et doit être valide.'
                         },
                         { 
-                            label: 'password', 
-                            name: 'username',
+                            label: 'Mot de passe', 
+                            name: 'password',
                             type: FieldType.PASSWORD, 
                             required: true, 
                             minLength: 8, 
@@ -219,23 +221,38 @@ export const ressources: { [key: string]: { resource: Resource } } = {
                             errorMessage: 'Le mot de passe doit comporter entre 8 et 20 caractères.'
                         },
                         { 
-                            label: 'username',
+                            label: 'Confirmer le mot de passe', 
+                            name: 'confirm_password',
+                            type: FieldType.PASSWORD, 
+                            required: true, 
+                            minLength: 8, 
+                            maxLength: 20, 
+                            tooltip: 'Mot de passe sécurisé', 
+                            errorMessage: 'Ce mot de passe ne correspond au mot passe saisi ci-dessus'
+                        },
+                        { 
+                            label: 'Prénom',
                             name: 'first_name', 
                             type: FieldType.TEXT 
                         },
                         { 
-                            label: 'username',
+                            label: 'Nom de famille',
                             name: 'last_name', 
                             type: FieldType.TEXT 
                         },
-                        { 
-                            label: 'username',
-                            name: 'phone', 
-                            type: FieldType.TEL 
-                        },
+                        {
+                            label: 'Telephone',
+                            name: 'phone',
+                            type: FieldType.TEL,
+                            required: true, 
+                            pattern: '^\\+?[1-9][0-9]{1,14}$',
+                            tooltip: 'Numéro de téléphone valide',
+                            errorMessage: 'Le numéro de téléphone doit être valide et respecter le format international.'
+                          },
+                          
                     ],
                 },
-                pageSizeOptions: [5, 10, 20, 50],
+                pageSizeOptions: [5, 10, 20],
                 actions: [
                     { 
                         name: 'Edit', 
@@ -244,16 +261,18 @@ export const ressources: { [key: string]: { resource: Resource } } = {
                         callback: (item) => console.log('Editing', item),
                     },
                     { 
-                        name: 'Delete',
-                        label: 'Supprimer', 
-                        icon: 'delete', 
+                        name: 'info',
+                        label: 'Details', 
+                        icon: 'info', 
                         callback: (item) => console.log('Deleting', item),
                     },
+
+                  
                 ],
             },
         },
 },
 
-// Ajout d'autres ressources
+
 
 };

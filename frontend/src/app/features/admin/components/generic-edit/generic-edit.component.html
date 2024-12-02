@@ -32,24 +32,6 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Confirmer le mot de passe -->
-      <!-- <mat-form-field appearance="outline" *ngIf="field.name === 'confirm_password'">
-        <mat-label>Confirmer le mot de passe</mat-label>
-        <input
-          matInput
-          type="password"
-          [formControlName]="field.name"
-          placeholder="Confirmer le mot de passe"
-          [matTooltip]="field.label"
-          [matTooltipDisabled]="!field.label"
-        />
-        <mat-error *ngIf="form.get('confirm_password')?.hasError('required')">
-          Ce champ est requis
-        </mat-error>
-        <mat-error *ngIf="form.get('confirm_password')?.hasError('mismatch')">
-          Les mots de passe ne correspondent pas
-        </mat-error>
-      </mat-form-field> -->
 
       <!-- Select Dropdown -->
       <mat-form-field appearance="outline" *ngIf="field.type === 'select'">

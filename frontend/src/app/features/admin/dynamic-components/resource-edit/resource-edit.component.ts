@@ -1,104 +1,165 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { ResourceService } from '../../services/resource.service';
-import { Resource, ResourceFieldConfig } from '../../models/resource.model';
-import { resourcesConfig } from '../../resource-config/reource.config';
+import { ressources, Property, FieldType } from '../../resource-config/dynamic-resource.config';
 
 @Component({
   selector: 'app-resource-edit',
   templateUrl: './resource-edit.component.html',
   styleUrls: ['./resource-edit.component.css'],
 })
-export class ResourceEditComponent implements OnInit {
-[x: string]: any;
-  resource!: Resource;
-  resourceFieldsConfig!: ResourceFieldConfig[];
-  resourceForm: FormGroup = this.fb.group({});
-  resourceId!: string | null;
-  resourceType!: string | null;
-  config!: { resource: Resource; fields: ResourceFieldConfig[] };
+export class ResourceEditComponent implements OnInit, OnDestroy {
+
+  resource!: any;
+  resourceFieldsToEdit!: Property[];
+  resourceId!: string;
+  resourceType!: string;
   loading = false;
+  resourceToEdit: any = null;
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
+  form!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
+    private resourceService: ResourceService,
+    private snackBar: MatSnackBar,
     private router: Router,
-    private fb: FormBuilder,
-    private resourceService: ResourceService
+    private location: Location,
+    private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.resourceType = this.route.snapshot.paramMap.get('resourceType');
-    this.resourceId = this.route.snapshot.paramMap.get('id');
-  
-    // Vérifier si resourceType ou resourceId est null
-    if (!this.resourceType) {
-      console.error('Type de ressource introuvable.');
-      return;
+  ngOnInit(): void {
+    this.resourceId = this.route.snapshot.paramMap.get('id')!;
+    this.resourceType = this.route.snapshot.paramMap.get('resourceType')!;
+    console.log(`Log: [La resource] :`, this.resourceType);
+    console.log(`Log: [Id de la resource] :`, this.resourceId);
+    this.resource = ressources[this.resourceType]?.resource;
+    this.resourceFieldsToEdit = this.resource.options.properties.editProperties;
+    this.initializeForm();
+    if (this.resourceId) {
+      this.loadResource(this.resourceType, this.resourceId);
+    } else {
+      this.isLoading = false;
+      this.showToast('ID resource manquant', 'error');
     }
-  
-    if (!this.resourceId) {
-      console.error('ID de la ressource introuvable.');
-      return;
+  }
+
+  ngOnDestroy(): void {}
+
+  private initializeForm(): void {
+    const formControls: any = {};
+
+    this.resourceFieldsToEdit.forEach(field => {
+      const validators = [field.required ? Validators.required : null].filter(v => v !== null);
+      if (field.type === 'email') {
+        validators.push(Validators.email);
+      }
+      if (field.type === 'password') {
+        validators.push(Validators.minLength(8));
+      }
+      formControls[field.name] = ['', validators];
+    });
+
+    // Custom validation (e.g., for password confirmation)
+    this.form = this.fb.group(formControls, { validators: [this.passwordMatchValidator] });
+  }
+
+  private populateForm(): void {
+    if (this.resourceToEdit) {
+      const formValues: any = {};
+      this.resourceFieldsToEdit.forEach(field => {
+        if (this.resourceToEdit[field.name] !== undefined) {
+          formValues[field.name] = this.resourceToEdit[field.name];
+        }
+      });
+      this.form.patchValue(formValues); // Remplir le formulaire avec les données de resourceToEdit
     }
-  
-    this.config = resourcesConfig[this.resourceType];
-    if (!this.config) {
-      console.error('Configuration de la ressource introuvable.');
-      return;
+  }
+
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirm_password')?.value;
+    if (password && confirmPassword && password !== confirmPassword) {
+      return { mismatch: true };
     }
-  
-    this.resource = this.config.resource;
-    this.resourceFieldsConfig = this.config.fields;
-  
-    this.loading = true;
-    this.resourceService.getResource(this.resource.name, this.resourceId).subscribe({
-      next: (data) => {
-        this.configureForm(data);
+    return null;
+  };
+
+  loadResource(resourceType: string, resourceId: string): void {
+    this.resourceService.getResource(resourceType, resourceId).subscribe({
+      next: (resource) => {
+        this.resourceToEdit = resource;
+        this.isLoading = false;
+        this.populateForm();  // Populer le formulaire avec les données chargées
       },
       error: (err) => {
-        console.error('Erreur lors du chargement de la ressource:', err);
+        this.errorMessage = 'Impossible de charger les données.';
+        this.isLoading = false;
+        this.showToast('Erreur lors du chargement', 'error');
+      }
+    });
+  }
+
+  onSubmit(updatedData: any): void {
+    if (!this.resourceToEdit || !updatedData) {
+      this.showToast('Données invalides', 'error');
+      return;
+    }
+    if (!this.resourceToEdit._id) {
+      this.showToast('L\'ID est manquant', 'error');
+      return;
+    }
+    // Afficher le spinner
+    this.isLoading = true;
+    this.resourceService.updateResource(this.resourceType, this.resourceToEdit._id, updatedData).subscribe({
+      next: () => {
+        // Masquer le spinner après mise à jour réussie
+        this.isLoading = false;
+        this.showToast('Mise à jour réussie', 'success');
+        this.location.back();
       },
-      complete: () => {
-        this.loading = false;
-      },
+      error: () => {
+        // Masquer le spinner en cas d'erreur
+        this.isLoading = false;
+        this.showToast('Erreur lors de la mise à jour', 'error');
+      }
     });
   }
   
+  
 
-  private configureForm(data: any) {
-    const formControls = this.resourceFieldsConfig.reduce((controls, config) => {
-      controls[config.name] = [data[config.name] || '', this.getValidators(config)];
-      return controls;
-    }, {} as any);
-
-    this.resourceForm = this.fb.group(formControls);
-  }
-
-  private getValidators(config: ResourceFieldConfig) {
-    const validators = [];
-    if (config.required) validators.push(Validators.required);
-    if (config.minLength) validators.push(Validators.minLength(config.minLength));
-    if (config.maxLength) validators.push(Validators.maxLength(config.maxLength));
-    if (config.pattern) validators.push(Validators.pattern(config.pattern));
-    return validators;
-  }
-
-  onSave() {
-    if (!this.resourceId) {
-      console.error('L\'ID de la ressource est introuvable.');
-      return;
+  handleSubmit(): void {
+    if (this.form.valid) {
+      this.onSubmit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
-  
-    this.resourceService.updateResource(this.resource.name, this.resourceId, this.resourceForm.value)
-      .subscribe({
-        next: () => {
-          this.router.navigate([`/${this.resource.name}`]);
-        },
-        error: (err) => {
-          console.error('Erreur lors de la mise à jour de la ressource :', err);
-        },
-      });
   }
-  
+
+  handleCancel(): void {
+    this.location.back();
+    this.showToast('Modification annulée', 'info');
+  }
+
+  handleBack(): void {
+    this.location.back();
+  }
+
+  showToast(message: string, type: 'success' | 'error' | 'info'): void {
+    this.snackBar.open(message, 'Fermer', {
+      duration: 3000,
+      panelClass: `toast-${type}`
+    });
+  }
+
+  handleFileInput(event: Event, fieldName: string): void {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement?.files) {
+      this.form.get(fieldName)?.setValue(inputElement.files);
+    }
+  }
 }

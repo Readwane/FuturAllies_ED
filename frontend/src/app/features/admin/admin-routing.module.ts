@@ -8,6 +8,9 @@ import { ListUsersComponent } from './components/users/list-users/list-users.com
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 import { UserResolver } from 'src/app/core/services/user/user-resolver.service';
 import { ResourceListComponent } from './dynamic-components/resource-list/resource-list.component';
+import { ResourceCreateComponent } from './dynamic-components/resource-create/resource-create.component';
+import { ResourceEditComponent } from './dynamic-components/resource-edit/resource-edit.component';
+import { ResourceDetailsComponent } from './dynamic-components/resource-details/resource-details.component';
 
 const routes: Routes = [
   {
@@ -16,16 +19,11 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
-      { 
-        path: 'users',
-        children: [
-          { path: 'students', component: ListUsersComponent},
-          { path: 'trainers/:resourceType', component: ResourceListComponent},
-          { path: 'create', component: CUsersComponent },
-          { path: 'details/:id', component: UserDetailsComponent },
-          { path: 'edit/:id', component: UUsersComponent }
-        ]
-      },
+      { path: 'list/:resourceType/', component: ResourceListComponent },
+      { path: 'list/:resourceType/:resourceChild', component: ResourceListComponent },
+      { path: 'create/:resourceType', component: ResourceCreateComponent },
+      { path: 'edit/:resourceType/:id', component: ResourceEditComponent },
+      { path: 'details/:resourceType/:id', component: ResourceDetailsComponent },
     ]
   }
 

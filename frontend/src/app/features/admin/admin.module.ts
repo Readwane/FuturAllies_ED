@@ -23,7 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatTabsModule } from '@angular/material/tabs';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './components/admin/admin.component';
 import { DynamicMenuComponent } from './components/dynamic-menu/dynamic-menu.component';
@@ -93,7 +93,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatPaginatorModule,
     FormsModule,
     MatTableModule,
+    MatTabsModule,
     MatCheckboxModule,
+    MatTabsModule,
     ReactiveFormsModule,
     MatOptionModule,
     MatTooltipModule,
