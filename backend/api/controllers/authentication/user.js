@@ -1,6 +1,61 @@
 import User from '../../models/authentication/user.js';
 import Profile from '../../models/authentication/profile.js';
-import bcrypt from 'bcrypt';  
+import bcrypt from 'bcrypt'; 
+import jwt from 'jsonwebtoken'; // Pour créer des tokens JWT
+
+
+// Middleware pour vérifier le token JWT
+export const authenticateToken = (req, res, next) => {
+  const token = req.header('Authorization')?.split(' ')[1]; // Récupère le token depuis l'en-tête Authorization (format "Bearer <token>")
+
+  if (!token) {
+    return res.status(401).json({ message: 'Accès non autorisé. Token manquant.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Ajoute l'utilisateur décodé dans la requête pour utilisation ultérieure
+    next();
+  } catch (error) {
+    console.error("Erreur lors de la vérification du token:", error);
+    res.status(403).json({ message: 'Token invalide ou expiré' });
+  }
+};
+
+
+// Login (authentification)
+export const login = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Vérifier si l'utilisateur existe
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: 'Nom d\'utilisateur inexistant' });
+    }
+
+    // Comparer les mots de passe
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({ message: 'Mot de passe incorrect' });
+    }
+
+    // Générer un token JWT
+    const payload = {
+      username: user.username,
+      id: user._id,
+      // role: user.role || 'user'
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }); // 1h d'expiration
+    res.status(200).json({ token });
+
+  } catch (error) {
+    console.error("Erreur lors de la connexion:", error);
+    res.status(500).json({ message: 'Erreur interne du serveur' });
+  }
+};
+
 
 // Créer un nouvel utilisateur  
 export const createUser = async (req, res) => {  

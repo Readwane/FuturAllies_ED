@@ -24,55 +24,34 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './components/admin/admin.component';
-import { DynamicMenuComponent } from './components/dynamic-menu/dynamic-menu.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { StudentsComponent } from './components/users/students/students.component';
-import { StudentDetailsComponent } from './components/users/students-details/students-details.component';
-import { CuResourceComponent } from './components/cu-resource/cu-resource.component';
-import { CUsersComponent } from './components/users/c-users/c-users.component';
-import { UUsersComponent } from './components/users/u-users/u-users.component';
-import { GenericListingComponent } from './components/generic-listing/generic-listing.component';
-import { ListUsersComponent } from './components/users/list-users/list-users.component';
-import { GenericCreateComponent } from './components/generic-create/generic-create.component';
-import { GenericEditComponent } from './components/generic-edit/generic-edit.component';
-import { GenericDetailsComponent } from './components/generic-details/generic-details.component';
-import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
-import { ResourceListComponent } from './dynamic-components/resource-list/resource-list.component';
-import { ResourceEditComponent } from './dynamic-components/resource-edit/resource-edit.component';
-import { ResourceCreateComponent } from './dynamic-components/resource-create/resource-create.component';
-import { ResourceDetailsComponent } from './dynamic-components/resource-details/resource-details.component';
+import { ResourceListComponent } from './components/resource-list/resource-list.component';
+import { ResourceEditComponent } from './components/resource-edit/resource-edit.component';
+import { ResourceCreateComponent } from './components/resource-create/resource-create.component';
+import { ResourceDetailsComponent } from './components/resource-details/resource-details.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from './dynamic-components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
   declarations: [
+    LoginComponent,
     AdminComponent,
-    DynamicMenuComponent,
+    MenuComponent,
     DashboardComponent,
-    StudentsComponent,
-    StudentDetailsComponent,
-    CuResourceComponent,
-    CUsersComponent,
-    UUsersComponent,
-    GenericListingComponent,
-    ListUsersComponent,
-    GenericCreateComponent,
-    GenericEditComponent,
-    GenericDetailsComponent,
-    UserDetailsComponent,
     BreadcrumbsComponent,
-
-    // dynamic-components
     ResourceListComponent,
     ResourceEditComponent,
     ResourceCreateComponent,
     ResourceDetailsComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
   ],
   imports: [
 
@@ -107,28 +86,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule 
   ],
   exports: [
+    LoginComponent,
     AdminComponent,
-    DynamicMenuComponent,
+    MenuComponent,
     DashboardComponent,
-    StudentsComponent,
-    StudentDetailsComponent,
-    CuResourceComponent,
-    CUsersComponent,
-    UUsersComponent,
-    GenericListingComponent,
-    ListUsersComponent,
-    GenericCreateComponent,
-    GenericEditComponent,
-    GenericDetailsComponent,
-    UserDetailsComponent,
     BreadcrumbsComponent,
-
-    // dynamic-components
     ResourceListComponent,
     ResourceEditComponent,
     ResourceCreateComponent,
     ResourceDetailsComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
   ]
 })
 

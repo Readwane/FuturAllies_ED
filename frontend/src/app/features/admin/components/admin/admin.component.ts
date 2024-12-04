@@ -1,12 +1,13 @@
-import { Component, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent {
+export class AdminComponent implements OnDestroy{
 
   @ViewChild('sidenav') sidenav: any;
   tooltips: any[] = [];  // Liste des tooltips à gérer
@@ -19,24 +20,24 @@ export class AdminComponent {
     messages: 3
   };
 
-  constructor(private overlayContainer: OverlayContainer, private el: ElementRef) {}
-
-  ngAfterViewInit(): void {
-    // Vous pouvez ajouter ici des tooltips ou autres fonctionnalités interactives si nécessaire.
-  }
+  constructor(
+    private overlayContainer: OverlayContainer, 
+    private authService: AuthService,
+    private el: ElementRef,
+  ) {}
 
   ngOnDestroy(): void {
-    // Masquer et nettoyer les tooltips
-    this.tooltips.forEach(tooltip => tooltip.hide(0));
-
-    // Nettoyer les overlays s'ils existent
-    const overlayContainerElement = this.overlayContainer.getContainerElement();
-    overlayContainerElement.innerHTML = '';
-
-    // Nettoyer le DOM des tooltips (si nécessaire)
+    this.tooltips.forEach((tooltip) => tooltip.hide(0));
+    this.overlayContainer.getContainerElement().innerHTML = '';
     const tooltips = this.el.nativeElement.querySelectorAll('.mat-tooltip');
     tooltips.forEach((tooltip: HTMLElement) => {
-      this.el.nativeElement.removeChild(tooltip);
+      if (tooltip && tooltip.parentNode) {
+        tooltip.parentNode.removeChild(tooltip);
+      }
     });
+  }
+
+  logout(): void{
+    this.authService.logout();
   }
 }

@@ -51,7 +51,9 @@ import {
     deleteUser,
     getUserNameById,
     getUserByUsername,
-    getProfileByUserId
+    getProfileByUserId,
+    login,
+    authenticateToken,
 } from '../controllers/authentication/user.js';
 
 // *************************** Imports pour la partie audittion ***************************************
@@ -432,7 +434,9 @@ authenticationRoutes.get('/user-groups/:id', getUserGroupById);
 authenticationRoutes.delete('/user-groups/:id/delete', deleteUserGroup);
 
 // Routes pour User
+authenticationRoutes.post('/users/admin-login', login);
 authenticationRoutes.post('/users', createUser);
+// authenticationRoutes.get('/users', authenticateToken, getAllUsers);
 authenticationRoutes.get('/users', getAllUsers);
 authenticationRoutes.get('/users/paginated', getAllUsersPaginated);
 authenticationRoutes.get('/users/:id', getUserById);

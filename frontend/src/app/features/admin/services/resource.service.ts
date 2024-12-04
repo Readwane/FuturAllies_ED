@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Resource , ResourceFieldConfig} from '../models/resource.model';
+import { Resource} from '../models/resource.model';
 
 @Injectable({
   providedIn: 'root'

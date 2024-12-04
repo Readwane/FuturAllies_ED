@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/guards/auth.guard';
 import { AcceuilComponent } from './features/pages/home/components/acceuil/acceuil.component';
 import { UserProfileTypeComponent } from './features/payment/components/user-profile-type/user-profile-type.component';
 import { PaymentMethodesComponent } from './features/payment/components/payment-methodes/payment-methodes.component';
@@ -8,6 +7,8 @@ import { OmPaymentComponent } from './features/payment/components/om-payment/om-
 import { MmPaymentComponent } from './features/payment/components/mm-payment/mm-payment.component';
 import { CourseLearningComponent } from './features/pages/course-learning/course-learning.component';
 import { FlwtestComponent } from './features/payment/components/flwtest/flwtest.component';
+import { AuthGuard } from './features/admin/guards/auth.guard';
+import { LoginComponent } from './features/admin/components/login/login.component';
 
 const routes: Routes = [
 
@@ -32,13 +33,15 @@ const routes: Routes = [
   {
     path: 'audition',
     loadChildren: () => import('./features/audition/audition.module').then(m => m.AuditionModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'admin',
-    loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)
+    loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [AuthGuard],  // Protège la route 'admin' avec AuthGuard
   },
- 
+  { path: 'login', component: LoginComponent },  // Route de login accessible sans garde
+
   { path: 'flwtest', component: FlwtestComponent },
   { path: 'subscription', component: UserProfileTypeComponent },
   { path: 'payment-methodes', component: PaymentMethodesComponent },
