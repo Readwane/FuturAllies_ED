@@ -1,0 +1,17 @@
+<mat-card class="value-card">
+    <mat-card-header>
+      <mat-card-title>{{ value?.title }}</mat-card-title>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <div class="card-content">
+        <img mat-card-image [src]="value?.icon_url" alt="{{ value?.title }} icon" class="card-icon" />
+        <p>{{ value?.description }}</p>
+      </div>
+    </mat-card-content>
+  
+    <mat-card-actions>
+      <button mat-button>Voir plus</button>
+    </mat-card-actions>
+  </mat-card>
+  

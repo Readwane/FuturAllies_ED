@@ -9,7 +9,7 @@ import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
 
 import {
-  servicesRoutes,
+  valuesRoutes,
   authenticationRoutes,
   auditionRoutes,
   certificationRoutes,
@@ -49,7 +49,7 @@ app.use('/fapi', webinarEnrollmentRoutes);
 
 // ******************** Nouvelles routes *****************************************************
 app.use('/fapi', paymentRoutes); // Ajout de la route Stripe
-app.use('/fapi', servicesRoutes);
+app.use('/fapi', valuesRoutes);
 app.use('/fapi', authenticationRoutes);
 app.use('/fapi', auditionRoutes);
 app.use('/fapi', certificationRoutes);

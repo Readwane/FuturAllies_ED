@@ -1,0 +1,93 @@
+<header>
+    <!-- Première entête -->
+    <mat-toolbar class="top-header">
+        <ul class="header-links">
+            <li><a mat-button href="#about">À propos de nous</a></li>
+            <li><a mat-button href="#contact">Nous contacter</a></li>
+            <li>
+                <mat-select placeholder="Langue" id="language" class="language-select">
+                    <mat-option value="fr">Français</mat-option>
+                    <mat-option value="en">English</mat-option>
+                    <mat-option value="sp">Spanish</mat-option>
+                </mat-select>
+            </li>
+        </ul>
+    </mat-toolbar>
+
+    <!-- Entête principale -->
+    <mat-toolbar class="main-header">
+        <!-- Bloc Logo -->
+        <div class="logo-container">
+            <img src="../../../../../../assets/futurallies-logo.png" alt="FuturAlliés Logo" class="logo">
+        </div>
+
+        <!-- Bloc Liens de navigation avec Dropdowns -->
+        <nav class="nav-links-container">
+            <ul class="nav-links">
+                <li mat-menu-item class="dropdown" (click)="toggleDropdown('catalogue')">
+                    <a href="javascript:void(0)">Catalogue</a>
+                    <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['catalogue']}">
+                        <li><a href="#thematiques">Domaines des cours</a></li>
+                        <li><a href="#certification">Programmes de certification</a></li>
+                        <li><a href="#cours">Cours libres</a></li>
+                    </ul>
+                </li>
+
+                <li mat-menu-item class="dropdown" (click)="toggleDropdown('formations')">
+                    <a href="javascript:void(0)">Formations</a>
+                    <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['formations']}">
+                        <li><a href="#programme-talent">Programme Talent (Présentiel)</a></li>
+                        <li><a href="#programme-commercial">Programme Commercial (Présentiel)</a></li>
+                        <li><a href="#cafe-allies">Café des Alliés (En ligne)</a></li>
+                    </ul>
+                </li>
+
+                <li mat-menu-item class="dropdown" (click)="toggleDropdown('offres')">
+                    <a href="javascript:void(0)">Offres</a>
+                    <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['offres']}">
+                        <li><a href="#stages">Offres de Stage</a></li>
+                        <li><a href="#emplois">Offres d'Emploi</a></li>
+                    </ul>
+                </li>
+
+                <li mat-menu-item class="dropdown" (click)="toggleDropdown('orientation')">
+                    <a href="javascript:void(0)">Orientation</a>
+                    <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['orientation']}">
+                        <li><a href="#">Les statistiques du moment</a></li>
+                        <li><a href="#">Les meilleurs profils à se faire</a></li>
+                        <li><a href="#">Les écoles réferencées</a></li>
+                    </ul>
+                </li>
+
+                <li><a mat-button href="#trainers">Partenaires</a></li>
+                <li><a mat-button href="#magazine">MagAlliance</a></li>
+            </ul>
+        </nav>
+
+        <!-- Bloc Profil et Connexion -->
+        <div class="profile-container">
+            <!-- Si l'utilisateur est connecté, afficher son nom et image -->
+            <ng-container *ngIf="isUserLoggedIn; else loginButton">
+                <li mat-menu-item [matMenuTriggerFor]="profileMenu" class="profile-menu">
+                    <img *ngIf="user?.image" [src]="" alt="User Image" class="user-image">
+                    <span>{{ user?.name }}</span>
+                    <mat-menu #profileMenu="matMenu">
+                        <button mat-menu-item href="#profile">Mon Profil</button>
+                        <button mat-menu-item href="#settings">Paramètres</button>
+                        <button mat-menu-item href="#logout">Se Déconnecter</button>
+                    </mat-menu>
+                </li>
+            </ng-container>
+
+            <!-- Sinon afficher le bouton "Se connecter" -->
+            <ng-template #loginButton>
+                <button mat-button class="login-btn" (click)="login()">Se connecter</button>
+            </ng-template>
+        </div>
+
+        <!-- Menu Mobile Toggle Button -->
+        <button mat-icon-button class="mobile-menu-toggle" (click)="toggleMenu()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </mat-toolbar>
+</header>

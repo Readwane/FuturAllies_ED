@@ -1,14 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { HeaderModule } from './components/header/header.module';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { MaterialModule } from '../shared/material.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    LoginComponent,
+    RegisterComponent,
+  ],
   imports: [
     CommonModule,
-    HeaderModule
+    MaterialModule
+  ],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    LoginComponent,
+    RegisterComponent,
   ]
 })
 export class CoreModule { }

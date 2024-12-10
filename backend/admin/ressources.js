@@ -1,5 +1,5 @@
 import {
- Service, User, Group, UserGroup, Profile, 
+ Value, User, Group, UserGroup, Profile, 
   Doc, Domain, Path, Module, Course, Part, Chapter, Content, ContentText,
   ContentVideo, Quiz, Question, CorrectAnswer, CourseLearned, CourseReview,
   Certification, CertificationGiven, CertificationEvaluation,
@@ -8,7 +8,7 @@ import {
   
   export const resources = [
     {
-      resource: Service, 
+      resource: Value, 
       options: {
         parent: { name: 'Service Management', icon: 'Service' },
       },

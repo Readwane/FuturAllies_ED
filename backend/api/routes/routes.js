@@ -2,13 +2,7 @@
 import express from 'express';
 
 // *************************** Imports pour la partie service (wwedo) **********************************
-import {
-    getAllServices,
-    getServiceById,
-    createService,
-    updateService,
-    deleteService
-} from '../controllers/service/service.js'
+
 
 // *************************** Imports pour la partie authentication **********************************
 import { 
@@ -357,9 +351,17 @@ import {
     updateUserFile
 } from '../controllers/authentication/user-file.controller.js'
 
+import { 
+    createValue, 
+    deleteValue, 
+    getAllValues, 
+    getValueById,
+    updateValue 
+} from '../controllers/value/value.js';
+
 
 // ********************************* Deinition des routers pour chaque partie *******************************/
-const servicesRoutes = express.Router();
+const valuesRoutes = express.Router();
 const authenticationRoutes = express.Router();
 const auditionRoutes = express.Router();
 const certificationRoutes = express.Router();
@@ -374,11 +376,11 @@ const paymentRoutes = express.Router();
 
 // Routes pour Doc
 
-servicesRoutes.post('/services/create', createService);
-servicesRoutes.get('/services', getAllServices);
-servicesRoutes.get('/services/:id', getServiceById);
-servicesRoutes.put('/services/:id/update', updateService);
-servicesRoutes.delete('/services/:id/delete', deleteService);
+valuesRoutes.post('/values/', createValue);
+valuesRoutes.get('/values', getAllValues);
+valuesRoutes.get('/values/:id', getValueById);
+valuesRoutes.put('/values/:id/', updateValue);
+valuesRoutes.delete('/values/:id/', deleteValue);
 
 //******************************* Routes pour la partie authnetication *************************************/
 // Routes pour Doc en utilisant des conventions REST  
@@ -697,7 +699,7 @@ paymentRoutes.delete('/invoices/:id/delete', deleteInvoice);
 
 // ****************************** Exportattion des diffrents routers *****************************************/
 export {
-    servicesRoutes,
+    valuesRoutes,
     authenticationRoutes,
     auditionRoutes,
     certificationRoutes,

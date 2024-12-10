@@ -37,7 +37,7 @@ import Webinar from "./training/webinar.js";
 import WebinarApplication from "./training/webinar-application.js";
 
 // Importation pour la partie sevices
-import Service from "./service/service.js";
+import Value from "./value/value.js";
 
 export {
   User, Group, UserGroup, Profile, 
@@ -45,5 +45,5 @@ export {
   ContentVideo, Quiz, Question, CorrectAnswer, StudentAnswer,CourseLearned, CourseReview,
   Certification, CertificationGiven, CertificationEvaluation,
   Offer, OfferApplication, Training, TrainingApplication, Webinar, WebinarApplication,
-  Service
+  Value
 };

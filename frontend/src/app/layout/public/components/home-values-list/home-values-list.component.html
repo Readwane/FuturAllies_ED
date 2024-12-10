@@ -1,0 +1,21 @@
+<div class="values-list">
+  <!-- Affichage du loader pendant le chargement -->
+  <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>
+
+  <!-- Message d'erreur si quelque chose ne va pas -->
+  <div *ngIf="errorMessage" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Message alternatif si aucune donnée n'est disponible -->
+  <div *ngIf="!isLoading && !values.length && !errorMessage" class="no-data-message">
+    <mat-icon>info</mat-icon>
+    <span>Aucune valeur disponible pour le moment.</span>
+  </div>
+
+  <!-- Affichage des valeurs sous forme de cartes -->
+  <div class="values-cards" *ngIf="values.length > 0">
+    <app-value *ngFor="let value of values" [value]="value"></app-value>
+  </div>
+</div>

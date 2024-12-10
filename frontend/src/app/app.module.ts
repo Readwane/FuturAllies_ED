@@ -15,7 +15,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { FeaturesModule } from './features/features.module';
-import { SharedModule } from './shared/shared.module';
 import { PaymentModule } from './features/payment/payment.module';
 import { TrainingModule } from './features/training/training.module';
 import { OfferModule } from './features/offer/offer.module';
@@ -64,7 +63,6 @@ import { AdminModule } from './features/admin/admin.module';
     CoreModule,   
     LayoutModule,
     FeaturesModule,
-    SharedModule,  
     TrainingModule,
     OfferModule,
 

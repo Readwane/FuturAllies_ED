@@ -1,0 +1,35 @@
+.values-list {
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; /* Vous pouvez ajuster la hauteur selon vos besoins */
+}
+
+.values-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f44336;  /* Rouge pour l'erreur */
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.mat-spinner {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  /* Assurez-vous que le spinner est bien centré */
+}

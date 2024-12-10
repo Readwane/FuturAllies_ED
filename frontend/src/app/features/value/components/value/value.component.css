@@ -1,0 +1,56 @@
+.value-card {
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s;
+  }
+  
+  .value-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .mat-card-header {
+    background-color: #003366; /* Bleu foncé */
+    color: #fff;
+    text-align: center;
+  }
+  
+  .mat-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .card-content {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .card-icon {
+    max-width: 50px;
+    max-height: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .mat-card-actions {
+    display: flex;
+    justify-content: center;
+    background-color: #003366;
+  }
+  
+  .mat-button {
+    color: #ffcc00; /* Jaune doré */
+    font-weight: bold;
+  }
+  
+  .mat-button:hover {
+    background-color: #ffcc00;
+    color: #003366;
+  }
+  
