@@ -513,11 +513,11 @@ auditionRoutes.put('/courses/:id/update', updateCourse);
 auditionRoutes.delete('/courses/:id/delete', deleteCourse);
 
 // Routes pour Domain
-auditionRoutes.post('/domains/create', createDomain);
+auditionRoutes.post('/domains', createDomain);
 auditionRoutes.get('/domains', getAllDomains);
 auditionRoutes.get('/domains/:id', getDomainById);
-auditionRoutes.put('/domains/:id/update', updateDomain);
-auditionRoutes.delete('/domains/:id/delete', deleteDomain);
+auditionRoutes.put('/domains/:id', updateDomain);
+auditionRoutes.delete('/domains/:id', deleteDomain);
 
 // Routes pour Module
 auditionRoutes.post('/modules/create', createModule);

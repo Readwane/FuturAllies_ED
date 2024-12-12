@@ -5,7 +5,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 200px; /* Vous pouvez ajuster la hauteur selon vos besoins */
+  min-height: 200px;
+  background-color: #f9f9f9;
+}
+
+.section-header {
+  margin-bottom: 30px; /* Ajoute de l'espace entre le titre et le contenu */
+}
+
+.section-header h2 {
+  font-size: 2rem; /* Taille du titre */
+  color: #003366; /* Couleur bleu foncé */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Espacement des lettres pour un effet moderne */
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: #555; /* Couleur gris clair pour le sous-titre */
+  margin-top: 10px;
+  font-style: italic;
 }
 
 .values-cards {
@@ -20,7 +40,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f44336;  /* Rouge pour l'erreur */
+  color: #f44336;
   font-weight: bold;
   margin: 20px 0;
 }
@@ -31,5 +51,4 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  /* Assurez-vous que le spinner est bien centré */
 }

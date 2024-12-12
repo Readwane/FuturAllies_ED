@@ -1,0 +1,15 @@
+<!-- components/home-community-list/home-community-list.component.html -->
+<div class="community">
+    <h2>Notre Communauté</h2>
+
+    <div class="community-cards">
+      <!-- Affichage de chaque stat sous forme de carte -->
+      <div *ngFor="let stat of communityStats" class="community-card">
+        <div class="community-card-body">
+          <!-- Utilisation de mat-icon à la place de l'image -->
+          <mat-icon class="community-card-icon">{{ stat.icon }}</mat-icon>
+          <p class="community-card-label">{{ stat.label }}</p>
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,5 +1,4 @@
 <header>
-    <!-- Première entête -->
     <mat-toolbar class="top-header">
         <ul class="header-links">
             <li><a mat-button href="#about">À propos de nous</a></li>
@@ -14,17 +13,16 @@
         </ul>
     </mat-toolbar>
 
-    <!-- Entête principale -->
     <mat-toolbar class="main-header">
-        <!-- Bloc Logo -->
         <div class="logo-container">
-            <img src="../../../../../../assets/futurallies-logo.png" alt="FuturAlliés Logo" class="logo">
+            <img src='assets/futurallies-logo.png' alt="FuturAlliés Logo" class="logo">
         </div>
 
-        <!-- Bloc Liens de navigation avec Dropdowns -->
         <nav class="nav-links-container">
             <ul class="nav-links">
-                <li mat-menu-item class="dropdown" (click)="toggleDropdown('catalogue')">
+                <li mat-menu-item class="dropdown" 
+                    (mouseenter)="openDropdown('catalogue')" 
+                    (mouseleave)="closeDropdown('catalogue')">
                     <a href="javascript:void(0)">Catalogue</a>
                     <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['catalogue']}">
                         <li><a href="#thematiques">Domaines des cours</a></li>
@@ -33,7 +31,9 @@
                     </ul>
                 </li>
 
-                <li mat-menu-item class="dropdown" (click)="toggleDropdown('formations')">
+                <li mat-menu-item class="dropdown" 
+                    (mouseenter)="openDropdown('formations')" 
+                    (mouseleave)="closeDropdown('formations')">
                     <a href="javascript:void(0)">Formations</a>
                     <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['formations']}">
                         <li><a href="#programme-talent">Programme Talent (Présentiel)</a></li>
@@ -42,7 +42,9 @@
                     </ul>
                 </li>
 
-                <li mat-menu-item class="dropdown" (click)="toggleDropdown('offres')">
+                <li mat-menu-item class="dropdown" 
+                    (mouseenter)="openDropdown('offres')" 
+                    (mouseleave)="closeDropdown('offres')">
                     <a href="javascript:void(0)">Offres</a>
                     <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['offres']}">
                         <li><a href="#stages">Offres de Stage</a></li>
@@ -50,7 +52,9 @@
                     </ul>
                 </li>
 
-                <li mat-menu-item class="dropdown" (click)="toggleDropdown('orientation')">
+                <li mat-menu-item class="dropdown" 
+                    (mouseenter)="openDropdown('orientation')" 
+                    (mouseleave)="closeDropdown('orientation')">
                     <a href="javascript:void(0)">Orientation</a>
                     <ul class="dropdown-content" [ngClass]="{'show': isDropdownOpen['orientation']}">
                         <li><a href="#">Les statistiques du moment</a></li>
@@ -64,28 +68,24 @@
             </ul>
         </nav>
 
-        <!-- Bloc Profil et Connexion -->
         <div class="profile-container">
-            <!-- Si l'utilisateur est connecté, afficher son nom et image -->
             <ng-container *ngIf="isUserLoggedIn; else loginButton">
                 <li mat-menu-item [matMenuTriggerFor]="profileMenu" class="profile-menu">
-                    <img *ngIf="user?.image" [src]="" alt="User Image" class="user-image">
+                    <img *ngIf="user?.image" [src]="user?.image" alt="User Image" class="user-image">
                     <span>{{ user?.name }}</span>
                     <mat-menu #profileMenu="matMenu">
                         <button mat-menu-item href="#profile">Mon Profil</button>
                         <button mat-menu-item href="#settings">Paramètres</button>
-                        <button mat-menu-item href="#logout">Se Déconnecter</button>
+                        <button mat-menu-item href="#logout" (click)="logout()">Se Déconnecter</button>
                     </mat-menu>
                 </li>
             </ng-container>
 
-            <!-- Sinon afficher le bouton "Se connecter" -->
             <ng-template #loginButton>
                 <button mat-button class="login-btn" (click)="login()">Se connecter</button>
             </ng-template>
         </div>
 
-        <!-- Menu Mobile Toggle Button -->
         <button mat-icon-button class="mobile-menu-toggle" (click)="toggleMenu()">
             <mat-icon>menu</mat-icon>
         </button>

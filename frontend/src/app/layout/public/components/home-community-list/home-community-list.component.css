@@ -1,0 +1,60 @@
+/* components/home-community-list/home-community-list.component.css */
+.community {
+    padding: 20px;
+    padding-bottom: 45px;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.community h2 {
+    font-size: 2rem;
+    color: #003366;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.community-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.community-card {
+    width: 230px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.community-card:hover {
+    transform: translateY(-10px);
+}
+
+.community-card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.community-card-icon {
+    font-size: 40px;  /* Taille de l'icône */
+    color: #003366;   /* Couleur de l'icône */
+    margin-bottom: 15px;
+}
+
+.community-card-label {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .community-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+}

@@ -4,9 +4,8 @@ import { Value } from '../../models/value.model';
 @Component({
   selector: 'app-value',
   templateUrl: './value.component.html',
-  styleUrl: './value.component.css'
+  styleUrls: ['./value.component.css']
 })
 export class ValueComponent {
-  @Input() value: Value | undefined; // Nous recevons un objet de type 'Value' en entrée
-
+  @Input() value: Value | undefined; // Réception de l'objet 'Value'
 }

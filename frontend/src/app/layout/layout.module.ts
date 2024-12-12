@@ -7,6 +7,9 @@ import { CoreModule } from 'src/app/core/core.module';
 import { AcceuilComponent } from './public/components/acceuil/acceuil.component';
 import { ValueModule } from '../features/value/value.module';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { HomeDomainsListComponent } from './public/components/home-domains-list/home-domains-list.component';
+import { AuditionModule } from '../features/audition/audition.module';
+import { HomeCommunityListComponent } from './public/components/home-community-list/home-community-list.component';
 
 
 @NgModule({
@@ -15,11 +18,14 @@ import { MaterialModule } from 'src/app/shared/material.module';
     HomeComponent,
     HomeBannerComponent,
     HomeValuesListComponent,
+    HomeDomainsListComponent,
+    HomeCommunityListComponent
   ],
   imports: [
     CommonModule,
     CoreModule,
     ValueModule,
+    AuditionModule,
     MaterialModule
   ],
   exports: [
@@ -27,6 +33,8 @@ import { MaterialModule } from 'src/app/shared/material.module';
     HomeComponent,
     HomeBannerComponent,
     HomeValuesListComponent,
+    HomeDomainsListComponent,
+    HomeCommunityListComponent
   ],
 })
 export class LayoutModule {}

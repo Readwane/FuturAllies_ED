@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuditionRoutingModule } from './audition-routing.module';
-import { CourseListComponent } from './components/course-list/course-list.component';
-import { CourseTakingComponent } from './components/course-taking/course-taking.component';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { DomainComponent } from './components/domain/domain.component';
 
 @NgModule({
   declarations: [
-    CourseListComponent,
-    CourseTakingComponent
+    DomainComponent
   ],
   imports: [
     CommonModule,
-    AuditionRoutingModule
-  ]
+    AuditionRoutingModule,
+    MaterialModule
+  ],
+  exports: [
+    DomainComponent
+  ],
 })
 export class AuditionModule { }

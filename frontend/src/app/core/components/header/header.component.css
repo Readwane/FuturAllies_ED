@@ -35,6 +35,11 @@ body {
     position: relative;
 }
 
+/* Langue (placeholder en Jaune doré) */
+.language-select .mat-select-placeholder {
+    color: #FFD700 !important; /* Jaune doré pour le placeholder */
+}
+
 .header-links a::after {
     content: '';
     position: absolute;
@@ -150,7 +155,13 @@ body {
     text-decoration: none;
 }
 
-.dropdown:hover .dropdown-content {
+/* Affichage des options de dropdown au survol ou au click */
+.nav-links li:hover .dropdown-content,
+.nav-links li:focus-within .dropdown-content {
+    display: block;
+}
+
+.dropdown-content.show {
     display: block;
 }
 
@@ -163,16 +174,18 @@ body {
 .profile-menu {
     display: flex;
     align-items: center;
-    .mat-icon {
-        margin-right: 5px;
-    }
 }
 
+.mat-icon {
+    margin-right: 5px;
+}
+
+/* Menu Mobile Toggle */
 .mobile-menu-toggle {
     display: none;
 }
 
-/* Menu Mobile Toggle */
+/* Menu Mobile */
 @media (max-width: 768px) {
     .mobile-menu-toggle {
         display: block;
@@ -238,7 +251,7 @@ body {
     background-color: #FFCC00; /* Jaune plus clair au survol */
 }
 
-/* Bloc Profil */
+/* Profil User */
 .profile-container {
     display: flex;
     align-items: center;
@@ -248,21 +261,20 @@ body {
 .profile-menu {
     display: flex;
     align-items: center;
-
-    .user-image {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .mat-icon {
-        margin-right: 5px;
-    }
 }
 
-/* Affichage des options de dropdown au survol */
-/* Dropdown Content */
+.user-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.mat-icon {
+    margin-right: 5px;
+}
+
+/* Dropdown Options */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -270,10 +282,6 @@ body {
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 10;
-}
-
-.dropdown-content.show {
-    display: block;
 }
 
 .dropdown-content li {
@@ -289,6 +297,61 @@ body {
     text-decoration: none;
 }
 
-.dropdown:hover .dropdown-content {
+/* Dropdown au survol ou au clic */
+.nav-links li:hover .dropdown-content,
+.nav-links li:focus-within .dropdown-content {
     display: block;
 }
+
+
+/* Langue - Amélioration du style du select */
+.language-select {
+    width: 100px; /* Augmenter la largeur pour plus de visibilité */
+    border-radius: 5px; /* Coins arrondis */
+    background-color: #FFD700; /* Fond clair */
+    border: 1px solid #00796b; /* Bordure subtile mais visible */
+    padding: 10px 12px; /* Padding pour plus de confort */
+    font-size: 14px; /* Taille de police modérée */
+    font-weight: 500; /* Poids de la police pour une meilleure lisibilité */
+}
+
+/* Langue - Placeholder en couleur vive */
+.language-select .mat-select-placeholder {
+    color: #FFD700 !important; /* Jaune doré pour le placeholder */
+    font-weight: 600;          /* Plus de poids pour le texte */
+    font-size: 16px;           /* Taille augmentée pour la visibilité */
+}
+
+/* Langue - Options de sélection */
+.language-select .mat-option {
+    font-size: 14px;            /* Taille de police cohérente avec le select */
+    padding: 10px;              /* Espacement pour plus de lisibilité */
+}
+
+/* Langue - Survol des options */
+.language-select .mat-option:hover {
+    background-color: #00796b !important; /* Fond au survol */
+    color: white;                      /* Texte blanc au survol */
+}
+
+/* Flèche de sélection - Couleur professionnelle */
+.language-select .mat-select-arrow {
+    color: #00796b;  /* Flèche verte */
+}
+
+/* Largeur du dropdown d'options */
+.mat-select-panel {
+    width: 180px;  /* Largeur cohérente avec le champ de sélection */
+}
+
+/* Pour l'interface mobile - Ajuster la largeur du dropdown */
+@media (max-width: 768px) {
+    .language-select {
+        width: 150px; /* Moins large sur mobile */
+    }
+
+    .mat-select-panel {
+        width: 150px; /* Largeur du dropdown réduite sur mobile */
+    }
+}
+

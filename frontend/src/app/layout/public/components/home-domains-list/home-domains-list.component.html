@@ -1,1 +1,39 @@
-<p>home-domains-list works!</p>
+<!-- components/home-domains-list/home-domains-list.component.html -->
+<div class="domains-list">
+    <!-- Titre de la section -->
+    <div class="section-header">
+      <h2>Nos Domaines</h2>
+      <p>Explorez les différents domaines disponibles sur notre plateforme.</p>
+    </div>
+  
+    <!-- Affichage du loader pendant le chargement -->
+    <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>
+  
+    <!-- Message d'erreur si quelque chose ne va pas -->
+    <div *ngIf="errorMessage" class="error-message">
+      <mat-icon>error</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+  
+    <!-- Message alternatif si aucune donnée n'est disponible -->
+    <div *ngIf="!isLoading && !domains.length && !errorMessage" class="no-data-message">
+      <mat-icon>info</mat-icon>
+      <span>Aucun domaine disponible pour le moment.</span>
+    </div>
+  
+    <!-- Affichage des domaines sous forme de cartes -->
+    <div class="domains-cards" *ngIf="displayedDomains.length > 0">
+      <app-domain *ngFor="let domain of displayedDomains" [domain]="domain"></app-domain>
+    </div>
+  
+    <!-- Bouton pour voir plus -->
+    <div *ngIf="!isAllDomainsVisible && domains.length > 8" class="see-more-button">
+      <button mat-button (click)="showAllDomains()">Voir plus</button>
+    </div>
+  
+    <!-- Bouton pour réduire l'affichage -->
+    <div *ngIf="isAllDomainsVisible" class="reduce-button">
+      <button mat-button (click)="reduceDomains()">Réduire</button>
+    </div>
+  </div>
+  
