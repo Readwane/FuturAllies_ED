@@ -1,0 +1,113 @@
+<form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
+  <!-- Type de l'offre -->
+  <fieldset>
+    <legend>Type de l'offre</legend>
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" (selectionChange)="onTypeChange($event.value)">
+        <mat-option value="Job">Emploi</mat-option>
+        <mat-option value="Internship">Stage</mat-option>
+        <mat-option value="Other">Autre</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </fieldset>
+
+  <!-- Informations de l'entreprise -->
+  <fieldset>
+    <legend>Informations de l'entreprise</legend>
+    <mat-form-field appearance="outline">
+      <mat-label>Nom de l'entreprise</mat-label>
+      <input matInput formControlName="enterpriseName" [matAutocomplete]="auto" (input)="onEnterpriseInput($event)" />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onEnterpriseSelected($event)">
+        <mat-option *ngFor="let enterprise of filteredEnterprises" [value]="enterprise.name">
+          {{ enterprise.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Localisation</mat-label>
+      <input matInput formControlName="enterpriseLocation" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Site web</mat-label>
+      <input matInput type="url" formControlName="enterpriseWebsite" />
+    </mat-form-field>
+  </fieldset>
+
+  <!-- Champs générales de l'offre -->
+  <fieldset>
+    <legend>Informations spécifiques à l'offre</legend>
+    <mat-form-field appearance="outline">
+      <mat-label>Intitulé</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Domaine</mat-label>
+      <input matInput formControlName="domain" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Lieu</mat-label>
+      <input matInput formControlName="location" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Exigences</mat-label>
+      <textarea matInput formControlName="requirement"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Responsabilités</mat-label>
+      <textarea matInput formControlName="responsabilities"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email de soumission</mat-label>
+      <input matInput type="email" formControlName="recruitmentEmail" />
+    </mat-form-field>
+
+    <!-- Champs spécifiques à un emploi -->
+    <ng-container *ngIf="isJob">
+      <mat-form-field appearance="outline">
+        <mat-label>Type de Contrat</mat-label>
+        <mat-select formControlName="contratType" (selectionChange)="onContratTypeChange($event.value)">
+          <mat-option value="CDI">CDI</mat-option>
+          <mat-option value="CDD">CDD</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Salaire</mat-label>
+        <input matInput type="number" formControlName="salary" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Niveau d'expérience</mat-label>
+        <input matInput formControlName="experienceLevel" />
+      </mat-form-field>
+    </ng-container>
+
+    <!-- Champs spécifiques à un stage ou CDD -->
+    <ng-container *ngIf="isInternship || isCDD">
+      <mat-form-field appearance="outline">
+        <mat-label>Durée (en mois)</mat-label>
+        <input matInput type="number" formControlName="duration" />
+      </mat-form-field>
+    </ng-container>
+  </fieldset>
+
+  <button mat-raised-button color="primary" type="submit">Créer l'offre</button>
+</form>
+
+<!-- Loading Spinner Overlay -->
+<div *ngIf="isLoading" class="loading-overlay">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+</div>

@@ -25,6 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const materialModules = [
   MatStepperModule,
@@ -53,8 +55,11 @@ const materialModules = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatDialogModule,
-  MatSnackBarModule 
-
+  MatSnackBarModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatAutocompleteModule
+  
 ];
 
 @NgModule({

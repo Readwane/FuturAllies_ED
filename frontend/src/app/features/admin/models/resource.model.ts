@@ -17,7 +17,19 @@ export enum FieldType {
   CHECKBOX = 'checkbox',
   PASSWORD = 'password',
   FILE = 'file',
+  DATE_RANGE = 'date-range',  // Plage de dates
+  TIME = 'time',              // Heure
+  COLOR = 'color',            // Sélecteur de couleur
+  URL = 'url',                // URL
+  DURATION = 'duration',      // Durée
+  RADIO_GROUP = 'radio-group' // Groupe de boutons radio
 }
+
+
+export type SelectOption = { 
+  value: string | number; 
+  label: string; disabled?: boolean 
+};
 
 export interface Property {
   label: string; // Libellé du champ
@@ -26,13 +38,15 @@ export interface Property {
   required?: boolean; // Champ requis ?
   minLength?: number; // Longueur minimale
   maxLength?: number; // Longueur maximale
-  options?: { value: string | number; label: string; disabled?: boolean }[]; // Options pour les champs sélection
+  options?: SelectOption[] | (() => Promise<SelectOption[]>); // Options dynamiques
   placeholder?: string; // Placeholder
   tooltip?: string; // Info-bulle
   pattern?: string; // Pattern pour validation
   custom?: Record<string, any>; // Métadonnées personnalisées
   disabled?: boolean; // Option supplémentaire pour gérer l'état 'disabled'
-  errorMessage?: string; // Message d'erreur personnalisé (en cas de validation échouée)
+  readonly?: boolean; // Champ en lecture seule
+  errorMessage?: string; // Message d'erreur personnalisé
+  validation?: (value: any) => string | null; // Validation personnalisée
 }
 
 
@@ -50,3 +64,4 @@ export interface Resource {
       properties: Properties; // Propriétés d'une ressource
   };
 }
+

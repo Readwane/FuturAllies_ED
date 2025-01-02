@@ -1,7 +1,7 @@
 import {
  Value, User, Group, UserGroup, Profile, 
-  Doc, Domain, Path, Module, Course, Part, Chapter, Content, ContentText,
-  ContentVideo, Quiz, Question, CorrectAnswer, CourseLearned, CourseReview,
+  Doc, Domain, Course, Part, Chapter, Content,
+  Quiz, Question, CourseLearned, CourseReview,
   Certification, CertificationGiven, CertificationEvaluation,
   Offer, OfferApplication, Training, TrainingApplication, Webinar, WebinarApplication
 } from '../api/models/exportModels.js';
@@ -51,14 +51,6 @@ import {
       options: { parent: { name: 'Audition Management', icon: 'Book' }},
     },
     {
-      resource: Path,
-      options: { parent: { name: 'Audition Management', icon: 'Book' }},
-    },
-    {
-      resource: Module,
-      options: { parent: { name: 'Audition Management', icon: 'Book' }},
-    },
-    {
       resource: Course,
       options: { parent: { name: 'Audition Management', icon: 'Book' }},
     },
@@ -83,23 +75,11 @@ import {
       options: { parent: { name: 'Audition Management', icon: 'Book' }},
     },
     {
-      resource: ContentText,
-      options: { parent: { name: 'Audition Management', icon: 'Book' }},
-    },
-    {
-      resource: ContentVideo,
-      options: { parent: { name: 'Audition Management', icon: 'Book' }},
-    },
-    {
       resource: Quiz,
       options: { parent: { name: 'Audition Management', icon: 'Book' }},
     },
     {
       resource: Question,
-      options: { parent: { name: 'Audition Management', icon: 'Book' }},
-    },
-    {
-      resource: CorrectAnswer,
       options: { parent: { name: 'Audition Management', icon: 'Book' }},
     },
 

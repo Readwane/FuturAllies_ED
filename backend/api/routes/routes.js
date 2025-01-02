@@ -37,7 +37,7 @@ import {
 } from '../controllers/authentication/user-group.js';
 
 import { 
-    getAllUsers,
+    getUsers,
     getAllUsersPaginated,
     getUserById,
     createUser,
@@ -51,117 +51,6 @@ import {
 } from '../controllers/authentication/user.js';
 
 // *************************** Imports pour la partie audittion ***************************************
-import {
-    getAllChapters,
-    getChapterById,
-    createChapter,
-    updateChapter,
-    deleteChapter
-} from '../controllers/audition/chapter.js';
-
-import {
-    getAllContentTexts,
-    getContentTextById,
-    createContentText,
-    updateContentText,
-    deleteContentText
-} from '../controllers/audition/content-text.js';
-
-import {
-    getAllContentVideos,
-    getContentVideoById,
-    createContentVideo,
-    updateContentVideo,
-    deleteContentVideo
-} from '../controllers/audition/content-video.js';
-
-import {
-    getAllContents,
-    getContentById,
-    createContent,
-    updateContent,
-    deleteContent
-} from '../controllers/audition/content.js';
-
-import {
-    getAllCorrectAnswers,
-    getCorrectAnswerById,
-    createCorrectAnswer,
-    updateCorrectAnswer,
-    deleteCorrectAnswer
-} from '../controllers/audition/correct-answer.js';
-
-import {
-    getAllStudentAnswers,
-    getStudentAnswerById,
-    createStudentAnswer,
-    updateStudentAnswer,
-    deleteStudentAnswer
-} from '../controllers/audition/student-answer.js';
-
-import {
-    getAllCoursesLearned,
-    getCourseLearnedById,
-    createCourseLearned,
-    updateCourseLearned,
-    deleteCourseLearned
-} from '../controllers/audition/course-learned.js';
-
-import {
-    getAllCourseReviews,
-    getCourseReviewById,
-    createCourseReview,
-    updateCourseReview,
-    deleteCourseReview
-} from '../controllers/audition/course-review.js';
-
-import {
-    getAllCourses,
-    getCourseById,
-    createCourse,
-    updateCourse,
-    deleteCourse
-} from '../controllers/audition/course.js';
-
-import {
-    getAllDomains,
-    getDomainById,
-    createDomain,
-    updateDomain,
-    deleteDomain
-} from '../controllers/audition/domain.js';
-
-import {
-    getAllModules,
-    getModuleById,
-    createModule,
-    updateModule,
-    deleteModule
-} from '../controllers/audition/module.js';
-
-import {
-    getAllParts,
-    getPartById,
-    createPart,
-    updatePart,
-    deletePart
-} from '../controllers/audition/part.js';
-
-import {
-    getAllQuestions,
-    getQuestionById,
-    createQuestion,
-    updateQuestion,
-    deleteQuestion
-} from '../controllers/audition/question.js';
-
-import {
-    getAllQuizzes,
-    getQuizById,
-    createQuiz,
-    updateQuiz,
-    deleteQuiz
-} from '../controllers/audition/quiz.js';
 
 // *************************** Imports pour la partie certification ***********************************
 import {
@@ -439,7 +328,7 @@ authenticationRoutes.delete('/user-groups/:id/delete', deleteUserGroup);
 authenticationRoutes.post('/users/admin-login', login);
 authenticationRoutes.post('/users', createUser);
 // authenticationRoutes.get('/users', authenticateToken, getAllUsers);
-authenticationRoutes.get('/users', getAllUsers);
+authenticationRoutes.get('/users', getUsers);
 authenticationRoutes.get('/users/paginated', getAllUsersPaginated);
 authenticationRoutes.get('/users/:id', getUserById);
 authenticationRoutes.put('/users/:id', updateUser);
@@ -448,104 +337,7 @@ authenticationRoutes.delete('/users/:id', deleteUser);
 authenticationRoutes.get('/users/rep/:username', getUserByUsername);
 authenticationRoutes.get('users/byUser/rip/:userId', getProfileByUserId);
 
-//******************************* Routes pour la partie audition *************************************/
-// Routes pour Chapter
-auditionRoutes.post('/chapters/create', createChapter);
-auditionRoutes.get('/chapters', getAllChapters);
-auditionRoutes.get('/chapters/:id', getChapterById);
-auditionRoutes.put('/chapters/:id/update', updateChapter);
-auditionRoutes.delete('/chapters/:id/delete', deleteChapter);
 
-// Routes pour ContentText
-auditionRoutes.post('/content-texts/create', createContentText);
-auditionRoutes.get('/content-texts', getAllContentTexts);
-auditionRoutes.get('/content-texts/:id', getContentTextById);
-auditionRoutes.put('/content-texts/:id/update', updateContentText);
-auditionRoutes.delete('/content-texts/:id/delete', deleteContentText);
-
-// Routes pour ContentVideo
-auditionRoutes.post('/content-videos/create', createContentVideo);
-auditionRoutes.get('/content-videos', getAllContentVideos);
-auditionRoutes.get('/content-videos/:id', getContentVideoById);
-auditionRoutes.put('/content-videos/:id/update', updateContentVideo);
-auditionRoutes.delete('/content-videos/:id/delete', deleteContentVideo);
-
-// Routes pour Content
-auditionRoutes.post('/contents/create', createContent);
-auditionRoutes.get('/contents', getAllContents);
-auditionRoutes.get('/contents/:id', getContentById);
-auditionRoutes.put('/contents/:id/update', updateContent);
-auditionRoutes.delete('/contents/:id/delete', deleteContent);
-
-// Routes pour CorrectAnswer
-auditionRoutes.post('/correct-answers/create', createCorrectAnswer);
-auditionRoutes.get('/correct-answers', getAllCorrectAnswers);
-auditionRoutes.get('/correct-answers/:id', getCorrectAnswerById);
-auditionRoutes.put('/correct-answers/:id/update', updateCorrectAnswer);
-auditionRoutes.delete('/correct-answers/:id/delete', deleteCorrectAnswer);
-
-// Routes pour StudentAnswer
-auditionRoutes.post('/student-answers/create', createStudentAnswer);
-auditionRoutes.get('/student-answers', getAllStudentAnswers);
-auditionRoutes.get('/student-answers/:id', getStudentAnswerById);
-auditionRoutes.put('/student-answers/:id/update', updateStudentAnswer);
-auditionRoutes.delete('/student-answers/:id/delete', deleteStudentAnswer);
-
-// Routes pour CourseLearned
-auditionRoutes.post('/courses-learned/create', createCourseLearned);
-auditionRoutes.get('/courses-learned', getAllCoursesLearned);
-auditionRoutes.get('/courses-learned/:id', getCourseLearnedById);
-auditionRoutes.put('/courses-learned/:id/update', updateCourseLearned);
-auditionRoutes.delete('/courses-learned/:id/delete', deleteCourseLearned);
-
-// Routes pour CourseReview
-auditionRoutes.post('/course-reviews/create', createCourseReview);
-auditionRoutes.get('/course-reviews', getAllCourseReviews);
-auditionRoutes.get('/course-reviews/:id', getCourseReviewById);
-auditionRoutes.put('/course-reviews/:id/update', updateCourseReview);
-auditionRoutes.delete('/course-reviews/:id/delete', deleteCourseReview);
-
-// Routes pour Course
-auditionRoutes.post('/courses/create', createCourse);
-auditionRoutes.get('/courses', getAllCourses);
-auditionRoutes.get('/courses/:id', getCourseById);
-auditionRoutes.put('/courses/:id/update', updateCourse);
-auditionRoutes.delete('/courses/:id/delete', deleteCourse);
-
-// Routes pour Domain
-auditionRoutes.post('/domains', createDomain);
-auditionRoutes.get('/domains', getAllDomains);
-auditionRoutes.get('/domains/:id', getDomainById);
-auditionRoutes.put('/domains/:id', updateDomain);
-auditionRoutes.delete('/domains/:id', deleteDomain);
-
-// Routes pour Module
-auditionRoutes.post('/modules/create', createModule);
-auditionRoutes.get('/modules', getAllModules);
-auditionRoutes.get('/modules/:id', getModuleById);
-auditionRoutes.put('/modules/:id/update', updateModule);
-auditionRoutes.delete('/modules/:id/delete', deleteModule);
-
-// Routes pour Part
-auditionRoutes.post('/parts/create', createPart);
-auditionRoutes.get('/parts', getAllParts);
-auditionRoutes.get('/parts/:id', getPartById);
-auditionRoutes.put('/parts/:id/update', updatePart);
-auditionRoutes.delete('/parts/:id/delete', deletePart);
-
-// Routes pour Question
-auditionRoutes.post('/questions/create', createQuestion);
-auditionRoutes.get('/questions', getAllQuestions);
-auditionRoutes.get('/questions/:id', getQuestionById);
-auditionRoutes.put('/questions/:id/update', updateQuestion);
-auditionRoutes.delete('/questions/:id/delete', deleteQuestion);
-
-// Routes pour Quiz
-auditionRoutes.post('/quizzes/create', createQuiz);
-auditionRoutes.get('/quizzes', getAllQuizzes);
-auditionRoutes.get('/quizzes/:id', getQuizById);
-auditionRoutes.put('/quizzes/:id/update', updateQuiz);
-auditionRoutes.delete('/quizzes/:id/delete', deleteQuiz);
 
 
 
@@ -584,19 +376,28 @@ certificationRoutes.delete('/certifications/:id/delete', deleteCertification);
 
  // Routes pour Offer
  recruitmentRoutes.get('/offers', getOffers);
- recruitmentRoutes.get('offers/jobs', getJobs);
+ recruitmentRoutes.get('offers', getJobs);
  recruitmentRoutes.get('offers/internships', getInternships);
- recruitmentRoutes.post('/offers/create', createOffer);
+ recruitmentRoutes.post('/offers', createOffer);
  recruitmentRoutes.get('/offers/:id', getOfferById);
- recruitmentRoutes.put('/offers/:id/update', updateOffer);
- recruitmentRoutes.delete('/offers/:id/delete', deleteOffer);
+ recruitmentRoutes.put('/offers/:id', updateOffer);
+ recruitmentRoutes.delete('/offers/:id', deleteOffer);
+
+
+//  recruitmentRoutes.get('/offers', getOffers);
+//  recruitmentRoutes.get('offers/jobs', getJobs);
+//  recruitmentRoutes.get('offers/internships', getInternships);
+//  recruitmentRoutes.post('/offers/create', createOffer);
+//  recruitmentRoutes.get('/offers/:id', getOfferById);
+//  recruitmentRoutes.put('/offers/:id/update', updateOffer);
+//  recruitmentRoutes.delete('/offers/:id/delete', deleteOffer);
 
 // Routes pour l'entreprise 
 recruitmentRoutes.get('/enterprises', getEnterprises); // Récupérer toutes les entreprises  
-recruitmentRoutes.post('/enterprises/create', createEnterprise); // Créer une nouvelle entreprise  
+recruitmentRoutes.post('/enterprises/', createEnterprise); // Créer une nouvelle entreprise  
 recruitmentRoutes.get('/enterprises/:id', getEnterpriseById); // Récupérer une entreprise par ID  
-recruitmentRoutes.put('/enterprises/:id/update', updateEnterprise); // Mettre à jour une entreprise  
-recruitmentRoutes.delete('/enterprises/:id/delete', deleteEnterprise); // Supprimer une entreprise 
+recruitmentRoutes.put('/enterprises/:id', updateEnterprise); // Mettre à jour une entreprise  
+recruitmentRoutes.delete('/enterprises/:id', deleteEnterprise); // Supprimer une entreprise 
 
 
 //******************************* Routes pour la partie training *************************************/

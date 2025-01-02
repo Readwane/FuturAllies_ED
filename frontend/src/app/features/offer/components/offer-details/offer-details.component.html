@@ -68,7 +68,7 @@
                     <i class="icon">📧</i>  
                     <p>  
                         <strong>Email de Recrutement :</strong>  
-                        <a *ngIf="enterprise?.recruitmentEmail; else noEmail" [href]="'mailto:' + enterprise.recruitmentEmail">{{ enterprise.recruitmentEmail }}</a>  
+                        <a *ngIf="enterprise?.email; else noEmail" [href]="'mailto:' + enterprise.email">{{ enterprise.email }}</a>  
                         <ng-template #noEmail><span>Non fourni</span></ng-template>  
                     </p>  
                 </div>

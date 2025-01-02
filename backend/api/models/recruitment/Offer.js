@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 // Définition du schéma pour l'offre  
 const OfferSchema = new mongoose.Schema({  
-  // Association avec l'entreprise  
+  title: { type: String, required: true }, // Domaine de l'offre 
   enterpriseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Enterprise', required: true }, // Référence à l'entreprise    title: { type: String, required: true }, // Titre de l'offre  
   description: { type: String, required: true }, // Description de l'offre  
   domain: { type: String, required: true }, // Domaine de l'offre  
@@ -16,8 +16,11 @@ const OfferSchema = new mongoose.Schema({
   experienceLevel: { type: String }, // Niveau d'expérience requis  
   contractType: {   
     type: String,   
-    enum: ['Full-Time', 'Part-Time', 'Internship', 'Freelance', 'Temporary'],   
-    required: true   
+    enum: ['CDI', 'CDD', 'INTERNSHIP'],   
+    required: function() {
+      // Exiger 'contractType' uniquement si le type n'est pas un stage
+      return this.type !== 'Other';
+    },
   }, // Type de contrat  
   benefits: { type: String }, // Avantages associés à l'offre  
   contactEmail: { type: String, required: true }, // Email de contact pour les candidatures  

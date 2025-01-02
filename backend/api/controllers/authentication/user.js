@@ -83,7 +83,7 @@ export const createUser = async (req, res) => {
 
 
 // Récupérer tous les utilisateurs
-export const getAllUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
   try {
     console.log("Tentative de récupération de tous les utilisateurs.");
     const users = await User.find();

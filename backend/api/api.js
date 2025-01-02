@@ -3,7 +3,8 @@ import bodyParser from 'body-parser';
 import {connectDB} from './config/db.js';
 import cors from 'cors';
 
-import {router} from './routes/routage.js';
+import auditionRoutes from './routes/audition.route.js';
+import usersRoutes from './routes/user.route.js';
 
 import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
@@ -11,7 +12,7 @@ import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes
 import {
   valuesRoutes,
   authenticationRoutes,
-  auditionRoutes,
+  // auditionRoutes,
   certificationRoutes,
   interactionRoutes,
   recruitmentRoutes,
@@ -48,6 +49,7 @@ app.options('*', cors(corsOptions)); // Répond aux requêtes OPTIONS avec CORS
 app.use('/fapi', webinarEnrollmentRoutes);
 
 // ******************** Nouvelles routes *****************************************************
+app.use('/fapi', usersRoutes);
 app.use('/fapi', paymentRoutes); // Ajout de la route Stripe
 app.use('/fapi', valuesRoutes);
 app.use('/fapi', authenticationRoutes);

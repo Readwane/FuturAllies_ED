@@ -5,6 +5,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 // Modèles (à personnaliser selon vos interfaces ou classes)
 import { User } from '../../models/user/user.model';
 import { Profile } from '../../models/user/profile.model';
+import { Enterprise } from '../../models/user/enterprise.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,9 @@ export class UserService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
+
   // CRUD pour Utilisateurs
 
-  
   // Récupérer tous les utilisateurs
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`, this.httpOptions);

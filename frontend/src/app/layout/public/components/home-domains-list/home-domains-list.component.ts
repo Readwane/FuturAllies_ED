@@ -2,8 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Domain } from 'src/app/features/audition/models/domain.model';
-import { DomainService } from 'src/app/features/audition/services/domain.service';
-
+import { AuditionService } from 'src/app/features/audition/services/audition.service';
 @Component({
   selector: 'app-home-domains-list',
   templateUrl: './home-domains-list.component.html',
@@ -16,7 +15,9 @@ export class HomeDomainsListComponent implements OnInit {
   errorMessage: string | null = null; // Pour afficher un message d'erreur en cas de problème
   isAllDomainsVisible = false; // Flag pour contrôler l'affichage de tous les domaines
 
-  constructor(private domainService: DomainService) {}
+  constructor(
+    private domainService: AuditionService)
+     {}
 
   ngOnInit(): void {
     this.loadDomains();

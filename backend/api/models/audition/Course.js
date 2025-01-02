@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 
 const CourseSchema = new mongoose.Schema({
-    module_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Module', required: true },
+    domain_id: { type: String },
     title: { type: String, required: true },
-    picture_url: { type: String },
+    icon: { type: String },
     description: { type: String, required: true },
+    isPublished: { type: Boolean, default: false},
     duration: { type: String, required: true }, // Durée du cours (ex: "10h", "5h30")
     created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now }
+    updated_at: { type: Date, default: Date.now },
+    parts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Part' }],
 });
 
 const Course = mongoose.model('Course', CourseSchema);

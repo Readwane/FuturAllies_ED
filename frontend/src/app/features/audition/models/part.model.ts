@@ -1,9 +1,12 @@
+import { Chapter } from "./chapter.model";
+
 export class Part {
     _id: string;
     courseId: string;
     title: string;
     description?: string;
     order: number;
+    chapters?: Chapter[];
     createdAt: Date;
     updatedAt: Date;
   
@@ -12,6 +15,7 @@ export class Part {
       courseId: string,
       title: string,
       order: number,
+      chapters?: Chapter[],
       description?: string,
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
@@ -21,6 +25,7 @@ export class Part {
       this.title = title;
       this.description = description;
       this.order = order;
+      this.chapters = chapters;
       this.createdAt = createdAt;
       this.updatedAt = updatedAt;
     }

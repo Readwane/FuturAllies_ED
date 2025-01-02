@@ -1,10 +1,25 @@
+import { CommonModule } from "@angular/common"
+
 export class CourseReview {
-    constructor(
-      public userId: string,  // Identifiant de l'utilisateur
-      public courseId: string,  // Identifiant du cours
-      public rating: number,  // Note donnée (ex: de 1 à 5)
-      public comment: string,  // Commentaire écrit
-      public reviewDate: Date  // Date de la soumission de l'avis
-    ) {}
+   userId: string;  
+   courseId: string;  
+   rating: number;  
+   comment: string; 
+   reviewDate: Date;
+
+  constructor(
+      userId: string,  
+      courseId: string,  
+      rating: number,  
+      comment: string,  
+      reviewDate: Date  
+  ) {
+    this.userId = userId;
+    this.courseId = courseId;
+    this.rating = rating;
+    this.comment = comment;
+    this.reviewDate = reviewDate;
+
+  }
   }
   

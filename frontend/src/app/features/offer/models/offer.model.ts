@@ -12,54 +12,44 @@ export class Offer {
   responsibilities?: string;  
   educationLevel?: string;  
   experienceLevel?: string;  
-  contractType: 'Full-Time' | 'Part-Time' | 'Internship' | 'Freelance' | 'Temporary';  
-  benefits?: string;  
+  contractType?: 'CDI' | 'CDD' | 'INTERNSHIP'  
   contactEmail: string;  
-  postedDate: Date;  
-  expirationDate?: Date;  
+  postedDate?: Date;  
+  expirationDate: Date;  
   status: 'Open' | 'Closed' | 'Pending';  
   // Remote and application details  
   isRemote: boolean;  
   applicationMode: 'Online' | 'Physical' | 'Both';  
-  onlineSubmission: boolean;  
   physicalAddress?: string;  
   // Document requirements  
-  isRequiredCvDoc: boolean;         // Indicates if a CV is required  
-  isRequiredMlDoc: boolean;         // Indicates if a motivation letter is required  
-  canAddOthersDoc: boolean;         // Allows additional documents  
-  // Additional offer info  
-  applicationLink?: string;  
-  additionalInfo?: string;  
+  isRequiredCvDoc: boolean;        
+  isRequiredMlDoc: boolean;      
+  canAddOthersDoc: boolean;       
 
   constructor(  
     _id: string, 
-    enterpriseId: string,           // Added enterpriseId parameter   
+    enterpriseId: string,           
     title: string,  
     description: string,  
     domain: string,  
     location: string,  
-    type: 'Job' | 'Internship' | 'Other',  
-    contractType: 'Full-Time' | 'Part-Time' | 'Internship' | 'Freelance' | 'Temporary',  
+    type: 'Job' | 'Internship' | 'Other',   
     contactEmail: string,  
     isRemote: boolean = false,  
-    postedDate: Date = new Date(),  
+    expirationDate: Date, 
     status: 'Open' | 'Closed' | 'Pending' = 'Open',  
     applicationMode: 'Online' | 'Physical' | 'Both' = 'Online',  
     isRequiredCvDoc: boolean = true,  
     isRequiredMlDoc: boolean = false,  
     canAddOthersDoc: boolean = false,  
-    onlineSubmission: boolean = true,  
+    contractType?: 'CDI' | 'CDD' | 'INTERNSHIP', 
     salary?: number,  
     duration?: number,  
     requirements?: string,  
     responsibilities?: string,  
     educationLevel?: string,  
-    experienceLevel?: string,  
-    benefits?: string,  
-    applicationLink?: string,  
-    expirationDate?: Date,  
+    experienceLevel?: string,   
     physicalAddress?: string,  
-    additionalInfo?: string  
   ) {  
     this._id = _id;  
     this.enterpriseId = enterpriseId; // Assign enterpriseId 
@@ -71,10 +61,9 @@ export class Offer {
     this.contractType = contractType;  
     this.contactEmail = contactEmail;   
     this.isRemote = isRemote;  
-    this.postedDate = postedDate;  
+    this.expirationDate = expirationDate;  
     this.status = status;  
     this.applicationMode = applicationMode;  
-    this.onlineSubmission = onlineSubmission;  
     // Document requirements  
     this.isRequiredCvDoc = isRequiredCvDoc;  
     this.isRequiredMlDoc = isRequiredMlDoc;  
@@ -86,10 +75,6 @@ export class Offer {
     if (responsibilities) this.responsibilities = responsibilities;  
     if (educationLevel) this.educationLevel = educationLevel;  
     if (experienceLevel) this.experienceLevel = experienceLevel;  
-    if (benefits) this.benefits = benefits;  
-    if (applicationLink) this.applicationLink = applicationLink;  
-    if (expirationDate) this.expirationDate = expirationDate;  
     if (physicalAddress) this.physicalAddress = physicalAddress;  
-    if (additionalInfo) this.additionalInfo = additionalInfo;  
   }  
 }

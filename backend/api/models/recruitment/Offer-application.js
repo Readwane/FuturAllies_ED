@@ -1,41 +1,86 @@
 import mongoose from 'mongoose';
 
-// Schéma de la candidature d'offre
-const OfferApplicationSchema = new mongoose.Schema({
-  offerId: { 
+// Schéma de l'offre
+const OfferSchema = new mongoose.Schema({
+  enterpriseId: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Offer', 
+    ref: 'Enterprise', 
     required: true 
-  },  // Référence à l'offre
-  candidatId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
+  },  // Référence à l'entreprise
+  title: { 
+    type: String, 
     required: true 
-  },  // Référence au candidat
-  applicationDate: { 
+  },  // Titre de l'offre
+  description: { 
+    type: String, 
+    required: true 
+  },  // Description de l'offre
+  domain: { 
+    type: String, 
+    required: true 
+  },  // Domaine de l'offre
+  location: { 
+    type: String, 
+    required: true 
+  },  // Localisation de l'offre
+  salary: Number,  // Salaire (facultatif)
+  duration: Number,  // Durée en mois (facultatif)
+  type: { 
+    type: String, 
+    enum: ['Job', 'Internship', 'Other'], 
+    required: true 
+  },  // Type de l'offre
+  requirements: String,  // Exigences (facultatif)
+  responsibilities: String,  // Responsabilités (facultatif)
+  educationLevel: String,  // Niveau d'éducation requis (facultatif)
+  experienceLevel: String,  // Niveau d'expérience requis (facultatif)
+  contractType: { 
+    type: String, 
+    enum: ['CDI', 'CDD'], 
+    required: true 
+  },  // Type de contrat
+  contactEmail: { 
+    type: String, 
+    required: true 
+  },  // Email de contact
+  postedDate: { 
     type: Date, 
     default: Date.now 
-  },  // Date de candidature
+  },  // Date de publication
+  expirationDate: { 
+    type: Date, 
+    required: true 
+  },  // Date d'expiration
   status: { 
     type: String, 
-    enum: ['Pending', 'Accepted', 'Rejected', 'In Review'], 
-    default: 'Pending' 
-  },  // Statut de la candidature
-  message: { 
+    enum: ['Open', 'Closed', 'Pending'], 
+    default: 'Open' 
+  },  // Statut de l'offre
+  isRemote: { 
+    type: Boolean, 
+    default: false 
+  },  // Indique si le poste est en télétravail
+  applicationMode: { 
     type: String, 
-    default: "Je suis très intéressé(e) par cette offre et je suis convaincu(e) que mes compétences et mon expérience correspondent aux attentes de votre entreprise. J'aimerais avoir l'opportunité de discuter de cette offre plus en détail et de contribuer au succès de votre équipe." 
-  },  // Message du candidat
-  lastUpdated: { 
-    type: Date, 
-    default: Date.now 
-  },  // Date de dernière mise à jour
-  submittedDocumentsIds: [{ 
-    type: String,  // Un tableau de chaînes représentant les IDs des fichiers
-    required: true 
-  }]  // Documents soumis par le candidat (IDs des fichiers)
+    enum: ['Online', 'Physical', 'Both'], 
+    default: 'Online' 
+  },  // Mode de candidature
+  physicalAddress: String,  // Adresse physique (facultatif)
+  isRequiredCvDoc: { 
+    type: Boolean, 
+    default: true 
+  },  // CV requis
+  isRequiredMlDoc: { 
+    type: Boolean, 
+    default: false 
+  },  // Lettre de motivation requise
+  canAddOthersDoc: { 
+    type: Boolean, 
+    default: false 
+  }  // Possibilité d'ajouter d'autres documents
 }, { timestamps: true });
 
 // Vérification si le modèle existe déjà
-const OfferApplication = mongoose.models.OfferApplication || mongoose.model('OfferApplication', OfferApplicationSchema);
+const Offer = mongoose.models.Offer || mongoose.model('Offer', OfferSchema);
 
-export default OfferApplication;
+export default Offer;

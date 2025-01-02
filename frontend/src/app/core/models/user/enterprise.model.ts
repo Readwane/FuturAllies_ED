@@ -1,10 +1,10 @@
 export class Enterprise {  
-    _id: string;  // reference l'id de l'utilisateur correspondant
+    _id: string;  
     name: string;  
     location: string;  
-    recruitmentEmail: string;
-    size: string; // Par exemple: "Small", "Medium", "Large"  
-    website: string;  
+    email: string;
+    size: string; 
+    website?: string;  
     description?: string;  
     industry?: string;  
     foundedYear?: number;  
@@ -12,7 +12,7 @@ export class Enterprise {
     numberOfEmployees?: number;  
     companyCulture?: string;  
     socialMediaLinks?: { [platform: string]: string };  
-    rating?: number; // Note sur 5  
+    rating?: number;   
     awardsAndRecognition?: string[];  
     benefitsOverview?: string;  
     logoUrl?: string;  
@@ -21,9 +21,9 @@ export class Enterprise {
       _id: string,   
       name: string,   
       location: string,   
-      recruitmentEmail: string,
+      email: string,
       size: "SMALL" | "MEDIUM" | "LARGE" ,  
-      website: string,  
+      website?: string,  
       description?: string,  
       industry?: string,  
       foundedYear?: number,  
@@ -39,7 +39,7 @@ export class Enterprise {
       this._id = _id;  
       this.name = name;  
       this.location = location;  
-      this.recruitmentEmail = recruitmentEmail;
+      this.email = email;
       this.size = size;  
       this.website = website;  
       if (description) this.description = description;  

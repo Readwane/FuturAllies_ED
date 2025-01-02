@@ -6,18 +6,12 @@ import UserGroup from "./authentication/user-group.js";
 import Doc from "./authentication/doc.js";
 // Importations pour la partie audition
 import Domain from "./audition/domain.js";
-import Path from "./audition/path.js";
-import Module from "./audition/module.js";
 import Course from "./audition/course.js";
 import Part from "./audition/part.js";
 import Chapter from "./audition/chapter.js";
 import Content from "./audition/content.js";
-import ContentText from "./audition/content-text.js";
-import ContentVideo from "./audition/content-video.js";
 import Quiz from "./audition/quiz.js";
 import Question from "./audition/question.js";
-import CorrectAnswer from "./audition/correct-answer.js";
-import StudentAnswer from "./audition/student-answer.js";
 import CourseLearned from "./audition/course-learned.js";
 import CourseReview from "./audition/course-review.js";
 //Importations pour la partie certification
@@ -28,7 +22,7 @@ import CertificationEvaluation from "./certification/certification-evaluation.js
 
 // Importation pour la partie recruitment
 import Offer from "./recruitment/offer.js";
-import OfferApplication from "./recruitment/offer-application.js";
+import OfferApplication from "./recruitment/Offer-application.js";
 
 // Importation pour la partie training
 import Training from "./training/training.js";
@@ -41,8 +35,8 @@ import Value from "./value/value.js";
 
 export {
   User, Group, UserGroup, Profile, 
-  Doc, Domain, Path, Module, Course, Part, Chapter, Content, ContentText,
-  ContentVideo, Quiz, Question, CorrectAnswer, StudentAnswer,CourseLearned, CourseReview,
+  Doc, Domain, Course, Part, Chapter, Content,
+  Quiz, Question,CourseLearned, CourseReview,
   Certification, CertificationGiven, CertificationEvaluation,
   Offer, OfferApplication, Training, TrainingApplication, Webinar, WebinarApplication,
   Value

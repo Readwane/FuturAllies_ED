@@ -15,13 +15,21 @@
           <input
             matInput
             [type]="field.type"
+            
             [formControlName]="field.name"
             [placeholder]="field.placeholder || ''"
           />
           <mat-error *ngIf="form.get(field.name)?.hasError('required')">{{field.errorMessage}}.</mat-error>
-          <mat-error *ngIf="form.get(field.name)?.hasError('pattern')">{{field.errorMessage}}</mat-error>
           <mat-error *ngIf="form.get(field.name)?.hasError('email')">{{field.errorMessage}}.</mat-error>
           <mat-error *ngIf="form.get(field.name)?.hasError('minlength')">{{field.errorMessage}}.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="field.type === 'select'">
+          <mat-label>{{ field.label }}</mat-label>
+          <mat-select [formControlName]="field.name">
+            <mat-option *ngFor="let option of fieldOptions[field.name]" [value]="option.value">{{ option.label }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get(field.name)?.hasError('required')">{{field.errorMessage}}.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" *ngIf="field.type === 'file'">
@@ -47,6 +55,6 @@
 
   <!-- Overlay pour le spinner -->
   <div *ngIf="isLoading" class="overlay">
-    <mat-spinner diameter="50"></mat-spinner> <!-- Le spinner central -->
+    <mat-spinner diameter="50"></mat-spinner>
   </div>
 </mat-card>

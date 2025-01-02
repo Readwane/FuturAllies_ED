@@ -2,8 +2,9 @@ export class Question {
     _id: string;
     quizId: string;
     title: string;
-    questionType: 'multiple_choice' | 'one_choice';
-    choicesList: string[];
+    questionType: 'MCQ' | 'MOQ';
+    options: string[];
+    CorrectOptions: string[];
     order: number;
     createdAt: Date;
     updatedAt: Date;
@@ -12,8 +13,9 @@ export class Question {
       _id: string,
       quizId: string,
       title: string,
-      questionType: 'multiple_choice' | 'one_choice',
-      choicesList: string[],
+      questionType: 'MCQ' | 'MOQ',
+      options: string[],
+      CorrectOptions: string[],
       order: number,
       createdAt: Date = new Date(),
       updatedAt: Date = new Date()
@@ -22,7 +24,8 @@ export class Question {
       this.quizId = quizId;
       this.title = title;
       this.questionType = questionType;
-      this.choicesList = choicesList;
+      this.options = options;
+      this.CorrectOptions = CorrectOptions;
       this.order = order;
       this.createdAt = createdAt;
       this.updatedAt = updatedAt;

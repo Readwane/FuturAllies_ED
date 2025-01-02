@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { ResourceService } from '../../services/resource.service';
 import { Resource, Property } from '../../models/resource.model';
 import { ressources } from '../../configs/reource.config';
+import { SelectOption } from '../../models/resource.model';
 
 @Component({
   selector: 'app-resource-edit',
@@ -23,6 +24,7 @@ export class ResourceEditComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   errorMessage: string | null = null;
   form!: FormGroup;
+  fieldOptions: { [key: string]: SelectOption[] } = {}; // Pour stocker les options de select dynamiques
 
   constructor(
     private route: ActivatedRoute,
@@ -36,10 +38,9 @@ export class ResourceEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.resourceId = this.route.snapshot.paramMap.get('id')!;
     this.resourceType = this.route.snapshot.paramMap.get('resourceType')!;
-    console.log(`Log: [La resource] :`, this.resourceType);
-    console.log(`Log: [Id de la resource] :`, this.resourceId);
     this.resource = ressources[this.resourceType]?.resource;
     this.resourceFieldsToEdit = this.resource.options.properties.editProperties;
+
     this.initializeForm();
     if (this.resourceId) {
       this.loadResource(this.resourceType, this.resourceId);
@@ -56,16 +57,18 @@ export class ResourceEditComponent implements OnInit, OnDestroy {
 
     this.resourceFieldsToEdit.forEach(field => {
       const validators = [field.required ? Validators.required : null].filter(v => v !== null);
+
       if (field.type === 'email') {
         validators.push(Validators.email);
       }
       if (field.type === 'password') {
         validators.push(Validators.minLength(8));
       }
+
       formControls[field.name] = ['', validators];
     });
 
-    // Custom validation (e.g., for password confirmation)
+    // Validation personnalisée pour vérifier que le mot de passe et la confirmation sont identiques
     this.form = this.fb.group(formControls, { validators: [this.passwordMatchValidator] });
   }
 
@@ -96,11 +99,22 @@ export class ResourceEditComponent implements OnInit, OnDestroy {
         this.resourceToEdit = resource;
         this.isLoading = false;
         this.populateForm();  // Populer le formulaire avec les données chargées
+        this.loadSelectOptions(); // Charger les options des champs select dynamiques
       },
       error: (err) => {
         this.errorMessage = 'Impossible de charger les données.';
         this.isLoading = false;
         this.showToast('Erreur lors du chargement', 'error');
+      }
+    });
+  }
+
+  private loadSelectOptions(): void {
+    this.resourceFieldsToEdit.forEach(field => {
+      if (typeof field.options === 'function') {
+        field.options().then((options: SelectOption[]) => {
+          this.fieldOptions[field.name] = options;
+        });
       }
     });
   }
@@ -114,24 +128,19 @@ export class ResourceEditComponent implements OnInit, OnDestroy {
       this.showToast('L\'ID est manquant', 'error');
       return;
     }
-    // Afficher le spinner
     this.isLoading = true;
     this.resourceService.updateResource(this.resourceType, this.resourceToEdit._id, updatedData).subscribe({
       next: () => {
-        // Masquer le spinner après mise à jour réussie
         this.isLoading = false;
         this.showToast('Mise à jour réussie', 'success');
         this.location.back();
       },
       error: () => {
-        // Masquer le spinner en cas d'erreur
         this.isLoading = false;
         this.showToast('Erreur lors de la mise à jour', 'error');
       }
     });
   }
-  
-  
 
   handleSubmit(): void {
     if (this.form.valid) {

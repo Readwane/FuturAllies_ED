@@ -8,13 +8,14 @@ import { FlwtestComponent } from './features/payment/components/flwtest/flwtest.
 import { AuthGuard } from './features/admin/guards/auth.guard';
 import { LoginComponent } from './features/admin/components/login/login.component';
 import { HomeComponent } from './layout/public/components/home/home.component';
+import { AcceuilComponent } from './layout/public/components/acceuil/acceuil.component';
 
 const routes: Routes = [
   // Route par défaut
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
   // Route home
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: AcceuilComponent },
 
   // Lazy loading des modules
   {
@@ -38,8 +39,20 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
 
-  // Routes publiques
+  {
+    path: 'user-dashboard',
+    loadChildren: () => import('./features/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule),
+    // canActivate: [AuthGuard]
+  },
+
+  {
+    path: 'employer-dashboard',
+    loadChildren: () => import('./features/employer-dashboard/employer-dashboard.module').then(m => m.EmployerDashboardModule),
+    // canActivate: [AuthGuard]
+  },
+
   { path: 'login', component: LoginComponent },
+
   { path: 'flwtest', component: FlwtestComponent },
   { path: 'subscription', component: UserProfileTypeComponent },
   { path: 'payment-methods', component: PaymentMethodesComponent },

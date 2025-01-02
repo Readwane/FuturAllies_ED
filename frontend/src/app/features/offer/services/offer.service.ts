@@ -17,7 +17,7 @@ export class OfferService {
   // CRUD for Offers
 
   // Create an offer
-  createOffer(offer: Offer): Observable<Offer> {
+  createOffer(offer: Partial<Offer>): Observable<Offer> {
     return this.http.post<Offer>(`${this.apiUrl}/offers`, offer);
   }
 

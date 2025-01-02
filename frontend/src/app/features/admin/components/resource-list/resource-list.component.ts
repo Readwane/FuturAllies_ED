@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
-import { Resource, Property } from '../../models/resource.model';
+import { Resource, Property, FieldType } from '../../models/resource.model';
 import { ressources } from '../../configs/reource.config';
 import { MatTooltip } from '@angular/material/tooltip';
 import { OverlayContainer } from 'ngx-toastr';
