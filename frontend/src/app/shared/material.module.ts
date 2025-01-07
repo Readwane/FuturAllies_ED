@@ -58,8 +58,8 @@ const materialModules = [
   MatSnackBarModule,
   MatFormFieldModule,
   MatInputModule,
-  MatAutocompleteModule
-  
+  MatAutocompleteModule,
+  MatPaginatorModule,
 ];
 
 @NgModule({

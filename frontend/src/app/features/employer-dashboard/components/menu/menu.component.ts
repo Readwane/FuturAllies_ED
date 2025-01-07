@@ -17,7 +17,7 @@ export class MenuComponent implements OnDestroy, AfterViewInit {
       icon: 'work',
       children: [
         { label: 'offres actifs', route: 'create' },
-        { label: 'offres programmés', route: '/internships' },
+        { label: 'offres programmés', route: 'list' },
         { label: 'offres expirés', route: 'list/offers/jobs' },
   
       ]

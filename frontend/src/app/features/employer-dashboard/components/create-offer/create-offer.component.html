@@ -74,11 +74,37 @@
       <input matInput type="email" formControlName="recruitmentEmail" />
     </mat-form-field>
 
+    <!-- Statut de l'offre -->
+    <mat-form-field appearance="outline">
+      <mat-label>Statut</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="Open">Ouvert</mat-option>
+        <mat-option value="Closed">Fermé</mat-option>
+        <mat-option value="Pending">En attente</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Mode de soumission -->
+    <mat-form-field appearance="outline">
+      <mat-label>Mode de soumission</mat-label>
+      <mat-select formControlName="applicationMode">
+        <mat-option value="Online">En ligne</mat-option>
+        <mat-option value="Physical">En personne</mat-option>
+        <mat-option value="Both">Les deux</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Date d'expiration -->
+    <mat-form-field appearance="outline">
+      <mat-label>Date d'expiration</mat-label>
+      <input matInput type="date" formControlName="expirationDate" />
+    </mat-form-field>
+
     <!-- Champs spécifiques à un emploi -->
     <ng-container *ngIf="isJob">
       <mat-form-field appearance="outline">
         <mat-label>Type de Contrat</mat-label>
-        <mat-select formControlName="contratType" (selectionChange)="onContratTypeChange($event.value)">
+        <mat-select formControlName="contratType">
           <mat-option value="CDI">CDI</mat-option>
           <mat-option value="CDD">CDD</mat-option>
         </mat-select>
@@ -102,6 +128,17 @@
         <input matInput type="number" formControlName="duration" />
       </mat-form-field>
     </ng-container>
+
+    <!-- Champs pour les documents requis -->
+    <mat-checkbox formControlName="isRequiredCvDoc">CV requis</mat-checkbox>
+
+    <mat-checkbox formControlName="isRequiredMlDoc">Lettre de motivation requise</mat-checkbox>
+
+    <mat-checkbox formControlName="canAddOthersDoc">Autres documents autorisés</mat-checkbox>
+
+    <!-- Télétravail -->
+    <mat-checkbox formControlName="isRemote">Télétravail</mat-checkbox>
+
   </fieldset>
 
   <button mat-raised-button color="primary" type="submit">Créer l'offre</button>

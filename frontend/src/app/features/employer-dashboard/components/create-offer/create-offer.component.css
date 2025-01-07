@@ -18,6 +18,7 @@ fieldset {
     background-color: #f3f8fe;
 }
 
+/* Légende des fieldsets */
 legend {
     font-size: 1.3em;
     font-weight: bold;
@@ -76,8 +77,6 @@ mat-error {
     }
 }
 
-
-/* Overlay pour le spinner */
 /* Overlay pour le spinner */
 .loading-overlay {
     position: fixed;
@@ -85,16 +84,15 @@ mat-error {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0); /* Fond transparent */
+    background-color: rgba(255, 255, 255, 0.7); /* Fond légèrement opaque */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000; /* Assure que le spinner est au-dessus de tout */
     pointer-events: none; /* Empêche l'interaction avec les éléments sous le spinner */
-  }
-  
-  /* Mat-progress-spinner doit être centré */
-  mat-progress-spinner {
+}
+
+/* Mat-progress-spinner doit être centré */
+mat-progress-spinner {
     z-index: 1001; /* Assurez-vous que le spinner est au-dessus de l'overlay */
-  }
-  
+}

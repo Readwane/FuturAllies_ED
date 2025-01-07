@@ -16,11 +16,9 @@ const OfferSchema = new mongoose.Schema({
   experienceLevel: { type: String }, // Niveau d'expérience requis  
   contractType: {   
     type: String,   
-    enum: ['CDI', 'CDD', 'INTERNSHIP'],   
-    required: function() {
-      // Exiger 'contractType' uniquement si le type n'est pas un stage
-      return this.type !== 'Other';
-    },
+    enum: ['CDI', 'CDD'],   
+    required: true,
+    default: 'CDD'
   }, // Type de contrat  
   benefits: { type: String }, // Avantages associés à l'offre  
   contactEmail: { type: String, required: true }, // Email de contact pour les candidatures  

@@ -7,6 +7,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { CreateOfferComponent } from './components/create-offer/create-offer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ListOfferComponent } from './components/list-offer/list-offer.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DashboardComponent,
     MenuComponent,
     CreateOfferComponent,
+    ListOfferComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    ListOfferComponent,
   ],
   exports: [
     DashboardComponent,

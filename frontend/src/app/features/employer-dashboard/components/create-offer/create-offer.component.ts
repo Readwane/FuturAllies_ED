@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Enterprise } from 'src/app/core/models/user/enterprise.model';
-import { UserService } from 'src/app/core/services/user/user.service';
-import { Offer } from 'src/app/features/offer/models/offer.model';
 import { EnterpriseService } from 'src/app/features/offer/services/enterprise.service';
 import { OfferService } from 'src/app/features/offer/services/offer.service';
+import { Enterprise } from 'src/app/core/models/user/enterprise.model';
+import { Offer } from 'src/app/features/offer/models/offer.model';
 
 @Component({
   selector: 'app-create-offer',
@@ -26,22 +25,35 @@ export class CreateOfferComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.offerForm = this.fb.group({
+      // Infos de l'entreprise
       type: ['', Validators.required],
       enterpriseName: ['', Validators.required],
       enterpriseLocation: ['', Validators.required],
       enterpriseWebsite: ['', [Validators.required, Validators.pattern('https?://.+')]],
-      recruitmentEmail: ['', [Validators.required, Validators.email]],
+      
+      // Infos générales de l'offre
       title: ['', Validators.required],
       domain: ['', Validators.required],
       location: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(10)]],
       requirement: ['', Validators.required],
       responsabilities: ['', Validators.required],
+      recruitmentEmail: ['', [Validators.required, Validators.email]],
+
+      // Status de l'offre
+      status: ['', Validators.required],
+      isRemote: [false],
+      applicationMode: ['', Validators.required],
+      expirationDate: ['', Validators.required], // Ajout de l'expiration
+      isRequiredCvDoc: [true], // Ajout des cases à cocher
+      isRequiredMlDoc: [false],
+      canAddOthersDoc: [false],
+
+      contratType: ['', Validators.required],
       salary: [null, Validators.min(0)],
       experienceLevel: ['', Validators.required],
       duration: [null, [Validators.min(1), Validators.max(12)]],
-      contratType: ['', Validators.required]
-    });
+    });    
   }
 
   ngOnInit(): void {
@@ -53,11 +65,13 @@ export class CreateOfferComponent implements OnInit {
   onTypeChange(type: string): void {
     this.isJob = type === 'Job';
     this.isInternship = type === 'Internship';
-
+    this.isCDD = false; // reset pour autres types d'offres
+  
     if (this.isJob) {
       this.setValidators('salary', [Validators.required, Validators.min(0)]);
       this.setValidators('experienceLevel', [Validators.required]);
-      this.clearValidators(['duration', 'contratType']);
+      this.setValidators('contratType', [Validators.required]); // Activation de contratType
+      this.clearValidators(['duration']);
     } else if (this.isInternship) {
       this.setValidators('duration', [Validators.required, Validators.min(1), Validators.max(12)]);
       this.clearValidators(['salary', 'experienceLevel', 'contratType']);
@@ -65,6 +79,7 @@ export class CreateOfferComponent implements OnInit {
       this.clearValidators(['salary', 'experienceLevel', 'duration', 'contratType']);
     }
   }
+  
 
   onContratTypeChange(value: string): void {
     this.isCDD = value === 'CDD';
@@ -100,38 +115,74 @@ export class CreateOfferComponent implements OnInit {
       console.error('Le formulaire est invalide.');
       return;
     }
-
+  
     this.isLoading = true;
     const formValues = this.offerForm.value;
-
-    // Vérifier si l'entreprise existe déjà
+  
     const existingEnterprise = this.enterprises.find(
       (e) => e.name.toLowerCase() === formValues.enterpriseName.toLowerCase()
     );
-
+  
+    const handleCreateOffer = (enterpriseId: string) => {
+      const newOffer: Partial<Offer> = {
+        enterpriseId,
+        title: formValues.title,
+        description: formValues.description,
+        domain: formValues.domain,
+        location: formValues.location,
+        salary: formValues.salary,
+        duration: formValues.duration,
+        type: formValues.type,
+        contractType: formValues.contratType,
+        contactEmail: formValues.recruitmentEmail,
+        expirationDate: new Date(formValues.expirationDate),
+        isRemote: formValues.isRemote,
+        applicationMode: formValues.applicationMode,
+        isRequiredCvDoc: formValues.isRequiredCvDoc,
+        isRequiredMlDoc: formValues.isRequiredMlDoc,
+        canAddOthersDoc: formValues.canAddOthersDoc,
+        requirements: formValues.requirement,
+        responsibilities: formValues.responsabilities,
+        status: formValues.status,
+        physicalAddress: formValues.physicalAddress
+      };
+  
+      this.offerService.createOffer(newOffer).subscribe({
+        next: () => {
+          console.log('Offre créée avec succès.');
+          this.isLoading = false;
+          this.offerForm.reset();  // Reset the form after success
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création de l\'offre:', err);
+          this.isLoading = false;
+        }
+      });
+    };
+  
     if (existingEnterprise) {
-      // Utiliser l'entreprise existante pour créer l'offre
-      this.createOffer(existingEnterprise._id, formValues);
+      handleCreateOffer(existingEnterprise._id);
     } else {
-      // Créer une nouvelle entreprise et utiliser son ID pour l'offre
       const newEnterprise: Partial<Enterprise> = {
         name: formValues.enterpriseName,
         location: formValues.enterpriseLocation,
         email: formValues.recruitmentEmail,
-        size: 'MEDIUM', // Remplir par défaut ou demander à l'utilisateur
+        size: 'MEDIUM',  // Default value for size
         website: formValues.enterpriseWebsite
       };
-
-      this.enterpriseService.createEnterprise(newEnterprise).subscribe((createdEnterprise: Enterprise) => {
-        this.createOffer(createdEnterprise._id, formValues);
+  
+      this.enterpriseService.createEnterprise(newEnterprise).subscribe({
+        next: (createdEnterprise: Enterprise) => {
+          handleCreateOffer(createdEnterprise._id);
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création de l\'entreprise:', err);
+          this.isLoading = false;
+        }
       });
     }
-
-    setTimeout(() => {
-      console.log('Offre soumise avec succès :', this.offerForm.value);
-      this.isLoading = false; // Cache le spinner après soumission
-    }, 3000);
   }
+  
 
   private createOffer(enterpriseId: string, formValues: any): void {
     const newOffer: Partial<Offer> = {
@@ -152,7 +203,9 @@ export class CreateOfferComponent implements OnInit {
       isRequiredMlDoc: formValues.isRequiredMlDoc,
       canAddOthersDoc: formValues.canAddOthersDoc,
       requirements: formValues.requirement,
-      responsibilities: formValues.responsabilities
+      responsibilities: formValues.responsabilities,
+      status: formValues.status,
+      physicalAddress: formValues.physicalAddress
     };
 
     this.offerService.createOffer(newOffer).subscribe(() => {
