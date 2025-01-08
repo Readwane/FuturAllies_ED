@@ -1,44 +1,64 @@
-import { Component } from '@angular/core';
-interface User {
-  name: string;
-  image: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
+import { User } from '../../models/user/user.model';  // Assurez-vous que le modèle User existe
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isUserLoggedIn = false;
-  user: User | null = null; 
-  isDropdownOpen: { [key: string]: boolean } = {};
+  user: User | null = null;  // Récupérer l'utilisateur complet
+  username: string = '';
+  userimage: string = '';  // Image par défaut
+  isDropdownOpen: { [key: string]: boolean } = {  // Etat de chaque menu déroulant
+    catalogue: false,
+    formations: false,
+    offres: false,
+    orientation: false
+  };
 
-  // Méthodes de gestion de la connexion/déconnexion
+  constructor(
+    private authService: AuthService, 
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    // S'abonner à l'état de connexion pour mettre à jour l'interface utilisateur
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isUserLoggedIn = isLoggedIn;
+      if (isLoggedIn) {
+        this.username = this.authService.getUserName() || '';
+        this.userimage = 'assets/login_img.jpeg';  // Image de connexion par défaut
+      } else {
+        this.username = '';
+        this.userimage = '';  // Remettre l'image de connexion par défaut
+      }
+    });
+  }
+
   login() {
-    this.isUserLoggedIn = true;
-    this.user = { name: 'Jean Dupont', image: '' };
+    // Rediriger vers la page de connexion
+    this.router.navigate(['/login']);
   }
 
   logout() {
+    this.authService.logout();
     this.isUserLoggedIn = false;
-    this.user = null;
-  }
-
-  toggleDropdown(dropdown: string) {
-    this.isDropdownOpen[dropdown] = !this.isDropdownOpen[dropdown];
-  }
-
-  openDropdown(dropdown: string) {
-    this.isDropdownOpen[dropdown] = true;
-  }
-
-  closeDropdown(dropdown: string) {
-    this.isDropdownOpen[dropdown] = false;
   }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  openDropdown(menu: string) {
+    this.isDropdownOpen[menu] = true;
+  }
+
+  closeDropdown(menu: string) {
+    this.isDropdownOpen[menu] = false;
   }
 }

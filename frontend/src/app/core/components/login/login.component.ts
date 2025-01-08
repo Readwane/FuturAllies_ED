@@ -40,9 +40,8 @@ export class LoginComponent implements OnInit {
     this.isSubmitting = true;
     this.authService.login(this.f['username'].value, this.f['password'].value).subscribe({
       next: (response) => {
-        localStorage.setItem('token', response.token);
-        this.authService['loggedInStatus'].next(true);  
-        this.router.navigate(['admin/dashboard']);
+        this.authService.loginSuccess(response.token);
+        this.router.navigate(['home']);
         this.snackBar.open('Connexion réussie', '', { duration: 3000 });
       },
       error: (error) => {

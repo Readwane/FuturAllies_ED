@@ -8,7 +8,7 @@ dotenv.config();
 let gridFSBucket;  // Déclarer une variable pour GridFSBucket  
 
 const connectDB = async () => {  
-    await mongoose.connect(process.env.MONGO_ATLAS_URI)  
+    await mongoose.connect(process.env.MONGO_LOCAL_URI)  
     .then(() => {  
         console.log('MongoDB connected successfully');  
         const db = mongoose.connection.db; // Obtenir la connexion de la base de données  

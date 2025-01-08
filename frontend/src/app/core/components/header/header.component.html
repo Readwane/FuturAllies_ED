@@ -70,22 +70,26 @@
 
         <div class="profile-container">
             <ng-container *ngIf="isUserLoggedIn; else loginButton">
-                <li mat-menu-item [matMenuTriggerFor]="profileMenu" class="profile-menu">
-                    <img *ngIf="user?.image" [src]="user?.image" alt="User Image" class="user-image">
-                    <span>{{ user?.name }}</span>
-                    <mat-menu #profileMenu="matMenu">
-                        <button mat-menu-item href="#profile">Mon Profil</button>
-                        <button mat-menu-item href="#settings">Paramètres</button>
-                        <button mat-menu-item href="#logout" (click)="logout()">Se Déconnecter</button>
-                    </mat-menu>
-                </li>
+              <li mat-menu-item [matMenuTriggerFor]="profileMenu" class="profile-menu">
+                <!-- Affichage de l'image de l'utilisateur si disponible -->
+                <img *ngIf="userimage" [src]="userimage" alt="User Image" class="user-image">
+                <!-- Affichage du nom de l'utilisateur -->
+                <span>{{ username }}</span>
+                <mat-menu #profileMenu="matMenu">
+                  <button mat-menu-item href="#profile">Mon Profil</button>
+                  <button mat-menu-item href="#settings">Paramètres</button>
+                  <button mat-menu-item (click)="logout()">Se Déconnecter</button>
+                </mat-menu>
+              </li>
             </ng-container>
-
+          
+            <!-- Si l'utilisateur n'est pas connecté, afficher le bouton pour se connecter -->
             <ng-template #loginButton>
-                <button mat-button class="login-btn" (click)="login()">Se connecter</button>
+              <button mat-button class="login-btn" (click)="login()">Se connecter</button>
             </ng-template>
-        </div>
-
+          </div>
+          
+          
         <button mat-icon-button class="mobile-menu-toggle" (click)="toggleMenu()">
             <mat-icon>menu</mat-icon>
         </button>
