@@ -9,14 +9,8 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      // { path: '', redirectTo: 'dashboard', pathMatch: 'full' },  // Redirection vers dashboard si l'URL est vide
-      // { path: 'dashboard', component: DashboardComponent,},
-      // { path: 'list/:resourceType', component: ResourceListComponent },
-      // { path: 'list/:resourceType/:resourceChild', component: ResourceListComponent },
       { path: 'list', component: ListOfferComponent },
       { path: 'create', component: CreateOfferComponent },
-      // { path: 'edit/:resourceType/:id', component: ResourceEditComponent },
-      // { path: 'details/:resourceType/:id', component: ResourceDetailsComponent },
     ]
   }
 ];

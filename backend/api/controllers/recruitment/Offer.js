@@ -16,12 +16,13 @@ export const createOffer = async (req, res) => {
 
 export const getOffers = async (req, res) => {
     try {
-        const offers = await Offer.find();
+        const offers = await Offer.find().populate('enterpriseId'); // Remplir le champ enterpriseId avec les données correspondantes
         res.status(200).json(offers);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Récupérer toutes les offres d'emploi
 export const getJobs = async (req, res) => {

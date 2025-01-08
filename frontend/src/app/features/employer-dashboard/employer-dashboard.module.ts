@@ -23,7 +23,6 @@ import { ListOfferComponent } from './components/list-offer/list-offer.component
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    ListOfferComponent,
   ],
   exports: [
     DashboardComponent,

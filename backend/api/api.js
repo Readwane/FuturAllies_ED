@@ -5,14 +5,11 @@ import cors from 'cors';
 
 import auditionRoutes from './routes/audition.route.js';
 import usersRoutes from './routes/user.route.js';
-
-import webinarRoutes from './routes/formations/webinarRoutes.js';
 import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
 
 import {
   valuesRoutes,
   authenticationRoutes,
-  // auditionRoutes,
   certificationRoutes,
   interactionRoutes,
   recruitmentRoutes,

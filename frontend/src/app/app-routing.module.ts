@@ -5,17 +5,19 @@ import { PaymentMethodesComponent } from './features/payment/components/payment-
 import { OmPaymentComponent } from './features/payment/components/om-payment/om-payment.component';
 import { MmPaymentComponent } from './features/payment/components/mm-payment/mm-payment.component';
 import { FlwtestComponent } from './features/payment/components/flwtest/flwtest.component';
-import { AuthGuard } from './features/admin/guards/auth.guard';
-import { LoginComponent } from './features/admin/components/login/login.component';
+import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './layout/public/components/home/home.component';
 import { AcceuilComponent } from './layout/public/components/acceuil/acceuil.component';
+import { LoginComponent } from './core/components/login/login.component';
 
 const routes: Routes = [
-  // Route par défaut
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
 
-  // Route home
-  { path: 'home', component: AcceuilComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '/home' } ,
+
+
 
   // Lazy loading des modules
   {
@@ -24,7 +26,8 @@ const routes: Routes = [
   },
   {
     path: 'offers',
-    loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule)
+    loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule),
+    canActivate: [AuthGuard]
   },
 
   // Routes protégées par AuthGuard
@@ -42,16 +45,14 @@ const routes: Routes = [
   {
     path: 'user-dashboard',
     loadChildren: () => import('./features/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'employer-dashboard',
     loadChildren: () => import('./features/employer-dashboard/employer-dashboard.module').then(m => m.EmployerDashboardModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
-
-  { path: 'login', component: LoginComponent },
 
   { path: 'flwtest', component: FlwtestComponent },
   { path: 'subscription', component: UserProfileTypeComponent },
@@ -59,8 +60,7 @@ const routes: Routes = [
   { path: 'om-payment', component: OmPaymentComponent },
   { path: 'mm-payment', component: MmPaymentComponent },
 
-  // Route 404
-  { path: '**', redirectTo: '/home' } // Page non trouvée, redirection vers la home
+
 ];
 
 @NgModule({

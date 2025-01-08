@@ -10,6 +10,7 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { HomeDomainsListComponent } from './public/components/home-domains-list/home-domains-list.component';
 import { AuditionModule } from '../features/audition/audition.module';
 import { HomeCommunityListComponent } from './public/components/home-community-list/home-community-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,14 +20,17 @@ import { HomeCommunityListComponent } from './public/components/home-community-l
     HomeBannerComponent,
     HomeValuesListComponent,
     HomeDomainsListComponent,
-    HomeCommunityListComponent
+    HomeCommunityListComponent,
+    
   ],
   imports: [
     CommonModule,
     CoreModule,
     ValueModule,
     AuditionModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     AcceuilComponent,

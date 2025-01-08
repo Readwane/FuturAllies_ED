@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { OfferService } from 'src/app/features/offer/services/offer.service';
 import { Offer } from 'src/app/features/offer/models/offer.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-offer',
@@ -17,7 +18,10 @@ export class ListOfferComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private offerService: OfferService) {}
+  constructor(
+    private offerService: OfferService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchOffers();
@@ -50,5 +54,10 @@ export class ListOfferComponent implements OnInit {
         this.fetchOffers();
       });
     }
+  }
+
+
+  onAddClick(): void {
+    this.router.navigate([`employer-dashboard/create`]);
   }
 }

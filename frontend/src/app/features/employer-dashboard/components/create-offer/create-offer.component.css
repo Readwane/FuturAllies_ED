@@ -2,63 +2,89 @@
 form {
     max-width: 900px;
     margin: 20px auto;
-    padding: 25px;
-    background-color: #ffffff;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
+    padding: 30px;
+    /* background-color: #ffffff; */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
     font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
 }
 
 /* Fieldsets */
 fieldset {
-    border: 2px solid #1976d2;
-    border-radius: 10px;
+    border: 2px solid #1565c0;
+    border-radius: 8px;
     padding: 20px;
     margin-bottom: 25px;
-    background-color: #f3f8fe;
+    background-color: #eef7ff;
 }
 
 /* Légende des fieldsets */
 legend {
-    font-size: 1.3em;
+    font-size: 1.4em;
     font-weight: bold;
-    color: #1976d2;
-    padding: 0 15px;
+    color: #1565c0;
+    padding: 0 12px;
     margin-left: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* Champs de formulaire */
 mat-form-field {
     display: block;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+}
+
+mat-form-field.mat-form-field {
+    background-color: #ffffff;
+    border-radius: 6px;
 }
 
 /* Bouton de soumission */
 button[type="submit"] {
     display: block;
     width: 100%;
-    padding: 14px 22px;
-    font-size: 1.1em;
+    height: auto;
+    padding: 14px 20px;
+    font-size: 1.2em;
     font-weight: bold;
     text-transform: uppercase;
     color: #ffffff;
-    background-color: #1976d2;
+    background-color: #1565c0;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 button[type="submit"]:hover {
-    background-color: #145ca8;
-    transform: scale(1.02);
+    background-color: #0d47a1;
+    transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Messages d'erreur */
 mat-error {
     color: #d32f2f;
     font-size: 0.9em;
+    font-weight: bold;
+}
+
+/* Checkbox styles */
+mat-checkbox {
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+mat-checkbox .mat-checkbox-label {
+    color: #333333;
 }
 
 /* Responsive Design */
@@ -84,7 +110,7 @@ mat-error {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.7); /* Fond légèrement opaque */
+    background-color: rgba(255, 255, 255, 0.8); /* Fond légèrement opaque */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,7 +118,14 @@ mat-error {
     pointer-events: none; /* Empêche l'interaction avec les éléments sous le spinner */
 }
 
-/* Mat-progress-spinner doit être centré */
+/* Mat-progress-spinner */
 mat-progress-spinner {
-    z-index: 1001; /* Assurez-vous que le spinner est au-dessus de l'overlay */
+    z-index: 1001;
+    color: #1565c0; /* Assure une cohérence avec le thème */
+}
+
+/* Placeholder style for inputs */
+input::placeholder, textarea::placeholder {
+    color: #9e9e9e;
+    font-style: italic;
 }

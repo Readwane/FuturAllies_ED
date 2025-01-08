@@ -40,7 +40,7 @@ export class UserService {
 
   // Créer un utilisateur
   createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/users/create`, user, this.httpOptions);
+    return this.http.post<User>(`${this.apiUrl}/register`, user, this.httpOptions);
   }
 
   getUsersPaginated(page: number, pageSize: number): Observable<{ data: User[]; totalItems: number }> {

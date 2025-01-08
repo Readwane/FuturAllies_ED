@@ -1,24 +1,43 @@
-<div class="login-container">
-    <div class="login-left">
-      <h2>Login! 👋</h2>
-      <p>How do I get started?</p>
-      <button class="btn btn-google">Sign in with Google</button>
-      <button class="btn btn-apple">Sign in with Apple</button>
-      <p>or Login with Email</p>
-      <form>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="test@atheros.ai">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="******">
-        <button type="submit" class="btn btn-signin">Sign In</button>
-      </form>
-      <p>Don't have an account? <a href="#">Sign Up Now</a></p>
-    </div>
-    <div class="login-right">
-      <div class="login-info">
-        <h3>Why should I login?</h3>
-        <p>By logging in, you can access your personal dashboard, where you can manage your account, view your profile, and much more.</p>
-        <img src="assets/dashboard-example.png" alt="Dashboard example">
+<div class="login-page">
+  <div class="login-container">
+      <!-- Bloc de gauche -->
+      <div class="left-block">
+        <img src="assets/login_img.jpg" alt="Logo" class="logo" />
+        <p class="welcome-message">Connectez-vous et gérez le contenu facilement</p>
       </div>
-    </div>
-  </div>
+    
+      <!-- Bloc de droite -->
+      <div class="right-block">
+        <h2>CONNEXION</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <!-- Champ Username avec icône -->
+          <mat-form-field appearance="fill" class="input-field">
+            <mat-label>Nom d'utilisateur</mat-label>
+            <mat-icon matPrefix>person</mat-icon> <!-- Icône utilisateur -->
+            <input matInput formControlName="username" [class.invalid]="f['username'].invalid && f['username'].touched" />
+            <mat-error *ngIf="f['username'].invalid && f['username'].touched">
+              Le nom d'utilisateur est requis (min. 4 caractères)
+            </mat-error>
+          </mat-form-field>
+    
+          <!-- Champ Password avec icône -->
+          <mat-form-field appearance="fill" class="input-field">
+            <mat-label>Mot de passe</mat-label>
+            <mat-icon matPrefix>lock</mat-icon> <!-- Icône mot de passe -->
+            <input matInput formControlName="password" type="password" [class.invalid]="f['password'].invalid && f['password'].touched" />
+            <mat-error *ngIf="f['password'].invalid && f['password'].touched">
+              Le mot de passe est requis (min. 6 caractères)
+            </mat-error>
+          </mat-form-field>
+    
+          <!-- Bouton de connexion -->
+          <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting" class="login-btn">
+            Se connecter
+          </button>
+    
+          <!-- Message d'erreur -->
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        </form>
+      </div>
+    </div>    
+</div>

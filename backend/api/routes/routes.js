@@ -40,7 +40,7 @@ import {
     getUsers,
     getAllUsersPaginated,
     getUserById,
-    createUser,
+    register,
     updateUser,
     deleteUser,
     getUserNameById,
@@ -97,7 +97,7 @@ import {
     getOfferById,
     updateOffer,
     deleteOffer
-} from '../controllers/recruitment/offer.js';
+} from '../controllers/recruitment/Offer.js';
 
 
 
@@ -326,7 +326,7 @@ authenticationRoutes.delete('/user-groups/:id/delete', deleteUserGroup);
 
 // Routes pour User
 authenticationRoutes.post('/users/admin-login', login);
-authenticationRoutes.post('/users', createUser);
+
 // authenticationRoutes.get('/users', authenticateToken, getAllUsers);
 authenticationRoutes.get('/users', getUsers);
 authenticationRoutes.get('/users/paginated', getAllUsersPaginated);
