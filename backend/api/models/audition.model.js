@@ -86,12 +86,7 @@ const CourseLearnedSchema = new mongoose.Schema({
     courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true }, 
     startedAt: { type: Date, default: Date.now },
     completedAt: { type: Date },
-    progress: { 
-        type: Number, 
-        default: 0.0, 
-        min: 0.0, 
-        max: 100.0 
-    }
+    progress: { type: Number, default: 0.0, min: 0.0, max: 100.0 }
 });
 
 
@@ -111,7 +106,7 @@ CourseReviewSchema.index({ courseId: 1, userId: 1 });
 
 
 // Definition des models
-const Domain = mongoose.models.Domain || mongoose.model('Domain', domainSchema);
+const Domain = mongoose.models.Domain || mongoose.model('Domain', DomainSchema);
 const Course = mongoose.models.Course || mongoose.model('Course', CourseSchema);
 const Part = mongoose.models.Part || mongoose.model('Part', PartSchema);
 const Chapter = mongoose.models.Chapter || mongoose.model('Chapter', ChapterSchema);

@@ -37,12 +37,12 @@ import { ResourceDetailsComponent } from './components/resource-details/resource
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { LoginComponent } from './components/login/login.component';
+import { ALoginComponent} from './components/login/a-login.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent,
+    ALoginComponent,
     AdminComponent,
     MenuComponent,
     DashboardComponent,
@@ -86,7 +86,7 @@ import { LoginComponent } from './components/login/login.component';
     MatSnackBarModule 
   ],
   exports: [
-    LoginComponent,
+    ALoginComponent,
     AdminComponent,
     MenuComponent,
     DashboardComponent,

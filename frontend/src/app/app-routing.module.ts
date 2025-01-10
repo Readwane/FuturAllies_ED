@@ -9,14 +9,16 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './layout/public/components/home/home.component';
 import { AcceuilComponent } from './layout/public/components/acceuil/acceuil.component';
 import { LoginComponent } from './core/components/login/login.component';
+import { AdminAuthGuard } from './features/admin/guards/admin-auth.guard';
+import { ALoginComponent } from './features/admin/components/login/a-login.component';
 
 const routes: Routes = [
 
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/home',  pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent, pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' } ,
-
+  { path: 'a-login', component: ALoginComponent },
+  { path: 'home', component: AcceuilComponent},
+  // { path: '**', redirectTo: '/home' } ,
 
 
   // Lazy loading des modules
@@ -39,7 +41,7 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AuthGuard]
+    canActivate: [AdminAuthGuard]
   },
 
   {

@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { OverlayContainer } from 'ngx-toastr';
-import { AuthService } from 'src/app/features/admin/services/auth.service';
+import { AdminAuthService } from 'src/app/features/admin/services/admin-auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +24,7 @@ export class DashboardComponent {
 
   constructor(
     private overlayContainer: OverlayContainer, 
-    private authService: AuthService,
+    private authService: AdminAuthService,
     private el: ElementRef,
   ) {}
 

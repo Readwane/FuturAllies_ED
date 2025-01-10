@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { AuthService } from '../../services/auth.service';
+import { AdminAuthService } from '../../services/admin-auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -22,7 +22,7 @@ export class AdminComponent implements OnDestroy{
 
   constructor(
     private overlayContainer: OverlayContainer, 
-    private authService: AuthService,
+    private authService: AdminAuthService,
     private el: ElementRef,
   ) {}
 

@@ -1,21 +1,19 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {connectDB} from './config/db.js';
+import {connectDB} from './config/db.config.js';
 import cors from 'cors';
 
-import auditionRoutes from './routes/audition.route.js';
-import usersRoutes from './routes/user.route.js';
-import webinarEnrollmentRoutes from './routes/formations/webinarEnrollmentRoutes.js';
 
-import {
-  valuesRoutes,
-  authenticationRoutes,
-  certificationRoutes,
-  interactionRoutes,
-  recruitmentRoutes,
-  trainingRoutes,
-  paymentRoutes,
-} from './routes/routes.js'
+import auditionRoutes from './routes/audition.route.js';
+import authRoutes from './routes/auth.route.js';
+import certificationRoutes from './routes/certification.route.js';
+import fileRoutes from './routes/file.route.js';
+import interactionRoutes from './routes/interaction.route.js';
+import paymentRoutes from './routes/payment.route.js';
+import usersRoutes from './routes/user.route.js';
+import valuesRoutes from './routes/value.route.js';
+import recruitmentRoutes from './routes/recruitment.route.js';
+import trainingRoutes from './routes/training.route.js';
 
 
 const app = express();
@@ -39,18 +37,14 @@ app.use(bodyParser.json());
 // Gestion des requêtes OPTIONS pour les pré-requêtes CORS
 app.options('*', cors(corsOptions)); // Répond aux requêtes OPTIONS avec CORS
 
-// Routes
-
-// ***************** Anciennes definitions de routes ******************************************
-// app.use('/fapi', router);
-app.use('/fapi', webinarEnrollmentRoutes);
 
 // ******************** Nouvelles routes *****************************************************
 app.use('/fapi', usersRoutes);
-app.use('/fapi', paymentRoutes); // Ajout de la route Stripe
+app.use('/fapi', authRoutes);
+app.use('/fapi', paymentRoutes); 
 app.use('/fapi', valuesRoutes);
-app.use('/fapi', authenticationRoutes);
 app.use('/fapi', auditionRoutes);
+app.use('/fapi', fileRoutes);
 app.use('/fapi', certificationRoutes);
 app.use('/fapi', interactionRoutes);
 app.use('/fapi', recruitmentRoutes);

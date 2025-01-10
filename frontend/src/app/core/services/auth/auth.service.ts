@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { User } from '../../models/user/user.model';
+
+interface LoginResponse {
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -13,41 +16,47 @@ export class AuthService {
   private loggedInStatus = new BehaviorSubject<boolean>(false);
   private currentUserName: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {
-    // Initialisation de l'état de connexion au démarrage
+  constructor(
+    private http: HttpClient, 
+    private router: Router) 
+    {
     const token = localStorage.getItem('token');
     if (token) {
       this.loggedInStatus.next(true);
     }
   }
 
+  getUserName(): string | null {
+    if (this.currentUserName) {
+      return this.currentUserName;
+    }
+    return null;
+  }
+
   get isLoggedIn$(): Observable<boolean> {
     return this.loggedInStatus.asObservable();
   }
 
-  getUserName(): string | null {
-    return this.currentUserName;  // Retourne le nom de l'utilisateur connecté
-  }
-
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password })
-      .pipe(
-        // Assurez-vous d'affecter correctement le nom de l'utilisateur après une connexion réussie
-        catchError(error => {
-          console.error('Erreur de login:', error);
-          throw error;
-        })
-      ).pipe(
-        tap(response => {
-          this.currentUserName = username;  // Affecter le nom d'utilisateur après une connexion réussie
+  // Méthode de login avec mise à jour de l'état
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
+      tap(response => {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
           this.loggedInStatus.next(true);
-        })
-      );
+          this.currentUserName = username;
+        }
+      }),
+      catchError(error => {
+        console.error('Erreur de login:', error);
+        throw error;
+      })
+    );
   }
 
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('username');
     this.loggedInStatus.next(false);
+    this.currentUserName = null;
   }
 }
