@@ -11,6 +11,7 @@ import {
     getJobApplications,
     getInternshipApplications,
     getOfferApplicationById,
+    getOfferApplicationByOfferId,
     updateOfferApplication,
     deleteOfferApplication,
     getOfferStats,
@@ -37,6 +38,7 @@ recruitmentRoutes.get('/offer-applications', getOfferApplications);
 recruitmentRoutes.get('/jobs-applications', getJobApplications);
 recruitmentRoutes.get('/internships-applications', getInternshipApplications);
 recruitmentRoutes.get('/offer-applications/:id', getOfferApplicationById);
+recruitmentRoutes.get('/offer-applications/offer/:id', getOfferApplicationByOfferId);
 recruitmentRoutes.put('/offer-applications/:id', updateOfferApplication);
 recruitmentRoutes.delete('/offer-applications/:id', deleteOfferApplication);
 recruitmentRoutes.get('/offer-stats', getOfferStats);

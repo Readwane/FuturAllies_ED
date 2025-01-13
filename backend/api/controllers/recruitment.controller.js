@@ -4,7 +4,7 @@ import {Offer, OfferApplication, OfferStats} from '../models/recruitment.model.j
 //----------------------------------- MODEL OFFER CONTROLLERS -----------------------------------//
 const getOffers = async (req, res) => {
     try {
-        const offers = await Offer.find().populate('enterpriseId'); // Remplir le champ enterpriseId avec les données correspondantes
+        const offers = await Offer.find().populate('enterprise'); // Remplir le champ enterpriseId avec les données correspondantes
         res.status(200).json(offers);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -167,6 +167,17 @@ const getOfferApplicationById = async (req, res) => {
     }
 };
 
+const getOfferApplicationByOfferId = async (req, res) => {
+    try {
+        const application = await OfferApplication.findById(req.params.offerId);
+        if (!application) return res.status(404).json({ message: 'Application not found' });
+        res.status(200).json(application);
+    } catch (error) {
+        console.error('Error fetching offer application by ID:', error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 const updateOfferApplication = async (req, res) => {
     try {
@@ -296,6 +307,7 @@ export {
     getOfferApplications,
     getJobApplications,
     getInternshipApplications,
+    getOfferApplicationByOfferId,
     getOfferApplicationById,
     updateOfferApplication,
     deleteOfferApplication,
