@@ -26,7 +26,7 @@ export class MenuComponent implements OnDestroy, AfterViewInit {
       ]
     },
     {
-      label: 'Candidatures',
+label: 'Candidatures',
       icon: 'people',
       children: [
         { label: 'Liste des candidatures', icon: 'assignment', route: 'list-candidat' },
