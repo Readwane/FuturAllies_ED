@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TrainingApplicationService } from '../../services/application/training-application.service';
-import { TrainingApplication } from '../../models/training-application.model';
-import { ApplicationStatus } from '../../models/training-application.model'; // Importez l'énumération ApplicationStatus
+import { TrainingService } from '../../services/training.service';
+import { TrainingApplication } from '../../models/training.models';
 
 @Component({
   selector: 'app-training-application',
@@ -18,7 +17,7 @@ export class TrainingApplicationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private trainingService: TrainingApplicationService,
+    private trainingService: TrainingService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
@@ -40,11 +39,11 @@ export class TrainingApplicationComponent implements OnInit {
     console.log('Form submission attempt', this.applicationForm.value); // Debug: afficher l'état du formulaire à la soumission
 
     if (this.applicationForm.valid) {
-      const trainingApplication: Omit<TrainingApplication, 'id'> = {
+      const trainingApplication: Omit<TrainingApplication, '_id'> = {
         trainingId: this.trainingId,
         userId: this.userId,
         enrollmentDate: new Date(),
-        status: ApplicationStatus.Pending, // Utilisation de l'énumération ApplicationStatus
+        status : 'Pending', // Utilisation de l'énumération ApplicationStatus
       };
 
       this.trainingService.createTrainingApplication(trainingApplication).subscribe({

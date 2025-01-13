@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OfferService } from '../../services/offer.service';
 import { MatSnackBar } from '@angular/material/snack-bar'; // Pour les notifications de barre de message
 import { ActivatedRoute, Router } from '@angular/router'; // Pour récupérer les paramètres de la route
-import { Offer } from '../../models/offer.model';
+import { Offer } from '../../models/offer.models';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -27,7 +27,7 @@ export class OfferApplicationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private offerService: OfferService,
+    @Inject(OfferService) private offerService: OfferService,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute
   ) {}
@@ -158,7 +158,7 @@ export class OfferApplicationComponent implements OnInit {
       ...this.otherFiles.map(f => f.file)
     ].filter((file): file is File => file !== undefined);
   
-    this.offerService.createOfferApplication(offerApplication, files).subscribe({
+    this.offerService.submitOfferApplication(offerApplication).subscribe({
       next: (response) => {
         this.snackBar.open('Candidature soumise avec succès !', 'Fermer', {
           duration: 3000,

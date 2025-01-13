@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';  
 import { Router } from '@angular/router';  
-import { TransactionService } from '../../services/transaction/transaction.service';
-import { FltwPaymentService} from '../../services/fltw-payment/fltw-payment.service';  
-import { User } from 'src/app/core/models/user/user.model';
-import { UserService } from 'src/app/core/services/user/user.service'; 
+import { PaymentService } from '../../services/payment.service';
+import { User } from 'src/app/core/models/user.models';
+import { UserService } from 'src/app/core/services/user.service'; 
 
 @Component({  
   selector: 'app-account-selection',  
@@ -17,7 +16,7 @@ export class UserProfileTypeComponent implements OnInit {
 
   constructor(  
     private router: Router,  
-    private paymentService: FltwPaymentService,  
+    private paymentService: PaymentService,  
     private userService: UserService  
   ) {}  
 
@@ -58,7 +57,7 @@ export class UserProfileTypeComponent implements OnInit {
 
     // Assurez-vous que l'utilisateur est défini avant de passer à makePayment  
     if (this.user) {  
-      this.paymentService.makePayment(this.user, 1000, 'NGN', '/subscription');  
+      // this.paymentService.makePayment(this.user, 1000, 'NGN', '/subscription');  
     } else {  
       console.error('Utilisateur non défini, impossible de procéder au paiement.');  
     }  

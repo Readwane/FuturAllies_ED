@@ -5,7 +5,6 @@ import { HomeBannerComponent } from './public/components/home-banner/home-banner
 import { HomeValuesListComponent } from './public/components/home-values-list/home-values-list.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { AcceuilComponent } from './public/components/acceuil/acceuil.component';
-import { ValueModule } from '../features/value/value.module';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { HomeDomainsListComponent } from './public/components/home-domains-list/home-domains-list.component';
 import { AuditionModule } from '../features/audition/audition.module';
@@ -26,7 +25,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     CoreModule,
-    ValueModule,
     AuditionModule,
     MaterialModule,
     FormsModule,

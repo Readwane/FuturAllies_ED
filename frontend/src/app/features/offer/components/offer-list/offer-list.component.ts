@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Offer } from '../../models/offer.model';
+import { Component, OnInit, Inject} from '@angular/core';  
+import { Offer } from '../../models/offer.models';
 import { OfferService } from '../../services/offer.service';
+
 
 @Component({
   selector: 'app-offer-list',
@@ -15,7 +15,7 @@ export class OfferListComponent implements OnInit {
   filterType: string = 'all'; // Type de filtre par défaut
 
   constructor(
-    private offerService: OfferService
+    @Inject(OfferService) private offerService: OfferService
   ) {}
 
   ngOnInit(): void {
@@ -52,3 +52,5 @@ export class OfferListComponent implements OnInit {
     }
   }
 }
+
+

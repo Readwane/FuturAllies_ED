@@ -2,16 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment'; // Adjust the path to your environment file
-import { Domain } from '../models/domain.model';
-import { Course } from '../models/course.model';
-import { Part } from '../models/part.model';
-import { Chapter } from '../models/chapter.model';
-import { Section } from '../models/section.model';
-import { Content } from '../models/content.model';
-import { Quiz } from '../models/quiz.model';
-import { Question } from '../models/question.model';
-import { CourseLearned } from '../models/course-learned.model';
-import { CourseReview } from '../models/course-review.model';
+import { Domain, Part, Course, Chapter, Section, Content, Quiz, Question, CourseLearned, CourseReview } from '../models/audition.models';
+
 
 @Injectable({
   providedIn: 'root',

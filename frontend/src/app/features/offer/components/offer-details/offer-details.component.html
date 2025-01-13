@@ -15,9 +15,9 @@
                     <i class="icon">📋</i>  
                     <p><strong>Domaine :</strong> {{ offer.domain }}</p>  
                 </div>  
-                <div class="info-item" *ngIf="enterprise"> <!-- Vérification de l'existence de enterprise -->  
+                <div class="info-item" *ngIf="offer.enterprise"> <!-- Vérification de l'existence de enterprise -->  
                     <i class="icon">🏢</i>  
-                    <p><strong>Société :</strong> {{ enterprise.name || 'Non spécifié' }}</p> <!-- Afficher le nom de l'entreprise -->  
+                    <p><strong>Société :</strong> {{ offer.enterWebsite || 'Non spécifié' }}</p> <!-- Afficher le nom de l'entreprise -->  
                 </div>  
                 <div class="info-item">  
                     <i class="icon">📍</i>  
@@ -46,21 +46,21 @@
             </div>  
             
             <!-- Informations sur l'entreprise -->  
-            <div *ngIf="enterprise" class="company-card"> <!-- Vérification de l'existence de enterprise -->
+            <div *ngIf="offer.enterprise" class="company-card"> <!-- Vérification de l'existence de enterprise -->
                 <h3>Information de l'Entreprise</h3>  
                 <div class="info-item">  
                     <i class="icon">📍</i>  
-                    <p><strong>Localisation :</strong> {{ enterprise.location || 'Non spécifié' }}</p>  
+                    <p><strong>Localisation :</strong> {{ offer.enterpriseLocation || 'Non spécifié' }}</p>  
                 </div>  
                 <div class="info-item">  
                     <i class="icon">👥</i>  
-                    <p><strong>Taille :</strong> {{ enterprise.size || 'Non spécifié' }}</p>  
+                    <p><strong>Taille :</strong> {{ offer.enterprise || 'Non spécifié' }}</p>  
                 </div>  
                 <div class="info-item">  
                     <i class="icon">🌐</i>  
                     <p>  
                         <strong>Site Web :</strong>  
-                        <a *ngIf="enterprise?.website; else noWebsite" [href]="enterprise.website" target="_blank">{{ enterprise.website }}</a>  
+                        <a *ngIf="offer.enterWebsite; else noWebsite" [href]="offer.enterWebsite" target="_blank">{{ offer.enterWebsite }}</a>  
                         <ng-template #noWebsite><span>Non fourni</span></ng-template>  
                     </p>  
                 </div>  
@@ -68,7 +68,7 @@
                     <i class="icon">📧</i>  
                     <p>  
                         <strong>Email de Recrutement :</strong>  
-                        <a *ngIf="enterprise?.email; else noEmail" [href]="'mailto:' + enterprise.email">{{ enterprise.email }}</a>  
+                        <a *ngIf="offer.enterprise; else noEmail" [href]="'mailto:' + offer.enterprise">{{ offer.enterprise }}</a>  
                         <ng-template #noEmail><span>Non fourni</span></ng-template>  
                     </p>  
                 </div>

@@ -20,19 +20,7 @@ const InvoiceSchema = new mongoose.Schema({
 });
 
 
-const SubscriptionSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    type: { type: String, enum: ['Freemium', 'Premium'], required: true },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
-    status: { type: String, enum: ['active', 'expired', 'canceled'], default: 'active' },
-    recurring: { type: Boolean, default: true },
-    createAdt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
-});
-
-const Subscription = mongoose.models.Subscription || mongoose.model('Subscription', SubscriptionSchema);
 const Invoice = mongoose.models.Invoice || mongoose.model('Invoice', InvoiceSchema);
 const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema);
 
-export {Transaction, Invoice, Subscription};
+export {Transaction, Invoice};

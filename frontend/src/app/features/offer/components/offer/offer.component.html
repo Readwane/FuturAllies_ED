@@ -2,7 +2,7 @@
     <div class="offer-card">  
         <div class="offer-header">  
             <h2>{{ offer.title }}</h2>  
-            <p class="company-name">{{ enterprise?.name || 'Entreprise inconnue' }}</p> <!-- Affichage du nom de l'entreprise -->  
+            <p class="company-name">{{ offer.enterprise || 'Entreprise inconnue' }}</p> <!-- Affichage du nom de l'entreprise -->  
         </div>  
         <!-- (Reste du code HTML...) -->  
     </div>
@@ -51,7 +51,7 @@
             </div>
             <div class="info-item">
                 <i class="icon">🏢</i>
-                <p><strong>Entreprise :</strong> {{ enterprise?.name }}</p>
+                <p><strong>Entreprise :</strong> {{offer.enterprise }}</p>
             </div>
         </div>
     </div>

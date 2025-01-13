@@ -11,13 +11,15 @@ import { AcceuilComponent } from './layout/public/components/acceuil/acceuil.com
 import { LoginComponent } from './core/components/login/login.component';
 import { AdminAuthGuard } from './features/admin/guards/admin-auth.guard';
 import { ALoginComponent } from './features/admin/components/login/a-login.component';
+import { RegisterComponent } from './core/components/register/register.component';
 
 const routes: Routes = [
 
   { path: '', redirectTo: '/home',  pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'a-login', component: ALoginComponent },
-  { path: 'home', component: AcceuilComponent},
+  { path: 'home', component: HomeComponent},
   // { path: '**', redirectTo: '/home' } ,
 
 
@@ -45,14 +47,8 @@ const routes: Routes = [
   },
 
   {
-    path: 'user-dashboard',
-    loadChildren: () => import('./features/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule),
-    canActivate: [AuthGuard]
-  },
-
-  {
-    path: 'employer-dashboard',
-    loadChildren: () => import('./features/employer-dashboard/employer-dashboard.module').then(m => m.EmployerDashboardModule),
+    path: 'dashboard',
+    loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule),
     canActivate: [AuthGuard]
   },
 

@@ -1,5 +1,5 @@
 import multer from 'multer';
-import {gridFSBucket} from '../config/db.config.js';  // Importer le bucket GridFS
+import {gridFSBucket} from '../db/config.db.js';  // Importer le bucket GridFS
 import {File, UserFile, CandidacyFile} from '../models/file.model.js'; 
 
 const storage = multer.memoryStorage(); 

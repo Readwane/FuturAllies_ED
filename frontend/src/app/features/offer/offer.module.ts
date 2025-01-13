@@ -1,45 +1,39 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatIconModule } from '@angular/material/icon'; // Optionnel, si vous utilisez des icônes
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { OfferRoutingModule } from './offer-routing.module';
 import { OfferComponent } from './components/offer/offer.component';
 import { OfferListComponent } from './components/offer-list/offer-list.component';
 import { OfferDetailsComponent } from './components/offer-details/offer-details.component';
 import { OfferApplicationComponent } from './components/offer-application/offer-application.component';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { OfferRoutingModule } from './offer-routing.module';
+import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
+import { CreateOfferComponent } from './components/dashboard/create-offer/create-offer.component';
+import { ListOfferComponent } from './components/dashboard/list-offer/list-offer.component';
+import { MenuComponent } from './components/dashboard/menu/menu.component';
+import { OfferStatsComponent } from './components/dashboard/offer-stats/offer-stats.component';
+
 
 @NgModule({
   declarations: [
+    CreateOfferComponent,
+    DashboardComponent,
+    ListOfferComponent,
+    MenuComponent,
+    OfferStatsComponent,
+
     OfferComponent,
-    OfferListComponent,
+    OfferApplicationComponent,
     OfferDetailsComponent,
-    OfferApplicationComponent
-    
+    OfferListComponent,
+     
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatProgressBarModule,
-    MatCheckboxModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatIconModule, // Optionnel
-    MatProgressSpinnerModule,
-
+    MaterialModule,
     OfferRoutingModule
   ],
   exports: [

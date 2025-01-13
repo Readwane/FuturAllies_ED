@@ -13,35 +13,6 @@ export class ResourceService {
 
   constructor(private http: HttpClient) {}
 
-  //  // Exemple de méthode pour obtenir les options de type de contrat
-  //  getContractOptions(): Promise<SelectOption[]> {
-  //   return new Promise(resolve => {
-  //     setTimeout(() => {
-  //       resolve([
-  //         { value: 'Full-Time', label: 'Full-Time' },
-  //         { value: 'Part-Time', label: 'Part-Time' },
-  //         { value: 'Internship', label: 'Internship' },
-  //         { value: 'Freelance', label: 'Freelance' },
-  //         { value: 'Temporary', label: 'Temporary' }
-  //       ]);
-  //     }, 1000);
-  //   });
-  // }
-
-  // // Exemple de méthode pour obtenir les options de statut
-  // getStatusOptions(): Promise<SelectOption[]> {
-  //   return new Promise(resolve => {
-  //     setTimeout(() => {
-  //       resolve([
-  //         { value: 'Open', label: 'Open' },
-  //         { value: 'Closed', label: 'Closed' },
-  //         { value: 'Pending', label: 'Pending' }
-  //       ]);
-  //     }, 1000);
-  //   });
-  // }
-
-
   getResources(resourceType: string): Observable<Resource[]> {
     return this.http.get<Resource[]>(`${this.apiUrl}/${resourceType}`);
   }

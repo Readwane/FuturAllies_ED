@@ -1,138 +1,108 @@
-// recruitment.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { Offer } from '../models/offer.model';
-import { OfferApplication } from '../models/offer-application.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class OfferService {
-  private apiUrl = 'http://localhost:3000/fapi';
+  private apiUrl = 'http://localhost:3000/fapi';  // L'URL de l'API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  // CRUD for Offers
-
-  // Create an offer
-  createOffer(offer: Partial<Offer>): Observable<Offer> {
-    return this.http.post<Offer>(`${this.apiUrl}/offers`, offer);
+  // Obtenir toutes les offres
+  getOffers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offers`);
   }
 
-  // Get all offers
-  getOffers(): Observable<Offer[]> {
-    return this.http.get<Offer[]>(`${this.apiUrl}/offers`);
+  // Obtenir tous les emplois
+  getJobs(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/jobs`);
   }
 
-  // Get all job offers
-  getJobs(): Observable<Offer[]> {
-    return this.http.get<Offer[]>(`${this.apiUrl}/offers/jobs`);
+  // Obtenir tous les stages
+  getInternships(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/internships`);
   }
 
-  // Get all internship offers
-  getInternships(): Observable<Offer[]> {
-    return this.http.get<Offer[]>(`${this.apiUrl}/offers/internships`);
+  // Obtenir une offre par son ID
+  getOfferById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offers/${id}`);
   }
 
-  // Get offer by ID
-  getOfferById(id: string): Observable<Offer> {
-    return this.http.get<Offer>(`${this.apiUrl}/offers/${id}`);
+  // Créer une nouvelle offre
+  createOffer(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/offers`, data);
   }
 
-  // Update an offer by ID
-  updateOffer(id: string, offer: Offer): Observable<Offer> {
-    return this.http.put<Offer>(`${this.apiUrl}/offers/${id}`, offer);
+  // Mettre à jour une offre existante
+  updateOffer(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/offers/${id}`, data);
   }
 
-  // Delete an offer by ID
-  deleteOffer(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/offers/${id}`);
-  }
-  
-  // // Create an offer application
-  // createOfferApplication_1(application: OfferApplication): Observable<OfferApplication> {
-  //   return this.http.post<OfferApplication>(`${this.apiUrl}/offer-applications/create`, application);
-  // }
-
-
-  // /**
-  //  * Méthode pour soumettre une candidature.
-  //  * @param offerApplication L'objet `OfferApplication` contenant les données de la candidature.
-  //  * @param files Les fichiers soumis avec la candidature.
-  //  * @returns Un Observable pour traiter la réponse du serveur.
-  //  */
-  // createOfferApplication_2(
-  //   offerApplication: OfferApplication,
-  //   files: File[]
-  // ): Observable<any> {
-  //   const formData = new FormData();
-  //   // Ajouter les champs texte à formData
-  //   formData.append('offerId', offerApplication.offerId);
-  //   formData.append('candidatId', offerApplication.candidatId);
-  //   formData.append('message', offerApplication.message);
-
-  //   // Ajouter les fichiers
-  //   files.forEach((file) => {
-  //     formData.append('files', file, file.name);
-  //   });
-
-  //   // Faire la requête POST
-  //   return this.http.post(`${this.apiUrl}/create`, formData);
-  // }
-
-   // Méthode pour créer une nouvelle candidature
-   createOfferApplication(offerApplication: OfferApplication, files: File[]): Observable<any> {
-    const formData = new FormData();
-  
-    // Ajouter les champs texte à formData
-    formData.append('offerId', offerApplication.offerId);
-    formData.append('candidatId', offerApplication.candidatId);
-    formData.append('message', offerApplication.message);
-  
-    // Ajouter les fichiers à formData
-    files.forEach((file) => {
-      formData.append('files', file);
-    });
-  
-    // Faire la requête POST
-    return this.http.post(`${this.apiUrl}/offer-applications/create`, formData);
-  }
-  
-
-  // submitOfferApplication(formData: FormData): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}/offer-applications/create`, formData);
-  // }
-
-
-  // Get all applications
-  getOfferApplications(): Observable<OfferApplication[]> {
-    return this.http.get<OfferApplication[]>(`${this.apiUrl}/offer-applications`);
+  // Supprimer une offre
+  deleteOffer(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/offers/${id}`);
   }
 
-  // Get job applications
-  getJobApplications(): Observable<OfferApplication[]> {
-    return this.http.get<OfferApplication[]>(`${this.apiUrl}/offer-applications/jobs`);
+  // Soumettre une candidature pour une offre
+  submitOfferApplication(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/offer-applications`, data);
   }
 
-  // Get internship applications
-  getInternshipApplications(): Observable<OfferApplication[]> {
-    return this.http.get<OfferApplication[]>(`${this.apiUrl}/offer-applications/internships`);
+  // Obtenir toutes les candidatures pour des offres
+  getOfferApplications(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offer-applications`);
   }
 
-  // Get application by ID
-  getOfferApplicationById(id: string): Observable<OfferApplication> {
-    return this.http.get<OfferApplication>(`${this.apiUrl}/offer-applications/${id}`);
+  // Obtenir toutes les candidatures pour des emplois
+  getJobApplications(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/jobs-applications`);
   }
 
-  // Update an application by ID
-  updateOfferApplication(id: string, application: OfferApplication): Observable<OfferApplication> {
-    return this.http.put<OfferApplication>(`${this.apiUrl}/offer-applications/${id}/update`, application);
+  // Obtenir toutes les candidatures pour des stages
+  getInternshipApplications(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/internships-applications`);
   }
 
-  // Delete an application by ID
-  deleteOfferApplication(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/offer-applications/${id}/delete`);
+  // Obtenir une candidature pour une offre par son ID
+  getOfferApplicationById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offer-applications/${id}`);
+  }
+
+  // Mettre à jour une candidature pour une offre
+  updateOfferApplication(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/offer-applications/${id}`, data);
+  }
+
+  // Supprimer une candidature pour une offre
+  deleteOfferApplication(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/offer-applications/${id}`);
+  }
+
+  // Obtenir les statistiques d'offres
+  getOfferStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offer-stats`);
+  }
+
+  // Créer une nouvelle statistique pour une offre
+  createOfferStat(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/offer-stats`, data);
+  }
+
+  // Obtenir une statistique d'offre par son ID
+  getOfferStatById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offer-stats/${id}`);
+  }
+
+  // Mettre à jour une statistique d'offre
+  updateOfferStat(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/offer-stats/${id}`, data);
+  }
+
+  // Supprimer une statistique d'offre
+  deleteOfferStat(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/offer-stats/${id}`);
   }
 }

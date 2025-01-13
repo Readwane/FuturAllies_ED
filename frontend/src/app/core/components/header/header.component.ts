@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { User } from '../../models/user/user.model';  // Assurez-vous que le modèle User existe
+import { User } from '../../models/user.models';
 
 @Component({
   selector: 'app-header',
@@ -11,9 +11,11 @@ import { User } from '../../models/user/user.model';  // Assurez-vous que le mod
 export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isUserLoggedIn = false;
+
+  defaultUserImage = 'assets/images/user.png';  // Image par défaut
   user: User | null = null;  // Récupérer l'utilisateur complet
-  username: string = '';
-  userimage: string = '';  // Image par défaut
+  userGroups: string[] = [];  // Récupérer les groupes de l'utilisateur
+
   isDropdownOpen: { [key: string]: boolean } = {  // Etat de chaque menu déroulant
     catalogue: false,
     formations: false,
@@ -31,11 +33,15 @@ export class HeaderComponent implements OnInit {
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isUserLoggedIn = isLoggedIn;
       if (isLoggedIn) {
-        this.username = this.authService.getUserName() || '';
-        this.userimage = 'assets/login_img.jpeg';  // Image de connexion par défaut
+        this.user = this.authService.getUser();  // Récupérer l'utilisateur complet
+        if (this.user) {
+          // Récupérer l'image de l'utilisateur ou image par défaut si non définie
+          this.user.image = this.user.image ?? this.defaultUserImage;
+          this.userGroups = this.authService.getUserGroups();  // Récupérer les groupes de l'utilisateur
+        }
       } else {
-        this.username = '';
-        this.userimage = '';  // Remettre l'image de connexion par défaut
+        this.user = null;
+        this.userGroups = [];
       }
     });
   }

@@ -1,1 +1,111 @@
-<p>register works!</p>
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+      <div class="col-md-8 col-lg-6">
+        <h1 class="my-4 text-center">Créer votre Compte</h1>
+        
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+          
+          <!-- Nom d'utilisateur -->
+          <div class="row mb-3 align-items-center">
+            <label for="username" class="col-sm-4 col-form-label">Nom d'utilisateur:</label>
+            <div class="col-sm-8 input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input type="text" id="username" formControlName="username" class="form-control" placeholder="Entrez votre nom d'utilisateur">
+            </div>
+            <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched" class="text-danger">
+              Nom d'utilisateur requis.
+            </div>
+          </div>
+  
+          <!-- Prénom -->
+          <div class="row mb-3 align-items-center">
+            <label for="firstName" class="col-sm-4 col-form-label">Prénom:</label>
+            <div class="col-sm-8 input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input type="text" id="firstName" formControlName="firstName" class="form-control" placeholder="Entrez votre prénom">
+            </div>
+            <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched" class="text-danger">
+              Prénom requis.
+            </div>
+          </div>
+  
+          <!-- Nom de famille -->
+          <div class="row mb-3 align-items-center">
+            <label for="lastName" class="col-sm-4 col-form-label">Nom de famille:</label>
+            <div class="col-sm-8 input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input type="text" id="lastName" formControlName="lastName" class="form-control" placeholder="Entrez votre nom de famille">
+            </div>
+            <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched" class="text-danger">
+              Nom de famille requis.
+            </div>
+          </div>
+  
+          <!-- Adresse e-mail -->
+          <div class="row mb-3 align-items-center">
+            <label for="email" class="col-sm-4 col-form-label">Adresse e-mail:</label>
+            <div class="col-sm-8 input-group">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              <input type="email" id="email" formControlName="email" class="form-control" placeholder="Entrez votre adresse e-mail">
+            </div>
+            <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched" class="text-danger">
+              Adresse e-mail requise.
+            </div>
+          </div>
+  
+          <!-- Mot de Passe -->
+          <div class="row mb-3 align-items-center">
+            <label for="password" class="col-sm-4 col-form-label">Mot de passe:</label>
+            <div class="col-sm-8 input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" id="password" formControlName="password" class="form-control" placeholder="Créez un mot de passe">
+            </div>
+            <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched" class="text-danger">
+              Mot de passe requis (minimum 6 caractères).
+            </div>
+          </div>
+  
+          <!-- Confirmer Mot de Passe -->
+          <div class="row mb-3 align-items-center">
+            <label for="confirmPassword" class="col-sm-4 col-form-label">Confirmer mot de passe:</label>
+            <div class="col-sm-8 input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" placeholder="Confirmez votre mot de passe">
+            </div>
+            <div *ngIf="registrationForm.hasError('mismatch') && registrationForm.get('confirmPassword')?.touched" class="text-danger">
+              Les mots de passe ne correspondent pas.
+            </div>
+          </div>
+  
+          <!-- Numéro de Téléphone -->
+          <div class="row mb-3 align-items-center">
+            <label for="phone" class="col-sm-4 col-form-label">Numéro de téléphone:</label>
+            <div class="col-sm-8 input-group">
+              <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+              <input type="tel" id="phone" formControlName="phone" class="form-control" placeholder="Entrez votre numéro de téléphone">
+            </div>
+            <div *ngIf="registrationForm.get('phone')?.invalid && registrationForm.get('phone')?.touched" class="text-danger">
+              Numéro de téléphone requis.
+            </div>
+          </div>
+  
+          <!-- Type d'utilisateur -->
+          <div class="row mb-3 align-items-center">
+            <label for="accesType" class="col-sm-4 col-form-label">Type d'utilisateur:</label>
+            <div class="col-sm-8">
+              <select id="accesType" formControlName="accesType" class="form-select">
+                <option value="Freemium">Freemium</option>
+                <option value="Premium">Premium</option>
+              </select>
+            </div>
+            <div *ngIf="registrationForm.get('accesType')?.invalid && registrationForm.get('accesType')?.touched" class="text-danger">
+              Sélectionner un type d'utilisateur.
+            </div>
+          </div>
+  
+          <button type="submit" class="btn btn-warning w-100 mb-3" [disabled]="registrationForm.invalid">S'inscrire</button>
+        </form>
+  
+        <p class="text-center">Vous avez déjà un compte ? <a routerLink="/usersPages/login" class="fw-bold text-decoration-none">Connectez-vous ici</a></p>
+      </div>
+    </div> 

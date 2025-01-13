@@ -19,8 +19,6 @@ const OfferSchema = new mongoose.Schema({
   contractType: {type: String, enum: ['CDI', 'CDD'], required: true, default: 'CDD'}, // Type de contrat  
   benefits: { type: String }, // Avantages associés à l'offre  
   contactEmail: { type: String, required: true }, // Email de contact pour les candidatures  
-  postedDate: { type: Date, default: Date.now }, // Date de publication de l'offre  
-  expirationDate: { type: Date }, // Date d'expiration de l'offre  
   status: { type: String, enum: ['Open', 'Closed', 'Pending'], default: 'Open' }, // Statut de l'offre  
   isRemote: { type: Boolean, default: false }, // Indique si le poste est en télétravail  
   applicationMode: {   type: String, enum: ['Online', 'Physical', 'Both'], default: 'Online'}, // Mode de dépôt des candidatures  
@@ -30,6 +28,10 @@ const OfferSchema = new mongoose.Schema({
   canAddOthersDoc: { type: Boolean, default: false }, // Permet d'ajouter des documents supplémentaires  
   applicationLink: { type: String }, // Lien vers le formulaire de candidature externe  
   additionalInfo: { type: String }, // Informations additionnelles à l'offre  
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },// ID de l'utilisateur qui a créé l'offre
+  postedDate: { type: Date, default: Date.now }, // Date de publication de l'offre  
+  updatedAt: { type: Date, default: Date.now }, // Date de publication de l'offre  
+  expirationDate: { type: Date }, // Date d'expiration de l'offre  
 });  
 
 const offerApplicationSchema = mongoose.Schema({

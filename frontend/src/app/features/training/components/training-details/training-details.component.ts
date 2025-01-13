@@ -1,8 +1,8 @@
 // training-details.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TrainingService } from '../../services/training/training.service';
-import { Training } from '../../models/training.model';
+import { TrainingService } from '../../services/training.service';
+import { Training } from '../../models/training.models';
 
 @Component({
   selector: 'app-training-details',
@@ -27,7 +27,6 @@ export class TrainingDetailsComponent implements OnInit {
     this.trainingId = this.route.snapshot.paramMap.get('id') || '';
     if (this.trainingId) {
       this.getTrainingDetails();
-      this.getTrainingTrainers();
       this.getTrainingModules();
       this.getAllModuleSessions();
     } else {
@@ -49,19 +48,9 @@ export class TrainingDetailsComponent implements OnInit {
     );
   }
 
-  getTrainingTrainers(): void {
-    this.trainingService.getTrainingTrainersById(this.trainingId).subscribe(
-      (data: any[]) => {
-        this.trainers = data;
-      },
-      error => {
-        console.error('Erreur lors de la récupération des formateurs de la formation', error);
-      }
-    );
-  }
 
   getTrainingModules(): void {
-    this.trainingService.getTrainingModulesById(this.trainingId).subscribe(
+    this.trainingService.getTrainingModuleById(this.trainingId).subscribe(
       (data: any[]) => {
         this.modules = data;
       },
@@ -72,7 +61,7 @@ export class TrainingDetailsComponent implements OnInit {
   }
 
   getAllModuleSessions(): void {
-    this.trainingService.getAllTrainingModuleSessions(this.trainingId).subscribe(
+    this.trainingService.getTrainingSessionById(this.trainingId).subscribe(
       (data: any[]) => {
         this.sessions = data;
       },

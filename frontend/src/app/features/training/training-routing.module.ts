@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TrainingListComponent } from './components/training-list/training-list.component';
 import { TrainingDetailsComponent } from './components/training-details/training-details.component';
-import { TrainingApplication } from './models/training-application.model';
+import { TrainingApplication } from './models/training.models';
 import { TrainingApplicationComponent } from './components/training-application/training-application.component';
 
 const routes: Routes = [

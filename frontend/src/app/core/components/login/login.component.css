@@ -95,3 +95,19 @@
 .invalid {
   border-color: red !important;
 }
+
+/* Style pour le lien d'inscription */
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1rem;
+}
+
+.register-link a {
+  color: #007BFF; /* Couleur bleue */
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

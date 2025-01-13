@@ -19,6 +19,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
@@ -60,6 +61,8 @@ const materialModules = [
   MatInputModule,
   MatAutocompleteModule,
   MatPaginatorModule,
+  MatProgressBarModule,
+  MatListModule,
 ];
 
 @NgModule({

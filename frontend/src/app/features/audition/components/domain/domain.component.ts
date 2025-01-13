@@ -1,7 +1,7 @@
 // components/domain/domain.component.ts
 
 import { Component, Input } from '@angular/core';
-import { Domain } from '../../models/domain.model';
+import { Domain } from '../../models/audition.models';
 
 @Component({
   selector: 'app-domain',

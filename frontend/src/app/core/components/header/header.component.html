@@ -72,9 +72,9 @@
             <ng-container *ngIf="isUserLoggedIn; else loginButton">
               <li mat-menu-item [matMenuTriggerFor]="profileMenu" class="profile-menu">
                 <!-- Affichage de l'image de l'utilisateur si disponible -->
-                <img *ngIf="userimage" [src]="userimage" alt="User Image" class="user-image">
+                <img *ngIf="user?.image" [src]="user?.image || defaultUserImage" alt="User Image" class="user-image">
                 <!-- Affichage du nom de l'utilisateur -->
-                <span>{{ username }}</span>
+                <span>{{ user?.username }}</span>
                 <mat-menu #profileMenu="matMenu">
                   <button mat-menu-item href="#profile">Mon Profil</button>
                   <button mat-menu-item href="#settings">Paramètres</button>

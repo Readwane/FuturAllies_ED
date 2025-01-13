@@ -1,7 +1,7 @@
 // components/home-domains-list/home-domains-list.component.ts
 
 import { Component, OnInit } from '@angular/core';
-import { Domain } from 'src/app/features/audition/models/domain.model';
+import { Domain } from 'src/app/features/audition/models/audition.models';
 import { AuditionService } from 'src/app/features/audition/services/audition.service';
 @Component({
   selector: 'app-home-domains-list',

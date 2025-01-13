@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './components/admin/admin.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { UserResolver } from 'src/app/core/services/user/user-resolver.service';
 import { ResourceListComponent } from './components/resource-list/resource-list.component';
 import { ResourceCreateComponent } from './components/resource-create/resource-create.component';
 import { ResourceEditComponent } from './components/resource-edit/resource-edit.component';

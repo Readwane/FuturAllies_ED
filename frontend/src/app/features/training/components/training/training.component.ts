@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Training } from '../../models/training.model';
+import { Training } from '../../models/training.models';
 import { Router } from '@angular/router';
 
 @Component({

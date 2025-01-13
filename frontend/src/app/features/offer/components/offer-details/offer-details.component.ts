@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';  
+import { Component, OnInit, Inject } from '@angular/core';  
 import { ActivatedRoute, Router } from '@angular/router';  
-import { OfferService } from '../../services/offer.service';  
-import { EnterpriseService } from '../../services/enterprise.service'; // Import du service Enterprise  
-import { Offer } from '../../models/offer.model';  
-import { Enterprise } from '../../../../core/models/user/enterprise.model'; // Import du modèle Enterprise  
+import { OfferService } from '../../services/offer.service';
+import { Offer } from '../../models/offer.models'; 
 
 @Component({  
   selector: 'app-offer-details',  
@@ -12,7 +10,6 @@ import { Enterprise } from '../../../../core/models/user/enterprise.model'; // I
 })  
 export class OfferDetailsComponent implements OnInit {  
   offer!: Offer; // Détails de l'offre  
-  enterprise!: Enterprise; // Détails de l'entreprise  
   offerId!: string;  
   loading: boolean = true;  
 
@@ -22,8 +19,7 @@ export class OfferDetailsComponent implements OnInit {
   constructor(  
     private route: ActivatedRoute,  
     private router: Router,  
-    private offerService: OfferService,  
-    private enterpriseService: EnterpriseService // Injection du service Enterprise  
+    @Inject(OfferService) private offerService: OfferService, 
   ) {}  
 
   ngOnInit(): void {  
@@ -43,10 +39,7 @@ export class OfferDetailsComponent implements OnInit {
 
           // Transformer les champs requirements et responsibilities en tableaux
           this.requirementsList = this.offer.requirements ? this.offer.requirements.split('\n') : [];
-          this.responsibilitiesList = this.offer.responsibilities ? this.offer.responsibilities.split('\n') : [];
-
-          this.loadEnterpriseDetails(this.offer.enterpriseId); // Charger les détails de l'entreprise  
-          this.loading = false;  
+          this.responsibilitiesList = this.offer.responsibilities ? this.offer.responsibilities.split('\n') : [];          this.loading = false;  
         },  
         error => {  
           console.error('Erreur lors de la récupération des détails de l\'offre', error);  
@@ -56,22 +49,11 @@ export class OfferDetailsComponent implements OnInit {
     } else {  
       console.error('Aucun ID d\'offre fourni.');  
     }  
-  }  
-
-  // Méthode pour charger les détails de l'entreprise  
-  loadEnterpriseDetails(enterpriseId: string): void {  
-    this.enterpriseService.getEnterpriseById(enterpriseId).subscribe(  
-      (data: Enterprise) => {  
-        this.enterprise = data; // Assigner les détails de l'entreprise à la propriété  
-      },  
-      error => {  
-        console.error('Erreur lors de la récupération des détails de l\'entreprise', error);  
-      }  
-    );  
-  }  
+  }   
 
   // Méthode pour gérer l'événement de postulation  
   register(): void {  
     this.router.navigate(['/offers/application', this.offerId]); // Rediriger vers la page de candidature  
   }  
 }
+
