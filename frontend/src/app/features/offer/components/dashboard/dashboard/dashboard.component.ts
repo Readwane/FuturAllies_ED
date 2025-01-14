@@ -1,22 +1,22 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { OverlayContainer } from 'ngx-toastr';
 import { AdminAuthService } from 'src/app/features/admin/services/admin-auth.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-dashboard',
-  // standalone: true,
-  // imports: [],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
 
-  @ViewChild('sidenav') sidenav: any;
+  @ViewChild('sidenav') sidenav!: MatSidenav; // Référence au sidenav
   tooltips: any[] = [];  // Liste des tooltips à gérer
 
+  // Informations de l'utilisateur (simulées)
   user = {
     isLoggedIn: true,
-    avatarUrl: '',
+    avatarUrl: 'assets/images/avatar.jpeg', // Chemin vers l'avatar
     name: 'Tegawende',
     notifications: 5,
     messages: 3
@@ -28,6 +28,16 @@ export class DashboardComponent {
     private el: ElementRef,
   ) {}
 
+  /**
+   * Déconnexion de l'utilisateur
+   */
+  logout(): void {
+    this.authService.logout();
+  }
+
+  /**
+   * Nettoyage des tooltips et des overlays à la destruction du composant
+   */
   ngOnDestroy(): void {
     this.tooltips.forEach((tooltip) => tooltip.hide(0));
     this.overlayContainer.getContainerElement().innerHTML = '';
@@ -38,9 +48,4 @@ export class DashboardComponent {
       }
     });
   }
-
-  logout(): void{
-    this.authService.logout();
-  }
-
 }

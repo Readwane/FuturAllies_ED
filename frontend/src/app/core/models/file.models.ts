@@ -4,7 +4,7 @@ export class File {
     _id: string;
     title: string;
     type: string;
-    gridfs_id: string;
+    gridFSId: string;
     fileSize: number;
     createdAt: Date;
     updatedAt: Date;
@@ -13,7 +13,7 @@ export class File {
         _id: string,
         title: string,
         type: string,
-        gridfs_id: string,
+        gridFSId: string,
         fileSize: number,
         createdAt: Date,
         updatedAt: Date
@@ -21,7 +21,7 @@ export class File {
         this._id = _id;
         this.title = title;
         this.type = type;
-        this.gridfs_id = gridfs_id;
+        this.gridFSId = gridFSId;
         this.fileSize = fileSize;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MmPaymentComponent } from './mm-payment.component';
+import { LastActivitesComponent } from './last-activites.component';
 
-describe('MmPaymentComponent', () => {
-  let component: MmPaymentComponent;
-  let fixture: ComponentFixture<MmPaymentComponent>;
+describe('LastActivitesComponent', () => {
+  let component: LastActivitesComponent;
+  let fixture: ComponentFixture<LastActivitesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MmPaymentComponent]
+      imports: [LastActivitesComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(MmPaymentComponent);
+
+    fixture = TestBed.createComponent(LastActivitesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

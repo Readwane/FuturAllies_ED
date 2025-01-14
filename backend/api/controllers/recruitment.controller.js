@@ -1,5 +1,6 @@
 import {Offer, OfferApplication, OfferStats} from '../models/recruitment.model.js';
-
+import mongoose from 'mongoose';  
+import { uploadFiles } from '../controllers/file.controller.js';
 
 //----------------------------------- MODEL OFFER CONTROLLERS -----------------------------------//
 const getOffers = async (req, res) => {
@@ -169,11 +170,64 @@ const getOfferApplicationById = async (req, res) => {
 
 const getOfferApplicationByOfferId = async (req, res) => {
     try {
-        const application = await OfferApplication.findById(req.params.offerId);
-        if (!application) return res.status(404).json({ message: 'Application not found' });
-        res.status(200).json(application);
+        const { offerId } = req.params;
+        console.log('Fetching applications for offer ID:', offerId);
+
+        // Vérifier si l'ID de l'offre est valide
+        if (!mongoose.Types.ObjectId.isValid(offerId)) {
+            return res.status(400).json({ message: 'Invalid offer ID' });
+        }
+
+        // Récupérer les candidatures associées à l'offre
+        const applications = await OfferApplication.find({ offerId })
+            .populate({
+                path: 'offerId',
+                select: 'title type status enterprise', // Sélectionner les champs nécessaires de l'offre
+            })
+            .populate({
+                path: 'candidatId',
+                select: 'firstName lastName email phone', // Sélectionner les champs nécessaires du candidat
+            });
+
+        // Si aucune candidature n'est trouvée
+        if (!applications || applications.length === 0) {
+            return res.status(404).json({ message: 'No applications found for this offer' });
+        }
+
+        // Formater la réponse en vérifiant les références
+        const response = applications
+            .filter((application) => application.offerId && application.candidatId) // Filtrer les candidatures avec des références valides
+            .map((application) => ({
+                _id: application._id,
+                offer: {
+                    _id: application.offerId._id,
+                    title: application.offerId.title,
+                    type: application.offerId.type,
+                    status: application.offerId.status,
+                    enterprise: application.offerId.enterprise,
+                },
+                candidate: {
+                    _id: application.candidatId._id,
+                    firstName: application.candidatId.firstName,
+                    lastName: application.candidatId.lastName,
+                    email: application.candidatId.email,
+                    phone: application.candidatId.phone,
+                },
+                status: application.status,
+                message: application.message,
+                submittedDocumentsIds: application.submittedDocumentsIds,
+                applicationDate: application.applicationDate,
+                lastUpdated: application.lastUpdated,
+            }));
+
+        // Si toutes les candidatures ont des références invalides
+        if (response.length === 0) {
+            return res.status(404).json({ message: 'No valid applications found for this offer' });
+        }
+
+        res.status(200).json(response);
     } catch (error) {
-        console.error('Error fetching offer application by ID:', error);
+        console.error('Error fetching offer applications by offer ID:', error);
         res.status(500).json({ message: error.message });
     }
 };

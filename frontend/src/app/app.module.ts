@@ -30,7 +30,8 @@ import { MaterialModule } from './shared/material.module';
 
     CoreModule,   
     LayoutModule,
-    FeaturesModule,  ],
+    FeaturesModule,  
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

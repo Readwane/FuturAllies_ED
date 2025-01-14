@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserProfileTypeComponent } from './features/payment/components/user-profile-type/user-profile-type.component';
-import { PaymentMethodesComponent } from './features/payment/components/payment-methodes/payment-methodes.component';
-import { OmPaymentComponent } from './features/payment/components/om-payment/om-payment.component';
-import { MmPaymentComponent } from './features/payment/components/mm-payment/mm-payment.component';
 import { FlwtestComponent } from './features/payment/components/flwtest/flwtest.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './layout/public/components/home/home.component';
@@ -31,7 +28,7 @@ const routes: Routes = [
   {
     path: 'offers',
     loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
 
   // Routes protégées par AuthGuard
@@ -54,11 +51,6 @@ const routes: Routes = [
 
   { path: 'flwtest', component: FlwtestComponent },
   { path: 'subscription', component: UserProfileTypeComponent },
-  { path: 'payment-methods', component: PaymentMethodesComponent },
-  { path: 'om-payment', component: OmPaymentComponent },
-  { path: 'mm-payment', component: MmPaymentComponent },
-
-
 ];
 
 @NgModule({

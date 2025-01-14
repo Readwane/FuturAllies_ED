@@ -51,12 +51,32 @@ const uploadFile = async (req, res) => {
         title: file.originalname,
         type: fileType,
         fileSize: fileSize,
-        gridfs_id: uploadStream.id,
+        gridFSId: uploadStream.id,
       });
 
       try {
         const savedFile = await newFile.save();
         console.log('Fichier enregistré dans la base de données:', savedFile);
+
+        // Créer une référence dans UserFile ou CandidacyFile si nécessaire
+        const { userId, candidacyId } = req.body;
+
+        if (userId) {
+          const userFile = new UserFile({
+            userId: userId,
+            fileId: savedFile._id,
+          });
+          await userFile.save();
+        }
+
+        if (candidacyId) {
+          const candidacyFile = new CandidacyFile({
+            candidacyId: candidacyId,
+            fileId: savedFile._id,
+          });
+          await candidacyFile.save();
+        }
+
         return res.status(200).json({
           message: 'Fichier téléchargé avec succès.',
           file: savedFile,
@@ -75,75 +95,93 @@ const uploadFile = async (req, res) => {
 
 
 // Upload de plusieurs fichiers
-const uploadFiles = (req, res) => {
+const uploadFiles = async (req, res) => {
   console.log('Début du processus de téléchargement des fichiers...');
 
-  return new Promise((resolve, reject) => {
-    uploads(req, res, async (err) => {
-      if (err) {
-        console.error('Erreur de téléchargement :', err.message);
-        reject(new Error('Erreur de téléchargement du fichier : ' + err.message));
-        return;
-      }
+  uploads(req, res, async (err) => {
+    if (err) {
+      console.error('Erreur de téléchargement :', err.message);
+      return res.status(500).json({ message: 'Erreur de téléchargement du fichier : ' + err.message });
+    }
 
-      const { files } = req;
-      if (!files || files.length === 0) {
-        console.error('Aucun fichier téléchargé');
-        reject(new Error('Aucun fichier téléchargé.'));
-        return;
-      }
+    const { files } = req;
+    if (!files || files.length === 0) {
+      console.error('Aucun fichier téléchargé');
+      return res.status(400).json({ message: 'Aucun fichier téléchargé.' });
+    }
 
-      const uploadedFiles = [];
+    const uploadedFiles = [];
+    try {
+      // Utiliser Promise.all pour uploader tous les fichiers en parallèle
+      await Promise.all(files.map(async (file) => {
+        // Extraction des informations du fichier téléchargé
+        const fileType = file.mimetype;
+        const fileSize = file.size;
+        console.log(`Fichier téléchargé : ${file.originalname}, Type: ${fileType}, Taille: ${fileSize} octets`);
 
-      try {
-        // Utiliser Promise.all pour uploader tous les fichiers en parallèle
-        await Promise.all(files.map(async (file) => {
-          // Extraction des informations du fichier téléchargé
-          const fileType = file.mimetype;
-          const fileSize = file.size;
-          console.log(`Fichier téléchargé : ${file.originalname}, Type: ${fileType}, Taille: ${fileSize} octets`);
+        // Upload dans GridFS
+        const uploadStream = gridFSBucket.openUploadStream(file.originalname);
 
-          // Upload dans GridFS
-          const uploadStream = gridFSBucket.openUploadStream(file.originalname);
-
-          await new Promise((resolveStream, rejectStream) => {
-            uploadStream.on('error', (error) => {
-              console.error('Erreur lors de l\'upload du fichier :', error.message);
-              rejectStream(error);
-            });
-
-            uploadStream.on('finish', async () => {
-              const newFile = new File({
-                title: file.originalname,
-                type: fileType,
-                fileSize: fileSize,
-                gridfs_id: uploadStream.id,
-              });
-
-              try {
-                const savedFile = await newFile.save();
-                console.log('Fichier enregistré dans la base de données:', savedFile);
-                uploadedFiles.push(savedFile);
-                resolveStream();
-              } catch (error) {
-                console.error('Erreur lors de l\'enregistrement du fichier :', error.message);
-                rejectStream(error);
-              }
-            });
-
-            // Écriture du buffer dans le stream
-            uploadStream.end(file.buffer);
+        await new Promise((resolveStream, rejectStream) => {
+          uploadStream.on('error', (error) => {
+            console.error('Erreur lors de l\'upload du fichier :', error.message);
+            rejectStream(error);
           });
-        }));
 
-        // Résoudre la promesse avec les fichiers téléchargés
-        resolve(uploadedFiles);
+          uploadStream.on('finish', async () => {
+            const newFile = new File({
+              title: file.originalname,
+              type: fileType,
+              fileSize: fileSize,
+              gridFSId: uploadStream.id,
+            });
 
-      } catch (error) {
-        console.error('Erreur lors du traitement des fichiers:', error.message);
-        reject(new Error('Erreur lors du traitement d\'un fichier : ' + error.message));
-      }
-    });
+            try {
+              const savedFile = await newFile.save();
+              console.log('Fichier enregistré dans la base de données:', savedFile);
+              uploadedFiles.push(savedFile);
+
+              // Créer une référence dans UserFile ou CandidacyFile si nécessaire
+              const { userId, candidacyId } = req.body;
+
+              if (userId) {
+                const userFile = new UserFile({
+                  userId: userId,
+                  fileId: savedFile._id,
+                });
+                await userFile.save();
+              }
+
+              if (candidacyId) {
+                const candidacyFile = new CandidacyFile({
+                  candidacyId: candidacyId,
+                  fileId: savedFile._id,
+                });
+                await candidacyFile.save();
+              }
+
+              resolveStream();
+            } catch (error) {
+              console.error('Erreur lors de l\'enregistrement du fichier :', error.message);
+              rejectStream(error);
+            }
+          });
+
+          // Écriture du buffer dans le stream
+          uploadStream.end(file.buffer);
+        });
+      }));
+
+      // Répondre avec les fichiers téléchargés
+      return res.status(200).json({
+        message: 'Fichiers téléchargés avec succès.',
+        files: uploadedFiles,
+      });
+
+    } catch (error) {
+      console.error('Erreur lors du traitement des fichiers:', error.message);
+      return res.status(500).json({ message: 'Erreur lors du traitement d\'un fichier : ' + error.message });
+    }
   });
 };
 
@@ -344,9 +382,6 @@ const createUserFile = async (req, res) => {
     }
   };
   
-
-
-
 
 // Créer une nouvelle candidature (CandidacyFile)
 const createCandidacyFile = async (req, res) => {

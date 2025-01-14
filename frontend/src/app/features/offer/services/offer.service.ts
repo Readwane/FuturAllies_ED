@@ -71,6 +71,11 @@ export class OfferService {
     return this.http.get(`${this.apiUrl}/offer-applications/${id}`);
   }
 
+   // Obtenir une candidature pour une offre par son ID
+   getOfferApplicationByOfferId(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offer-applications/offer/${id}`);
+  }
+
   // Mettre à jour une candidature pour une offre
   updateOfferApplication(id: string, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/offer-applications/${id}`, data);

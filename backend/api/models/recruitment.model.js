@@ -34,9 +34,10 @@ const OfferSchema = new mongoose.Schema({
   expirationDate: { type: Date }, // Date d'expiration de l'offre  
 });  
 
-const offerApplicationSchema = mongoose.Schema({
-  offerId: { type: String, required: true },
-  candidatId: { type: String, required: true },
+
+const offerApplicationSchema = new mongoose.Schema({
+  offerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Offer', required: true },
+  candidatId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   status: { type: String, enum: ['Pending', 'Accepted', 'Rejected', 'In Review'], default: 'Pending' },
   message: { type: String, default: "Je suis très intéressé(e) par cette offre et je suis convaincu(e) que mes compétences et mon expérience correspondent aux attentes de votre entreprise. J'aimerais avoir l'opportunité de discuter de cette offre plus en détail et de contribuer au succès de votre équipe." },
   submittedDocumentsIds: { type: [String], required: true },
@@ -44,7 +45,8 @@ const offerApplicationSchema = mongoose.Schema({
   lastUpdated: { type: Date, default: Date.now },
 });
 
-const offerStatsSchema = mongoose.Schema({
+
+const offerStatsSchema = new mongoose.Schema({
   name: { type: String, required: true },
   stat: { type: Number, required: true }
 });

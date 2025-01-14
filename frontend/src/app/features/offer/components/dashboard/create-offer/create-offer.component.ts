@@ -1,5 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { OfferService } from '../../../services/offer.service';
 import { Offer } from '../../../models/offer.models';
 
@@ -14,21 +17,17 @@ export class CreateOfferComponent implements OnInit {
   isJob = false;
   isInternship = false;
   isCDD = false;
-  enterprises: any[] = [];
-  filteredEnterprises: any[] = [];
 
   constructor(
-    @Inject(OfferService) private offerService: OfferService,
-    private fb: FormBuilder
+    private offerService: OfferService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {
     this.offerForm = this.fb.group({
-      // Infos de l'entreprise
       type: ['', Validators.required],
       enterpriseName: ['', Validators.required],
       enterpriseLocation: ['', Validators.required],
       enterpriseWebsite: ['', [Validators.required, Validators.pattern('https?://.+')]],
-      
-      // Infos générales de l'offre
       title: ['', Validators.required],
       domain: ['', Validators.required],
       location: ['', Validators.required],
@@ -36,72 +35,53 @@ export class CreateOfferComponent implements OnInit {
       requirement: ['', Validators.required],
       responsabilities: ['', Validators.required],
       recruitmentEmail: ['', [Validators.required, Validators.email]],
-
-      // Status de l'offre
       status: ['', Validators.required],
       isRemote: [false],
       applicationMode: ['', Validators.required],
-      expirationDate: ['', Validators.required], // Ajout de l'expiration
-      isRequiredCvDoc: [true], // Ajout des cases à cocher
+      expirationDate: ['', Validators.required],
+      isRequiredCvDoc: [true],
       isRequiredMlDoc: [false],
       canAddOthersDoc: [false],
-
-      contratType: ['', Validators.required],
+      contratType: [''],
       salary: [null, Validators.min(0)],
-      experienceLevel: ['', Validators.required],
+      experienceLevel: [''],
       duration: [null, [Validators.min(1), Validators.max(12)]],
-    });    
+    });
   }
 
   ngOnInit(): void {
-  
+    this.route.queryParams.subscribe(params => {
+      const offerType = params['type'];
+      if (offerType) {
+        this.offerForm.patchValue({ type: offerType });
+        this.onTypeChange(offerType);
+      }
+    });
   }
 
   onTypeChange(type: string): void {
     this.isJob = type === 'Job';
     this.isInternship = type === 'Internship';
-    this.isCDD = false; // reset pour autres types d'offres
-  
+    this.isCDD = false;
+
     if (this.isJob) {
-      this.setValidators('salary', [Validators.required, Validators.min(0)]);
-      this.setValidators('experienceLevel', [Validators.required]);
-      this.setValidators('contratType', [Validators.required]); // Activation de contratType
+      this.setValidators(['salary', 'experienceLevel', 'contratType'], [Validators.required]);
       this.clearValidators(['duration']);
     } else if (this.isInternship) {
-      this.setValidators('duration', [Validators.required, Validators.min(1), Validators.max(12)]);
+      this.setValidators(['duration'], [Validators.required, Validators.min(1), Validators.max(12)]);
       this.clearValidators(['salary', 'experienceLevel', 'contratType']);
     } else {
       this.clearValidators(['salary', 'experienceLevel', 'duration', 'contratType']);
     }
   }
-  
 
   onContratTypeChange(value: string): void {
     this.isCDD = value === 'CDD';
     if (this.isCDD) {
-      this.setValidators('duration', [Validators.required, Validators.min(1)]);
+      this.setValidators(['duration'], [Validators.required, Validators.min(1)]);
     } else {
       this.clearValidators(['duration']);
       this.offerForm.patchValue({ duration: null });
-    }
-  }
-
-  onEnterpriseInput(event: Event): void {
-    const input = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredEnterprises = this.enterprises.filter((enterprise) =>
-      enterprise.name.toLowerCase().includes(input)
-    );
-  }
-
-  onEnterpriseSelected(event: any): void {
-    const selectedEnterprise = this.enterprises.find(
-      (enterprise) => enterprise.name === event.option.value
-    );
-    if (selectedEnterprise) {
-      this.offerForm.patchValue({
-        enterpriseLocation: selectedEnterprise.location,
-        enterpriseWebsite: selectedEnterprise.website
-      });
     }
   }
 
@@ -114,72 +94,11 @@ export class CreateOfferComponent implements OnInit {
     this.isLoading = true;
     const formValues = this.offerForm.value;
   
-    const existingEnterprise = this.enterprises.find(
-      (e) => e.name.toLowerCase() === formValues.enterpriseName.toLowerCase()
-    );
-  
-    const handleCreateOffer = (enterpriseId: string) => {
-      const newOffer: Partial<Offer> = {
-        title: formValues.title,
-        description: formValues.description,
-        domain: formValues.domain,
-        location: formValues.location,
-        salary: formValues.salary,
-        duration: formValues.duration,
-        type: formValues.type,
-        contractType: formValues.contratType,
-        contactEmail: formValues.recruitmentEmail,
-        expirationDate: new Date(formValues.expirationDate),
-        isRemote: formValues.isRemote,
-        applicationMode: formValues.applicationMode,
-        isRequiredCvDoc: formValues.isRequiredCvDoc,
-        isRequiredMlDoc: formValues.isRequiredMlDoc,
-        canAddOthersDoc: formValues.canAddOthersDoc,
-        requirements: formValues.requirement,
-        responsibilities: formValues.responsabilities,
-        status: formValues.status,
-      };
-  
-      this.offerService.createOffer(newOffer).subscribe({
-        next: () => {
-          console.log('Offre créée avec succès.');
-          this.isLoading = false;
-          this.offerForm.reset();  // Reset the form after success
-        },
-        error: (err) => {
-          console.error('Erreur lors de la création de l\'offre:', err);
-          this.isLoading = false;
-        }
-      });
-    };
-  
-    // if (existingEnterprise) {
-    //   handleCreateOffer(existingEnterprise._id);
-    // } else {
-    //   const newEnterprise: Partial<Enterprise> = {
-    //     name: formValues.enterpriseName,
-    //     location: formValues.enterpriseLocation,
-    //     email: formValues.recruitmentEmail,
-    //     size: 'MEDIUM',  // Default value for size
-    //     website: formValues.enterpriseWebsite
-    //   };
-  
-    //   this.enterpriseService.createEnterprise(newEnterprise).subscribe({
-    //     next: (createdEnterprise: Enterprise) => {
-    //       handleCreateOffer(createdEnterprise._id);
-    //     },
-    //     error: (err) => {
-    //       console.error('Erreur lors de la création de l\'entreprise:', err);
-    //       this.isLoading = false;
-    //     }
-    //   });
-    // }
-  }
-  
-
-  private createOffer(enterpriseId: string, formValues: any): void {
     const newOffer: Partial<Offer> = {
       title: formValues.title,
+      enterprise: formValues.enterpriseName,
+      enterpriseLocation: formValues.enterpriseLocation,
+      enterWebsite: formValues.enterpriseWebsite,
       description: formValues.description,
       domain: formValues.domain,
       location: formValues.location,
@@ -191,22 +110,41 @@ export class CreateOfferComponent implements OnInit {
       expirationDate: new Date(formValues.expirationDate),
       isRemote: formValues.isRemote,
       applicationMode: formValues.applicationMode,
+      onlineSubmission: formValues.applicationMode === 'Online',
       isRequiredCvDoc: formValues.isRequiredCvDoc,
       isRequiredMlDoc: formValues.isRequiredMlDoc,
       canAddOthersDoc: formValues.canAddOthersDoc,
       requirements: formValues.requirement,
       responsibilities: formValues.responsabilities,
       status: formValues.status,
+      educationLevel: formValues.educationLevel,
+      experienceLevel: formValues.experienceLevel,
+      benefits: formValues.benefits,
+      applicationLink: formValues.applicationLink,
+      additionalInfo: formValues.additionalInfo,
+      createdBy: 'currentUser', // Remplacez par l'utilisateur actuel
+      postedDate: new Date(),
+      updatedDate: new Date(),
     };
-
-    this.offerService.createOffer(newOffer).subscribe(() => {
-      console.log('Offre créée avec succès.');
+  
+    this.offerService.createOffer(newOffer).subscribe({
+      next: () => {
+        console.log('Offre créée avec succès.');
+        this.isLoading = false;
+        this.offerForm.reset();
+      },
+      error: (err) => {
+        console.error('Erreur lors de la création de l\'offre:', err);
+        this.isLoading = false;
+      }
     });
   }
 
-  private setValidators(field: string, validators: any[]): void {
-    this.offerForm.get(field)?.setValidators(validators);
-    this.offerForm.get(field)?.updateValueAndValidity();
+  private setValidators(fields: string[], validators: any[]): void {
+    fields.forEach(field => {
+      this.offerForm.get(field)?.setValidators(validators);
+      this.offerForm.get(field)?.updateValueAndValidity();
+    });
   }
 
   private clearValidators(fields: string[]): void {
