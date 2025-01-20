@@ -1,28 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OfferService } from '../../../services/offer.service';
+import { OfferService } from 'src/app/features/offer/services/offer.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { OfferApplication } from 'src/app/features/offer/models/offer.models';
 
 @Component({
   selector: 'app-candidat-list',
   templateUrl: './candidat-list.component.html',
-  styleUrls: ['./candidat-list.component.css']
+  styleUrls: ['./candidat-list.component.css'],
 })
 export class CandidatListComponent implements OnInit {
   // Colonnes à afficher dans le tableau
   displayedColumns: string[] = ['candidateName', 'offer', 'date', 'status', 'actions'];
 
   // Source de données pour le tableau
-  dataSource = new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<OfferApplication>();
 
   // Filtre de recherche
   filterValue: string = '';
 
   // Paramètres de l'URL
   offerId: string | null = null;
-  offerType: string | null = null;
-  offerTitle: string | null = null;
-  offerStatus: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,11 +29,8 @@ export class CandidatListComponent implements OnInit {
 
   ngOnInit(): void {
     // Récupérer les paramètres de l'URL
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.offerId = params['id'] || null;
-      this.offerType = params['type'] || null;
-      this.offerTitle = params['title'] || null;
-      this.offerStatus = params['status'] || null;
 
       // Charger les candidatures en fonction des paramètres
       this.loadCandidatures();
@@ -48,23 +43,23 @@ export class CandidatListComponent implements OnInit {
   loadCandidatures(): void {
     if (this.offerId) {
       // Si un ID d'offre est fourni, charger les candidatures pour cette offre
-      this.offerService.getOfferById(this.offerId).subscribe({
+      this.offerService.getOfferApplicationsByOfferId(this.offerId).subscribe({
         next: (candidatures) => {
           this.dataSource.data = candidatures;
         },
         error: (err) => {
           console.error('Erreur lors du chargement des candidatures :', err);
-        }
+        },
       });
-    } else if (this.offerType) {
-      // Si un type d'offre est fourni, charger les candidatures pour ce type
-      this.offerService.getOfferApplicationByOfferId(this.offerType).subscribe({
+    } else {
+      // Si aucun ID d'offre n'est fourni, charger toutes les candidatures
+      this.offerService.getOfferApplications().subscribe({
         next: (candidatures) => {
           this.dataSource.data = candidatures;
         },
         error: (err) => {
           console.error('Erreur lors du chargement des candidatures :', err);
-        }
+        },
       });
     }
   }
@@ -81,11 +76,11 @@ export class CandidatListComponent implements OnInit {
    */
   getStatusClass(status: string): string {
     switch (status) {
-      case 'En attente':
+      case 'Pending':
         return 'status-pending';
-      case 'Accepté':
+      case 'Accepted':
         return 'status-accepted';
-      case 'Refusé':
+      case 'Rejected':
         return 'status-rejected';
       default:
         return '';
@@ -95,16 +90,30 @@ export class CandidatListComponent implements OnInit {
   /**
    * Accepter une candidature
    */
-  acceptCandidature(candidature: any): void {
-    candidature.status = 'Accepté';
-    console.log('Candidature acceptée :', candidature);
+  acceptCandidature(applicationId: string): void {
+    this.offerService.updateOfferApplicationStatus(applicationId, 'Accepted').subscribe({
+      next: (updatedApplication) => {
+        console.log('Candidature acceptée :', updatedApplication);
+        this.loadCandidatures(); // Recharger les candidatures après la mise à jour
+      },
+      error: (err) => {
+        console.error('Erreur lors de l\'acceptation de la candidature :', err);
+      },
+    });
   }
 
   /**
    * Refuser une candidature
    */
-  rejectCandidature(candidature: any): void {
-    candidature.status = 'Refusé';
-    console.log('Candidature refusée :', candidature);
+  rejectCandidature(applicationId: string): void {
+    this.offerService.updateOfferApplicationStatus(applicationId, 'Rejected').subscribe({
+      next: (updatedApplication) => {
+        console.log('Candidature refusée :', updatedApplication);
+        this.loadCandidatures(); // Recharger les candidatures après la mise à jour
+      },
+      error: (err) => {
+        console.error('Erreur lors du refus de la candidature :', err);
+      },
+    });
   }
 }

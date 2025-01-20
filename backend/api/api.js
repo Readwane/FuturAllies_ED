@@ -12,7 +12,7 @@ import interactionRoutes from './routes/interaction.route.js';
 import paymentRoutes from './routes/payment.route.js';
 import usersRoutes from './routes/user.route.js';
 import valuesRoutes from './routes/value.route.js';
-import recruitmentRoutes from './routes/recruitment.route.js';
+import offerRoutes from './routes/offer.route.js';
 import trainingRoutes from './routes/training.route.js';
 
 
@@ -47,7 +47,7 @@ app.use('/fapi', auditionRoutes);
 app.use('/fapi', fileRoutes);
 app.use('/fapi', certificationRoutes);
 app.use('/fapi', interactionRoutes);
-app.use('/fapi', recruitmentRoutes);
+app.use('/fapi', offerRoutes);
 app.use('/fapi', trainingRoutes);
 
 // Middleware de gestion des erreurs à ajouter (ex: errorMiddleware.js)

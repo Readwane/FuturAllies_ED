@@ -1,14 +1,14 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { OverlayContainer } from 'ngx-toastr';
-import { AdminAuthService } from 'src/app/features/admin/services/admin-auth.service';
+import { AdminAuthService } from 'src/app/dashboards/admin/services/admin-auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrl: './main.component.css'
 })
-export class DashboardComponent implements OnDestroy {
+export class MainComponent {
 
   @ViewChild('sidenav') sidenav!: MatSidenav; // Référence au sidenav
   tooltips: any[] = [];  // Liste des tooltips à gérer

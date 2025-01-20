@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'; // Pour les notificat
 import { ActivatedRoute, Router } from '@angular/router'; // Pour récupérer les paramètres de la route
 import { Offer } from '../../models/offer.models';
 import { MatDialog } from '@angular/material/dialog';
+import { OfferApplication } from '../../models/offer.models';
 
 @Component({
   selector: 'app-offer-application',
@@ -142,7 +143,8 @@ export class OfferApplicationComponent implements OnInit {
     this.isSubmitting = true;
   
     // Logique de soumission du formulaire (inchangée)
-    const offerApplication = {
+    const offerApplication: OfferApplication = {
+      _id: '', // Add a default or generated ID here
       offerId: this.offerId,
       candidatId: this.userId,
       message: this.applicationForm.value.message,
@@ -158,7 +160,7 @@ export class OfferApplicationComponent implements OnInit {
       ...this.otherFiles.map(f => f.file)
     ].filter((file): file is File => file !== undefined);
   
-    this.offerService.submitOfferApplication(offerApplication).subscribe({
+    this.offerService.submitApplication(this.offerId, offerApplication).subscribe({
       next: (response) => {
         this.snackBar.open('Candidature soumise avec succès !', 'Fermer', {
           duration: 3000,

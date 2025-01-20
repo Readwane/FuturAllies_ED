@@ -50,6 +50,12 @@
         <mat-cell *matCellDef="let offer">{{ offer.location }}</mat-cell>
       </ng-container>
 
+      <!-- Colonne : Date d'expiration -->
+      <ng-container matColumnDef="expirationDate">
+        <mat-header-cell *matHeaderCellDef>Date d'expiration</mat-header-cell>
+        <mat-cell *matCellDef="let offer">{{ offer.expirationDate | date: 'dd/MM/yyyy' }}</mat-cell>
+      </ng-container>
+
       <!-- Colonne : Actions -->
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
@@ -61,6 +67,11 @@
           <button mat-icon-button color="primary" (click)="viewDetails(offer._id)" matTooltip="Voir les details">
             <mat-icon>info</mat-icon>
           </button>
+
+          <!-- Bouton Modifier uniquement si le statut est "Pending" -->
+          <button *ngIf="offer.status === 'Pending'" mat-icon-button color="warn" (click)="editOffer(offer._id)" matTooltip="Modifier">
+            <mat-icon>edit</mat-icon>
+          </button>
         </mat-cell>
       </ng-container>
 
@@ -69,6 +80,18 @@
       <!-- Lignes du tableau -->
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+    <!-- Pagination -->
+    <mat-paginator
+      *ngIf="filteredOffers.length > 0"
+      [length]="totalOffers"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onPageChange($event)"
+      class="mat-elevation-z8"
+    >
+    </mat-paginator>
 
     <!-- Si aucune offre n'est disponible -->
     <div *ngIf="filteredOffers.length === 0" class="no-offers-message">

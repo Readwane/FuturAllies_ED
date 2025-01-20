@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Offer } from '../../../models/offer.models';
-import { OfferService } from '../../../services/offer.service';
+import { Offer } from 'src/app/features/offer/models/offer.models';
+import { OfferService } from 'src/app/features/offer/services/offer.service';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-offer-list',
@@ -15,11 +16,16 @@ export class ListOfferComponent implements OnInit, OnDestroy {
   filteredOffers: Offer[] = []; // Offres filtrées selon le statut et les filtres
   loading: boolean = true; // Indicateur de chargement
   status: string | null = null; // Statut récupéré depuis l'URL
-  displayedColumns: string[] = ['title', 'type', 'location', 'actions']; // Colonnes à afficher
+  displayedColumns: string[] = ['title', 'type', 'location', 'expirationDate', 'actions']; // Colonnes à afficher
 
   // Filtres
   searchControl = new FormControl(''); // Barre de recherche par titre
   typeFilterControl = new FormControl('all'); // Filtre par type d'offre
+
+  // Pagination
+  pageSize = 10; // Nombre d'éléments par page
+  pageIndex = 0; // Index de la page actuelle
+  totalOffers = 0; // Nombre total d'offres
 
   // Abonnements pour éviter les fuites de mémoire
   private routeSubscription: Subscription | undefined;
@@ -69,6 +75,7 @@ export class ListOfferComponent implements OnInit, OnDestroy {
     this.offerService.getOffers().subscribe(
       (data: Offer[]) => {
         this.offers = data;
+        this.totalOffers = data.length; // Mettre à jour le nombre total d'offres
         this.applyFilters(); // Applique les filtres après chargement
         this.loading = false;
       },
@@ -104,27 +111,47 @@ export class ListOfferComponent implements OnInit, OnDestroy {
       );
     }
 
-    this.filteredOffers = filtered;
+    this.totalOffers = filtered.length; // Mettre à jour le nombre total d'offres filtrées
+    this.filteredOffers = filtered.slice(
+      this.pageIndex * this.pageSize,
+      (this.pageIndex + 1) * this.pageSize
+    ); // Appliquer la pagination
+  }
+
+  /**
+   * Gère le changement de page pour la pagination
+   */
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.applyFilters(); // Re-appliquer les filtres avec la nouvelle pagination
   }
 
   /**
    * Redirige vers la liste des candidatures pour une offre spécifique
    */
   viewCandidatures(offerId: string): void {
-    this.router.navigate([`/offers/dashboard/list-candidat/${offerId}`]);
+    this.router.navigate([`dashboards/emp/list/candidats/${offerId}`]);
   }
 
   /**
    * Redirige vers les détails d'une offre
    */
   viewDetails(offerId: string): void {
-    this.router.navigate([`/offers/dashboard/details/${offerId}`]);
+    this.router.navigate([`/dashboards/dashboard/details/${offerId}`]);
+  }
+
+  /**
+   * Redirige vers la modification d'une offre si le statut est "Pending"
+   */
+  editOffer(offerId: string): void {
+    this.router.navigate([`/dashboards/emp/edit/${offerId}`]);
   }
 
   /**
    * Redirige vers la création d'une offre
    */
   createOffer(): void {
-    this.router.navigate(['/offers/dashboard/create-offer/indefinie']);
+    this.router.navigate(['dashboards/emp/create/indefinie']);
   }
 }

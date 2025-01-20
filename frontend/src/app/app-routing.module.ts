@@ -6,8 +6,8 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './layout/public/components/home/home.component';
 import { AcceuilComponent } from './layout/public/components/acceuil/acceuil.component';
 import { LoginComponent } from './core/components/login/login.component';
-import { AdminAuthGuard } from './features/admin/guards/admin-auth.guard';
-import { ALoginComponent } from './features/admin/components/login/a-login.component';
+import { AdminAuthGuard } from './dashboards/admin/guards/admin-auth.guard';
+import { ALoginComponent } from './dashboards/admin/components/login/a-login.component';
 import { RegisterComponent } from './core/components/register/register.component';
 
 const routes: Routes = [
@@ -17,17 +17,19 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'a-login', component: ALoginComponent },
   { path: 'home', component: HomeComponent},
-  // { path: '**', redirectTo: '/home' } ,
 
 
   // Lazy loading des modules
   {
-    path: 'trainings',
-    loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule)
+    path: 'dashboards',
+    loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule),
+    canActivate: [AuthGuard]
   },
+
+  
   {
-    path: 'offers',
-    loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule),
+    path: 'trainings',
+    loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule),
     // canActivate: [AuthGuard]
   },
 
@@ -35,18 +37,13 @@ const routes: Routes = [
   {
     path: 'audition',
     loadChildren: () => import('./features/audition/audition.module').then(m => m.AuditionModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
+  
   {
-    path: 'admin',
-    loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AdminAuthGuard]
-  },
-
-  {
-    path: 'dashboard',
+    path: 'offers',
     loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
 
   { path: 'flwtest', component: FlwtestComponent },

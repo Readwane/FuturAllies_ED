@@ -62,7 +62,7 @@ mat-table {
 }
 
 mat-header-row {
-  background-color: #007bff;
+  background-color: #007bffe1;
 }
 
 mat-header-cell {

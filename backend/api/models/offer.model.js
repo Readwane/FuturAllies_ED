@@ -46,14 +46,7 @@ const offerApplicationSchema = new mongoose.Schema({
 });
 
 
-const offerStatsSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  stat: { type: Number, required: true }
-});
-
-
-const OfferStats = mongoose.models.OfferStats || mongoose.model('OfferStats', offerStatsSchema);
 const OfferApplication = mongoose.models.OfferApplication || mongoose.model('OfferApplication', offerApplicationSchema);
 const Offer = mongoose.models.Offer || mongoose.model('Offer', OfferSchema);  
 
-export {Offer, OfferApplication, OfferStats};
+export {Offer, OfferApplication};

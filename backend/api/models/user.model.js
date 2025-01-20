@@ -27,11 +27,12 @@ const UserGroupSchema = new mongoose.Schema({
 
 
 const GroupSchema = new mongoose.Schema({
-    name: { type: String, enum: ['Student', 'Trainer', 'Employer', 'Admin'], required: true},  // Nom du groupe
+    name: { type: String, enum: ['Personnal', 'Student', 'Trainer', 'Employer', 'Admin'], required: true},  // Nom du groupe
     description: { type: String },  // Description du groupe
     createdAt: { type: Date, default: Date.now },  // Date de création de l'utilisateur  
     updatedAt: { type: Date, default: Date.now },   // Date de la dernière mise à jour 
 });
+
 
 const PermissionSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },  // Nom de la permission (ex: "create_user", "delete_post")
@@ -40,6 +41,7 @@ const PermissionSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now },   // Date de la dernière mise à jour
 });
 
+
 const GroupPermissionSchema = new mongoose.Schema({
     groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group', required: true },  // Référence vers le groupe
     permissionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Permission', required: true },  // Référence vers la permission
@@ -47,12 +49,14 @@ const GroupPermissionSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now },   // Date de la dernière mise à jour
 });
 
+
 const UserPermissionSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },  // Référence vers l'utilisateur
     permissionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Permission', required: true },  // Référence vers la permission
     createdAt: { type: Date, default: Date.now },  // Date de création de l'association
     updatedAt: { type: Date, default: Date.now },   // Date de la dernière mise à jour
 });
+
 
 const SubscriptionSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -66,6 +70,43 @@ const SubscriptionSchema = new mongoose.Schema({
 });
 
 
+const ManagerActionSchema = new mongoose.Schema({
+    managerId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User', 
+      required: true 
+    },  // Référence à l'utilisateur (manager) qui a effectué l'action
+    actionType: { 
+      type: String, 
+      enum: ['READ','CREATE', 'UPDATE', 'DELETE'], 
+      required: true 
+    },  // Type d'action (création, modification, suppression)
+    
+    resourceId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Resource', 
+      required: true 
+    },  // ID de la ressource concernée par l'action
+    details: { 
+      type: String, 
+      default: '' 
+    },  // Détails supplémentaires sur l'action (optionnel)
+    actionDate: { 
+      type: Date, 
+      default: Date.now 
+    },  // Date et heure de l'action
+    status: { 
+      type: String, 
+      enum: ['SUCCESS', 'FAILED'], 
+      default: 'SUCCESS' 
+    },  // Statut de l'action (succès, échec)
+    errorMessage: { 
+      type: String, 
+      default: '' 
+    },  // Message d'erreur en cas d'échec (optionnel)
+});
+
+const ManagerAction = mongoose.models.ManagerAction || mongoose.model('ManagerAction', ManagerActionSchema);
 const Subscription = mongoose.models.Subscription || mongoose.model('Subscription', SubscriptionSchema);
 const UserPermission = mongoose.models.UserPermission || mongoose.model('UserPermission', UserPermissionSchema);
 const GroupPermission = mongoose.models.GroupPermission || mongoose.model('GroupPermission', GroupPermissionSchema);
@@ -75,4 +116,5 @@ const UserGroup = mongoose.models.UserGroup || mongoose.model('UserGroup', UserG
 const Group = mongoose.models.Group || mongoose.model('Group', GroupSchema);
 
 
-export {Group, User, UserGroup, Permission, GroupPermission, UserPermission, Subscription};
+
+export {Group, User, UserGroup, Permission, GroupPermission, UserPermission, Subscription, ManagerAction};

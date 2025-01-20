@@ -74,14 +74,14 @@ export class UserGroup {
 // Classe Group
 export class Group {
     _id: string;
-    name: 'Student' | 'Trainer' | 'Employer' | 'Admin';
+    name: 'Personnal' | 'Student' | 'Trainer' | 'Employer' | 'Admin';
     description?: string;
     createdAt: Date;
     updatedAt: Date;
 
     constructor(
         _id: string,
-        name: 'Student' | 'Trainer' | 'Employer' | 'Admin',
+        name:'Personnal' | 'Student' | 'Trainer' | 'Employer' | 'Admin',
         createdAt: Date,
         updatedAt: Date,
         description?: string

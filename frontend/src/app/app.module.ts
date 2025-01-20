@@ -13,6 +13,7 @@ import { FeaturesModule } from './features/features.module';
 
 // Angular Material Modules
 import { MaterialModule } from './shared/material.module';
+import { DashboardsModule } from './dashboards/dashboards.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MaterialModule } from './shared/material.module';
 
     MaterialModule,
 
-    CoreModule,   
+    CoreModule, 
+    DashboardsModule,  
     LayoutModule,
     FeaturesModule,  
   ],

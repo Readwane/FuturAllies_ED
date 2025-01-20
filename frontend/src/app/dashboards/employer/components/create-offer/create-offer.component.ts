@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { OfferService } from '../../../services/offer.service';
-import { Offer } from '../../../models/offer.models';
+import { OfferService } from 'src/app/features/offer/services/offer.service';
+import { Offer } from 'src/app/features/offer/models/offer.models';
 
 @Component({
   selector: 'app-create-offer',
@@ -94,7 +94,8 @@ export class CreateOfferComponent implements OnInit {
     this.isLoading = true;
     const formValues = this.offerForm.value;
   
-    const newOffer: Partial<Offer> = {
+    const newOffer: Offer = {
+      _id: '', // Assign a default string value to _id
       title: formValues.title,
       enterprise: formValues.enterpriseName,
       enterpriseLocation: formValues.enterpriseLocation,
