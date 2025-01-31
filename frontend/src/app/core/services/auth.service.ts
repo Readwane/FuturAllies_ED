@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from '../models/user.models';
 
@@ -15,64 +15,83 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/fapi';  // L'URL de base de l'API
+  private apiUrl = 'http://localhost:3000/fapi';
   private loggedInStatus = new BehaviorSubject<boolean>(false);
-
   private connectedUser: User | null = null;
   private userGroups: string[] = [];
 
-  constructor(
-    private http: HttpClient, 
-    private router: Router) 
-  {
-    // Vérification de l'existence du token dans le localStorage
+  constructor(private http: HttpClient, private router: Router) {
     const token = localStorage.getItem('token');
     if (token) {
-      this.loggedInStatus.next(true);  // L'utilisateur est connecté si un token est présent
+      this.loggedInStatus.next(true);
+      this.connectedUser = JSON.parse(localStorage.getItem('user') || 'null');
+      this.userGroups = JSON.parse(localStorage.getItem('userGroups') || '[]');
     }
   }
 
-  // Retourne l'utilisateur connecté
   getUser(): User | null {
     return this.connectedUser;
   }
 
-  // Retourne les groupes de l'utilisateur
   getUserGroups(): string[] {
     return this.userGroups;
   }
 
-  // Observable pour suivre l'état de la connexion
   get isLoggedIn$(): Observable<boolean> {
     return this.loggedInStatus.asObservable();
   }
 
-  // Méthode de connexion avec mise à jour de l'état
   login(username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap(response => {
         if (response.token) {
-          // Sauvegarde du token dans le localStorage
           localStorage.setItem('token', response.token);
-          this.loggedInStatus.next(true);  // Utilisateur connecté
+          localStorage.setItem('user', JSON.stringify(response.foundUser));
+          localStorage.setItem('userGroups', JSON.stringify(response.userGroups));
+          this.loggedInStatus.next(true);
+          this.connectedUser = response.foundUser;
+          this.userGroups = response.userGroups;
         }
-        // Sauvegarde de l'utilisateur et de ses groupes
-        this.connectedUser = response.foundUser;
-        this.userGroups = response.userGroups;
       }),
       catchError(error => {
         console.error('Erreur de login:', error);
-        throw error;
+        throw new Error('Nom d\'utilisateur ou mot de passe incorrect');
       })
     );
   }
 
-  // Méthode de déconnexion
   logout(): void {
-    // Suppression du token dans le localStorage
     localStorage.removeItem('token');
-    this.loggedInStatus.next(false);  // Mise à jour de l'état de la connexion
-    this.connectedUser = null;  // Réinitialisation de l'utilisateur
-    this.userGroups = [];  // Réinitialisation des groupes
+    localStorage.removeItem('user');
+    localStorage.removeItem('userGroups');
+    this.loggedInStatus.next(false);
+    this.connectedUser = null;
+    this.userGroups = [];
+  }
+
+  validateToken(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    console.log('Token in validateToken:', token); // Debugging
+    if (!token) {
+      console.log('No token found in localStorage'); // Debugging
+      return of(false); // No token means the user is not logged in
+    }
+    // Send the token in the Authorization header
+    return this.http.post<{ valid: boolean }>(
+      `${this.apiUrl}/authenticate`,
+      {}, // Empty body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in the Authorization header
+        },
+      }
+    ).pipe(
+      tap(response => console.log('Token validation response:', response)), // Debugging
+      map(response => response.valid), // Extract the validity of the token
+      catchError((error) => {
+        console.error('Error validating token:', error); // Debugging
+        return of(false); // Handle errors (e.g., network issues)
+      })
+    );
   }
 }

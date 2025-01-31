@@ -10,6 +10,9 @@ import { CreateOfferComponent } from './components/create-offer/create-offer.com
 import { CandidatListComponent } from './components/candidat-list/candidat-list.component';
 import { CommonModules } from 'src/app/shared/common.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
+import { CoreModule } from 'src/app/core/core.module';
+import { EvaluationGeneratorComponent } from './components/evaluation-generator/evaluation-generator.component';
 
 
 @NgModule({
@@ -22,12 +25,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     LastActivitiesComponent,
     CreateOfferComponent,
     CandidatListComponent,
+    DocumentViewerComponent,
+    EvaluationGeneratorComponent
   ],
 
   imports: [
     CommonModules,
     EmployerRoutingModule,
     MaterialModule,
+    CoreModule
   ],
   exports: [
     MainComponent,
@@ -37,6 +43,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     LastActivitiesComponent,
     CreateOfferComponent,
     CandidatListComponent,
+    DocumentViewerComponent,
+    EvaluationGeneratorComponent
   ],
 
 })

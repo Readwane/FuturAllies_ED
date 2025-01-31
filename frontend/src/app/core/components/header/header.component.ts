@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isUserLoggedIn = false;
 
-  defaultUserImage = 'assets/images/user.png';  // Image par défaut
+  defaultUserImage = 'assets/images/avatar.jpeg';  // Image par défaut
   user: User | null = null;  // Récupérer l'utilisateur complet
   userGroups: string[] = [];  // Récupérer les groupes de l'utilisateur
 

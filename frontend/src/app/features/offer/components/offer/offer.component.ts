@@ -23,7 +23,7 @@ export class OfferComponent implements OnInit {
     }  
 
     console.log('ID de l\'offre reçu (_id) :', this.offer._id);  
-    console.log('ID de l\'entreprise à récupérer :', this.offer.enterprise);  
+    console.log('ID de l\'entreprise à récupérer :', this.offer.company);  
     
 }  
 }

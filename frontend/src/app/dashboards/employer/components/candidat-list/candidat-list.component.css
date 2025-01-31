@@ -1,67 +1,110 @@
 .list-candidatures {
-    padding: 24px;
-    background-color: #f9f9f9; /* Fond léger pour le conteneur */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
-  }
-  
-  h2 {
-    font-size: 24px;
-    margin-bottom: 24px;
-    color: #3f51b5; /* Couleur du titre */
-    font-weight: 600; /* Titre plus gras */
-  }
-  
-  .filters {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  
-  mat-form-field {
-    flex: 1;
-  }
-  
-  .candidate-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-  }
-  
-  .status-pending {
-    background-color: #ffd740; /* Jaune pour "En attente" */
-    color: #000;
-  }
-  
-  .status-accepted {
-    background-color: #69f0ae; /* Vert pour "Accepté" */
-    color: #000;
-  }
-  
-  .status-rejected {
-    background-color: #ff6e6e; /* Rouge pour "Refusé" */
-    color: #000;
-  }
-  
-  mat-table {
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  mat-icon {
-    cursor: pointer;
-    color: #3f51b5; /* Couleur des icônes */
-  }
-  
-  mat-icon:hover {
-    opacity: 0.8; /* Effet de survol */
-  }
+  padding: 24px;
+  background-color: #f4f6f9; /* Couleur de fond claire et neutre */
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
 
-  
+h2 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #3f51b5; /* Couleur de titre */
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap; /* Pour rendre les filtres responsive */
+}
+
+mat-form-field {
+  flex: 1;
+  min-width: 200px;
+  margin-right: 16px;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.status-field {
+  width: 100%;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 300px; /* Limiter la taille de la colonne */
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover; /* Assure que l'image est bien carrée */
+}
+
+.status-pending {
+  background-color: #ffd740;
+  color: #000;
+  font-weight: bold;
+}
+
+.status-accepted {
+  background-color: #69f0ae;
+  color: #000;
+  font-weight: bold;
+}
+
+.status-rejected {
+  background-color: #ff6e6e;
+  color: #000;
+  font-weight: bold;
+}
+
+mat-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff; /* Tableau avec fond blanc */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+mat-icon {
+  cursor: pointer;
+  color: #3f51b5;
+  transition: transform 0.3s ease;
+}
+
+mat-icon:hover {
+  opacity: 0.8;
+  transform: scale(1.1); /* Ajout d'un effet de zoom au survol */
+}
+
+mat-chip {
+  font-size: 14px;
+  text-transform: capitalize;
+  padding: 4px 8px;
+}
+
+mat-header-cell, mat-cell {
+  font-size: 14px;
+  text-align: center;
+}
+
+mat-header-cell {
+  background-color: #f0f4f8;
+  color: #3f51b5;
+  font-weight: bold;
+}
+
+mat-cell {
+  color: #555;
+}
+
+mat-row:hover {
+  background-color: #e8f0fe; /* Survol de ligne avec une couleur douce */
+}

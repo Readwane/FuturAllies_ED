@@ -1,0 +1,25 @@
+<div class="pdf-container">
+    <ngx-extended-pdf-viewer
+      [src]="pdfSrc"
+      [useBrowserLocale]="true"
+      [textLayer]="true"
+      [showHandToolButton]="true"
+      [showDownloadButton]="true"
+      [showPrintButton]="true"
+      [showBookmarkButton]="true"
+      [showSecondaryToolbarButton]="true"
+      [showOpenFileButton]="true"
+      [showFindButton]="true"
+      [showPagingButtons]="true"
+      [showZoomButtons]="true"
+      [showPresentationModeButton]="true"
+      [showRotateButton]="true"
+      [showScrollingButton]="true"
+      [showSpreadButton]="true"
+      [backgroundColor]="'#ffffff'"
+      [height]="'90vh'"
+      [zoom]="'page-width'"
+    >
+    </ngx-extended-pdf-viewer>
+  </div>
+  <input type="file" (change)="onFileSelected($event)" accept="application/pdf" />

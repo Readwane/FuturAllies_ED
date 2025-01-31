@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { OfferService } from 'src/app/features/offer/services/offer.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { OfferApplication } from 'src/app/features/offer/models/offer.models';
+import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { User } from 'src/app/core/models/user.models';
 
 @Component({
   selector: 'app-candidat-list',
@@ -10,70 +12,49 @@ import { OfferApplication } from 'src/app/features/offer/models/offer.models';
   styleUrls: ['./candidat-list.component.css'],
 })
 export class CandidatListComponent implements OnInit {
-  // Colonnes à afficher dans le tableau
-  displayedColumns: string[] = ['candidateName', 'offer', 'date', 'status', 'actions'];
-
-  // Source de données pour le tableau
+  displayedColumns: string[] = ['candidateName', 'date', 'submittedDocs', 'status', 'actions'];
   dataSource = new MatTableDataSource<OfferApplication>();
-
-  // Filtre de recherche
   filterValue: string = '';
-
-  // Paramètres de l'URL
+  selectedStatus: string = 'all';  
   offerId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private offerService: OfferService
+    private offerService: OfferService,
+    private snackBar: MatSnackBar 
   ) {}
 
   ngOnInit(): void {
-    // Récupérer les paramètres de l'URL
-    this.route.params.subscribe((params) => {
-      this.offerId = params['id'] || null;
-
-      // Charger les candidatures en fonction des paramètres
+    this.offerId = this.route.snapshot.paramMap.get('offerId');
+    if (this.offerId) {
       this.loadCandidatures();
-    });
+    } else {
+      console.error('Offer ID is missing.');
+    }
   }
 
-  /**
-   * Charger les candidatures en fonction des paramètres
-   */
   loadCandidatures(): void {
     if (this.offerId) {
-      // Si un ID d'offre est fourni, charger les candidatures pour cette offre
       this.offerService.getOfferApplicationsByOfferId(this.offerId).subscribe({
         next: (candidatures) => {
-          this.dataSource.data = candidatures;
+          this.dataSource.data = candidatures;  // Mettre à jour les données du tableau
         },
         error: (err) => {
-          console.error('Erreur lors du chargement des candidatures :', err);
-        },
-      });
-    } else {
-      // Si aucun ID d'offre n'est fourni, charger toutes les candidatures
-      this.offerService.getOfferApplications().subscribe({
-        next: (candidatures) => {
-          this.dataSource.data = candidatures;
-        },
-        error: (err) => {
-          console.error('Erreur lors du chargement des candidatures :', err);
+          console.error('Error loading applications:', err);
         },
       });
     }
   }
 
-  /**
-   * Appliquer le filtre de recherche
-   */
   applyFilter(): void {
+    this.dataSource.filterPredicate = (data: OfferApplication, filter: string) => {
+      const filterString = filter.toLowerCase();
+      const matchesStatus = this.selectedStatus === 'all' || data.status.toLowerCase() === this.selectedStatus.toLowerCase();
+      return matchesStatus;
+    };
     this.dataSource.filter = this.filterValue.trim().toLowerCase();
   }
 
-  /**
-   * Retourne la classe CSS en fonction du statut de la candidature
-   */
   getStatusClass(status: string): string {
     switch (status) {
       case 'Pending':
@@ -87,32 +68,40 @@ export class CandidatListComponent implements OnInit {
     }
   }
 
-  /**
-   * Accepter une candidature
-   */
-  acceptCandidature(applicationId: string): void {
-    this.offerService.updateOfferApplicationStatus(applicationId, 'Accepted').subscribe({
+  acceptCandidature(application: OfferApplication): void {
+    this.offerService.updateOfferApplicationStatus(application._id, 'Accepted').subscribe({
       next: (updatedApplication) => {
-        console.log('Candidature acceptée :', updatedApplication);
-        this.loadCandidatures(); // Recharger les candidatures après la mise à jour
+        this.snackBar.open('Candidature acceptée !', 'Fermer', { duration: 3000 });
+        
+        // Mise à jour manuelle du tableau au lieu de recharger complètement
+        const index = this.dataSource.data.findIndex(app => app._id === application._id);
+        if (index !== -1) {
+          this.dataSource.data[index].status = 'Accepted';  // Mise à jour du statut dans le tableau
+          this.dataSource._updateChangeSubscription();  // Forcer l'actualisation du tableau
+        }
       },
       error: (err) => {
-        console.error('Erreur lors de l\'acceptation de la candidature :', err);
+        console.error('Error accepting application:', err);
+        this.snackBar.open('Erreur lors de l\'acceptation de la candidature', 'Fermer', { duration: 3000 });
       },
     });
   }
 
-  /**
-   * Refuser une candidature
-   */
-  rejectCandidature(applicationId: string): void {
-    this.offerService.updateOfferApplicationStatus(applicationId, 'Rejected').subscribe({
+  rejectCandidature(application: OfferApplication): void {
+    this.offerService.updateOfferApplicationStatus(application._id, 'Rejected').subscribe({
       next: (updatedApplication) => {
-        console.log('Candidature refusée :', updatedApplication);
-        this.loadCandidatures(); // Recharger les candidatures après la mise à jour
+        this.snackBar.open('Candidature refusée !', 'Fermer', { duration: 3000 });
+        
+        // Mise à jour manuelle du tableau au lieu de recharger complètement
+        const index = this.dataSource.data.findIndex(app => app._id === application._id);
+        if (index !== -1) {
+          this.dataSource.data[index].status = 'Rejected';  // Mise à jour du statut dans le tableau
+          this.dataSource._updateChangeSubscription();  // Forcer l'actualisation du tableau
+        }
       },
       error: (err) => {
-        console.error('Erreur lors du refus de la candidature :', err);
+        console.error('Error rejecting application:', err);
+        this.snackBar.open('Erreur lors du refus de la candidature', 'Fermer', { duration: 3000 });
       },
     });
   }

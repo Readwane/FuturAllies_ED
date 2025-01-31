@@ -1,29 +1,47 @@
 import { Mail, Message, Notification } from '..//models/interaction.model.js'; 
+import { sendEmail } from '../services/mail.service.js';
+import { User } from '../models/user.model.js';
 
 // ---------------------------- CONTROLLERS - MAIL -----------------------------
 
-// Créer un mail
+// Créer un mail et envoyer un e-mail
 const createMail = async (req, res) => {
   try {
     const { senderId, receiverId, content, subject } = req.body;
-
+    console.log('données recus :', senderId, receiverId, content, subject)
     if (!senderId || !receiverId || !content || !subject) {
       return res.status(400).json({ message: 'Tous les champs sont requis.' });
     }
 
-    const newMail = new Mail({ senderId, receiverId, content, subject });
+    // Récupérer les adresses e-mail de l'expéditeur et du destinataire
+    const sender = await User.findById(senderId);
+    const receiver = await User.findById(receiverId);
 
+    if (!sender || !receiver) {
+      return res.status(404).json({ message: 'Expéditeur ou destinataire introuvable.' });
+    }
+
+    // Créer et enregistrer le mail dans la base de données
+    const newMail = new Mail({ senderId, receiverId, content, subject });
     const savedMail = await newMail.save();
 
+    // Envoyer l'e-mail
+    const emailSent = await sendEmail(sender.email, receiver.email, subject, content);
+
+    if (!emailSent) {
+      return res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'e-mail.' });
+    }
+
     res.status(201).json({
-      message: 'Mail créé avec succès.',
+      message: 'Mail créé et e-mail envoyé avec succès.',
       mail: savedMail,
     });
   } catch (error) {
-    console.error('Erreur lors de la création du mail:', error);
+    console.error('Erreur lors de la création du mail ou de l\'envoi de l\'e-mail:', error);
     res.status(500).json({ message: 'Erreur interne du serveur.' });
   }
 };
+
 
 // Récupérer tous les mails
 const getMails = async (req, res) => {

@@ -14,6 +14,7 @@ import usersRoutes from './routes/user.route.js';
 import valuesRoutes from './routes/value.route.js';
 import offerRoutes from './routes/offer.route.js';
 import trainingRoutes from './routes/training.route.js';
+import {quizRouter} from './services/gemini_ia.service.js'
 
 
 const app = express();
@@ -49,6 +50,7 @@ app.use('/fapi', certificationRoutes);
 app.use('/fapi', interactionRoutes);
 app.use('/fapi', offerRoutes);
 app.use('/fapi', trainingRoutes);
+app.use('/fapi', quizRouter);
 
 // Middleware de gestion des erreurs à ajouter (ex: errorMiddleware.js)
 

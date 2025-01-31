@@ -191,7 +191,7 @@ const deleteUser = async (req, res) => {
 
 const getUserGroups = async (req, res) => {
   try {
-    const userGroups = await UserGroup.find().populate(['user_id', 'group_id']);
+    const userGroups = await UserGroup.find().populate(['userId', 'groupId']);
     res.status(200).json(userGroups);
   } catch (error) {
     res.status(500).json({ message: error.message });

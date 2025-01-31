@@ -1,5 +1,4 @@
 import express from 'express';
-
 // Controllers methods importations
 import {
     getDomains, getDomainById, createDomain, updateDomain, deleteDomain,

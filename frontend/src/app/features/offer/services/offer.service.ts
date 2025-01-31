@@ -64,23 +64,41 @@ export class OfferService {
 
   /**
    * Soumettre une candidature pour une offre
+   * @param offerId - ID de l'offre
+   * @param application - Données de la candidature
+   * @param files - Liste des fichiers joints
    */
-  submitApplication(offerId: string, application: OfferApplication): Observable<OfferApplication> {
-    return this.http.post<OfferApplication>(`${this.apiUrl}/offers/${offerId}/applications`, application);
+  submitApplication(application: OfferApplication, files: File[]): Observable<OfferApplication> {
+    // Créer un objet FormData pour envoyer les fichiers et les données
+    const formData = new FormData();
+  
+    // Ajouter les champs de la candidature au FormData
+    formData.append('offerId', application.offerId);
+    formData.append('candidatId', application.candidatId);
+    formData.append('message', application.message);
+  
+    // Ajouter chaque fichier au FormData
+    files.forEach((file, index) => {
+      formData.append('files', file, file.name); // 'files' doit correspondre au nom attendu par le backend
+    });
+  
+    // Envoyer la requête POST avec le FormData
+    return this.http.post<OfferApplication>(`${this.apiUrl}/offers/applications/submit`, formData);
   }
+
 
   /**
    * Récupérer les candidatures pour une offre spécifique
    */
   getOfferApplicationsByOfferId(offerId: string): Observable<OfferApplication[]> {
-    return this.http.get<OfferApplication[]>(`${this.apiUrl}/offers/${offerId}/applications`);
+    return this.http.get<OfferApplication[]>(`${this.apiUrl}/oapplications/${offerId}`);
   }
 
   /**
    * Mettre à jour le statut d'une candidature
    */
   updateOfferApplicationStatus(applicationId: string, status: string): Observable<OfferApplication> {
-    return this.http.put<OfferApplication>(`${this.apiUrl}/offers/applications/${applicationId}`, { status });
+    return this.http.put<OfferApplication>(`${this.apiUrl}/oapplications/${applicationId}`, { status });
   }
 
   // ============================================

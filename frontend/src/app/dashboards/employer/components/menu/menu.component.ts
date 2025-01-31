@@ -51,8 +51,8 @@ export class MenuComponent implements OnDestroy, AfterViewInit {
       label: 'Candidatures',
       icon: 'people',
       children: [
-        { label: 'En attente', icon: 'hourglass_empty', route: 'list/candidats/Pending' },
-        { label: 'Acceptées', icon: 'check_circle', route: 'list/candidats/Accepted' },
+        { label: 'En attente', icon: 'hourglass_empty', route: 'documents' },
+        { label: 'Acceptées', icon: 'check_circle', route: 'quiz' },
         { label: 'Refusées', icon: 'highlight_off', route: 'list/candidats/Rejected' },
       ],
     },

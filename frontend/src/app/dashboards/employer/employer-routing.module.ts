@@ -6,20 +6,21 @@ import { LastActivitiesComponent } from './components/last-activites/last-activi
 import { ListOfferComponent } from './components/list-offer/list-offer.component';
 import { CreateOfferComponent } from './components/create-offer/create-offer.component';
 import { CandidatListComponent } from './components/candidat-list/candidat-list.component';
+import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
+import { EvaluationGeneratorComponent } from './components/evaluation-generator/evaluation-generator.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
-      { path: 'dashboard',  component: DashboardComponent, },
-      {path: 'last-activities', component: LastActivitiesComponent},
-      {path: 'list/offers/:status', component: ListOfferComponent},
-      {path: 'create/:status', component: CreateOfferComponent},
-      {path: 'list/candidats/:type/:status', component: CandidatListComponent},
-      {path: 'list/candidats/:offerId', component: CandidatListComponent}
-
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'last-activities', component: LastActivitiesComponent },
+      { path: 'list/offers/:status', component: ListOfferComponent },
+      { path: 'create/:status', component: CreateOfferComponent },
+      { path: 'list/candidats/:offerId', component: CandidatListComponent }, 
+      { path: 'quiz', component: EvaluationGeneratorComponent },
     ],
   },
 ];

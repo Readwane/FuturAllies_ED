@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     biographie: { type: String },  // Courte biographie
     address: { type: String },  // Adresse de l'utilisateur
     birthDate: { type: Date },  // Date de naissance
-    image: { type: String },  // URL de la photo de profil
+    image: { type: String ,default: 'assets/images/avatar.jpeg'},  // URL de la photo de profil
     createdAt: { type: Date, default: Date.now },  // Date de création de l'utilisateur  
     updatedAt: { type: Date, default: Date.now },   // Date de la dernière mise à jour  
 });

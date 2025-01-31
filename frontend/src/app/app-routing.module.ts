@@ -12,7 +12,7 @@ import { RegisterComponent } from './core/components/register/register.component
 
 const routes: Routes = [
 
-  { path: '', redirectTo: '/home',  pathMatch: 'full' },
+  { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'a-login', component: ALoginComponent },
@@ -26,24 +26,21 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
 
-  
   {
     path: 'trainings',
     loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule),
-    // canActivate: [AuthGuard]
   },
 
   // Routes protégées par AuthGuard
   {
     path: 'audition',
     loadChildren: () => import('./features/audition/audition.module').then(m => m.AuditionModule),
-    // canActivate: [AuthGuard]
   },
   
   {
     path: 'offers',
     loadChildren: () => import('./features/offer/offer.module').then(m => m.OfferModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
 
   { path: 'flwtest', component: FlwtestComponent },

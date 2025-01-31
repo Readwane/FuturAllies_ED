@@ -1,7 +1,6 @@
-import { Component, OnInit, Inject} from '@angular/core';  
+import { Component, OnInit, Inject } from '@angular/core';
 import { Offer } from '../../models/offer.models';
 import { OfferService } from '../../services/offer.service';
-
 
 @Component({
   selector: 'app-offer-list',
@@ -52,5 +51,3 @@ export class OfferListComponent implements OnInit {
     }
   }
 }
-
-

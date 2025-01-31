@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Offer } from 'src/app/features/offer/models/offer.models';
 import { OfferService } from 'src/app/features/offer/services/offer.service';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/core/models/user.models';
 
 @Component({
   selector: 'app-offer-list',
@@ -12,6 +14,7 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./list-offer.component.css'],
 })
 export class ListOfferComponent implements OnInit, OnDestroy {
+  currentUser?: User;
   offers: Offer[] = []; // Liste complète des offres
   filteredOffers: Offer[] = []; // Offres filtrées selon le statut et les filtres
   loading: boolean = true; // Indicateur de chargement
@@ -33,12 +36,19 @@ export class ListOfferComponent implements OnInit, OnDestroy {
   private typeFilterSubscription: Subscription | undefined;
 
   constructor(
+    private authService: AuthService,
     private offerService: OfferService,
     private route: ActivatedRoute, // Pour récupérer le statut depuis l'URL
     private router: Router // Pour naviguer vers les candidatures
   ) {}
 
   ngOnInit(): void {
+    const user = this.authService.getUser();
+    if (user) {
+      this.currentUser = user;
+      console.log('offerCreatorId:', this.currentUser._id);
+    }
+
     // Récupérer le statut depuis l'URL
     this.routeSubscription = this.route.paramMap.subscribe((params) => {
       this.status = params.get('status'); // Récupère le paramètre 'status' de l'URL
@@ -72,18 +82,28 @@ export class ListOfferComponent implements OnInit, OnDestroy {
    */
   getOffers(): void {
     this.loading = true;
-    this.offerService.getOffers().subscribe(
-      (data: Offer[]) => {
-        this.offers = data;
-        this.totalOffers = data.length; // Mettre à jour le nombre total d'offres
-        this.applyFilters(); // Applique les filtres après chargement
-        this.loading = false;
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des offres', error);
-        this.loading = false;
-      }
-    );
+    const userId = this.currentUser?._id;
+    console.log("UserId:", userId);
+    if (userId) {
+      this.offerService.getOffersByUser(userId)
+        .pipe(
+          catchError((error) => {
+            console.error('Erreur lors de la récupération des offres', error);
+            this.loading = false;
+            return of([]); // Retourne un tableau vide en cas d'erreur
+          })
+        )
+        .subscribe((data: Offer[]) => {
+          this.offers = data;
+          this.totalOffers = data.length; // Mettre à jour le nombre total d'offres
+          console.log('Nombre d\'offres récupérés:', this.totalOffers);
+          this.applyFilters(); // Applique les filtres après chargement
+          this.loading = false;
+        });
+    } else {
+      console.error('User ID is undefined');
+      this.loading = false;
+    }
   }
 
   /**
@@ -107,7 +127,7 @@ export class ListOfferComponent implements OnInit, OnDestroy {
     const searchTerm = this.searchControl.value?.toLowerCase() || '';
     if (searchTerm) {
       filtered = filtered.filter((offer) =>
-        offer.title.toLowerCase().includes(searchTerm)
+        offer.topic.toLowerCase().includes(searchTerm)
       );
     }
 

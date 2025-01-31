@@ -1,5 +1,5 @@
 {
-  "name": "futurallies-backend",
+  "name": "futurallies",
   "version": "1.0.0",
   "main": "server.js",
   "type": "module",
@@ -13,9 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@adminjs/express": "^6.1.0",
-    "@adminjs/mongoose": "^4.1.0",
-    "adminjs": "^7.6.1",
+    "@google/generative-ai": "^0.21.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "connect-mongo": "^5.1.0",
@@ -31,8 +29,8 @@
     "mongodb": "^6.10.0",
     "mongoose": "^8.8.1",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16",
     "nodemon": "^3.1.9",
-    "paydunya": "^1.0.0",
     "tslib": "^2.8.1"
   }
 }

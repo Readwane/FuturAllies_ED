@@ -29,7 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips'; // Importez MatChipsModule
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 const materialModules = [
   MatStepperModule,
   MatDividerModule,
@@ -64,7 +64,8 @@ const materialModules = [
   MatPaginatorModule,
   MatProgressBarModule,
   MatListModule,
-  MatChipsModule
+  MatChipsModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({
