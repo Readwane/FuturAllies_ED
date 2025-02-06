@@ -19,36 +19,6 @@ import {
     getOffersByUser,
     exportOffersToCSV,
     importOffersFromCSV,
-
-    createContent,
-    getContents,
-    getContentById,
-    updateContent,
-    deleteContent,
-
-    getRecruitmentQuizzes,
-    getRecruitmentQuizById,
-    createRecruitmentQuiz,
-    updateRecruitmentQuiz,
-    deleteRecruitmentQuiz,
-
-    getRecruitmentQuizQuestions,
-    getRecruitmentQuizQuestionById,
-    createRecruitmentQuizQuestion,
-    updateRecruitmentQuizQuestion,
-    deleteRecruitmentQuizQuestion,
-
-    getEvaluations,
-    getEvaluationById,
-    createEvaluation,
-    updateEvaluation,
-    deleteEvaluation,
-
-    getSections,
-    getSectionById,
-    createSection,
-    updateSection,
-    deleteSection,
 } from '../controllers/offer.controller.js';
 
 const offerRoutes = express.Router();
@@ -84,8 +54,6 @@ offerRoutes.post('/offers/notifications', sendOfferNotification); // Envoyer une
 // Routes pour l'exportation et l'importation
 offerRoutes.get('/offers/export/csv', exportOffersToCSV); // Exporter les offres en CSV
 offerRoutes.post('/offers/import/csv', importOffersFromCSV); // Importer des offres à partir d'un CSV
-
-quizzRouter.get('/quiz', getRecruitmentQuizzes);
 
 
 export default offerRoutes;

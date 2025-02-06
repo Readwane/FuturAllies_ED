@@ -14,7 +14,7 @@ import usersRoutes from './routes/user.route.js';
 import valuesRoutes from './routes/value.route.js';
 import offerRoutes from './routes/offer.route.js';
 import trainingRoutes from './routes/training.route.js';
-import {quizRouter} from './services/gemini_ia.service.js'
+import {quizRouter} from './routes/evaluation.route.js'
 
 
 const app = express();

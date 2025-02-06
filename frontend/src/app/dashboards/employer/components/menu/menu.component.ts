@@ -52,7 +52,7 @@ export class MenuComponent implements OnDestroy, AfterViewInit {
       icon: 'people',
       children: [
         { label: 'En attente', icon: 'hourglass_empty', route: 'documents' },
-        { label: 'Acceptées', icon: 'check_circle', route: 'quiz' },
+        { label: 'Acceptées', icon: 'check_circle', route: 'quiz/67a098d8722319262dcb0ce2' },
         { label: 'Refusées', icon: 'highlight_off', route: 'list/candidats/Rejected' },
       ],
     },

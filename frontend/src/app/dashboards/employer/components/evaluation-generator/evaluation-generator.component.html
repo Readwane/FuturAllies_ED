@@ -4,83 +4,106 @@
     <mat-tab label="Quiz de présélection">
       <form [formGroup]="quizForm" class="generator-form">
         <mat-form-field appearance="outline">
-          <mat-label>Poste concerné</mat-label>
-          <input matInput formControlName="profil" readonly>
+          <mat-label for="profil">Poste concerné</mat-label>
+          <input matInput id="profil" formControlName="profil" readonly>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Thème technique</mat-label>
-          <input matInput formControlName="quizTopic" readonly>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Prompt de génération</mat-label>
-          <textarea matInput formControlName="quizPrompt" rows="3" required></textarea>
-          <button mat-icon-button matSuffix (click)="regeneratePrompt('quiz')">
-            <mat-icon>autorenew</mat-icon>
-          </button>
+          <mat-label for="quizTopic">Thème technique</mat-label>
+          <input matInput id="quizTopic" formControlName="quizTopic" readonly>
         </mat-form-field>
 
         <div class="form-row">
           <mat-form-field appearance="outline">
-            <mat-label>Questions à choix multiple</mat-label>
-            <input matInput type="number" formControlName="questionQcmCount">
+            <mat-label for="questionQcmCount">Questions à choix multiple</mat-label>
+            <input matInput type="number" id="questionQcmCount" formControlName="questionQcmCount">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Questions à choix unique</mat-label>
-            <input matInput type="number" formControlName="questionQcuCount">
+            <mat-label for="questionQcuCount">Questions à choix unique</mat-label>
+            <input matInput type="number" id="questionQcuCount" formControlName="questionQcuCount">
           </mat-form-field>
         </div>
 
         <div class="form-row">
           <mat-form-field appearance="outline">
-            <mat-label>Total de questions</mat-label>
-            <input matInput type="number" formControlName="questionTotalCount" readonly>
+            <mat-label for="questionTotalCount">Total de questions</mat-label>
+            <input matInput type="number" id="questionTotalCount" formControlName="questionTotalCount" readonly>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Durée (minutes)</mat-label>
-            <input matInput type="number" formControlName="quizDuration">
+            <mat-label for="quizDuration">Durée (minutes)</mat-label>
+            <input matInput type="number" id="quizDuration" formControlName="quizDuration">
           </mat-form-field>
         </div>
 
-       <div class="form-row">
-        <mat-form-field appearance="outline">
-            <mat-label>Difficulté</mat-label>
-            <mat-select formControlName="difficulty">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label for="difficulty">Difficulté</mat-label>
+            <mat-select id="difficulty" formControlName="difficulty">
               <mat-option value="easy">Débutant</mat-option>
               <mat-option value="medium">Intermédiaire</mat-option>
               <mat-option value="hard">Avancé</mat-option>
             </mat-select>
           </mat-form-field>
-  
+
           <mat-form-field appearance="outline">
-            <mat-label>Points totaux</mat-label>
-            <input matInput type="number" formControlName="totalPoints">
+            <mat-label for="totalPoints">Points totaux</mat-label>
+            <input matInput type="number" id="totalPoints" formControlName="totalPoints">
           </mat-form-field>
-       </div>
+        </div>
 
-        <button mat-raised-button color="primary" (click)="generateQuiz()" [disabled]="quizForm.invalid || isLoading">
-          Générer le quiz
-        </button>
+        <mat-form-field appearance="outline">
+          <mat-label for="quizPrompt">Prompt de génération</mat-label>
+          <textarea matInput id="quizPrompt" formControlName="quizPrompt" rows="10" required></textarea>
+          <button mat-icon-button matSuffix (click)="regeneratePrompt('quiz')" aria-label="Regénérer le prompt">
+            <mat-icon>autorenew</mat-icon>
+          </button>
+        </mat-form-field>
 
-        <div *ngIf="generatedQuiz" class="result-container">
-          <h3>Quiz généré ({{ generatedQuiz.duration }} minutes)</h3>
-          <p><strong>Thème :</strong> {{ generatedQuiz.topic }}</p>
-          <p><strong>Difficulté :</strong> {{ generatedQuiz.difficulty }}</p>
-          <p><strong>Nombre de questions :</strong> {{ generatedQuiz.totalQuestions }}</p>
-          <p><strong>Points totaux :</strong> {{ generatedQuiz.totalPoints }}</p>
-
-          <div *ngFor="let question of generatedQuestions">
-            <h4>Question {{ question.order }} ({{ question.questionType }})</h4>
-            <p>{{ question.title }}</p>
-            <ul>
-              <li *ngFor="let option of question.options">{{ option }}</li>
-            </ul>
-            <p><strong>Réponses correctes :</strong> {{ question.correctOptions.join(', ') }}</p>
-            <!-- <p><strong>Points :</strong> {{ question.points }}</p> -->
+        <div *ngIf="quizGenerated && aiQuizresult" class="result-container">
+          <h3>Quiz généré : {{ aiQuizresult.quiz.title }}</h3>
+          <p><strong>Durée :</strong> {{ aiQuizresult.quiz.duration }} minutes</p>
+          <p><strong>Difficulté :</strong> {{ aiQuizresult.quiz.difficulty }}</p>
+          <p><strong>Nombre de questions :</strong> {{ aiQuizresult.quiz.totalQuestions }}</p>
+          <p><strong>Points totaux :</strong> {{ aiQuizresult.quiz.totalPoints }}</p>
+        
+          <div *ngIf="aiQuizresult.quiz?.questions?.length">
+            <table mat-table [dataSource]="aiQuizresult.quiz.questions">
+              <ng-container matColumnDef="question">
+                <th mat-header-cell *matHeaderCellDef>Question</th>
+                <td mat-cell *matCellDef="let question">{{ question.title }}</td>
+              </ng-container>
+              <ng-container matColumnDef="options">
+                <th mat-header-cell *matHeaderCellDef>Options</th>
+                <td mat-cell *matCellDef="let question">
+                  <ul>
+                    <li *ngFor="let option of question.options">{{ option }}</li>
+                  </ul>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="correctAnswers">
+                <th mat-header-cell *matHeaderCellDef>Réponses correctes</th>
+                <td mat-cell *matCellDef="let question">{{ question.correctOptions.join(', ') }}</td>
+              </ng-container>
+              <ng-container matColumnDef="points">
+                <th mat-header-cell *matHeaderCellDef>Points</th>
+                <td mat-cell *matCellDef="let question">{{ question.points }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="['question', 'options', 'correctAnswers', 'points']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['question', 'options', 'correctAnswers', 'points'];"></tr>
+            </table>
           </div>
+        </div>
+
+        <div class="action-btns">
+          <button mat-raised-button color="primary" (click)="generateQuiz()" [disabled]="quizForm.invalid || isLoading">
+            {{ quizGenerated ? 'Regénérer le quiz' : 'Générer le quiz' }}
+          </button>
+
+          <button mat-raised-button color="primary" (click)="saveQuiz()" [disabled]="!quizGenerated">
+            Sauvegarder
+          </button>
         </div>
       </form>
     </mat-tab>
@@ -89,27 +112,19 @@
     <mat-tab label="Sujet d'évaluation technique">
       <form [formGroup]="evaluationForm" class="generator-form">
         <mat-form-field appearance="outline">
-          <mat-label>Poste concerné</mat-label>
-          <input matInput formControlName="profil" readonly>
+          <mat-label for="evalProfil">Poste concerné</mat-label>
+          <input matInput id="evalProfil" formControlName="profil" readonly>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Thème technique</mat-label>
-          <input matInput formControlName="technicalTopic" readonly>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Prompt de génération</mat-label>
-          <textarea matInput formControlName="evalPrompt" rows="3" required></textarea>
-          <button mat-icon-button matSuffix (click)="regeneratePrompt('evaluation')">
-            <mat-icon>autorenew</mat-icon>
-          </button>
+          <mat-label for="technicalTopic">Thème technique</mat-label>
+          <input matInput id="technicalTopic" formControlName="technicalTopic" readonly>
         </mat-form-field>
 
         <div class="form-row">
           <mat-form-field appearance="outline">
-            <mat-label>Complexité</mat-label>
-            <mat-select formControlName="difficulty">
+            <mat-label for="difficultyEval">Complexité</mat-label>
+            <mat-select id="difficultyEval" formControlName="difficulty">
               <mat-option value="junior">Junior</mat-option>
               <mat-option value="intermediate">Intermédiaire</mat-option>
               <mat-option value="senior">Senior</mat-option>
@@ -117,53 +132,66 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Durée (minutes)</mat-label>
-            <input matInput type="number" formControlName="evalDuration">
+            <mat-label for="evalDuration">Durée (minutes)</mat-label>
+            <input matInput type="number" id="evalDuration" formControlName="evalDuration">
           </mat-form-field>
         </div>
 
         <div class="form-row">
           <mat-form-field appearance="outline">
-            <mat-label>Nombre de sections</mat-label>
-            <input matInput type="number" formControlName="totalSections">
+            <mat-label for="totalSections">Nombre de sections</mat-label>
+            <input matInput type="number" id="totalSections" formControlName="totalSections">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Points totaux</mat-label>
-            <input matInput type="number" formControlName="totalPoints">
+            <mat-label for="totalPointsEval">Points totaux</mat-label>
+            <input matInput type="number" id="totalPointsEval" formControlName="totalPoints">
           </mat-form-field>
         </div>
 
-        <button mat-raised-button color="primary" (click)="generateEvaluation()" [disabled]="evaluationForm.invalid || isLoading">
-          Générer le sujet
-        </button>
+        <mat-form-field appearance="outline">
+          <mat-label for="evalPrompt">Prompt de génération</mat-label>
+          <textarea matInput id="evalPrompt" formControlName="evalPrompt" rows="10" required></textarea>
+          <button mat-icon-button matSuffix (click)="regeneratePrompt('evaluation')" aria-label="Regénérer le prompt">
+            <mat-icon>autorenew</mat-icon>
+          </button>
+        </mat-form-field>
 
-        <div *ngIf="generatedEvaluation" class="result-container">
-          <h3>Sujet généré ({{ generatedEvaluation.duration }} minutes)</h3>
-          <p><strong>Thème :</strong> {{ generatedEvaluation.topic }}</p>
-          <p><strong>Complexité :</strong> {{ generatedEvaluation.difficulty }}</p>
-          <p><strong>Nombre de sections :</strong> {{ generatedEvaluation.totalSections }}</p>
-          <p><strong>Points totaux :</strong> {{ generatedEvaluation.totalPoints }}</p>
-
+        <div *ngIf="evaluationGenerated && aiEvalresult" class="result-container">
+          <h3>Sujet généré ({{ aiEvalresult.evaluation.duration }} minutes)</h3>
+          <p><strong>Thème :</strong> {{ aiEvalresult.evaluation.topic }}</p>
+          <p><strong>Complexité :</strong> {{ aiEvalresult.evaluation.difficulty }}</p>
+          <p><strong>Nombre de sections :</strong> {{ aiEvalresult.evaluation.totalSections }}</p>
+        
           <mat-accordion>
-            <mat-expansion-panel *ngFor="let section of generatedSections">
+            <mat-expansion-panel *ngFor="let section of aiEvalresult.evaluation.sections">
               <mat-expansion-panel-header>
                 {{ section.title }}
               </mat-expansion-panel-header>
-              <div *ngFor="let contentId of section.EvaluationId">
-                <div *ngIf="getContentById(contentId) as content">
-                  <h4>{{ content.type | titlecase }}</h4>
-                  <p>{{ content.content }}</p>
-                </div>
+        
+              <div *ngFor="let content of section.content">
+                <h4>{{ content.type | titlecase }}</h4>
+                <p *ngFor="let question of content.content">{{ question }}</p>
               </div>
             </mat-expansion-panel>
           </mat-accordion>
         </div>
+        
+        <div class="action-btns">
+          <button mat-raised-button color="primary" (click)="generateEvaluation()" [disabled]="evaluationForm.invalid || isLoading">
+            {{ evaluationGenerated ? 'Regénérer le sujet' : 'Générer le sujet' }}
+          </button>
+  
+          <button mat-raised-button color="primary" (click)="saveEval()" [disabled]="!evaluationGenerated">
+            Sauvegarder
+          </button>
+        </div>
+
       </form>
     </mat-tab>
   </mat-tab-group>
 
-  <div *ngIf="isLoading" class="loader-overlay">
+  <div *ngIf="isLoading" class="loader-overlay" [class.show]="isLoading">
     <mat-spinner diameter="50"></mat-spinner>
   </div>
 </div>

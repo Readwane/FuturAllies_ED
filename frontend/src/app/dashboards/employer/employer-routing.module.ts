@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'list/offers/:status', component: ListOfferComponent },
       { path: 'create/:status', component: CreateOfferComponent },
       { path: 'list/candidats/:offerId', component: CandidatListComponent }, 
-      { path: 'quiz', component: EvaluationGeneratorComponent },
+      { path: 'quiz/:offerId', component: EvaluationGeneratorComponent },
     ],
   },
 ];
